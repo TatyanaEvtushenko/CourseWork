@@ -15,7 +15,7 @@ using CourseWork.Services;
 
 namespace CourseWork
 {
-    public class Startup
+    public class Startup // test
     {
         public Startup(IHostingEnvironment env)
         {
