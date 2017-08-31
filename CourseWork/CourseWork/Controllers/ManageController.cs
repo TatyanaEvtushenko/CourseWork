@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CourseWork.BusinessLogicLayer.Services;
+using CourseWork.DataLayer.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +11,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using CourseWork.Models;
 using CourseWork.Models.ManageViewModels;
-using CourseWork.Services;
 
 namespace CourseWork.Controllers
 {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CourseWork.BusinessLogicLayer.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -11,8 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using CourseWork.Data;
 using CourseWork.DataLayer.Data;
+using CourseWork.DataLayer.Models;
 using CourseWork.Models;
-using CourseWork.Services;
 
 namespace CourseWork
 {
@@ -27,7 +28,6 @@ namespace CourseWork
 
             if (env.IsDevelopment())
             {
-                // For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
                 builder.AddUserSecrets<Startup>();
             }
 
@@ -49,6 +49,7 @@ namespace CourseWork
                 .AddDefaultTokenProviders();
 
             services.AddMvc();
+            services.AddSingleton<IConfiguration>(Configuration);
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
