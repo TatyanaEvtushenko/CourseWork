@@ -1,5 +1,4 @@
-﻿using CourseWork.DataLayer.Enums;
-using CourseWork.Models;
+﻿using CourseWork.DataLayer.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
