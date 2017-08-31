@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CourseWork.Controllers
@@ -13,17 +14,17 @@ namespace CourseWork.Controllers
             return View();
         }
 
-        public IActionResult About()
+        [Authorize(Roles = "Admin,Confirmed")]
+        public IActionResult MyProjects()
         {
-            ViewData["Message"] = "Your application description page.";
-
+            ViewData["Message"] = "Here you can view your projects.";
             return View();
         }
 
-        public IActionResult Contact()
+        [Authorize(Roles = "Admin")]
+        public IActionResult AdminPage()
         {
-            ViewData["Message"] = "Your contact page.";
-
+            ViewData["Message"] = "Here you can view users.";
             return View();
         }
 

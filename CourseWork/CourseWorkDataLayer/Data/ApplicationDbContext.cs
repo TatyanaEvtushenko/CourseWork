@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CourseWork.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using CourseWork.Models;
 
-namespace CourseWork.Data
+namespace CourseWork.DataLayer.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
