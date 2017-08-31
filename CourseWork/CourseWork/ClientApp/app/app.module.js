@@ -13,7 +13,7 @@ var app_component_1 = require("./components/app/app.component");
 var test_component_1 = require("./components/testcomponent/test.component");
 var test_component_2 = require("./components/testcomponent1/test.component");
 var appRoutes = [
-    { path: '', component: test_component_1.TestComponent },
+    { path: '', component: app_component_1.AppComponent },
     { path: 'test', component: test_component_1.TestComponent },
     { path: 'test1', component: test_component_2.TestComponent1 }
 ];

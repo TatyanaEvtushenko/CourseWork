@@ -12,16 +12,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var TestComponent = (function () {
     function TestComponent() {
-        this.numb = "HELLO FROM ANGULAR 4";
     }
     return TestComponent;
 }());
+__decorate([
+    core_1.Input("numb"),
+    __metadata("design:type", String)
+], TestComponent.prototype, "numb", void 0);
 TestComponent = __decorate([
     core_1.Component({
         selector: 'test',
         templateUrl: './test.component.html'
-    }),
-    __metadata("design:paramtypes", [])
+    })
 ], TestComponent);
 exports.TestComponent = TestComponent;
 //# sourceMappingURL=test.component.js.map
