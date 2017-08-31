@@ -38,5 +38,8 @@
     <ProjectReference Include="..\CourseWorkBusinessLogicLayer\CourseWork.BusinessLogicLayer.csproj" />
     <ProjectReference Include="..\CourseWorkDataLayer\CourseWork.DataLayer.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\dist\" />
+  </ItemGroup>
 
 </Project>
