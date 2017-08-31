@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using CourseWork.Data;
 using CourseWork.DataLayer.Data;
 using CourseWork.DataLayer.Models;
 using CourseWork.Models;

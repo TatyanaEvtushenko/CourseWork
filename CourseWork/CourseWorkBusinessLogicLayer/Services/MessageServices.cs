@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
@@ -25,7 +26,7 @@ namespace CourseWork.BusinessLogicLayer.Services
         private MimeMessage CreateMessage(string email, string subject, string message)
         {
             var emailMessage = new MimeMessage();
-            emailMessage.From.Add(new MailboxAddress("Email confirmation", _configuration["EmailConfirmation:Email"]));
+            emailMessage.From.Add(new MailboxAddress("Email confirmation", _configuration["Mail:Email"]));
             emailMessage.To.Add(new MailboxAddress("", email));
             emailMessage.Subject = subject;
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
@@ -40,8 +41,8 @@ namespace CourseWork.BusinessLogicLayer.Services
             using (var client = new SmtpClient())
             {
                 client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-                client.Connect("smtp.yandex.ru", 465, SecureSocketOptions.SslOnConnect);
-                client.Authenticate(_configuration["EmailConfirmation:Email"], _configuration["EmailConfirmation:Password"]);
+                client.Connect(_configuration["Mail:Server"], Int32.Parse(_configuration["Mail:Port"]), SecureSocketOptions.SslOnConnect);
+                client.Authenticate(_configuration["Mail:Email"], _configuration["Mail:Password"]);
                 client.Send(emailMessage);
                 client.Disconnect(true);
             }
