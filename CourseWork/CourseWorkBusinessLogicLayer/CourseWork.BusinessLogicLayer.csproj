@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Searcher\" />
+    <Compile Remove="Searcher\**" />
+    <EmbeddedResource Remove="Searcher\**" />
+    <None Remove="Searcher\**" />
   </ItemGroup>
 
   <ItemGroup>

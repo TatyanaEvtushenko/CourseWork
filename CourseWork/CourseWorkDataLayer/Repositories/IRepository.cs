@@ -1,11 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace CourseWorkDataLayer.Repositories
+namespace CourseWork.DataLayer.Repositories
 {
     public interface IRepository<T>
     {
-        T AddItem(string id);
+        bool Add(T item);
+
+        bool Remove(string id);
+
+        IEnumerable<T> GetAll();
+
+        T Find(string id);
     }
 }
