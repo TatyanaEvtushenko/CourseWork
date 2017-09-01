@@ -1,4 +1,5 @@
 ﻿using CourseWork.DataLayer.Models;
+using CourseWork.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,6 +7,9 @@ namespace CourseWork.DataLayer.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<TagInProject> TagInProjects { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

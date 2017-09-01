@@ -2,6 +2,8 @@
 {
     public class FinancialPurposeInProject
     {
+        public string Id { get; set; }
+
         public string FinancialPurposeId { get; set; }
 
         public string ProjectId { get; set; }
