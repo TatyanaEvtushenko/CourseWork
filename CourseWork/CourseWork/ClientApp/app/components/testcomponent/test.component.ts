@@ -6,4 +6,5 @@
 })
 export class TestComponent {
     @Input("numb") numb:string;
+
 }

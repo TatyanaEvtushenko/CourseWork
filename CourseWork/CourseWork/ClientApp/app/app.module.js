@@ -11,11 +11,11 @@ var platform_browser_1 = require("@angular/platform-browser");
 var router_1 = require("@angular/router");
 var app_component_1 = require("./components/app/app.component");
 var test_component_1 = require("./components/testcomponent/test.component");
-var tagcloud_component_1 = require("./components/tagcloud/tagcloud.component");
+var test_component_2 = require("./components/testcomponent1/test.component");
 var appRoutes = [
-    { path: "", component: app_component_1.AppComponent },
-    { path: "test", component: test_component_1.TestComponent },
-    { path: "tagcloud", component: tagcloud_component_1.TagCloudComponent }
+    { path: '', component: app_component_1.AppComponent },
+    { path: 'test', component: test_component_1.TestComponent },
+    { path: 'test1', component: test_component_2.TestComponent1 }
 ];
 var AppModule = (function () {
     function AppModule() {
@@ -31,7 +31,7 @@ AppModule = __decorate([
         declarations: [
             app_component_1.AppComponent,
             test_component_1.TestComponent,
-            tagcloud_component_1.TagCloudComponent
+            test_component_2.TestComponent1
         ],
         bootstrap: [app_component_1.AppComponent]
     })

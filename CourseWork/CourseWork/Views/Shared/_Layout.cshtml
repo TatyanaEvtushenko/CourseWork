@@ -74,3 +74,16 @@
 </body>
 </html>
 
+@*@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="/">
+</head>
+<body>
+    @RenderBody()
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>*@
+

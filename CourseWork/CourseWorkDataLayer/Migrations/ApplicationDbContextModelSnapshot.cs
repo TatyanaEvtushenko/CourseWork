@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using CourseWork.DataLayer.Data;
-using CourseWork.DataLayer.Enums;
 
 namespace CourseWork.DataLayer.Migrations
 {
@@ -17,175 +16,7 @@ namespace CourseWork.DataLayer.Migrations
                 .HasAnnotation("ProductVersion", "1.1.2")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("CourseWork.DataLayer.Models.Comment", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ProjectId");
-
-                    b.Property<string>("Text");
-
-                    b.Property<DateTime>("Time");
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Comments");
-                });
-
-            modelBuilder.Entity("CourseWork.DataLayer.Models.FinancialPurpose", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Description");
-
-                    b.Property<string>("Name");
-
-                    b.Property<decimal>("PaymantAmount");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FinancialPurposes");
-                });
-
-            modelBuilder.Entity("CourseWork.DataLayer.Models.FinancialPurposeInProject", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("FinancialPurposeId");
-
-                    b.Property<decimal>("PaidAmount");
-
-                    b.Property<string>("ProjectId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FinancialPurposeInProjects");
-                });
-
-            modelBuilder.Entity("CourseWork.DataLayer.Models.Message", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("IsSeen");
-
-                    b.Property<string>("RecipientId");
-
-                    b.Property<string>("Text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Messages");
-                });
-
-            modelBuilder.Entity("CourseWork.DataLayer.Models.Payment", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("FinancialPurposeId");
-
-                    b.Property<decimal>("PaidAmount");
-
-                    b.Property<string>("ProjectId");
-
-                    b.Property<DateTime>("Time");
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Payments");
-                });
-
-            modelBuilder.Entity("CourseWork.DataLayer.Models.Project", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Description");
-
-                    b.Property<DateTime>("FundRaisingEnd");
-
-                    b.Property<string>("ImageUrl");
-
-                    b.Property<decimal>("MaxPayment");
-
-                    b.Property<decimal>("MinPayment");
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("OwnerId");
-
-                    b.Property<int>("Status");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Projects");
-                });
-
-            modelBuilder.Entity("CourseWork.DataLayer.Models.ProjectSubscriber", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ProjectId");
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ProjectSubscribers");
-                });
-
-            modelBuilder.Entity("CourseWork.DataLayer.Models.Raiting", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ProjectId");
-
-                    b.Property<int>("RaitingResult");
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Raitings");
-                });
-
-            modelBuilder.Entity("CourseWork.DataLayer.Models.Tag", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Tags");
-                });
-
-            modelBuilder.Entity("CourseWork.DataLayer.Models.TagInProject", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ProjectId");
-
-                    b.Property<string>("TagId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TagInProjects");
-                });
-
-            modelBuilder.Entity("CourseWork.Models.ApplicationUser", b =>
+            modelBuilder.Entity("CourseWork.DataLayer.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -204,8 +35,6 @@ namespace CourseWork.DataLayer.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
-                    b.Property<string>("Name");
-
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);
 
@@ -219,8 +48,6 @@ namespace CourseWork.DataLayer.Migrations
                     b.Property<bool>("PhoneNumberConfirmed");
 
                     b.Property<string>("SecurityStamp");
-
-                    b.Property<string>("Surname");
 
                     b.Property<bool>("TwoFactorEnabled");
 
@@ -356,7 +183,7 @@ namespace CourseWork.DataLayer.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("CourseWork.Models.ApplicationUser")
+                    b.HasOne("CourseWork.DataLayer.Models.ApplicationUser")
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -364,7 +191,7 @@ namespace CourseWork.DataLayer.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("CourseWork.Models.ApplicationUser")
+                    b.HasOne("CourseWork.DataLayer.Models.ApplicationUser")
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -377,7 +204,7 @@ namespace CourseWork.DataLayer.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("CourseWork.Models.ApplicationUser")
+                    b.HasOne("CourseWork.DataLayer.Models.ApplicationUser")
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);

@@ -23,7 +23,7 @@ namespace CourseWork.BusinessLogicLayer.Services.TagServices.Implementations
             return _tagRepository.GetAll().Select(tag => new TagViewModel
             {
                 Name = tag.Name,
-                NumberOfUsing = tagsInProject.Count(tagInProject => tagInProject.TagId == tag.Id)
+                NumberOfUsing = tagsInProject.Count(tagInProject => tagInProject.Id == tag.Id)
             });
         }
     }

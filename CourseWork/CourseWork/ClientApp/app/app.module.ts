@@ -4,12 +4,12 @@ import { RouterModule, Routes } from '@angular/router';
  
 import { AppComponent } from './components/app/app.component';
 import { TestComponent } from './components/testcomponent/test.component';
-import { TagCloudComponent } from "./components/tagcloud/tagcloud.component";
-
+import { TestComponent1 } from './components/testcomponent1/test.component';
+ 
 const appRoutes: Routes = [
-    { path: "", component: AppComponent },
-    { path: "test", component: TestComponent },
-    { path: "tagcloud", component: TagCloudComponent }
+    { path: '', component: AppComponent },
+    { path: 'test', component: TestComponent },
+    { path: 'test1', component: TestComponent1 }
 ];
 
 @NgModule({
@@ -23,7 +23,7 @@ const appRoutes: Routes = [
     declarations: [
         AppComponent,
         TestComponent,
-        TagCloudComponent
+        TestComponent1
     ],
     bootstrap: [ AppComponent ]
 })
