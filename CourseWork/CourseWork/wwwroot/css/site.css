@@ -1,5 +1,12 @@
-﻿body {
-    padding-top: 50px;
+﻿.icon-block {
+    padding: 0 15px;
+}
+.icon-block .material-icons {
+    font-size: inherit;
+}
+
+body {
+    /*padding-top: 50px;*/
     padding-bottom: 20px;
 }
 

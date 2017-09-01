@@ -1,0 +1,14 @@
+﻿<script src="~/lib/jquery/dist/jquery.js"></script>
+<link href="~/lib/jqcloud2/dist/jqcloud.css" rel="stylesheet"/>
+<script src="~/lib/jqcloud2/dist/jqcloud.js"></script>
+
+<h2>I AM TAG CLOUD</h2>
+<div id="keywords"></div>
+<script>
+    var words = [
+        {text: "Lorem", weight: 13, link: 'http://github.com/mistic100/jQCloud'},
+        {text: "Ipsum", weight: 10.5, link: 'http://www.strangeplanet.fr'},
+        {text: "Dolor", weight: 9.4, link: 'http://piwigo.org'},
+    ];
+    $('#keywords').jQCloud(words);
+</script>

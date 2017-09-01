@@ -1,11 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq.Expressions;
 
-namespace CourseWorkDataLayer.Repositories
+namespace CourseWork.DataLayer.Repositories
 {
     public interface IRepository<T>
     {
-        T AddItem(string id);
+        bool AddRange(params T[] items);
+
+        bool RemoveRange(params string[] identificators);
+
+        List<T> GetAll();
+
+        T Get(string id);
+
+        List<T> GetWhere(Expression<Func<T, bool>> whereExpression);
     }
 }

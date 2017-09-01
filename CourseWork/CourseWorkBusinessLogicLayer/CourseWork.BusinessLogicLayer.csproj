@@ -5,11 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Searcher\" />
+    <Compile Remove="Searcher\**" />
+    <EmbeddedResource Remove="Searcher\**" />
+    <None Remove="Searcher\**" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MailKit" Version="1.18.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CourseWorkDataLayer\CourseWork.DataLayer.csproj" />
   </ItemGroup>
 
 </Project>
