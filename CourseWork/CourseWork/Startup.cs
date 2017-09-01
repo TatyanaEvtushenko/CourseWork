@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CourseWork.BusinessLogicLayer.Services;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -12,11 +7,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using CourseWork.DataLayer.Data;
 using CourseWork.DataLayer.Models;
+using CourseWork.DataLayer.Repositories;
+using CourseWork.DataLayer.Repositories.Implementations;
 using CourseWork.Models;
+using CourseWork.Services;
 
 namespace CourseWork
 {
-    public class Startup 
+    public class Startup // test trrs
     {
         public Startup(IHostingEnvironment env)
         {
@@ -27,6 +25,7 @@ namespace CourseWork
 
             if (env.IsDevelopment())
             {
+                // For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
                 builder.AddUserSecrets<Startup>();
             }
 
@@ -48,11 +47,13 @@ namespace CourseWork
                 .AddDefaultTokenProviders();
 
             services.AddMvc();
-            services.AddSingleton<IConfiguration>(Configuration);
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+
+            services.AddScoped<IRepository<Tag>, TagRepository>();
+            services.AddScoped<IRepository<TagInProject>, TagInProjectRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
