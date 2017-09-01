@@ -12,6 +12,15 @@
 
   <ItemGroup>
     <PackageReference Include="MailKit" Version="1.18.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CourseWorkDataLayer\CourseWork.DataLayer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\Mappers\Implementations\" />
   </ItemGroup>
 
 </Project>

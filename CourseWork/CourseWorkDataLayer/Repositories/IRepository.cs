@@ -1,15 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace CourseWork.DataLayer.Repositories
 {
     public interface IRepository<T>
     {
-        bool Add(T item);
+        bool AddRange(params T[] items);
 
-        bool Remove(string id);
+        bool RemoveRange(params string[] identificators);
 
-        IEnumerable<T> GetAll();
+        List<T> GetAll();
 
-        T Find(string id);
+        T Get(string id);
+
+        List<T> GetWhere(Expression<Func<T, bool>> whereExpression);
     }
 }

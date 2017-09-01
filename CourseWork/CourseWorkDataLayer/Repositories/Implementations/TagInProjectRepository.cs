@@ -7,20 +7,20 @@ using CourseWork.DataLayer.Models;
 
 namespace CourseWork.DataLayer.Repositories.Implementations
 {
-    public class TagRepository : IRepository<Tag>
+    public class TagInProjectRepository : IRepository<TagInProject>
     {
         private readonly ApplicationDbContext _dbContext;
 
-        public TagRepository(ApplicationDbContext dbContext)
+        public TagInProjectRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public bool AddRange(params Tag[] items)
+        public bool AddRange(params TagInProject[] items)
         {
             try
             {
-                _dbContext.Tags.AddRange(items);
+                _dbContext.TagInProjects.AddRange(items);
                 _dbContext.SaveChanges();
                 return true;
             }
@@ -34,8 +34,8 @@ namespace CourseWork.DataLayer.Repositories.Implementations
         {
             try
             {
-                var items = _dbContext.Tags.Where(item => identificators.Contains(item.Id));
-                _dbContext.Tags.RemoveRange(items);
+                var items = _dbContext.TagInProjects.Where(item => identificators.Contains(item.Id));
+                _dbContext.TagInProjects.RemoveRange(items);
                 _dbContext.SaveChanges();
                 return true;
             }
@@ -45,19 +45,19 @@ namespace CourseWork.DataLayer.Repositories.Implementations
             }
         }
 
-        public List<Tag> GetAll()
+        public List<TagInProject> GetAll()
         {
-            return _dbContext.Tags.ToList();
+            return _dbContext.TagInProjects.ToList();
         }
 
-        public Tag Get(string id)
+        public TagInProject Get(string id)
         {
-            return _dbContext.Tags.Find(id);
+            return _dbContext.TagInProjects.Find(id);
         }
 
-        public List<Tag> GetWhere(Expression<Func<Tag, bool>> whereExpression)
+        public List<TagInProject> GetWhere(Expression<Func<TagInProject, bool>> whereExpression)
         {
-            return _dbContext.Tags.Where(whereExpression).ToList();
+            return _dbContext.TagInProjects.Where(whereExpression).ToList();
         }
     }
 }
