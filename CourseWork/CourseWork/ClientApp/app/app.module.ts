@@ -12,6 +12,8 @@ import { UserProjectsPageComponent } from './components/userprojectspage/userpro
 import { AdminPageComponent } from './components/adminpage/adminpage.component';
 import { RegisterModalComponent } from './components/registermodal/registermodal.component';
 import { LoginModalComponent } from './components/loginmodal/loginmodal.component';
+import { PreloaderComponent } from './components/preloader/preloader.component';
+
 
 import { AppService } from "./services/app.service";
 
@@ -39,6 +41,7 @@ const appRoutes: Routes = [
         AdminPageComponent,
         RegisterModalComponent,
         LoginModalComponent,
+        PreloaderComponent
     ],
     providers:[
         AppService,
