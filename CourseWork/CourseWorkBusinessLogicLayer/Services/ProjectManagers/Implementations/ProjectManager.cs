@@ -20,13 +20,14 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
 
         public IEnumerable<ProjectItemViewModel> GetLastCreatedProjects()
         {
-            return _projectRepository.GetAll().OrderByDescending(project => project.CreatingTime).Take(10)
-                .Select(project => _projectMapper.ConvertTo(project));
+            //return _projectRepository.GetAll().OrderByDescending(project => project.CreatingTime).Take(10)
+            //    .Select(project => _projectMapper.ConvertTo(project));
+            return null;
         }
 
         public IEnumerable<ProjectItemViewModel> GetFinancedProjects()
         {
-            return _projectRepository.GetWhere()
+            return null; //_projectRepository.GetWhere();
         }
     }
 }

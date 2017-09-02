@@ -10,10 +10,10 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
         {
             return new ProjectItemViewModel
             {
-                CreatingTime = item.CreatingTime,
-                Id = item.Id,
-                Name = item.Name,
-                PaidAmount = item.PaidAmount
+                //CreatingTime = item.CreatingTime,
+                //Id = item.Id,
+                //Name = item.Name,
+                //PaidAmount = item.PaidAmount
             };
         }
 

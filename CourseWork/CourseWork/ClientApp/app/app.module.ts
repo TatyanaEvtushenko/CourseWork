@@ -1,20 +1,24 @@
 ﻿import { NgModule } from '@angular/core';
 import { BrowserModule }  from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
+import { HttpModule }   from '@angular/http';
  
 import { AppComponent } from './components/app/app.component';
 import { TestComponent } from './components/testcomponent/test.component';
-import { TestComponent1 } from './components/testcomponent1/test.component';
- 
+import { HomePageComponent } from './components/homepage/homepage.component';
+import { LoginNavComponent } from "./components/loginnav/loginnav.component";
+
+import { AppService } from "./services/app.service";
+
 const appRoutes: Routes = [
-    { path: '', component: AppComponent },
+    { path: '', component: HomePageComponent },
     { path: 'test', component: TestComponent },
-    { path: 'test1', component: TestComponent1 }
 ];
 
 @NgModule({
     imports: [
         BrowserModule,
+        HttpModule,
         RouterModule.forRoot(
             appRoutes,
             { enableTracing: true }
@@ -23,8 +27,14 @@ const appRoutes: Routes = [
     declarations: [
         AppComponent,
         TestComponent,
-        TestComponent1
+        HomePageComponent,
+        LoginNavComponent
     ],
-    bootstrap: [ AppComponent ]
+    providers:[
+        AppService,
+    ],
+    bootstrap: [ 
+        AppComponent 
+    ]
 })
 export class AppModule { }

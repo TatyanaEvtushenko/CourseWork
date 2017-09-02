@@ -11,6 +11,10 @@
   <PropertyGroup>
     <UserSecretsId>aspnet-CourseWork-8ac774f6-553c-4349-b2cb-a26546520f56</UserSecretsId>
   </PropertyGroup>
+  
+  <PropertyGroup>
+     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="MailKit" Version="1.18.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />

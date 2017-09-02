@@ -5,13 +5,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - CourseWork</title>
+    <base href="/" />
 
     <environment names="Development">
-        
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link type="text/css" rel="stylesheet" href="~/lib/materialize/css/materialize.css"  media="screen,projection"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment names="Staging,Production">
@@ -23,35 +22,12 @@
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
 <body>
-<nav role="navigation">
-    <div class="nav-wrapper container">
-        <a id="logo-container" asp-controller="Home" asp-action="Index" class="brand-logo">Logo</a>
-        <a asp-controller="Home" asp-action="Index" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-        <ul class="right hide-on-med-and-down">
-            <li><a asp-area="" asp-controller="Home" asp-action="MyProjects">My projects</a></li>
-            <li><a asp-area="" asp-controller="Home" asp-action="AdminPage">Admin page</a></li>
-        </ul>
-        <ul class="side-nav" id="mobile-demo">
-            <li><a asp-area="" asp-controller="Home" asp-action="MyProjects">My projects</a></li>
-            <li><a asp-area="" asp-controller="Home" asp-action="AdminPage">Admin page</a></li>
-        </ul>
-        @await Html.PartialAsync("_LoginPartial")
-    </div>
-</nav>
-
-<div class="container body-content">
-    @RenderBody()
-    <hr />
-    <footer class="footer-copyright">
-        <p>&copy; 2017 - CourseWork</p>
-    </footer>
-</div>
+    
+@RenderBody()
 
 <environment names="Development">
     <script src="~/lib/jquery/dist/jquery.js"></script>
-
     <script type="text/javascript" src="~/lib/materialize/js/materialize.js"></script>
-
     <script src="~/js/site.js" asp-append-version="true"></script>
 </environment>
 <environment names="Staging,Production">
@@ -73,17 +49,4 @@
 @RenderSection("Scripts", required: false)
 </body>
 </html>
-
-@*@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
-<!DOCTYPE html>
-<html>
-<head>
-    <base href="/">
-</head>
-<body>
-    @RenderBody()
-
-    @RenderSection("Scripts", required: false)
-</body>
-</html>*@
 

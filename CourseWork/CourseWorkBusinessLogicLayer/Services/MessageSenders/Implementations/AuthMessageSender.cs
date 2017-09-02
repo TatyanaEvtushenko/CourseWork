@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using CourseWork.Services;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;

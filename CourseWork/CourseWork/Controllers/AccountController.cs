@@ -11,8 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using CourseWork.Models;
 using CourseWork.Models.AccountViewModels;
+using CourseWork.Services;
 
 namespace CourseWork.Controllers
 {
