@@ -9,6 +9,6 @@
     </ul>
 </form>
 <ul *ngIf="!isAuthenticated" class="right hide-on-med-and-down">
-    <li><a asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>
-    <li><a asp-area="" asp-controller="Account" asp-action="Login">Log in</a></li>
+    <li><a href="#registrationModal" class="modal-trigger">Register</a></li>
+    <li><a href="#loginModal" class="modal-trigger">Log in</a></li>
 </ul>

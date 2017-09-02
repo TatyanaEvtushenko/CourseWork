@@ -1,4 +1,5 @@
-﻿import { NgModule } from '@angular/core';
+﻿import "jquery";
+import { NgModule } from '@angular/core';
 import { BrowserModule }  from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpModule }   from '@angular/http';
@@ -7,14 +8,16 @@ import { AppComponent } from './components/app/app.component';
 import { HomePageComponent } from './components/homepage/homepage.component';
 import { PageLinksComponent } from "./components/pagelinks/pagelinks.component";
 import { LoginNavComponent } from "./components/loginnav/loginnav.component";
-import { UserProjectsComponent } from './components/userprojects/userprojects.component';
+import { UserProjectsPageComponent } from './components/userprojectspage/userprojectspage.component';
 import { AdminPageComponent } from './components/adminpage/adminpage.component';
+import { RegisterModalComponent } from './components/registermodal/registermodal.component';
+import { LoginModalComponent } from './components/loginmodal/loginmodal.component';
 
 import { AppService } from "./services/app.service";
 
 const appRoutes: Routes = [
     { path: '', component: HomePageComponent },
-    { path: 'UserProjects', component: UserProjectsComponent },
+    { path: 'UserProjectsPage', component: UserProjectsPageComponent },
     { path: 'AdminPage', component: AdminPageComponent },
 ];
 
@@ -32,8 +35,10 @@ const appRoutes: Routes = [
         HomePageComponent,
         PageLinksComponent,
         LoginNavComponent,
-        UserProjectsComponent,
+        UserProjectsPageComponent,
         AdminPageComponent,
+        RegisterModalComponent,
+        LoginModalComponent,
     ],
     providers:[
         AppService,

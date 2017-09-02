@@ -12,6 +12,9 @@
         <link type="text/css" rel="stylesheet" href="~/lib/materialize/css/materialize.css"  media="screen,projection"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" href="~/css/site.css" />
+        
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script type="text/javascript" src="~/lib/materialize/js/materialize.js"></script>
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -26,8 +29,6 @@
 @RenderBody()
 
 <environment names="Development">
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script type="text/javascript" src="~/lib/materialize/js/materialize.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 </environment>
 <environment names="Staging,Production">
