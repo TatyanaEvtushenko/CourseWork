@@ -2,14 +2,11 @@
     <div class="nav-wrapper container">
         <a id="logo-container" href="/" class="brand-logo">Logo</a>
         <a data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-        <loginnav [currentUserName]="currentUser.userName" [isAuthenticated]="currentUser.isAuthenticated"></loginnav>
         <ul class="right hide-on-med-and-down">
-            <li><a href="/UserProjects">My projects</a></li>
-            <li><a href="/AdminPage">Admin page</a></li>
+            <pagelinks [currentUserName]="currentUser.userName" [isAuthenticated]="currentUser.isAuthenticated"></pagelinks>
         </ul>
         <ul class="side-nav" id="mobile-demo">
-            <li><a href="/UserProjects">My projects</a></li>
-            <li><a href="/AdminPage">Admin page</a></li>
+            <pagelinks [currentUserName]="currentUser.userName" [isAuthenticated]="currentUser.isAuthenticated"></pagelinks>
         </ul>
     </div>
 </nav>

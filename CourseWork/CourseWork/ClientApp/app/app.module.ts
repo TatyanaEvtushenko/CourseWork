@@ -5,6 +5,7 @@ import { HttpModule }   from '@angular/http';
  
 import { AppComponent } from './components/app/app.component';
 import { HomePageComponent } from './components/homepage/homepage.component';
+import { PageLinksComponent } from "./components/pagelinks/pagelinks.component";
 import { LoginNavComponent } from "./components/loginnav/loginnav.component";
 import { UserProjectsComponent } from './components/userprojects/userprojects.component';
 import { AdminPageComponent } from './components/adminpage/adminpage.component';
@@ -29,6 +30,7 @@ const appRoutes: Routes = [
     declarations: [
         AppComponent,
         HomePageComponent,
+        PageLinksComponent,
         LoginNavComponent,
         UserProjectsComponent,
         AdminPageComponent,
