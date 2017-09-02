@@ -1,4 +1,6 @@
 ﻿using CourseWork.BusinessLogicLayer.Services;
+using CourseWork.BusinessLogicLayer.Services.TagServices;
+using CourseWork.BusinessLogicLayer.Services.TagServices.Implementations;
 using CourseWork.BusinessLogicLayer.Services.UserManagers;
 using CourseWork.BusinessLogicLayer.Services.UserManagers.Implementations;
 using Microsoft.AspNetCore.Builder;
@@ -58,6 +60,7 @@ namespace CourseWork
             services.AddScoped<IRepository<Tag>, TagRepository>();
             services.AddScoped<IRepository<TagInProject>, TagInProjectRepository>();
             services.AddScoped<IUserManager, UserManager>();
+            services.AddScoped<ITagService, TagService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

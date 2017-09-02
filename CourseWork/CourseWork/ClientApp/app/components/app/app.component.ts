@@ -6,15 +6,12 @@ import { CurrentUser } from '../../viewmodels/currentuser';
 @Component({
     selector: 'app',
     templateUrl: './app.component.html',
-    providers: [AppService],
 })
 export class AppComponent implements OnInit { 
   
-    currentUser: CurrentUser;
+    currentUser = new CurrentUser();
      
-    constructor(private appService: AppService) {
-        this.currentUser = new CurrentUser();
-    }
+    constructor(private appService: AppService) { }
      
     ngOnInit() {
         this.appService.getCurrentUserInfo().subscribe((response: Response) => {
