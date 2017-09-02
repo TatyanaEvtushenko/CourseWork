@@ -4,15 +4,15 @@ import { RouterModule, Routes } from '@angular/router';
 import { HttpModule }   from '@angular/http';
  
 import { AppComponent } from './components/app/app.component';
-import { TestComponent } from './components/testcomponent/test.component';
 import { HomePageComponent } from './components/homepage/homepage.component';
 import { LoginNavComponent } from "./components/loginnav/loginnav.component";
+import { UserProjectsComponent } from './components/userprojects/userprojects.component';
 
 import { AppService } from "./services/app.service";
 
 const appRoutes: Routes = [
     { path: '', component: HomePageComponent },
-    { path: 'test', component: TestComponent },
+    { path: 'UserProjects', component: UserProjectsComponent },
 ];
 
 @NgModule({
@@ -26,9 +26,9 @@ const appRoutes: Routes = [
     ],
     declarations: [
         AppComponent,
-        TestComponent,
         HomePageComponent,
-        LoginNavComponent
+        LoginNavComponent,
+        UserProjectsComponent,
     ],
     providers:[
         AppService,

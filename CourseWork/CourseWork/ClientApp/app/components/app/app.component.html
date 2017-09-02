@@ -1,14 +1,13 @@
 ﻿<nav role="navigation">
     <div class="nav-wrapper container">
-        <a id="logo-container" asp-controller="Home" asp-action="Index" class="brand-logo">Logo</a>
-        <a asp-controller="Home" asp-action="Index" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+        <a id="logo-container" href="/" class="brand-logo">Logo</a>
+        <a data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+        <loginnav [currentUserName]="currentUser.userName" [isAuthenticated]="currentUser.isAuthenticated"></loginnav>
         <ul class="right hide-on-med-and-down">
-            <loginnav [currentUserName]="currentUser.userName" [isAuthenticated]="currentUser.isAuthenticated"></loginnav>
-            <li><a asp-area="" asp-controller="Home" asp-action="MyProjects">My projects</a></li>
+            <li><a href="/">My projects</a></li>
             <li><a asp-area="" asp-controller="Home" asp-action="AdminPage">Admin page</a></li>
         </ul>
         <ul class="side-nav" id="mobile-demo">
-            <loginnav [currentUserName]="currentUser.userName" [isAuthenticated]="currentUser.isAuthenticated"></loginnav>
             <li><a asp-area="" asp-controller="Home" asp-action="MyProjects">My projects</a></li>
             <li><a asp-area="" asp-controller="Home" asp-action="AdminPage">Admin page</a></li>
         </ul>
