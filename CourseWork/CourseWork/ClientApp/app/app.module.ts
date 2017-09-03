@@ -9,7 +9,6 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './components/app/app.component';
 import { HomePageComponent } from './components/homepage/homepage.component';
 import { PageLinksComponent } from "./components/pagelinks/pagelinks.component";
-import { LoginNavComponent } from "./components/loginnav/loginnav.component";
 import { UserProjectsPageComponent } from './components/userprojectspage/userprojectspage.component';
 import { AdminPageComponent } from './components/adminpage/adminpage.component';
 import { RegisterModalComponent } from './components/registermodal/registermodal.component';
@@ -43,7 +42,6 @@ const appRoutes: Routes = [
         AppComponent,
         HomePageComponent,
         PageLinksComponent,
-        LoginNavComponent,
         UserProjectsPageComponent,
         AdminPageComponent,
         RegisterModalComponent,

@@ -1,14 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using CourseWork.BusinessLogicLayer.Services.MessageSenders;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Enums.Configurations;
 using CourseWork.DataLayer.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.DotNet.PlatformAbstractions;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
 {

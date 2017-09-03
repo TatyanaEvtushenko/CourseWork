@@ -1,16 +1,23 @@
-﻿using System.Security.Claims;
-using CourseWork.BusinessLogicLayer.ViewModels.CurrentUserViewModels;
+﻿using CourseWork.BusinessLogicLayer.ViewModels.CurrentUserViewModels;
+using Microsoft.AspNetCore.Http;
 
 namespace CourseWork.BusinessLogicLayer.Services.UserManagers.Implementations
 {
     public class UserManager : IUserManager
     {
+        private readonly IHttpContextAccessor _contextAccessor;
+
+        public UserManager(IHttpContextAccessor contextAccessor)
+        {
+            _contextAccessor = contextAccessor;
+        }
+
         public CurrentUserViewModel GetCurrentUserInfo()
         {
-            return new CurrentUserViewModel
-            {
-                IsAuthenticated = ClaimsPrincipal.Current != null && ClaimsPrincipal.Current.Identity.IsAuthenticated,
-                UserName = ClaimsPrincipal.Current == null ? null : ClaimsPrincipal.Current.Identity.Name,
+            var user = _contextAccessor.HttpContext.User;
+            return user == null ? null : new CurrentUserViewModel
+            { 
+                UserName = user.Identity.Name,
             };
         }
     }

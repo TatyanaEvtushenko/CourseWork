@@ -9,10 +9,10 @@ declare var Materialize: any;
     templateUrl: './registermodal.component.html'
 })
 export class RegisterModalComponent implements AfterViewInit {
-    registerForm: RegisterForm = new RegisterForm();
-    isValidPassword: boolean = false;
-    isValidPasswordConfirmation: boolean = false;
-    isWrongRequest: boolean = false;
+    registerForm = new RegisterForm();
+    isValidPassword = false;
+    isValidPasswordConfirmation = false;
+    isWrongRequest = false;
      
     constructor(private accountService: AccountService) { }
 
