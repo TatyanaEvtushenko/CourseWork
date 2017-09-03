@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
  
 import { AppComponent } from './components/app/app.component';
 import { HomePageComponent } from './components/homepage/homepage.component';
+import { ErrorPageComponent } from './components/errorpage/errorpage.component';
 import { PageLinksComponent } from "./components/pagelinks/pagelinks.component";
 import { UserProjectsPageComponent } from './components/userprojectspage/userprojectspage.component';
 import { AdminPageComponent } from './components/adminpage/adminpage.component';
@@ -25,6 +26,7 @@ const appRoutes: Routes = [
     { path: '', component: HomePageComponent },
     { path: 'UserProjectsPage', component: UserProjectsPageComponent },
     { path: 'AdminPage', component: AdminPageComponent },
+    { path: '**', component: ErrorPageComponent },
 ];
 
 @NgModule({
@@ -48,6 +50,7 @@ const appRoutes: Routes = [
         LoginModalComponent,
         PreloaderComponent,
         TagCloudComponent,
+        ErrorPageComponent,
     ],
     providers: [
         BaseService,
