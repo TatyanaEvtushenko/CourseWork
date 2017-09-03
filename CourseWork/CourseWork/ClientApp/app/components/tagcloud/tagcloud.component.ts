@@ -1,6 +1,5 @@
 ﻿import { Component } from '@angular/core';
-import { CloudData, CloudOptions } from 'angular-tag-cloud-module';
-import { Response} from '@angular/http';
+import { CloudData } from 'angular-tag-cloud-module';
 import { TagService } from '../../services/tag.service';
 
 @Component({
@@ -14,10 +13,9 @@ export class TagCloudComponent {
     constructor(private tagService: TagService) { }
      
     ngOnInit() {
-        this.tagService.getTagCloud().subscribe((resp: Response) => {
-            this.data = resp.json().map(x => {
-                 return { text: x.name, weight: x.numberOfUsing, link: '/' }
-            });
-        });
+        this.tagService.getTagCloud().subscribe(
+            (data) => this.data = data.map((x: any) => { return { text: x.name, weight: x.numberOfUsing, link: '/' } }),
+            (error) => this.data = []
+        );
     }
 }

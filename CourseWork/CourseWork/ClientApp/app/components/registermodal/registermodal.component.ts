@@ -2,6 +2,7 @@
 import {RegisterForm} from '../../viewmodels/registerform';
 import { AccountService } from "../../services/account.service";
 declare var $: any;
+declare var Materialize: any;
 
 @Component({
     selector: 'registermodal',
@@ -11,6 +12,7 @@ export class RegisterModalComponent implements AfterViewInit {
     registerForm: RegisterForm = new RegisterForm();
     isValidPassword: boolean = false;
     isValidPasswordConfirmation: boolean = false;
+    isWrongRequest: boolean = false;
      
     constructor(private accountService: AccountService) { }
 
@@ -27,8 +29,15 @@ export class RegisterModalComponent implements AfterViewInit {
     }
 
     onSubmit() {
-        this.accountService.register(this.registerForm).subscribe((response: Response) => {
-            alert(response.json());
-        });
+        this.accountService.register(this.registerForm).subscribe(
+            (data) => {
+                this.isWrongRequest = !data;
+                if (!this.isWrongRequest) {
+                    $('#registrationModal').modal("close");
+                    Materialize.toast('Confirmation is sent.', 4000);
+                }
+            },
+            (error) => this.isWrongRequest = true
+        );
     }
 }

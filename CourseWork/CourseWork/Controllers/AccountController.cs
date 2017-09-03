@@ -19,7 +19,8 @@ namespace CourseWork.Controllers
         [Route("api/Account/Register")]
         public async Task<bool> Register([FromBody]RegisterViewModel user)
         {
-            return false; //await _accountManager.Register(user.userName, user.Email, user.Password, user.PasswordConfirmation);
+            return
+                false; //await _accountManager.Register(registerForm.UserName, registerForm.Email, registerForm.Password, registerForm.PasswordConfirmation);
         }
     }
 }
