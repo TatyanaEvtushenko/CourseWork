@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
+using CourseWork.BusinessLogicLayer.Services.MessageSenders;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Enums.Configurations;
 using CourseWork.DataLayer.Models;
-using CourseWork.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.DotNet.PlatformAbstractions;
@@ -28,12 +28,8 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
             _emailSender = emailSender;
         }
 
-        public async Task<bool> Register(string userName, string email, string password, string confirmPassword)
+        public async Task<bool> Register(string userName, string email, string password)
         {
-            if (password != confirmPassword)
-            {
-                return false;
-            }
             var user = new ApplicationUser {UserName = userName ?? email, Email = email};
             return await TryRegister(user, password);
         }
@@ -48,14 +44,14 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
             return user != null && await TryConfirmRegistration(user, code);
         }
 
-        public async Task<bool> Login(string email, string password, bool rememberMe = true)
+        public async Task<bool> Login(string email, string password)
         {
             var user = await _userManager.FindByEmailAsync(email);
             if (user != null && !await _userManager.IsEmailConfirmedAsync(user))
             {
                 return false;
             }
-            var result = await _signInManager.PasswordSignInAsync(email, password, rememberMe, lockoutOnFailure: false);
+            var result = await _signInManager.PasswordSignInAsync(email, password, true, lockoutOnFailure: false);
             return result.Succeeded;
         }
 
