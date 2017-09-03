@@ -19,7 +19,10 @@ export class BaseService {
     }
 
     private getData(response: Response) {
-        return response.json();
+        if (response.text() !== "") {
+            return response.json();
+        }
+        return null;
     }
 
     private throwError(error: any) {

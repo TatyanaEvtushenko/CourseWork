@@ -22,6 +22,7 @@ export class LoginModalComponent implements AfterViewInit {
             (data) => {
                 this.isWrongRequest = !data;
                 if (!this.isWrongRequest) {
+                    $('#loginModal').modal("close");
                     this.accountService.changeAuthState(true);
                 }
             },

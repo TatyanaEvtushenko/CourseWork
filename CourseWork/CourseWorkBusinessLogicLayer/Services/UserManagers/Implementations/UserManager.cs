@@ -14,10 +14,10 @@ namespace CourseWork.BusinessLogicLayer.Services.UserManagers.Implementations
 
         public CurrentUserViewModel GetCurrentUserInfo()
         {
-            var user = _contextAccessor.HttpContext.User;
-            return user == null ? null : new CurrentUserViewModel
+            var user = _contextAccessor.HttpContext.User.Identity;
+            return !user.IsAuthenticated ? null : new CurrentUserViewModel
             { 
-                UserName = user.Identity.Name,
+                UserName = user.Name,
             };
         }
     }
