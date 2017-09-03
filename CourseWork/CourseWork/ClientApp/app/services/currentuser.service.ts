@@ -1,16 +1,10 @@
 ﻿import { Injectable } from '@angular/core';
-import {Http} from '@angular/http';
-import {Observable} from 'rxjs/Observable';
-import { Response} from '@angular/http';
+import { BaseService} from './base.service';
 
 @Injectable()
-export class CurrentUserService {
-
-    constructor(private http: Http){ }
+export class CurrentUserService extends BaseService{
 
     getCurrentUserInfo() {
-        return this.http.get("api/CurrentUser/GetCurrentUserInfo")
-                        .map((response: Response) => response.json())
-                        .catch((error: any) => Observable.throw(error));
+        return this.requestGet("api/CurrentUser/GetCurrentUserInfo");
     }
 }

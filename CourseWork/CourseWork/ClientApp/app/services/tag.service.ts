@@ -1,16 +1,10 @@
 ﻿import { Injectable } from '@angular/core';
-import {Http} from '@angular/http';
-import {Observable} from 'rxjs/Observable';
-import { Response} from '@angular/http';
+import { BaseService} from './base.service';
 
 @Injectable()
-export class TagService {
-
-    constructor(private http: Http){ }
+export class TagService extends BaseService{
 
     getTagCloud() {
-        return this.http.get("api/Tag/GetTagCloud")
-                        .map((response: Response) => response.json())
-                        .catch((error: any) => Observable.throw(error));
+        return this.requestGet("api/Tag/GetTagCloud");
     }
 }
