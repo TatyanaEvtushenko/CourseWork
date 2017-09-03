@@ -39,6 +39,7 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CourseWork.Extensions\CourseWork.Extensions.csproj" />
     <ProjectReference Include="..\CourseWorkBusinessLogicLayer\CourseWork.BusinessLogicLayer.csproj" />
     <ProjectReference Include="..\CourseWorkDataLayer\CourseWork.DataLayer.csproj" />
   </ItemGroup>

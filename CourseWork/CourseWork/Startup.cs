@@ -18,6 +18,7 @@ using CourseWork.DataLayer.Data;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
 using CourseWork.DataLayer.Repositories.Implementations;
+using CourseWork.Extensions.StartupExtensions;
 
 namespace CourseWork
 {
@@ -63,6 +64,7 @@ namespace CourseWork
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<IAccountManager, AccountManager>();
             services.AddTransient<IEmailSender, AuthMessageSender>();
+            services.CreateDatabaseRoles().Wait();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

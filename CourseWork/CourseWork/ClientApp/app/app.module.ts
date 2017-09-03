@@ -17,15 +17,19 @@ import { LoginModalComponent } from './components/loginmodal/loginmodal.componen
 import { PreloaderComponent } from './components/preloader/preloader.component';
 import { TagCloudComponent } from './components/tagcloud/tagcloud.component';
 
+import { AdminActivator } from './activators/admin.activator';
+import { UserActivator } from './activators/user.activator';
+import { ConfirmedUserActivator } from './activators/confirmeduser.activator';
+
 import { BaseService} from './services/base.service';
 import { CurrentUserService } from "./services/currentuser.service";
 import { TagService } from "./services/tag.service";
-import {AccountService} from "./services/account.service";
+import { AccountService } from "./services/account.service";
 
 const appRoutes: Routes = [
     { path: '', component: HomePageComponent },
-    { path: 'UserProjectsPage', component: UserProjectsPageComponent },
-    { path: 'AdminPage', component: AdminPageComponent },
+    { path: 'UserProjectsPage', component: UserProjectsPageComponent, canActivate: [ConfirmedUserActivator] },
+    { path: 'AdminPage', component: AdminPageComponent, canActivate: [AdminActivator] },
     { path: '**', component: ErrorPageComponent },
 ];
 
@@ -57,6 +61,9 @@ const appRoutes: Routes = [
         CurrentUserService,
         AccountService,
         TagService,
+        AdminActivator,
+        UserActivator,
+        ConfirmedUserActivator,
     ],
     bootstrap: [
         AppComponent

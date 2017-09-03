@@ -3,6 +3,7 @@ using CourseWork.BusinessLogicLayer.Services.MessageSenders;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Enums.Configurations;
 using CourseWork.DataLayer.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.DotNet.PlatformAbstractions;
 
@@ -13,15 +14,18 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
+        private readonly IHttpContextAccessor _contextAccessor;
 
         public AccountManager(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IEmailSender emailSender)
+            IEmailSender emailSender, 
+            IHttpContextAccessor contextAccessor)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _contextAccessor = contextAccessor;
         }
 
         public async Task<bool> Register(string userName, string email, string password)
@@ -41,7 +45,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
         }
 
         public async Task<bool> Login(string email, string password)
-        {
+        { 
             var user = await _userManager.FindByEmailAsync(email);
             if (user != null && !await _userManager.IsEmailConfirmedAsync(user))
             {
@@ -54,6 +58,21 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
         public async Task Logout()
         {
             await _signInManager.SignOutAsync();
+        }
+
+        public async Task<bool> IsAdmin()
+        {
+            return await IsInRole(UserRole.Admin);
+        }
+
+        public async Task<bool> IsUser()
+        {
+            return await IsInRole(UserRole.User);
+        }
+
+        public async Task<bool> IsConfirmedUser()
+        {
+            return await IsInRole(UserRole.ConfirmedUser);
         }
 
         private async Task<bool> TryRegister(ApplicationUser user, string password)
@@ -91,5 +110,26 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
 
         private static string GetMessageToSendConfirmLink(string url) =>
             $"Please confirm your account by clicking this link: <a href='{url}'>link</a>";
+
+        private async Task<bool> IsInRole(UserRole role)
+        {
+            var user = _contextAccessor.HttpContext.User.Identity;
+            if (!user.IsAuthenticated)
+            {
+                return false;
+            }
+            var applicationUser = await _userManager.FindByNameAsync(user.Name);
+            return await CheckRoleQueue(applicationUser, role);
+        }
+
+        private async Task<bool> CheckRoleQueue(ApplicationUser user, UserRole role)
+        {
+            var isInRole = false;
+            for (var i = role; i <= UserRole.Admin && !isInRole; i++)
+            {
+                isInRole = await _userManager.IsInRoleAsync(user, EnumConfiguration.RoleNames[i]);
+            }
+            return isInRole;
+        }
     }
 }

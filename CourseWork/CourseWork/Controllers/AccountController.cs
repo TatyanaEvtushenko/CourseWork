@@ -42,5 +42,26 @@ namespace CourseWork.Controllers
         {
             return await _accountManager.ConfirmRegistration(confirmation.UserId, confirmation.Code);
         }
+
+        [HttpGet]
+        [Route("api/Account/IsAdmin")]
+        public async Task<bool> IsAdmin()
+        {
+            return await _accountManager.IsAdmin();
+        }
+
+        [HttpGet]
+        [Route("api/Account/IsConfirmedUser")]
+        public async Task<bool> IsConfirmedUser()
+        {
+            return await _accountManager.IsConfirmedUser();
+        }
+
+        [HttpGet]
+        [Route("api/Account/IsUser")]
+        public async Task<bool> IsUser()
+        {
+            return await _accountManager.IsUser();
+        }
     }
 }

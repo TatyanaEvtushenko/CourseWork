@@ -7,4 +7,16 @@ export class CurrentUserService extends BaseService{
     getCurrentUserInfo() {
         return this.requestGet("api/CurrentUser/GetCurrentUserInfo");
     }
+
+    isAdmin() {
+        return this.requestGet("api/Account/IsAdmin");
+    }
+
+    isConfirmedUser() {
+        return this.requestGet("api/Account/IsConfirmedUser");
+    }
+
+    isUser() {
+        return this.requestGet("api/Account/IsUser");
+    }
 }
