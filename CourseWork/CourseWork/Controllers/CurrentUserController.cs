@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace CourseWork.Controllers
 {
     [Produces("application/json")]
-    [Route("api/CurrentUser")]
     public class CurrentUserController : Controller
     {
         private readonly IUserManager _userManager;
@@ -16,6 +15,7 @@ namespace CourseWork.Controllers
         }
 
         [HttpGet]
+        [Route("api/CurrentUser/GetCurrentUserInfo")]
         public CurrentUserViewModel GetCurrentUserInfo()
         {
             return _userManager.GetCurrentUserInfo();

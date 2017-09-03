@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
+using CourseWork.DataLayer.Enums;
+using CourseWork.DataLayer.Enums.Configurations;
 using CourseWork.DataLayer.Models;
 using CourseWork.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.DotNet.PlatformAbstractions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -34,22 +37,76 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
             _logger = loggerFactory.CreateLogger<AccountManager>();
         }
 
-        private async Task<bool> Register(string userName, string email, string password)
+        public async Task<bool> Register(string userName, string email, string password, string confirmPassword)
         {
-            var user = new ApplicationUser { UserName = userName, Email = email};
+            if (password != confirmPassword)
+            {
+                return false;
+            }
+            var user = new ApplicationUser {UserName = userName ?? email, Email = email};
+            return await TryRegister(user, password);
+        }
+
+        public async Task<bool> ConfirmRegistration(string userId, string code)
+        {
+            if (userId == null || code == null)
+            {
+                return false;
+            }
+            var user = await _userManager.FindByIdAsync(userId);
+            return user != null && await TryConfirmRegistration(user, code);
+        }
+
+        public async Task<bool> Login(string email, string password, bool rememberMe = true)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user != null && !await _userManager.IsEmailConfirmedAsync(user))
+            {
+                return false;
+            }
+            var result = await _signInManager.PasswordSignInAsync(email, password, rememberMe, lockoutOnFailure: false);
+            return result.Succeeded;
+        }
+
+        public async Task Logout()
+        {
+            await _signInManager.SignOutAsync();
+        }
+
+        private async Task<bool> TryRegister(ApplicationUser user, string password)
+        {
             var result = await _userManager.CreateAsync(user, password);
-            if (!result.Succeeded) return false;
-            await SendConfirmation(user);
-            await _userManager.AddToRoleAsync(user, "User");
-            return true;
+            if (result.Succeeded)
+            {
+                await SendConfirmation(user);
+            }
+            return result.Succeeded;
+        }
+
+        private async Task<bool> TryConfirmRegistration(ApplicationUser user, string code)
+        {
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+            if (result.Succeeded)
+            {
+                await AddRole(user, UserRole.User);
+            }
+            return result.Succeeded;
         }
 
         private async Task SendConfirmation(ApplicationUser user)
         {
-            //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            //var callbackUrl = new Uri();  Url.Action(nameof(ConfirmEmail), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-            //await _emailSender.SendEmailAsync(user.Email, "Confirm your account",
-            //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var callbackUrl = $"{ApplicationEnvironment.ApplicationBasePath}/api/Account/ConfirmRegistration?userId={user.Id}&code={code}";
+            //Url.Action(nameof(ConfirmEmail), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme));
+            await _emailSender.SendEmailAsync(user.Email, "Confirm your account", GetMessageToSendConfirmLink(callbackUrl));
         }
+
+        private async Task AddRole(ApplicationUser user, UserRole role)
+        {
+            await _userManager.AddToRoleAsync(user, EnumConfiguration.RoleNames[role]);
+        }
+
+        private static string GetMessageToSendConfirmLink(string url) =>
+            $"Please confirm your account by clicking this link: <a href='{url}'>link</a>";
     }
 }

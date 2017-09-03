@@ -17,9 +17,9 @@ import { LoginModalComponent } from './components/loginmodal/loginmodal.componen
 import { PreloaderComponent } from './components/preloader/preloader.component';
 import { TagCloudComponent } from './components/tagcloud/tagcloud.component';
 
-
-import { AppService } from "./services/app.service";
+import { CurrentUserService } from "./services/currentuser.service";
 import { TagService } from "./services/tag.service";
+import {AccountService} from "./services/account.service";
 
 const appRoutes: Routes = [
     { path: '', component: HomePageComponent },
@@ -50,12 +50,14 @@ const appRoutes: Routes = [
         PreloaderComponent,
         TagCloudComponent,
     ],
-    providers:[
-        AppService,
-        TagService
+    providers: [
+        CurrentUserService,
+        AccountService,
+        TagService,
     ],
-    bootstrap: [ 
-        AppComponent 
+    bootstrap: [
+        AppComponent
     ]
 })
+
 export class AppModule { }

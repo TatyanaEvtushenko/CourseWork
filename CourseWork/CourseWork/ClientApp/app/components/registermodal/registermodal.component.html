@@ -26,11 +26,11 @@
         </div>
 
         <div class="red-text input-field row">
-            <div [hidden]="password.pristine || isValidPassword">
-                Password must be bigger than 6 symbols and not bigger than 20 symbols
+            <div [hidden]="password.untouched && password.pristine|| isValidPassword">
+                ● The password must be at least 6 and at max 20 characters long
             </div>
-            <div [hidden]="passwordConfirmation.pristine || isValidPasswordConfirmation">
-                Password and password confirmation are not similar
+            <div [hidden]="passwordConfirmation.untouched && passwordConfirmation.pristine || isValidPasswordConfirmation">
+                ● The password and confirmation password do not match
             </div>
         </div>
     </div>

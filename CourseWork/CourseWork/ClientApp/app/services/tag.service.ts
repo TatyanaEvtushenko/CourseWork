@@ -7,6 +7,6 @@ export class TagService {
     constructor(private http: Http){ }
 
     getTagCloud() {
-        return this.http.get("api/Tag");
+        return this.http.get("api/Tag/GetTagCloud");
     }
 }

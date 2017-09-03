@@ -2,11 +2,11 @@
 import {Http} from '@angular/http';
 
 @Injectable()
-export class AppService {
+export class CurrentUserService {
 
     constructor(private http: Http){ }
 
     getCurrentUserInfo() {
-        return this.http.get("api/CurrentUser");
+        return this.http.get("api/CurrentUser/GetCurrentUserInfo");
     }
 }

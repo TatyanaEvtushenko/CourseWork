@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { Response} from '@angular/http';
-import { AppService } from '../../services/app.service';
+import { CurrentUserService } from '../../services/currentuser.service';
 import { CurrentUser } from '../../viewmodels/currentuser';
 
 @Component({
@@ -11,10 +11,10 @@ export class AppComponent implements OnInit {
   
     currentUser = new CurrentUser();
      
-    constructor(private appService: AppService) { }
+    constructor(private currentUserService: CurrentUserService) { }
      
     ngOnInit() {
-        this.appService.getCurrentUserInfo().subscribe((response: Response) => {
+        this.currentUserService.getCurrentUserInfo().subscribe((response: Response) => {
             this.currentUser = response.json();
         });
     }
