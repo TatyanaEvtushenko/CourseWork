@@ -4,6 +4,7 @@ import { BrowserModule }  from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpModule }   from '@angular/http';
 import { TagCloudModule } from 'angular-tag-cloud-module';
+import { FormsModule } from '@angular/forms';
  
 import { AppComponent } from './components/app/app.component';
 import { HomePageComponent } from './components/homepage/homepage.component';
@@ -31,6 +32,7 @@ const appRoutes: Routes = [
         BrowserModule,
         HttpModule,
         TagCloudModule,
+        FormsModule,
         RouterModule.forRoot(
             appRoutes,
             { enableTracing: true }

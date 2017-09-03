@@ -13,9 +13,11 @@
 
 <div class="container body-content">
     <router-outlet></router-outlet>
-
-    <registermodal></registermodal>
-    <loginmodal></loginmodal>
+    
+    <div *ngIf="!currentUser.isAuthenticated">
+        <registermodal></registermodal>
+        <loginmodal></loginmodal>
+    </div>
 
     <footer class="footer-copyright">
         <p>&copy; 2017 - CourseWork</p>

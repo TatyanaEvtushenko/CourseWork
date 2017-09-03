@@ -1,27 +1,38 @@
 ﻿<div id="registrationModal" class="modal register-modal">
     <div class="modal-content center">
-        <form action="/" asp-route-returnurl="/" method="post">
-            <div class="row">
-                <h4>Create a new account</h4>
-                <div class="text-danger"></div> 
+        <h4>Create a new account</h4>
+                
+        <div class="input-field">
+            <input id="userName" [(ngModel)]="registerForm.userName" maxlength="20" class="validate" type="text" />
+            <label for="userName">Username</label>
+        </div>
+        <div class="input-field">
+            <input id="email" #email="ngModel" class="validate" required email [(ngModel)]="registerForm.email" type="email"/>
+            <label for="email">Email</label>
+        </div>
+        <div class="input-field">
+            <input id="password" #password="ngModel" class="validate" required maxlength="20" type="password" 
+                   [(ngModel)]="registerForm.password" (ngModelChange)="onPasswordChange()"/>
+            <label for="password">Password</label>
+        </div>
+        <div class="input-field">
+            <input id="confirmPassword" #passwordConfirmation="ngModel" class="validate" required maxlength="20" type="password"
+                   [(ngModel)]="registerForm.passwordConfirmation" (ngModelChange)="onPasswordConfirmationChange()"/>
+            <label for="confirmPassword">Password confirmation</label>
+        </div>
+        <div class="input-field">
+            <button [disabled]="email.invalid || password.untouched || passwordConfirmation.untouched || !isValidPassword || !isValidPasswordConfirmation" 
+                    class="btn"  (click)="onSubmit()">Register</button>
+        </div>
 
-                <div class="input-field">
-                    <input id="Email" class="validate" type="email"/>
-                    <label for="Email">Email</label>
-                </div>
-                <div class="input-field">
-                    <input id="Password" class="validate" type="password"/>
-                    <label for="Password">Password</label>
-                </div>
-                <div class="input-field">
-                    <input id="ConfirmPassword" class="validate" type="password"/>
-                    <label for="ConfirmPassword">Password confirmation</label>
-                </div>
-                <div class="input-field">
-                    <button type="submit" class="btn">Register</button>
-                </div>
+        <div class="red-text input-field row">
+            <div [hidden]="password.pristine || isValidPassword">
+                Password must be bigger than 6 symbols and not bigger than 20 symbols
             </div>
-        </form>
+            <div [hidden]="passwordConfirmation.pristine || isValidPasswordConfirmation">
+                Password and password confirmation are not similar
+            </div>
+        </div>
     </div>
 </div>
           

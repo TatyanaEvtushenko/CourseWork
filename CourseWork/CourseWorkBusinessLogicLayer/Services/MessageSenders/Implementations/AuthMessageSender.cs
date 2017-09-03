@@ -3,11 +3,10 @@ using System.Threading.Tasks;
 using CourseWork.Services;
 using MailKit.Net.Smtp;
 using MailKit.Security;
-using MimeKit;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
+using MimeKit;
 
-namespace CourseWork.BusinessLogicLayer.Services
+namespace CourseWork.BusinessLogicLayer.Services.MessageSenders.Implementations
 {
     public class AuthMessageSender : IEmailSender, ISmsSender
     {
