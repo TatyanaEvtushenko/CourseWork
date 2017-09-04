@@ -9,8 +9,8 @@ namespace CourseWork.Extensions.StartupExtensions
     {
         public static void AddRepositories(this IServiceCollection services)
         {
-            services.AddScoped<IRepository<Tag>, TagRepository>();
-            services.AddScoped<IRepository<TagInProject>, TagInProjectRepository>();
+            services.AddScoped<Repository<Tag>, TagRepository>();
+            services.AddScoped<Repository<TagInProject>, TagInProjectRepository>();
         }
     }
 }
