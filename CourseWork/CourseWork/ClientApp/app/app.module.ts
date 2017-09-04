@@ -16,6 +16,7 @@ import { RegisterModalComponent } from './components/registermodal/registermodal
 import { LoginModalComponent } from './components/loginmodal/loginmodal.component';
 import { PreloaderComponent } from './components/preloader/preloader.component';
 import { TagCloudComponent } from './components/tagcloud/tagcloud.component';
+import { ConfirmationModalComponent } from './components/confirmationmodal/confirmationmodal.component';
 
 import { BaseActivator } from './activators/base.activator';
 import { AdminActivator } from './activators/admin.activator';
