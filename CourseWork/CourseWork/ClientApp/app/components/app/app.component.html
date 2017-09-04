@@ -3,10 +3,10 @@
         <a id="logo-container" href="/" class="brand-logo">Logo</a>
         <a data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
         <ul class="right hide-on-med-and-down">
-            <pagelinks [currentUser]="currentUser"></pagelinks>
+            <pagelinks [currentUser]="currentUser" [roles]="roleNames"></pagelinks>
         </ul>
         <ul class="side-nav" id="mobile-demo">
-            <pagelinks [currentUser]="currentUser"></pagelinks>
+            <pagelinks [currentUser]="currentUser" [roles]="roleNames"></pagelinks>
         </ul>
     </div>
 </nav>

@@ -25,6 +25,7 @@ import { BaseService} from './services/base.service';
 import { CurrentUserService } from "./services/currentuser.service";
 import { TagService } from "./services/tag.service";
 import { AccountService } from "./services/account.service";
+import { SettingService } from "./services/setting.service";
 
 const appRoutes: Routes = [
     { path: '', component: HomePageComponent },
@@ -64,6 +65,7 @@ const appRoutes: Routes = [
         AdminActivator,
         UserActivator,
         ConfirmedUserActivator,
+        SettingService,
     ],
     bootstrap: [
         AppComponent

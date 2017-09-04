@@ -1,6 +1,7 @@
 ﻿import { Component, Input } from '@angular/core';
 import { CurrentUser } from '../../viewmodels/currentuser';
 import { AccountService } from "../../services/account.service";
+import { RoleNames } from '../../viewmodels/roleNames';
 
 @Component({
     selector: 'pagelinks',
@@ -8,6 +9,7 @@ import { AccountService } from "../../services/account.service";
 })
 export class PageLinksComponent {
     @Input("currentUser") currentUser: CurrentUser;
+    @Input("roles") roles: RoleNames;
 
     constructor(private accountService: AccountService) { }
 
@@ -17,5 +19,9 @@ export class PageLinksComponent {
                 this.accountService.changeAuthState(false);
             }
         );
+    }
+
+    isInRole(role: string) {
+        return this.currentUser != null && this.currentUser.role === role;
     }
 }

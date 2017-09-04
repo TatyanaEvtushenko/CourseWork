@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using CourseWork.BusinessLogicLayer.Services.UserManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.CurrentUserViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -16,9 +17,9 @@ namespace CourseWork.Controllers
 
         [HttpGet]
         [Route("api/CurrentUser/GetCurrentUserInfo")]
-        public CurrentUserViewModel GetCurrentUserInfo()
+        public async Task<CurrentUserViewModel> GetCurrentUserInfo()
         {
-            return _userManager.GetCurrentUserInfo();
+            return await _userManager.GetCurrentUserInfo();
         }
     }
 }

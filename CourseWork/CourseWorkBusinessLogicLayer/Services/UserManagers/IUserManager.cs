@@ -1,9 +1,10 @@
-﻿using CourseWork.BusinessLogicLayer.ViewModels.CurrentUserViewModels;
+﻿using System.Threading.Tasks;
+using CourseWork.BusinessLogicLayer.ViewModels.CurrentUserViewModels;
 
 namespace CourseWork.BusinessLogicLayer.Services.UserManagers
 {
     public interface IUserManager
     {
-        CurrentUserViewModel GetCurrentUserInfo();
+        Task<CurrentUserViewModel> GetCurrentUserInfo();
     }
 }

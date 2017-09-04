@@ -1,5 +1,5 @@
-﻿<li><a href="/UserProjectsPage">My projects</a></li>
-<li><a href="/AdminPage">Admin page</a></li>
+﻿<li><a *ngIf="isInRole(roles.confirmedUser)" href="/UserProjectsPage">My projects</a></li>
+<li><a *ngIf="isInRole(roles.admin)" href="/AdminPage">Admin page</a></li>
 
 <ng-container *ngIf="currentUser != null">
     <li>Hello {{currentUser.userName}}!</li>

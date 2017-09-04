@@ -19,8 +19,4 @@
     <ProjectReference Include="..\CourseWorkDataLayer\CourseWork.DataLayer.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\Mappers\Implementations\" />
-  </ItemGroup>
-
 </Project>
