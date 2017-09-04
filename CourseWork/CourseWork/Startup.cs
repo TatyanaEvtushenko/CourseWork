@@ -64,11 +64,11 @@ namespace CourseWork
                 .AddDefaultTokenProviders();
 
             services.AddMvc();
-            //services.AddSingleton(provider => Configuration);
             services.Configure<MailOptions>(options => Configuration.GetSection("MailOptions").Bind(options));
 
             services.AddScoped<IRepository<Tag>, TagRepository>();
             services.AddScoped<IRepository<TagInProject>, TagInProjectRepository>();
+            services.AddScoped<IRepository<UserInfo>, UserInfoRepository>();
 
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddScoped<IUserManager, UserManager>();
