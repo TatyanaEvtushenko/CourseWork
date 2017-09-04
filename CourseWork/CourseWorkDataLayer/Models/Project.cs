@@ -15,14 +15,18 @@ namespace CourseWork.DataLayer.Models
 
         public string ImageUrl { get; set; }
 
+        public DateTime CreatingTime { get; set; }
+
         public DateTime FundRaisingEnd { get; set; }
-
-        public decimal MinPayment { get; set; }
-
-        public decimal MaxPayment { get; set; }
 
         public ProjectStatus Status { get; set; }
 
         public string OwnerId { get; set; }
+
+        public decimal PaidAmount { get; set; }
+
+        public decimal MinPayment { get; set; }
+
+        public decimal MaxPayment { get; set; }
     }
 }
