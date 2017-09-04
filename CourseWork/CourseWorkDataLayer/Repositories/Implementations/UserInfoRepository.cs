@@ -2,30 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
 using CourseWork.DataLayer.Data;
 using CourseWork.DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace CourseWork.DataLayer.Repositories.Implementations
 {
-    public class TagRepository : IRepository<Tag>
+    public class UserInfoRepository : IRepository<UserInfo>
     {
         private readonly ApplicationDbContext _dbContext;
 
-        public TagRepository(ApplicationDbContext dbContext)
+        public UserInfoRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public bool AddRange(params Tag[] items)
+        public bool AddRange(params UserInfo[] items)
         {
             try
             {
-                _dbContext.Tags.AddRange(items);
+                _dbContext.UserInfos.AddRange(items);
                 _dbContext.SaveChanges();
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -35,33 +36,33 @@ namespace CourseWork.DataLayer.Repositories.Implementations
         {
             try
             {
-                var items = _dbContext.Tags.Where(item => identificators.Contains(item.Id));
-                _dbContext.Tags.RemoveRange(items);
+                var items = _dbContext.UserInfos.Where(item => identificators.Contains(item.UserId));
+                _dbContext.UserInfos.RemoveRange(items);
                 _dbContext.SaveChanges();
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
         }
 
-        public List<Tag> GetAll()
+        public List<UserInfo> GetAll()
         {
-            return _dbContext.Tags.ToList();
+            return _dbContext.UserInfos.ToList();
         }
 
-        public Tag Get(string id)
+        public UserInfo Get(string id)
         {
-            return _dbContext.Tags.Find(id);
+            return _dbContext.UserInfos.Find(id);
         }
 
-        public List<Tag> GetWhere(Expression<Func<Tag, bool>> whereExpression)
+        public List<UserInfo> GetWhere(Expression<Func<UserInfo, bool>> whereExpression)
         {
-            return _dbContext.Tags.Where(whereExpression).ToList();
+            return _dbContext.UserInfos.Where(whereExpression).ToList();
         }
 
-        public bool UpdateRange(params Tag[] items)
+        public bool UpdateRange(params UserInfo[] items)
         {
             try
             {

@@ -15,5 +15,7 @@ namespace CourseWork.DataLayer.Repositories
         T Get(string id);
 
         List<T> GetWhere(Expression<Func<T, bool>> whereExpression);
+
+        bool UpdateRange(params T[] items);
     }
 }

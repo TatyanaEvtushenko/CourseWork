@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using CourseWork.DataLayer.Data;
 using CourseWork.DataLayer.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CourseWork.DataLayer.Repositories.Implementations
 {
@@ -58,6 +59,23 @@ namespace CourseWork.DataLayer.Repositories.Implementations
         public List<Project> GetWhere(Expression<Func<Project, bool>> whereExpression)
         {
             return _dbContext.Projects.Where(whereExpression).ToList();
+        }
+
+        public bool UpdateRange(params Project[] items)
+        {
+            try
+            {
+                foreach (var item in items)
+                {
+                    _dbContext.Entry(item).State = EntityState.Modified;
+                }
+                _dbContext.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }
