@@ -19,6 +19,11 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             _projectMapper = projectMapper;
         }
 
+        public bool AddProject(ProjectFormViewModel projectForm)
+        {
+            return false; //_projectRepository.AddRange()
+        }
+
         public IEnumerable<ProjectItemViewModel> GetLastCreatedProjects()
         {
             return _projectRepository.GetAll().OrderByDescending(project => project.CreatingTime).Take(10)
