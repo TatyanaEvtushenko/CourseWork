@@ -1,17 +1,19 @@
-﻿import { Component, Input } from '@angular/core';
-import { CurrentUser } from '../../viewmodels/currentuser';
+﻿import { Component } from '@angular/core';
 import { AccountService } from "../../services/account.service";
-import { RoleNames } from '../../viewmodels/roleNames';
+import { RoleService } from '../../services/role.service';
+import { CurrentUserService } from '../../services/currentuser.service';
+import { CurrentUserSubscriber } from '../currentuser.subscriber';
 
 @Component({
     selector: 'pagelinks',
     templateUrl: './pagelinks.component.html'
 })
-export class PageLinksComponent {
-    @Input("currentUser") currentUser: CurrentUser;
-    @Input("roles") roles: RoleNames;
 
-    constructor(private accountService: AccountService) { }
+export class PageLinksComponent extends CurrentUserSubscriber {
+
+    constructor(protected currentUserService: CurrentUserService, protected accountService: AccountService, protected roleService: RoleService) {
+        super(currentUserService, accountService, roleService);
+    }
 
     logout() {   
         this.accountService.logout().subscribe(
@@ -19,9 +21,5 @@ export class PageLinksComponent {
                 this.accountService.changeAuthState(false);
             }
         );
-    }
-
-    isInRole(role: string) {
-        return this.currentUser != null && this.currentUser.role === role;
     }
 }

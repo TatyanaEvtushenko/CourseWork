@@ -1,5 +1,5 @@
 ﻿export class RoleNames {
-    admin: string;
-    user: string;
-    confirmedUser: string;
+    admin = "Admin";
+    user = "User";
+    confirmedUser = "ConfirmedUser";
 }

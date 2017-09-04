@@ -21,11 +21,10 @@ namespace CourseWork.BusinessLogicLayer.Services.UserManagers.Implementations
         public async Task<CurrentUserViewModel> GetCurrentUserInfo()
         {
             var user = _contextAccessor.HttpContext.User.Identity;
-            var applicationUser = await _userManager.FindByNameAsync(user.Name);
             return !user.IsAuthenticated ? null : new CurrentUserViewModel
             { 
                 UserName = user.Name,
-                Role = (await _userManager.GetRolesAsync(applicationUser)).ElementAt(0)
+                Role = (await _userManager.GetRolesAsync(await _userManager.FindByNameAsync(user.Name))).ElementAt(0)
             };
         }
     }
