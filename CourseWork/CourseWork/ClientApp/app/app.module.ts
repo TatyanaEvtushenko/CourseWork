@@ -17,6 +17,7 @@ import { LoginModalComponent } from './components/loginmodal/loginmodal.componen
 import { PreloaderComponent } from './components/preloader/preloader.component';
 import { TagCloudComponent } from './components/tagcloud/tagcloud.component';
 
+import { BaseActivator } from './activators/base.activator';
 import { AdminActivator } from './activators/admin.activator';
 import { UserActivator } from './activators/user.activator';
 import { ConfirmedUserActivator } from './activators/confirmeduser.activator';
@@ -62,6 +63,7 @@ const appRoutes: Routes = [
         CurrentUserService,
         AccountService,
         TagService,
+        BaseActivator,
         AdminActivator,
         UserActivator,
         ConfirmedUserActivator,

@@ -1,14 +1,12 @@
-﻿import { CanActivate } from '@angular/router'; 
+﻿import { Router} from '@angular/router'; 
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { CurrentUserService } from '../services/currentuser.service';
+import { BaseActivator } from './base.activator';
 
 @Injectable()
-export class AdminActivator implements CanActivate {
-    
-    constructor(private currentUserService: CurrentUserService){ }
+export class AdminActivator extends BaseActivator {
 
-    canActivate(route: Object, state: Object): Observable<boolean> | Promise<boolean> | boolean {
-        return this.currentUserService.isAdmin();
+    constructor(private currentUserService: CurrentUserService, protected router: Router) {
+        super(currentUserService.isAdmin(), router);
     }
 }

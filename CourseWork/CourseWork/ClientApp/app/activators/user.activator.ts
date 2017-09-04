@@ -1,14 +1,12 @@
-﻿import { CanActivate } from '@angular/router';
+﻿import { Router} from '@angular/router'; 
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { CurrentUserService } from '../services/currentuser.service';
+import { BaseActivator } from './base.activator';
 
 @Injectable()
-export class UserActivator implements CanActivate {
+export class UserActivator extends BaseActivator {
 
-    constructor(private currentUserService: CurrentUserService) { }
-
-    canActivate(route: Object, state: Object): Observable<boolean> | Promise<boolean> | boolean {
-        return this.currentUserService.isUser();
+    constructor(private currentUserService: CurrentUserService, protected router: Router) {
+        super(currentUserService.isUser(), router);
     }
 }
