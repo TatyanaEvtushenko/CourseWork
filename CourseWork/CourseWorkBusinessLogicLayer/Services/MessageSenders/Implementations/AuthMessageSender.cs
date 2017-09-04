@@ -28,6 +28,7 @@ namespace CourseWork.BusinessLogicLayer.Services.MessageSenders.Implementations
             emailMessage.From.Add(new MailboxAddress("Email confirmation", _configuration["Mail:Email"]));
             emailMessage.To.Add(new MailboxAddress("", email));
             emailMessage.Subject = subject;
+            System.Diagnostics.Debug.WriteLine(message);
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
             {
                 Text = message

@@ -98,9 +98,13 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
         private async Task SendConfirmation(ApplicationUser user)
         {
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var callbackUrl = $"{ApplicationEnvironment.ApplicationBasePath}/api/Account/ConfirmRegistration?userId={user.Id}&code={code}";
-            //Url.Action(nameof(ConfirmEmail), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme));
+            var callbackUrl = $"{GetBaseUrl()}/api/Account/ConfirmRegistration?userId={user.Id}&code={System.Net.WebUtility.UrlEncode(code)}";
             await _emailSender.SendEmailAsync(user.Email, "Confirm your account", GetMessageToSendConfirmLink(callbackUrl));
+        }
+
+        private string GetBaseUrl()
+        {
+            return $"{_contextAccessor.HttpContext.Request.Scheme}://{_contextAccessor.HttpContext.Request.Host}";
         }
 
         private async Task AddRole(ApplicationUser user, UserRole role)
@@ -109,7 +113,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
         }
 
         private static string GetMessageToSendConfirmLink(string url) =>
-            $"Please confirm your account by clicking this link: <a href='{url}'>link</a>";
+            $"Please confirm your account by clicking this link: <a href=\"{url}\">link</a>";
 
         private async Task<bool> IsInRole(UserRole role)
         {
