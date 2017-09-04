@@ -9,6 +9,5 @@ namespace CourseWork.BusinessLogicLayer.Options
         public string CloudName { get; set; }
         public string ApiKey { get; set; }
         public string ApiSecret { get; set; }
-        public string UrlPrefix { get; set; }
     }
 }
