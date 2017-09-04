@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Threading.Tasks;
+using CourseWork.BusinessLogicLayer.Options;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using MimeKit;
 
 namespace CourseWork.BusinessLogicLayer.Services.MessageSenders.Implementations
 {
     public class AuthMessageSender : IEmailSender
     {
-        private readonly IConfigurationRoot _configuration;
+        private MailOptions _options;
 
-        public AuthMessageSender(IConfigurationRoot configuration)
+        public AuthMessageSender(IOptions<MailOptions> options)
         {
-            _configuration = configuration;
+            _options = options.Value;
         }
 
         public Task SendEmailAsync(string email, string subject, string message)
@@ -25,10 +27,9 @@ namespace CourseWork.BusinessLogicLayer.Services.MessageSenders.Implementations
         private MimeMessage CreateMessage(string email, string subject, string message)
         {
             var emailMessage = new MimeMessage();
-            emailMessage.From.Add(new MailboxAddress("Email confirmation", _configuration["Mail:Email"]));
+            emailMessage.From.Add(new MailboxAddress("Email confirmation", _options.Email));
             emailMessage.To.Add(new MailboxAddress("", email));
             emailMessage.Subject = subject;
-            System.Diagnostics.Debug.WriteLine(message);
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
             {
                 Text = message
@@ -41,8 +42,8 @@ namespace CourseWork.BusinessLogicLayer.Services.MessageSenders.Implementations
             using (var client = new SmtpClient())
             {
                 client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-                client.Connect(_configuration["Mail:Server"], Int32.Parse(_configuration["Mail:Port"]), SecureSocketOptions.SslOnConnect);
-                client.Authenticate(_configuration["Mail:Email"], _configuration["Mail:Password"]);
+                client.Connect(_options.Server, _options.Port, SecureSocketOptions.SslOnConnect);
+                client.Authenticate(_options.Email, _options.Password);
                 client.Send(emailMessage);
                 client.Disconnect(true);
             }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CourseWork.BusinessLogicLayer.Options;
 using CourseWork.BusinessLogicLayer.Services;
 using CourseWork.BusinessLogicLayer.Services.AccountManagers;
 using CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations;
@@ -63,7 +64,8 @@ namespace CourseWork
                 .AddDefaultTokenProviders();
 
             services.AddMvc();
-            services.AddSingleton(provider => Configuration);
+            //services.AddSingleton(provider => Configuration);
+            services.Configure<MailOptions>(options => Configuration.GetSection("MailOptions").Bind(options));
 
             services.AddScoped<IRepository<Tag>, TagRepository>();
             services.AddScoped<IRepository<TagInProject>, TagInProjectRepository>();
