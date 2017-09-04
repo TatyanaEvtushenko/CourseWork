@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using CourseWork.BusinessLogicLayer.Options;
 using CourseWork.BusinessLogicLayer.Services;
+using CourseWork.BusinessLogicLayer.Services.AccountConfirmationManagers;
+using CourseWork.BusinessLogicLayer.Services.AccountConfirmationManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.AccountManagers;
 using CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
@@ -75,6 +77,7 @@ namespace CourseWork
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<IAccountManager, AccountManager>();
             services.AddScoped<ISettingManager, SettingManager>();
+            services.AddScoped<IAccountConfirmationManager, AccountConfirmationManager>();
 
             services.AddScoped<IMapper<RoleNamesViewModel, Dictionary<UserRole, string>>, RoleNamesViewModelToRoleNamesMapper>();
 
