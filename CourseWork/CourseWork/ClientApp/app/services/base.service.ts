@@ -5,7 +5,7 @@ import { Response} from '@angular/http';
 
 @Injectable()
 export class BaseService {
-    constructor(private http: Http) {}
+    constructor(protected http: Http) {}
 
     protected  requestPost(path: string, argument: any) {
         const body = JSON.stringify(argument);

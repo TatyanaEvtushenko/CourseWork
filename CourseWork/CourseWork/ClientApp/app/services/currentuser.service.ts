@@ -1,22 +1,22 @@
-﻿import { Injectable } from '@angular/core';
-import { BaseService} from './base.service';
+﻿import { Injectable, EventEmitter } from '@angular/core';
+import { BaseService } from './base.service';
+import { CurrentUser } from '../viewmodels/currentuser';
 
 @Injectable()
-export class CurrentUserService extends BaseService{
+export class CurrentUserService extends BaseService {
+    isReady = new EventEmitter<CurrentUser>();
 
-    getCurrentUserInfo() {
+    getCurrentUser() {
+        this.getCurrentUserFromServer().subscribe((data) => {
+            this.changeServiceState(data);
+        });
+    }
+
+    private changeServiceState(user: CurrentUser) {
+        this.isReady.emit(user);
+    }
+
+    private getCurrentUserFromServer() {
         return this.requestGet("api/CurrentUser/GetCurrentUserInfo");
-    }
-
-    isAdmin() {
-        return this.requestGet("api/Account/IsAdmin");
-    }
-
-    isConfirmedUser() {
-        return this.requestGet("api/Account/IsConfirmedUser");
-    }
-
-    isUser() {
-        return this.requestGet("api/Account/IsUser");
     }
 }
