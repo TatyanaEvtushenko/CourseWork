@@ -17,14 +17,14 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly IHttpContextAccessor _contextAccessor;
-        private readonly IRepository<UserInfo> _userInfoRepository;
+        private readonly Repository<UserInfo> _userInfoRepository;
 
         public AccountManager(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender, 
             IHttpContextAccessor contextAccessor,
-            IRepository<UserInfo> userInfoRepository)
+            Repository<UserInfo> userInfoRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;

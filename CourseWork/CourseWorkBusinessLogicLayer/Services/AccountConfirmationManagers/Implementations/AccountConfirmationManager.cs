@@ -13,9 +13,9 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountConfirmationManagers.Imp
 {
     public class AccountConfirmationManager : IAccountConfirmationManager
     {
-        private readonly IRepository<UserInfo> _userRepository;
+        private readonly Repository<UserInfo> _userRepository;
 
-        public AccountConfirmationManager(IRepository<UserInfo> userRepository)
+        public AccountConfirmationManager(Repository<UserInfo> userRepository)
         {
             _userRepository = userRepository;
         }

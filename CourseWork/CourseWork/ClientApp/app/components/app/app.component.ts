@@ -10,7 +10,7 @@ import { RoleNames } from '../../viewmodels/roleNames';
     templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
-    roleNames: RoleNames = null;
+    roleNames: RoleNames = new RoleNames();
     currentUser: CurrentUser = null;
 
     constructor(private currentUserService: CurrentUserService,
@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
     }
 
     private getRoles() {
-        this.settingService.getRoleNames().subscribe((data: RoleNames) => { this.roleNames = data; console.log(this.roleNames); });
+        this.settingService.getRoleNames().subscribe((data: RoleNames) => { this.roleNames = data; });
     }
 
     private getCurrentUser() {
