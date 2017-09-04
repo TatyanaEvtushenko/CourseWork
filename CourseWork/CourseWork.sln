@@ -5,9 +5,13 @@ VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseWork", "CourseWork\CourseWork.csproj", "{F30B73A1-3C09-4071-8456-66DE9BAF42FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseWork.DataLayer", "CourseWorkDataLayer\CourseWork.DataLayer.csproj", "{EFC77792-0FFB-4AD8-ABF9-149437171C2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseWork.DataLayer", "CourseWorkDataLayer\CourseWork.DataLayer.csproj", "{EFC77792-0FFB-4AD8-ABF9-149437171C2E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseWork.BusinessLogicLayer", "CourseWorkBusinessLogicLayer\CourseWork.BusinessLogicLayer.csproj", "{2F0C1910-7CC8-49F0-9741-FCA62C8C5D9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseWork.Extensions", "CourseWork.Extensions\CourseWork.Extensions.csproj", "{35660E49-5EC5-4F81-B6BE-DDEDAB72B900}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseWork.Configurations", "CourseWork.Configurations\CourseWork.Configurations.csproj", "{FE01F4CA-45CC-42DD-BFC8-75D134A5EDF6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,14 @@ Global
 		{2F0C1910-7CC8-49F0-9741-FCA62C8C5D9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F0C1910-7CC8-49F0-9741-FCA62C8C5D9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F0C1910-7CC8-49F0-9741-FCA62C8C5D9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35660E49-5EC5-4F81-B6BE-DDEDAB72B900}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35660E49-5EC5-4F81-B6BE-DDEDAB72B900}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35660E49-5EC5-4F81-B6BE-DDEDAB72B900}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35660E49-5EC5-4F81-B6BE-DDEDAB72B900}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE01F4CA-45CC-42DD-BFC8-75D134A5EDF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE01F4CA-45CC-42DD-BFC8-75D134A5EDF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE01F4CA-45CC-42DD-BFC8-75D134A5EDF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE01F4CA-45CC-42DD-BFC8-75D134A5EDF6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

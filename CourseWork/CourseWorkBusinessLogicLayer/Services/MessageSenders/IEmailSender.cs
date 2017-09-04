@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace CourseWork.BusinessLogicLayer.Services
+namespace CourseWork.BusinessLogicLayer.Services.MessageSenders
 {
     public interface IEmailSender
     {

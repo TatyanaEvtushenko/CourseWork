@@ -2,17 +2,16 @@
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MailKit.Security;
-using MimeKit;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
+using MimeKit;
 
-namespace CourseWork.BusinessLogicLayer.Services
+namespace CourseWork.BusinessLogicLayer.Services.MessageSenders.Implementations
 {
-    public class AuthMessageSender : IEmailSender, ISmsSender
+    public class AuthMessageSender : IEmailSender
     {
-        private readonly IConfiguration _configuration;
+        private readonly IConfigurationRoot _configuration;
 
-        public AuthMessageSender(IConfiguration configuration)
+        public AuthMessageSender(IConfigurationRoot configuration)
         {
             _configuration = configuration;
         }
@@ -46,11 +45,6 @@ namespace CourseWork.BusinessLogicLayer.Services
                 client.Send(emailMessage);
                 client.Disconnect(true);
             }
-        }
-
-        public Task SendSmsAsync(string number, string message)
-        {
-            return Task.FromResult(0);
         }
     }
 }

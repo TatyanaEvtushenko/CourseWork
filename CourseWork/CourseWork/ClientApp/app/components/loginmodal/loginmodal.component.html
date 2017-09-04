@@ -1,0 +1,34 @@
+﻿<div id="loginModal" class="modal register-modal">
+    <div class="modal-content center">
+        <h4>Log in</h4>
+
+        <div class="input-field">
+            <input id="login-email"  #email="ngModel" class="validate" required email [(ngModel)]="loginForm.email" type="email"/>
+            <label for="login-email">Email</label>
+        </div>
+        <div class="input-field">
+            <input id="login-password" #password="ngModel" class="validate" required maxlength="20" type="password" 
+                   [(ngModel)]="loginForm.password"/>
+            <label for="login-password">Password</label>
+        </div>
+
+        <div class="input-field">
+            <button [disabled]="email.invalid || loginForm.password == null" class="btn" (click)="onSubmit()">Log in</button>
+        </div>
+
+        <div class="row">
+            <div class="col m6">
+                <a href="#registrationModal" class="modal-close modal-trigger">Register as a new user?</a>
+            </div>
+            <div class="col m6">
+                <a>Forgot your password?</a>
+            </div>
+        </div>
+
+        <div class="red-text input-field row">
+            <div *ngIf="isWrongRequest">
+                Invalid login or password
+            </div>
+        </div>
+    </div>
+</div>

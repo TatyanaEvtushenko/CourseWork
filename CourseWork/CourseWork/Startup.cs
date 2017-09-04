@@ -1,4 +1,20 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Collections.Generic;
+using CourseWork.BusinessLogicLayer.Services;
+using CourseWork.BusinessLogicLayer.Services.AccountManagers;
+using CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations;
+using CourseWork.BusinessLogicLayer.Services.Mappers;
+using CourseWork.BusinessLogicLayer.Services.Mappers.Implementations;
+using CourseWork.BusinessLogicLayer.Services.MessageSenders;
+using CourseWork.BusinessLogicLayer.Services.MessageSenders.Implementations;
+using CourseWork.BusinessLogicLayer.Services.SettingManagers;
+using CourseWork.BusinessLogicLayer.Services.SettingManagers.Implementations;
+using CourseWork.BusinessLogicLayer.Services.TagServices;
+using CourseWork.BusinessLogicLayer.Services.TagServices.Implementations;
+using CourseWork.BusinessLogicLayer.Services.UserManagers;
+using CourseWork.BusinessLogicLayer.Services.UserManagers.Implementations;
+using CourseWork.BusinessLogicLayer.ViewModels.AccountViewModels;
+using CourseWork.BusinessLogicLayer.ViewModels.SettingViewModels;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -6,11 +22,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using CourseWork.DataLayer.Data;
+using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
 using CourseWork.DataLayer.Repositories.Implementations;
-using CourseWork.Models;
-using CourseWork.Services;
+using CourseWork.Extensions.StartupExtensions;
 
 namespace CourseWork
 {
@@ -47,13 +63,20 @@ namespace CourseWork
                 .AddDefaultTokenProviders();
 
             services.AddMvc();
-
-            // Add application services.
-            services.AddTransient<IEmailSender, AuthMessageSender>();
-            services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddSingleton(provider => Configuration);
 
             services.AddScoped<IRepository<Tag>, TagRepository>();
             services.AddScoped<IRepository<TagInProject>, TagInProjectRepository>();
+
+            services.AddTransient<IEmailSender, AuthMessageSender>();
+            services.AddScoped<IUserManager, UserManager>();
+            services.AddScoped<ITagService, TagService>();
+            services.AddScoped<IAccountManager, AccountManager>();
+            services.AddScoped<ISettingManager, SettingManager>();
+
+            services.AddScoped<IMapper<RoleNamesViewModel, Dictionary<UserRole, string>>, RoleNamesViewModelToRoleNamesMapper>();
+
+            services.CreateDatabaseRoles().Wait();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
