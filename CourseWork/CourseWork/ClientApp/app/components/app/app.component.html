@@ -3,23 +3,31 @@
         <a id="logo-container" href="/" class="brand-logo">Logo</a>
         <a data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
         <ul class="right hide-on-med-and-down">
-            <pagelinks [currentUser]="currentUser" [roles]="roleNames"></pagelinks>
+            <pagelinks></pagelinks>
         </ul>
         <ul class="side-nav" id="mobile-demo">
-            <pagelinks [currentUser]="currentUser" [roles]="roleNames"></pagelinks>
+            <pagelinks></pagelinks>
         </ul>
     </div>
 </nav>
 
 <div class="container body-content">
     <router-outlet></router-outlet>
+</div>
     
-    <div *ngIf="currentUser == null">
-        <registermodal></registermodal>
-        <loginmodal></loginmodal>
-    </div>
+<div *ngIf="isConfirmedUser">
+    <a class="btn-floating btn-large waves-effect waves-light red right-align">
+        <i class="material-icons">add</i>
+    </a>
+</div>
 
+<div class="container body-content">
     <footer class="footer-copyright">
         <p>&copy; 2017 - CourseWork</p>
     </footer>
+</div>
+    
+<div *ngIf="!isUser">
+    <registermodal></registermodal>
+    <loginmodal></loginmodal>
 </div>

@@ -16,24 +16,17 @@ import { RegisterModalComponent } from './components/registermodal/registermodal
 import { LoginModalComponent } from './components/loginmodal/loginmodal.component';
 import { PreloaderComponent } from './components/preloader/preloader.component';
 import { TagCloudComponent } from './components/tagcloud/tagcloud.component';
-import { ConfirmationModalComponent } from './components/confirmationmodal/confirmationmodal.component';
-
-import { BaseActivator } from './activators/base.activator';
-import { AdminActivator } from './activators/admin.activator';
-import { UserActivator } from './activators/user.activator';
-import { ConfirmedUserActivator } from './activators/confirmeduser.activator';
 
 import { BaseService} from './services/base.service';
 import { CurrentUserService } from "./services/currentuser.service";
 import { TagService } from "./services/tag.service";
 import { AccountService } from "./services/account.service";
-import { SettingService } from "./services/setting.service";
-import { UnconfirmedUserService } from "./services/unconfirmedUser.service"
+import { RoleService } from "./services/role.service";
 
 const appRoutes: Routes = [
     { path: '', component: HomePageComponent },
-    { path: 'UserProjectsPage', component: UserProjectsPageComponent, canActivate: [ConfirmedUserActivator] },
-    { path: 'AdminPage', component: AdminPageComponent, canActivate: [AdminActivator] },
+    { path: 'UserProjectsPage', component: UserProjectsPageComponent },
+    { path: 'AdminPage', component: AdminPageComponent },
     { path: '**', component: ErrorPageComponent },
 ];
 
@@ -59,19 +52,13 @@ const appRoutes: Routes = [
         PreloaderComponent,
         TagCloudComponent,
         ErrorPageComponent,
-        ConfirmationModalComponent
     ],
     providers: [
         BaseService,
         CurrentUserService,
         AccountService,
         TagService,
-        BaseActivator,
-        AdminActivator,
-        UserActivator,
-        ConfirmedUserActivator,
-        SettingService,
-        UnconfirmedUserService
+        RoleService
     ],
     bootstrap: [
         AppComponent

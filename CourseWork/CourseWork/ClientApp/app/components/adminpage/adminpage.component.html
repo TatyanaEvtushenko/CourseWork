@@ -1,1 +1,2 @@
-﻿<h2>ADMINKA</h2>
+﻿<h2 *ngIf="isAdmin">ADMINKA</h2>
+<errorpage *ngIf="!isAdmin"></errorpage>
