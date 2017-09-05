@@ -24,11 +24,7 @@
                 <a>Forgot your password?</a>
             </div>
         </div>
-
-        <div class="red-text input-field row">
-            <div *ngIf="isWrongRequest">
-                Invalid login or password
-            </div>
-        </div>
+        
+        <errortext *ngIf="isWrongRequest" [text]="'Invalid login or password'"></errortext>
     </div>
 </div>
