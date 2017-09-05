@@ -16,6 +16,7 @@ import { RegisterModalComponent } from './components/registermodal/registermodal
 import { LoginModalComponent } from './components/loginmodal/loginmodal.component';
 import { PreloaderComponent } from './components/preloader/preloader.component';
 import { TagCloudComponent } from './components/tagcloud/tagcloud.component';
+import { NewProjectPageComponent } from './components/newprojectpage/newprojectpage.component';
 
 import { BaseService} from './services/base.service';
 import { CurrentUserService } from "./services/currentuser.service";
@@ -27,6 +28,7 @@ const appRoutes: Routes = [
     { path: '', component: HomePageComponent },
     { path: 'UserProjectsPage', component: UserProjectsPageComponent },
     { path: 'AdminPage', component: AdminPageComponent },
+    { path: 'ProjectEditorPage', component: NewProjectPageComponent },
     { path: '**', component: ErrorPageComponent },
 ];
 
@@ -52,6 +54,7 @@ const appRoutes: Routes = [
         PreloaderComponent,
         TagCloudComponent,
         ErrorPageComponent,
+        NewProjectPageComponent
     ],
     providers: [
         BaseService,
