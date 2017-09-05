@@ -8,7 +8,6 @@ namespace CourseWork.DataLayer.Data
     {
         public DbSet<Comment> Comments { get; set; }
         public DbSet<FinancialPurpose> FinancialPurposes { get; set; }
-        public DbSet<FinancialPurposeInProject> FinancialPurposeInProjects { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<News> News { get; set; }
         public DbSet<Payment> Payments { get; set; }
