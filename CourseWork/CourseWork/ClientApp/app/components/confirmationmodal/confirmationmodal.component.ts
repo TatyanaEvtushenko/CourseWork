@@ -1,6 +1,6 @@
 ﻿import { Component, AfterViewInit } from '@angular/core';
 import { ConfirmationForm } from '../../viewmodels/confirmationform';
-import { UnconfirmedUserService } from "../../services/unconfirmedUser.service";
+import { AccountService } from "../../services/account.service";
 declare var $: any;
 
 @Component({
@@ -11,14 +11,14 @@ export class ConfirmationModalComponent implements AfterViewInit {
     confirmationForm = new ConfirmationForm();
     isWrongRequest = false;
 
-    constructor(private unconfirmedUserService: UnconfirmedUserService) { }
+    constructor(private accountService: AccountService) { }
 
     ngAfterViewInit() {
         $('#confirmationModal').modal();
     }
 
     onSubmit() {
-        this.unconfirmedUserService.confirmAccount(this.confirmationForm).subscribe(
+        this.accountService.confirmAccount(this.confirmationForm).subscribe(
             (data) => {
                 this.isWrongRequest = !data;
                 if (!this.isWrongRequest) {
