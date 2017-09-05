@@ -1,0 +1,15 @@
+﻿<div class="markdown-editor">
+    <div class="input-field">
+        <textarea id="markdownText" class="materialize-textarea" [(ngModel)]="text" (ngModelChange)="change()"></textarea>
+        <label for="markdownText">{{fieldName}}</label>
+    </div>
+    <div class="input-field">
+        <a class="waves-effect waves-light btn modal-trigger" href="#markdownPreview">Preview</a>
+    </div>
+</div>
+
+<div id="markdownPreview" class="modal">
+    <div class="modal-content">
+        <markdown [data]="text"></markdown>
+    </div>
+</div>

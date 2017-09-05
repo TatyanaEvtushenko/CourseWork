@@ -1,4 +1,13 @@
-﻿.register-modal {
+﻿.markdown-editor {
+    height: 300px;
+}
+
+.markdown-editor .input-field {
+    max-height: 300px;
+    overflow-y: auto;
+ }
+
+.register-modal {
     width: 30%;
 }
 

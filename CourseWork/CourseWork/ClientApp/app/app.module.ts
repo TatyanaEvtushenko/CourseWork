@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HttpModule }   from '@angular/http';
 import { TagCloudModule } from 'angular-tag-cloud-module';
 import { FormsModule } from '@angular/forms';
+import { MarkdownModule } from 'angular2-markdown';
  
 import { AppComponent } from './components/app/app.component';
 import { HomePageComponent } from './components/homepage/homepage.component';
@@ -17,6 +18,8 @@ import { LoginModalComponent } from './components/loginmodal/loginmodal.componen
 import { PreloaderComponent } from './components/preloader/preloader.component';
 import { TagCloudComponent } from './components/tagcloud/tagcloud.component';
 import { NewProjectPageComponent } from './components/newprojectpage/newprojectpage.component';
+import { MarkdownEditorComponent } from './components/markdowneditor/markdowneditor.component';
+import { ErrorTextComponent } from './components/errortext/errortext.component';
 
 import { BaseService} from './services/base.service';
 import { CurrentUserService } from "./services/currentuser.service";
@@ -38,6 +41,7 @@ const appRoutes: Routes = [
         HttpModule,
         TagCloudModule,
         FormsModule,
+        MarkdownModule.forRoot(),
         RouterModule.forRoot(
             appRoutes,
             { enableTracing: true }
@@ -54,14 +58,16 @@ const appRoutes: Routes = [
         PreloaderComponent,
         TagCloudComponent,
         ErrorPageComponent,
-        NewProjectPageComponent
+        NewProjectPageComponent,
+        MarkdownEditorComponent,
+        ErrorTextComponent
     ],
     providers: [
         BaseService,
         CurrentUserService,
         AccountService,
         TagService,
-        RoleService
+        RoleService,
     ],
     bootstrap: [
         AppComponent

@@ -6,30 +6,8 @@
         <input id="project-name" #name="ngModel" class="validate" required [(ngModel)]="projectForm.name" type="text" />
         <label for="project-name">Name</label>
     </div>
-    <div class="input-field">
-        <input id="project-end-time" #endTime="ngModel" class="validate datepicker" type="text" required
-               [(ngModel)]="projectForm.fundRaisingEnd" />
-        <label for="project-end-time">Date of completion of fundraising</label>
-    </div>
-    <div class="input-field">
-        <textarea id="project-description" class="materialize-textarea validate" #description="ngModel" required
-                  [(ngModel)]="projectForm.description"></textarea>
-        <label for="project-description">Description</label>
-    </div>
+    
+    <markdowneditor [fieldName]="'Description'" (onChanged)="projectForm.description = $event"></markdowneditor>
 
-    <div class="file-field input-field">
-        <div class="btn">
-            <span>File</span>
-            <input type="file">
-        </div>
-        <div class="file-path-wrapper">
-            <input class="file-path validate" type="text">
-        </div>
-    </div>
-
-    <div class="red-text input-field row">
-        <div *ngIf="isWrongRequest">
-            Mistake, the project hasn't been created
-        </div>
-    </div>
+    <errortext *ngIf="isWrongRequest" [text]="'Mistake, the project has not been created'"></errortext>
 </div>

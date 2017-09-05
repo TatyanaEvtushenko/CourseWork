@@ -5,6 +5,7 @@ import { AccountService } from "../../services/account.service";
 import { RoleService } from '../../services/role.service';
 import { CurrentUserService } from '../../services/currentuser.service';
 import { CurrentUserSubscriber } from '../currentuser.subscriber';
+import { DatePickerComponent } from '../datepicker/datepicker.component';
 declare var $: any;
 
 @Component({
@@ -16,20 +17,15 @@ export class NewProjectPageComponent extends CurrentUserSubscriber implements Af
     projectForm = new NewProjectForm();
     isWrongRequest = false;
 
-    constructor(private title: Title, protected currentUserService: CurrentUserService, protected accountService: AccountService, protected roleService: RoleService) {
+    constructor(private title: Title, 
+                protected currentUserService: CurrentUserService, 
+                protected accountService: AccountService, 
+                protected roleService: RoleService) {
         super(currentUserService, accountService, roleService);
         title.setTitle("New project");
     }
 
     ngAfterViewInit() {
-        $('.datepicker').pickadate({
-            selectMonths: true, // Creates a dropdown to control month
-            selectYears: 15, // Creates a dropdown of 15 years to control year,
-            today: 'Today',
-            clear: 'Clear',
-            close: 'Ok',
-            closeOnSelect: false // Close upon selecting a date,
-        });
     }
 
     onSubmit() {
