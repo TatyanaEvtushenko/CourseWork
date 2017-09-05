@@ -18,6 +18,7 @@ export class RegisterModalComponent implements AfterViewInit {
 
     ngAfterViewInit() {
         $('#registrationModal').modal();
+        $('#register-confirmPassword, #register-password').characterCounter();
     }
 
     onPasswordChange() {

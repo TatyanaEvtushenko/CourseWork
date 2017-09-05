@@ -15,6 +15,7 @@ export class LoginModalComponent implements AfterViewInit {
 
     ngAfterViewInit() {
         $('#loginModal').modal();
+        $('#login-password').characterCounter();
     }
 
     onSubmit() {

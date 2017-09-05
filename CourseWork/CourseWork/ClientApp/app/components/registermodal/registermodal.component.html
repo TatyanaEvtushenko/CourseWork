@@ -11,12 +11,12 @@
             <label for="register-email">Email</label>
         </div>
         <div class="input-field">
-            <input id="register-password" #password="ngModel" class="validate" required maxlength="20" type="password" 
+            <input id="register-password" #password="ngModel" class="validate" required data-length="20" type="password" 
                    [(ngModel)]="registerForm.password" (ngModelChange)="onPasswordChange()"/>
             <label for="register-password">Password</label>
         </div>
         <div class="input-field">
-            <input id="register-confirmPassword" #passwordConfirmation="ngModel" class="validate" required maxlength="20" type="password"
+            <input id="register-confirmPassword" #passwordConfirmation="ngModel" class="validate" required data-length="20" type="password"
                    [(ngModel)]="registerForm.passwordConfirmation" (ngModelChange)="onPasswordConfirmationChange()"/>
             <label for="register-confirmPassword">Password confirmation</label>
         </div>
