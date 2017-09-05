@@ -1,8 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using CourseWork.BusinessLogicLayer.Services.MessageSenders;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Enums.Configurations;
 using CourseWork.DataLayer.Models;
+using CourseWork.DataLayer.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.DotNet.PlatformAbstractions;
@@ -15,17 +17,20 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly IHttpContextAccessor _contextAccessor;
+        private readonly Repository<UserInfo> _userInfoRepository;
 
         public AccountManager(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender, 
-            IHttpContextAccessor contextAccessor)
+            IHttpContextAccessor contextAccessor,
+            Repository<UserInfo> userInfoRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _contextAccessor = contextAccessor;
+            _userInfoRepository = userInfoRepository;
         }
 
         public async Task<bool> Register(string userName, string email, string password)
@@ -52,7 +57,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
                 return false;
             }
             var result = await _signInManager.PasswordSignInAsync(email, password, true, lockoutOnFailure: false);
-            return result.Succeeded;
+            return result.Succeeded && UpdateLoginTime(user);
         }
 
         public async Task Logout()
@@ -85,11 +90,35 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
             return result.Succeeded;
         }
 
+        private static UserInfo CreateBasicUserInfo(string id)
+        {
+            return new UserInfo
+            {
+                UserId = id,
+                IsBlocked = false,
+                ProjectNumber = 0,
+                Raiting = 0,
+                Status = UserStatus.WithoutConfirmation,
+                LastLoginTime = DateTime.Now,
+                RegistrationTime = DateTime.Now
+            };
+        }
+
+        private bool UpdateLoginTime(ApplicationUser user)
+        {
+            var userInfo = _userInfoRepository.Get(user.Id);
+            userInfo.LastLoginTime = DateTime.Now;
+            return _userInfoRepository.UpdateRange(userInfo);
+        }
+
         private async Task<bool> TryConfirmRegistration(ApplicationUser user, string code)
         {
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if (result.Succeeded)
             {
+                var userInfo = CreateBasicUserInfo(user.Id);
+                if (!_userInfoRepository.AddRange(userInfo))
+                    return false;
                 await AddRole(user, UserRole.User);
             }
             return result.Succeeded;
@@ -98,9 +127,13 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
         private async Task SendConfirmation(ApplicationUser user)
         {
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var callbackUrl = $"{ApplicationEnvironment.ApplicationBasePath}/api/Account/ConfirmRegistration?userId={user.Id}&code={code}";
-            //Url.Action(nameof(ConfirmEmail), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme));
+            var callbackUrl = $"{GetBaseUrl()}/api/Account/ConfirmRegistration?userId={user.Id}&code={System.Net.WebUtility.UrlEncode(code)}";
             await _emailSender.SendEmailAsync(user.Email, "Confirm your account", GetMessageToSendConfirmLink(callbackUrl));
+        }
+
+        private string GetBaseUrl()
+        {
+            return $"{_contextAccessor.HttpContext.Request.Scheme}://{_contextAccessor.HttpContext.Request.Host}";
         }
 
         private async Task AddRole(ApplicationUser user, UserRole role)
@@ -109,7 +142,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
         }
 
         private static string GetMessageToSendConfirmLink(string url) =>
-            $"Please confirm your account by clicking this link: <a href='{url}'>link</a>";
+            $"Please confirm your account by clicking this link: <a href=\"{url}\">link</a>";
 
         private async Task<bool> IsInRole(UserRole role)
         {

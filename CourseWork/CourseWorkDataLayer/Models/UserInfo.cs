@@ -1,10 +1,12 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using CourseWork.DataLayer.Enums;
 
 namespace CourseWork.DataLayer.Models
 {
     public class UserInfo
     {
+        [Key]
         public string UserId { get; set; }
 
         public UserStatus Status { get; set; }
