@@ -7,6 +7,8 @@ namespace CourseWork.BusinessLogicLayer.Services.TagServices
     {
         IEnumerable<TagViewModel> GetAllTagViewModels();
 
-        IEnumerable<TagToAddingViewModel> GetAllTagToAddingViewModels();
+        IEnumerable<string> GetAllTagNames();
+
+        bool AddTagsInProject(IEnumerable<string> tagsToAdding, string projectId);
     }
 }

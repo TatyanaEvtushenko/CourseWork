@@ -1,5 +1,7 @@
 ﻿using CourseWork.BusinessLogicLayer.Services.AccountManagers;
 using CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations;
+using CourseWork.BusinessLogicLayer.Services.FinancialPurposeManagers;
+using CourseWork.BusinessLogicLayer.Services.FinancialPurposeManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.MessageSenders;
 using CourseWork.BusinessLogicLayer.Services.MessageSenders.Implementations;
 using CourseWork.BusinessLogicLayer.Services.TagServices;
@@ -18,6 +20,7 @@ namespace CourseWork.Extensions.StartupExtensions
             services.AddScoped<IUserManager, UserManager>();
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<IAccountManager, AccountManager>();
+            services.AddScoped<IFinancialPurposeManager, FinancialPurposeManager>();
         }
     }
 }

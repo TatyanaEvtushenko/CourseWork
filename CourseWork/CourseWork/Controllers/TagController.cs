@@ -24,9 +24,9 @@ namespace CourseWork.Controllers
 
         [HttpGet]
         [Route("api/Tag/GetTagToAdding")]
-        public IEnumerable<TagToAddingViewModel> GetTagToAdding()
+        public IEnumerable<string> GetTagToAdding()
         {
-            return _tagService.GetAllTagToAddingViewModels();
+            return _tagService.GetAllTagNames();
         }
     }
 }

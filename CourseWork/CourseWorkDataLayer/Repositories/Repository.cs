@@ -19,6 +19,8 @@ namespace CourseWork.DataLayer.Repositories
             DbContext = dbContext;
         }
 
+        public string GetNewId() => Guid.NewGuid().ToString();
+
         public bool AddRange(params T[] items)
         {
             return SaveActionResult(() => Table.AddRange(items));
@@ -43,6 +45,11 @@ namespace CourseWork.DataLayer.Repositories
         public List<T> GetWhere(Func<T, bool> whereExpression)
         {
             return Table.Where(whereExpression).ToList();
+        }
+
+        public List<TResult> GetUnique<TResult>(Func<T, TResult> gettinResultExpression)
+        {
+            return Table.Select(gettinResultExpression).Distinct().ToList();
         }
 
         private bool SaveActionResult(Action action)

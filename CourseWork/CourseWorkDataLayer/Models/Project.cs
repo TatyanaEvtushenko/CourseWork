@@ -23,8 +23,6 @@ namespace CourseWork.DataLayer.Models
 
         public string OwnerId { get; set; }
 
-        public decimal PaidAmount { get; set; }
-
         public decimal MinPayment { get; set; }
 
         public decimal MaxPayment { get; set; }

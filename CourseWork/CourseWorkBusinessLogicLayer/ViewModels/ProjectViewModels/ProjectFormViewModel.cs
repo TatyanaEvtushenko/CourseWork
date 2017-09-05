@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CourseWork.BusinessLogicLayer.ViewModels.FinancialPurposeViewModels;
 
 namespace CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels
 {
@@ -13,8 +14,12 @@ namespace CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels
 
         public string ImageUrl { get; set; }
 
-        public IEnumerable<string> FinancialPurposeIdentificators { get; set; }
+        public decimal MinPaymentAmount { get; set; }
 
-        public IEnumerable<string> TagIdentificators { get; set; }
+        public decimal MaxPaymentAmount { get; set; }
+
+        public IEnumerable<FinancialPurposeViewModel> FinancialPurposes { get; set; }
+
+        public IEnumerable<string> Tags { get; set; }
     }
 }

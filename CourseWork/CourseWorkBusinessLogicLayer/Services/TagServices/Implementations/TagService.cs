@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
 using CourseWork.BusinessLogicLayer.ViewModels.TagViewModels;
@@ -10,29 +11,36 @@ namespace CourseWork.BusinessLogicLayer.Services.TagServices.Implementations
     public class TagService : ITagService
     {
         private readonly Repository<Tag> _tagRepository;
-        private readonly Repository<TagInProject> _tagInProjectRepository;
-        private readonly IMapper<TagToAddingViewModel, Tag> _mapper;
 
-        public TagService(Repository<Tag> tagRepository, Repository<TagInProject> tagInProjectRepository, IMapper<TagToAddingViewModel, Tag> mapper)
+        public TagService(Repository<Tag> tagRepository)
         {
             _tagRepository = tagRepository;
-            _tagInProjectRepository = tagInProjectRepository;
-            _mapper = mapper;
         }
 
         public IEnumerable<TagViewModel> GetAllTagViewModels()
         {
-            var tagsInProject = _tagInProjectRepository.GetAll();
-            return _tagRepository.GetAll().Select(tag => new TagViewModel
+            var tags = _tagRepository.GetAll();
+            return tags.Select(tag => tag.Name).Distinct().Select(tag => new TagViewModel
             {
-                Name = tag.Name,
-                NumberOfUsing = tagsInProject.Count(tagInProject => tagInProject.TagId == tag.Id)
+                Name = tag,
+                NumberOfUsing = tags.Count(tagInProject => tagInProject.Name == tag)
             });
         }
 
-        public IEnumerable<TagToAddingViewModel> GetAllTagToAddingViewModels()
+        public IEnumerable<string> GetAllTagNames()
         {
-            return _tagRepository.GetAll().Select(tag => _mapper.ConvertFrom(tag));
+            return _tagRepository.GetUnique(tag => tag.Name);
+        }
+
+        public bool AddTagsInProject(IEnumerable<string> tagsToAdding, string projectId)
+        {
+            var tags = tagsToAdding.Select(tagToAdding => new Tag
+            {
+                Id = _tagRepository.GetNewId(),
+                Name = tagToAdding,
+                ProjectId = projectId
+            }).ToArray();
+            return _tagRepository.AddRange(tags);
         }
     }
 }
