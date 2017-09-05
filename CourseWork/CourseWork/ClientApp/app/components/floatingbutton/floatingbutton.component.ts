@@ -5,12 +5,12 @@ import { CurrentUserService } from '../../services/currentuser.service';
 import { RoleService } from '../../services/role.service';
 
 @Component({
-    selector: 'app',
-    templateUrl: './app.component.html',
+    selector: 'floatingbutton',
+    templateUrl: './floatingbutton.component.html',
 })
-export class AppComponent extends CurrentUserSubscriber {
+export class FloatingButtonComponent extends CurrentUserSubscriber {
 
     constructor(protected currentUserService: CurrentUserService, protected accountService: AccountService, protected roleService: RoleService) {
         super(currentUserService, accountService, roleService);
     }
- }
+}
