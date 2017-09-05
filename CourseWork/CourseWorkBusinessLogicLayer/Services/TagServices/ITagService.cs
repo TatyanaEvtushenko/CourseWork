@@ -6,5 +6,7 @@ namespace CourseWork.BusinessLogicLayer.Services.TagServices
     public interface ITagService
     {
         IEnumerable<TagViewModel> GetAllTagViewModels();
+
+        IEnumerable<TagToAddingViewModel> GetAllTagToAddingViewModels();
     }
 }
