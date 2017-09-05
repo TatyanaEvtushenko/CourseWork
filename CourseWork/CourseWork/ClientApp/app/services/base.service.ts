@@ -11,6 +11,8 @@ export class BaseService {
         const body = JSON.stringify(argument);
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
+        console.log(path); 
+        console.log(body);
         return this.http.post(path, body, options).map(this.getData).catch(this.throwError);
     }
 

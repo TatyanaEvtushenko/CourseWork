@@ -50,7 +50,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
         }
 
         public async Task<bool> Login(string email, string password)
-        { 
+        {
             var user = await _userManager.FindByEmailAsync(email);
             if (user != null && !await _userManager.IsEmailConfirmedAsync(user))
             {

@@ -3,24 +3,24 @@
         <h4>Confirm your account</h4>
 
         <div class="input-field">
-            <input id="confirmation-passportScan" class="validate" required [(ngModel)]="confirmationForm.passportScan" type="text" />
+            <input id="confirmation-passportScan" class="validate" required [(ngModel)]="confirmationForm.PassportScan" type="text" />
             <label for="confirmation-passportScan">Passport scan</label>
         </div>
         <div class="input-field">
-            <input id="confirmation-name" class="validate" required type="text" [(ngModel)]="confirmationForm.name" />
+            <input id="confirmation-name" class="validate" required type="text" [(ngModel)]="confirmationForm.Name" />
             <label for="confirmation-name">Name</label>
         </div>
         <div class="input-field">
-            <input id="confirmation-surname" class="validate" required [(ngModel)]="confirmationForm.surname" type="text" />
-            <label for="confirmation-passportScan">Passport scan</label>
+            <input id="confirmation-surname" class="validate" required [(ngModel)]="confirmationForm.Surname" type="text" />
+            <label for="confirmation-surname">Surname</label>
         </div>
         <div class="input-field">
-            <input id="confirmation-description" type="text" [(ngModel)]="confirmationForm.description" />
+            <input id="confirmation-description" type="text" [(ngModel)]="confirmationForm.Description" />
             <label for="confirmation-description">Description</label>
         </div>
 
         <div class="input-field">
-            <button [disabled]="confirmationForm.passportScan == null || confirmationForm.name == null || confirmationForm.surname == null"
+            <button [disabled]="confirmationForm.PassportScan == null || confirmationForm.Name == null || confirmationForm.Surname == null"
                     class="btn" (click)="onSubmit()">Send</button>
         </div>
 

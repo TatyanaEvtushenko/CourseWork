@@ -12,6 +12,7 @@ using CourseWork.DataLayer.Repositories;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
 
 namespace CourseWork.BusinessLogicLayer.Services.AccountConfirmationManagers.Implementations
 {
