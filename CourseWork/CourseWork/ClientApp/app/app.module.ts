@@ -28,6 +28,7 @@ import { CurrentUserService } from "./services/currentuser.service";
 import { TagService } from "./services/tag.service";
 import { AccountService } from "./services/account.service";
 import { SettingService } from "./services/setting.service";
+import { UnconfirmedUserService } from "./services/unconfirmedUser.service"
 
 const appRoutes: Routes = [
     { path: '', component: HomePageComponent },
@@ -58,6 +59,7 @@ const appRoutes: Routes = [
         PreloaderComponent,
         TagCloudComponent,
         ErrorPageComponent,
+        ConfirmationModalComponent
     ],
     providers: [
         BaseService,
@@ -69,6 +71,7 @@ const appRoutes: Routes = [
         UserActivator,
         ConfirmedUserActivator,
         SettingService,
+        UnconfirmedUserService
     ],
     bootstrap: [
         AppComponent
