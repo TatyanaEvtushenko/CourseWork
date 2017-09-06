@@ -2,6 +2,7 @@ using CourseWork.BusinessLogicLayer.Services.AccountConfirmationManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
 using CourseWork.DataLayer.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 

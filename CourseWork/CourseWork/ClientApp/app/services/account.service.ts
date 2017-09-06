@@ -2,7 +2,7 @@
 import { BaseService} from './base.service';
 import {RegisterForm} from '../viewmodels/registerform';
 import { LoginForm } from '../viewmodels/loginform';
-import { ConfirmationForm } from '../viewmodels/confirmationForm'
+import { ConfirmationForm } from '../viewmodels/confirmationForm';
 
 @Injectable()
 export class AccountService extends BaseService{

@@ -11,9 +11,14 @@ export class BaseService {
         const body = JSON.stringify(argument);
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
-        console.log(path); 
         console.log(body);
         return this.http.post(path, body, options).map(this.getData).catch(this.throwError);
+    }
+
+    protected requestPostForFile(path: string, argumentKey: string, argumentValue: File) {
+        var formdata = new FormData();
+        formdata.append(argumentKey, argumentValue);
+        return this.http.post(path, formdata).map(this.getData).catch(this.throwError);
     }
 
     protected requestGet(path: string) {

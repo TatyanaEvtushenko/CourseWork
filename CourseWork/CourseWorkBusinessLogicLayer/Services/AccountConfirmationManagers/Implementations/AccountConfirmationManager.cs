@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using CourseWork.BusinessLogicLayer.Services.PhotoManagers;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
@@ -41,7 +42,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountConfirmationManagers.Imp
 
         private bool RequestConfirmation(UserInfo user, UserConfirmationViewModel model)
         {
-            user.PassportScan = model.PassportScan;
+            user.PassportScan = UploadPassportScan(model.PassportScan);
             user.Name = model.Name;
             user.Surname = model.Surname;
             user.Description = model.Description;
@@ -49,18 +50,18 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountConfirmationManagers.Imp
             return _userRepository.UpdateRange(user);
         }
 
-        private string UploadPassportScan(IFormFile imageFile)
+        private string UploadPassportScan(string imageEncoded)
         {
-            var savedImagePath = SaveFile(imageFile);
-            var imageUrl = _photoManager.Upload(savedImagePath);
-            return imageUrl;
+            var savedImagePath = SaveFile(imageEncoded);
+            //var imageUrl = _photoManager.Upload(savedImagePath);
+            return savedImagePath;
         }
 
-        private string SaveFile(IFormFile imageFile)
+        private string SaveFile(string imageEncoded)
         {
-            string filePath = Path.Combine(_hostingEnvironment.WebRootPath, Guid.NewGuid().ToString("N")
-                + Path.GetExtension(imageFile.FileName));
-            imageFile.CopyTo(new FileStream(filePath, FileMode.Create));
+            byte[] imageDecoded = Convert.FromBase64String(Regex.Replace(imageEncoded, @"data:(.*?);base64,", String.Empty));
+            string filePath = Path.Combine(_hostingEnvironment.WebRootPath, Guid.NewGuid().ToString("N") + ".jpg");
+            File.WriteAllBytes(filePath, imageDecoded);
             return filePath;
         }
     }

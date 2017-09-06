@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+﻿using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
+using CourseWork.DataLayer.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace CourseWork.BusinessLogicLayer.Services.AccountConfirmationManagers
 {
