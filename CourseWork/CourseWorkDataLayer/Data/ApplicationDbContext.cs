@@ -17,6 +17,7 @@ namespace CourseWork.DataLayer.Data
         public DbSet<Raiting> Raitings { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<TagInProject> TagInProjects { get; set; }
+        public DbSet<UserInfo> UserInfos { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

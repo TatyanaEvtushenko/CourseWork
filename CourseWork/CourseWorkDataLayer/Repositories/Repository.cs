@@ -45,6 +45,17 @@ namespace CourseWork.DataLayer.Repositories
             return Table.Where(whereExpression).ToList();
         }
 
+        public bool UpdateRange(params T[] items)
+        {
+            return SaveActionResult(() =>
+            {
+                foreach (var item in items)
+                {
+                    DbContext.Entry(item).State = EntityState.Modified;
+                }
+            });
+        }
+
         private bool SaveActionResult(Action action)
         {
             try
@@ -53,7 +64,7 @@ namespace CourseWork.DataLayer.Repositories
                 DbContext.SaveChanges();
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }

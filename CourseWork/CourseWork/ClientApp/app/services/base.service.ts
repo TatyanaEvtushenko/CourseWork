@@ -14,6 +14,12 @@ export class BaseService {
         return this.http.post(path, body, options).map(this.getData).catch(this.throwError);
     }
 
+    protected requestPostForFile(path: string, argumentKey: string, argumentValue: File) {
+        var formdata = new FormData();
+        formdata.append(argumentKey, argumentValue);
+        return this.http.post(path, formdata).map(this.getData).catch(this.throwError);
+    }
+
     protected requestGet(path: string) {
         return this.http.get(path).map(this.getData).catch(this.throwError);
     }

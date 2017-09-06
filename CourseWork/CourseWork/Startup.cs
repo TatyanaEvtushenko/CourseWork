@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using CourseWork.BusinessLogicLayer.Options;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -42,7 +43,9 @@ namespace CourseWork
                 .AddDefaultTokenProviders();
 
             services.AddMvc();
-            services.AddSingleton(provider => Configuration);
+            services.Configure<MailOptions>(options => Configuration.GetSection("MailOptions").Bind(options));
+            services.Configure<CloudinaryOptions>(
+                options => Configuration.GetSection("CloudinaryOptions").Bind(options));
 
             services.AddRepositories();
             services.AddServices();

@@ -1,7 +1,8 @@
 ﻿import { Injectable, EventEmitter } from '@angular/core';
 import { BaseService} from './base.service';
 import {RegisterForm} from '../viewmodels/registerform';
-import {LoginForm} from '../viewmodels/loginform';
+import { LoginForm } from '../viewmodels/loginform';
+import { ConfirmationForm } from '../viewmodels/confirmationForm';
 
 @Injectable()
 export class AccountService extends BaseService{
@@ -21,5 +22,9 @@ export class AccountService extends BaseService{
 
     logout() {
         return this.requestGet("api/Account/LogOut");
+    }
+
+    confirmAccount(confirmationForm: ConfirmationForm) {
+        return this.requestPost("api/UnconfirmedUser/ConfirmAccount", confirmationForm);
     }
 }
