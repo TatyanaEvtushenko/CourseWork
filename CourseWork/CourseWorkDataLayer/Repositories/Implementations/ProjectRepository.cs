@@ -1,12 +1,17 @@
-﻿using System;
+﻿using CourseWork.DataLayer.Data;
+using CourseWork.DataLayer.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CourseWork.DataLayer.Repositories.Implementations
 {
-    public class ProjectRepository : IRepository<Object>
+    public class ProjectRepository : Repository<Project>
     {
-        public object AddItem(string id)
+        public ProjectRepository(ApplicationDbContext dbContext) : base(dbContext)
         {
-            throw new NotImplementedException();
         }
+
+        protected override DbSet<Project> Table => DbContext.Projects;
+
+        protected override string GetIdentificator(Project item) => item.Id;
     }
 }

@@ -1,0 +1,13 @@
+﻿<li><a *ngIf="isConfirmedUser" href="/UserProjectsPage">My projects</a></li>
+<li><a *ngIf="isAdmin" href="/AdminPage">Admin page</a></li>
+
+<ng-container *ngIf="isUser">
+    <li>Hello {{currentUser.userName}}!</li>
+    <li *ngIf="isJustUser"><a href="#confirmationModal" class="modal-trigger"> Confirm your account </a></li>
+    <li><a (click)="logout()">Log out</a></li>
+</ng-container>
+
+<ng-container *ngIf="!isUser">
+    <li><a href="#registrationModal" class="modal-trigger">Register</a></li>
+    <li><a href="#loginModal" class="modal-trigger">Log in</a></li>
+</ng-container>   
