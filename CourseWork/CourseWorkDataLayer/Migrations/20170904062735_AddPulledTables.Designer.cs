@@ -6,12 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using CourseWork.DataLayer.Data;
 using CourseWork.DataLayer.Enums;
 
-namespace CourseWork.DataLayer.Data.Migrations
+namespace CourseWork.DataLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170904062735_AddPulledTables")]
+    partial class AddPulledTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -94,7 +95,19 @@ namespace CourseWork.DataLayer.Data.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<decimal>("NecessaryPaymentAmount");
+                    b.Property<decimal>("PaymantAmount");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FinancialPurposes");
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.FinancialPurposeInProject", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("FinancialPurposeId");
 
                     b.Property<decimal>("PaidAmount");
 
@@ -102,7 +115,7 @@ namespace CourseWork.DataLayer.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FinancialPurposes");
+                    b.ToTable("FinancialPurposeInProjects");
                 });
 
             modelBuilder.Entity("CourseWork.DataLayer.Models.Message", b =>
@@ -119,22 +132,6 @@ namespace CourseWork.DataLayer.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Messages");
-                });
-
-            modelBuilder.Entity("CourseWork.DataLayer.Models.News", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ProjectId");
-
-                    b.Property<string>("Text");
-
-                    b.Property<string>("Time");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("News");
                 });
 
             modelBuilder.Entity("CourseWork.DataLayer.Models.Payment", b =>
@@ -161,8 +158,6 @@ namespace CourseWork.DataLayer.Data.Migrations
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreatingTime");
 
                     b.Property<string>("Description");
 
@@ -222,11 +217,53 @@ namespace CourseWork.DataLayer.Data.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<string>("ProjectId");
-
                     b.HasKey("Id");
 
                     b.ToTable("Tags");
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.TagInProject", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ProjectId");
+
+                    b.Property<string>("TagId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TagInProjects");
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.UserInfo", b =>
+                {
+                    b.Property<string>("UserId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<bool>("IsBlocked");
+
+                    b.Property<DateTime>("LastLoginTime");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("PassportScan");
+
+                    b.Property<int>("ProjectNumber");
+
+                    b.Property<int>("Raiting");
+
+                    b.Property<DateTime>("RegistrationTime");
+
+                    b.Property<int>("Status");
+
+                    b.Property<string>("Surname");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("UserInfos");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>

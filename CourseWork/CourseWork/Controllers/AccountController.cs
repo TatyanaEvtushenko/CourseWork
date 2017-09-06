@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CourseWork.Controllers
 {
     [Produces("application/json")]
+    [Authorize]
     public class AccountController : Controller
     {
         private readonly IAccountManager _accountManager;
@@ -34,7 +35,6 @@ namespace CourseWork.Controllers
 
         [HttpGet]
         [Route("api/Account/LogOut")]
-        [Authorize]
         public async Task LogOut()
         {
             await _accountManager.Logout();
@@ -50,6 +50,7 @@ namespace CourseWork.Controllers
 
         [HttpGet]
         [Route("api/Account/IsAdmin")]
+        [AllowAnonymous]
         public async Task<bool> IsAdmin()
         {
             return await _accountManager.IsAdmin();
@@ -57,6 +58,7 @@ namespace CourseWork.Controllers
 
         [HttpGet]
         [Route("api/Account/IsConfirmedUser")]
+        [AllowAnonymous]
         public async Task<bool> IsConfirmedUser()
         {
             return await _accountManager.IsConfirmedUser();
@@ -64,6 +66,7 @@ namespace CourseWork.Controllers
 
         [HttpGet]
         [Route("api/Account/IsUser")]
+        [AllowAnonymous]
         public async Task<bool> IsUser()
         {
             return await _accountManager.IsUser();

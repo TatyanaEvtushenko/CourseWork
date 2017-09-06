@@ -47,11 +47,6 @@ namespace CourseWork.DataLayer.Repositories
             return Table.Where(whereExpression).ToList();
         }
 
-        public List<TResult> GetUnique<TResult>(Func<T, TResult> gettinResultExpression)
-        {
-            return Table.Select(gettinResultExpression).Distinct().ToList();
-        }
-
         private bool SaveActionResult(Action action)
         {
             try
@@ -60,7 +55,7 @@ namespace CourseWork.DataLayer.Repositories
                 DbContext.SaveChanges();
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }

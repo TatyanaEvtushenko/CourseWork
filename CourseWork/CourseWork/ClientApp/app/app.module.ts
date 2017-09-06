@@ -23,6 +23,7 @@ import { MarkdownEditorComponent } from './components/markdowneditor/markdownedi
 import { ErrorTextComponent } from './components/errortext/errortext.component';
 import { TagSearcherComponent } from './components/tagsearcher/tagsearcher.component';
 import { FloatingButtonComponent } from './components/floatingbutton/floatingbutton.component';
+import { ConfirmationModalComponent } from './components/confirmationmodal/confirmationmodal.component';
 
 import { BaseService} from './services/base.service';
 import { CurrentUserService } from "./services/currentuser.service";
@@ -62,6 +63,7 @@ const appRoutes: Routes = [
         PreloaderComponent,
         TagCloudComponent,
         ErrorPageComponent,
+        ConfirmationModalComponent,
         NewProjectPageComponent,
         MarkdownEditorComponent,
         ErrorTextComponent,
