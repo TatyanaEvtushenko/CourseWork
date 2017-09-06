@@ -2,18 +2,8 @@
     <div class="modal-content center">
         <h4>Confirm your account</h4>
         
-        <div class = "row">
-            <label>Passport scan</label>
-            <div class="file-field input-field">
-                <div class="btn">
-                    <span>Browse</span>
-                    <input id="confirmation-passportScan" class="validate" required type="file" (change)="onChange($event)" accept="image/*" />
-                </div>
-                <div class = "file-path-wrapper">
-                    <input class = "file-path validate" type = "text" placeholder = "Upload file" />
-                </div>
-            </div>
-        </div>
+        <label>Passport scan</label>
+        <draganddrop (emitter)="onChange($event)"></draganddrop>
         <div class="input-field">
             <input id="confirmation-name" class="validate" required type="text" [(ngModel)]="confirmationForm.Name" />
             <label for="confirmation-name">Name</label>
@@ -28,7 +18,7 @@
         </div>
 
         <div class="input-field">
-            <button [disabled]="confirmationForm.PassportScan == null || confirmationForm.Name == null || confirmationForm.Surname == null"
+            <button [disabled]="imageString == null || confirmationForm.Name == null || confirmationForm.Surname == null"
                     class="btn" (click)="onSubmit()">Send</button>
         </div>
 
