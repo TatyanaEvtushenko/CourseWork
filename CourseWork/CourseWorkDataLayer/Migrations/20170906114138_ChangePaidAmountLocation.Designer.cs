@@ -9,8 +9,8 @@ using CourseWork.DataLayer.Enums;
 namespace CourseWork.DataLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170904062735_AddPulledTables")]
-    partial class AddPulledTables
+    [Migration("20170906114138_ChangePaidAmountLocation")]
+    partial class ChangePaidAmountLocation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -91,31 +91,21 @@ namespace CourseWork.DataLayer.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("CreatingTime");
+
                     b.Property<string>("Description");
+
+                    b.Property<bool>("IsReached");
 
                     b.Property<string>("Name");
 
-                    b.Property<decimal>("PaymantAmount");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FinancialPurposes");
-                });
-
-            modelBuilder.Entity("CourseWork.DataLayer.Models.FinancialPurposeInProject", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("FinancialPurposeId");
-
-                    b.Property<decimal>("PaidAmount");
+                    b.Property<decimal>("NecessaryPaymentAmount");
 
                     b.Property<string>("ProjectId");
 
                     b.HasKey("Id");
 
-                    b.ToTable("FinancialPurposeInProjects");
+                    b.ToTable("FinancialPurposes");
                 });
 
             modelBuilder.Entity("CourseWork.DataLayer.Models.Message", b =>
@@ -132,6 +122,22 @@ namespace CourseWork.DataLayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.News", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ProjectId");
+
+                    b.Property<string>("Text");
+
+                    b.Property<string>("Time");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("News");
                 });
 
             modelBuilder.Entity("CourseWork.DataLayer.Models.Payment", b =>
@@ -159,6 +165,8 @@ namespace CourseWork.DataLayer.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("CreatingTime");
+
                     b.Property<string>("Description");
 
                     b.Property<DateTime>("FundRaisingEnd");
@@ -172,6 +180,8 @@ namespace CourseWork.DataLayer.Migrations
                     b.Property<string>("Name");
 
                     b.Property<string>("OwnerId");
+
+                    b.Property<decimal>("PaidAmount");
 
                     b.Property<int>("Status");
 
@@ -217,23 +227,11 @@ namespace CourseWork.DataLayer.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<string>("ProjectId");
+
                     b.HasKey("Id");
 
                     b.ToTable("Tags");
-                });
-
-            modelBuilder.Entity("CourseWork.DataLayer.Models.TagInProject", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ProjectId");
-
-                    b.Property<string>("TagId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TagInProjects");
                 });
 
             modelBuilder.Entity("CourseWork.DataLayer.Models.UserInfo", b =>

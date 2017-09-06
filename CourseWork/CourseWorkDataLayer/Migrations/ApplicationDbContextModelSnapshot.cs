@@ -90,13 +90,15 @@ namespace CourseWork.DataLayer.Data.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("CreatingTime");
+
                     b.Property<string>("Description");
+
+                    b.Property<bool>("IsReached");
 
                     b.Property<string>("Name");
 
                     b.Property<decimal>("NecessaryPaymentAmount");
-
-                    b.Property<decimal>("PaidAmount");
 
                     b.Property<string>("ProjectId");
 
@@ -178,6 +180,8 @@ namespace CourseWork.DataLayer.Data.Migrations
 
                     b.Property<string>("OwnerId");
 
+                    b.Property<decimal>("PaidAmount");
+
                     b.Property<int>("Status");
 
                     b.HasKey("Id");
@@ -227,6 +231,36 @@ namespace CourseWork.DataLayer.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tags");
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.UserInfo", b =>
+                {
+                    b.Property<string>("UserId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<bool>("IsBlocked");
+
+                    b.Property<DateTime>("LastLoginTime");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("PassportScan");
+
+                    b.Property<int>("ProjectNumber");
+
+                    b.Property<int>("Raiting");
+
+                    b.Property<DateTime>("RegistrationTime");
+
+                    b.Property<int>("Status");
+
+                    b.Property<string>("Surname");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("UserInfos");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>

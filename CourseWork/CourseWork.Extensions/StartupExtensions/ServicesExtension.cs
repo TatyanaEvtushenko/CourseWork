@@ -6,6 +6,8 @@ using CourseWork.BusinessLogicLayer.Services.FinancialPurposeManagers;
 using CourseWork.BusinessLogicLayer.Services.FinancialPurposeManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.MessageSenders;
 using CourseWork.BusinessLogicLayer.Services.MessageSenders.Implementations;
+using CourseWork.BusinessLogicLayer.Services.PaymentManagers;
+using CourseWork.BusinessLogicLayer.Services.PaymentManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.PhotoManagers;
 using CourseWork.BusinessLogicLayer.Services.PhotoManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.ProjectManagers;
@@ -30,6 +32,7 @@ namespace CourseWork.Extensions.StartupExtensions
             services.AddScoped<IAccountConfirmationManager, AccountConfirmationManager>();
             services.AddScoped<IPhotoManager, PhotoManager>();
             services.AddScoped<IProjectManager, ProjectManager>();
+            services.AddScoped<IPaymentManager, PaymentManager>();
         }
     }
 }

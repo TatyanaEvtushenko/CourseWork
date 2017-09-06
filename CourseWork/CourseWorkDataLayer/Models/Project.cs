@@ -26,5 +26,7 @@ namespace CourseWork.DataLayer.Models
         public decimal MinPayment { get; set; }
 
         public decimal MaxPayment { get; set; }
+
+        public decimal PaidAmount { get; set; }
     }
 }

@@ -14,6 +14,7 @@ namespace CourseWork.Extensions.StartupExtensions
             services.AddScoped<Repository<News>, NewsRepository>();
             services.AddScoped<Repository<FinancialPurpose>, FinancialPurposeRepository>();
             services.AddScoped<Repository<UserInfo>, UserInfoRepository>();
+            services.AddScoped<Repository<Payment>, PaymentRepository>();
         }
     }
 }
