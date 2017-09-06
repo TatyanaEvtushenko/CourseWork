@@ -1,2 +1,22 @@
-﻿<h2 *ngIf="isAdmin">ADMINKA</h2>
+﻿<h2 *ngIf="isAdmin">Admin page</h2>
+<table *ngIf="isAdmin">
+    <thead>
+    <tr>
+        <th>Status</th>  
+        <th>Registration time</th>
+        <th>Last login time</th>
+        <th>Project number</th>
+        <th>Rating</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let test of tests">
+        <td>{{test}}</td>
+        <td>{{test}}</td>
+        <td>{{test}}</td>
+        <td>{{test}}</td>
+        <td>{{test}}</td>
+    </tr>
+    </tbody>
+</table>
 <errorpage *ngIf="!isAdmin"></errorpage>
