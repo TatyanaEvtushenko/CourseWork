@@ -53,8 +53,8 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountConfirmationManagers.Imp
         private string UploadPassportScan(string imageEncoded)
         {
             var savedImagePath = SaveFile(imageEncoded);
-            //var imageUrl = _photoManager.Upload(savedImagePath);
-            return savedImagePath;
+            var imageUrl = _photoManager.Upload(savedImagePath);
+            return imageUrl;
         }
 
         private string SaveFile(string imageEncoded)
