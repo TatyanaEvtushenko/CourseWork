@@ -15,23 +15,26 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
     public class ProjectManager : IProjectManager
     {
         private readonly Repository<Project> _projectRepository;
+        private readonly Repository<FinancialPurpose> _financialPurposeRepository;
         private readonly ITagService _tagService;
         private readonly IFinancialPurposeManager _financialPurposeManager;
         private readonly IMapper<ProjectItemViewModel, Project> _projectMapper;
         private readonly IMapper<ProjectFormViewModel, Project> _projectFormMapper;
-        private readonly HttpContext _httpContext;
+        private readonly IHttpContextAccessor _contextAccessor;
 
         public ProjectManager(Repository<Project> projectRepository,
             IMapper<ProjectItemViewModel, Project> projectMapper,
-            IMapper<ProjectFormViewModel, Project> projectFormMapper, HttpContext httpContext, ITagService tagService,
-            IFinancialPurposeManager financialPurposeManager)
+            IMapper<ProjectFormViewModel, Project> projectFormMapper, ITagService tagService,
+            IFinancialPurposeManager financialPurposeManager, Repository<FinancialPurpose> financialPurposeRepository,
+            IHttpContextAccessor contextAccessor)
         {
             _projectRepository = projectRepository;
             _projectMapper = projectMapper;
             _projectFormMapper = projectFormMapper;
-            _httpContext = httpContext;
             _tagService = tagService;
             _financialPurposeManager = financialPurposeManager;
+            _financialPurposeRepository = financialPurposeRepository;
+            _contextAccessor = contextAccessor;
         }
 
         public bool AddProject(ProjectFormViewModel projectForm)
@@ -39,6 +42,11 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             var project = GetPreparedProject(projectForm);
             return _projectRepository.AddRange(project) && _tagService.AddTagsInProject(projectForm.Tags, project.Id) &&
                    _financialPurposeManager.AddFinancialPurposes(projectForm.FinancialPurposes, project.Id);
+        }
+
+        public void UpdateExistedProjects()
+        {
+            
         }
 
         public IEnumerable<ProjectItemViewModel> GetLastCreatedProjects()
@@ -57,7 +65,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         {
             var project = _projectFormMapper.ConvertTo(projectForm);
             project.CreatingTime = DateTime.Today;
-            project.OwnerId = _httpContext.User.Identity.Name;
+            project.OwnerId = _contextAccessor.HttpContext.User.Identity.Name;
             project.Status = ProjectStatus.Active;
             project.Id = _projectRepository.GetNewId();
             return project;

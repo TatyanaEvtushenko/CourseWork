@@ -10,5 +10,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers
         IEnumerable<ProjectItemViewModel> GetFinancedProjects();
 
         bool AddProject(ProjectFormViewModel projectForm);
+
+        void UpdateExistedProjects();
     }
 }

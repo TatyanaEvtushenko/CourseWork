@@ -12,7 +12,8 @@ namespace CourseWork.BusinessLogicLayer.Services.FinancialPurposeManagers.Implem
         private readonly Repository<FinancialPurpose> _financialPurposeRepository;
         private readonly IMapper<FinancialPurposeViewModel, FinancialPurpose> _mapper;
 
-        public FinancialPurposeManager(Repository<FinancialPurpose> financialPurposeRepository, IMapper<FinancialPurposeViewModel, FinancialPurpose> mapper)
+        public FinancialPurposeManager(Repository<FinancialPurpose> financialPurposeRepository,
+            IMapper<FinancialPurposeViewModel, FinancialPurpose> mapper)
         {
             _financialPurposeRepository = financialPurposeRepository;
             _mapper = mapper;

@@ -43,6 +43,11 @@ namespace CourseWork.DataLayer.Repositories
             });
         }
 
+        public List<TResult> GetUnique<TResult>(Func<T, TResult> gettinResultExpression)
+        {
+            return Table.Select(gettinResultExpression).Distinct().ToList();
+        }
+
         public List<T> GetAll()
         {
             return Table.ToList();

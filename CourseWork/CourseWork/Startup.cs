@@ -37,6 +37,7 @@ namespace CourseWork
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+           // services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -51,6 +52,7 @@ namespace CourseWork
             services.AddServices();
             services.AddMappers();
             services.CreateDatabaseRoles().Wait();
+            services.RunScheduler();
         }
         
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -71,6 +73,7 @@ namespace CourseWork
 
             app.UseStaticFiles();
             app.UseIdentity();
+            //app.UseHangfireServer();
 
             app.UseMvc(routes =>
             {
