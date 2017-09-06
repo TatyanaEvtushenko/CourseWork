@@ -10,7 +10,20 @@
                [materializeParams]="[{format: 'dd/mm/yyyy'}]" />
         <label for="datepicker">Date of the end of fundraising</label>
     </div>
+    
+    <div class="input-field">
+        <input id="project-minpayment" #name="ngModel" class="validate" required 
+               [(ngModel)]="projectForm.minPaymentAmount" type="number" />
+        <label for="project-minpayment">Minimum possible payment</label>
+    </div>
 
+    <div class="input-field">
+        <input id="project-maxpayment" #name="ngModel" class="validate" required
+               [(ngModel)]="projectForm.maxPaymentAmount" type="number" />
+        <label for="project-maxpayment">Maximum possible payment</label>
+    </div>
+
+    <tagsearcher (onChanged)="projectForm.tags = $event"></tagsearcher>
     
     <markdowneditor [fieldName]="'Description'" (onChanged)="projectForm.description = $event"></markdowneditor>
 

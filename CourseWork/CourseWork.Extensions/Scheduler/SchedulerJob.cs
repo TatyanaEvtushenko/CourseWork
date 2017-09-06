@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using CourseWork.BusinessLogicLayer.Services.ProjectManagers;
+﻿using CourseWork.BusinessLogicLayer.Services.ProjectManagers;
 using FluentScheduler;
 
 namespace CourseWork.Extensions.Scheduler

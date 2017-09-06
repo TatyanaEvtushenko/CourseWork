@@ -1,4 +1,4 @@
-﻿import { Component, AfterViewInit, Output, EventEmitter } from '@angular/core';
+﻿import { Component, EventEmitter, Output } from '@angular/core';
 import { TagService } from '../../services/tag.service';
 declare var $: any;
 
@@ -7,29 +7,47 @@ declare var $: any;
     templateUrl: './tagsearcher.component.html',
 })
 
-export class TagSearcherComponent implements AfterViewInit {
-    @Output() onChanged = new EventEmitter<string>();
-    data: Array<any> = [];
-     
-    constructor(private tagService: TagService) { }
-     
-    ngOnInit() {
-        this.tagService.getTagCloud().subscribe(
-            (data) => {
-                $('input.autocomplete').autocomplete({
-                    data: data.map((x: any) => { return { text: x.name, weight: x.numberOfUsing, link: '/' } }),
-                    onAutocomplete(tag: string) {
-                        // Callback function when value is autcompleted.
-                    },
-                });
-            },
-            (error) => this.data = []
-        );
+export class TagSearcherComponent {
+    data: string[] = [];
+    autocompleteInit: any;
+    @Output() onChanged = new EventEmitter<string[]>();
+    
+    constructor(private tagService: TagService) {
+        tagService.getTags().subscribe((data) => {
+            this.autocompleteInit = {
+                autocompleteOptions: {
+                    data: this.convertToData(data)
+                }
+            }
+        });
+    }
+    
+    add(chip: any) {
+        this.data.push(chip.tag);
+        this.change();
     }
 
-    ngAfterViewInit() {
+    delete(chip: any) {
+        const index = this.data.indexOf(chip.tag);
+        if (index >= 0) {
+            this.data.splice(index, 1);
+        }
+        this.change();
     }
 
-    change() {
+    private convertToData(data: string[]) {
+        const autocompleteData: any = [];
+        for (let tag of data) {
+            autocompleteData[tag] = null;
+        }
+        return autocompleteData; 
+    }
+
+    private change() {
+        const tags = [];
+        for (let i = 0; i < this.data.length; i += 2) {
+            tags.push(this.data[i]);
+        }
+        this.onChanged.emit(tags);
     }
 }

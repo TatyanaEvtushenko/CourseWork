@@ -29,7 +29,7 @@ namespace CourseWork.BusinessLogicLayer.Services.FinancialPurposeManagers.Implem
         public decimal GetMinFinancialPurposeBudget(string projectId)
         {
             return _financialPurposeRepository.GetWhere(purpose => purpose.ProjectId == projectId)
-                .OrderBy(purpose => purpose.NecessaryPaymentAmount).FirstOrDefault().NecessaryPaymentAmount;
+                .OrderBy(purpose => purpose.NecessaryPaymentAmount).First().NecessaryPaymentAmount;
         }
 
         private FinancialPurpose GetPreparedFinancialPurpose(FinancialPurposeViewModel purpose, string projectId)

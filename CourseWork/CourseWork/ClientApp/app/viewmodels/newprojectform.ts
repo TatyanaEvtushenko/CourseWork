@@ -7,4 +7,6 @@ export class NewProjectForm{
     imageUrl: string;
     financialPurposes: FinancialPurpose[];
     tags: string[];
+    minPaymentAmount: number;
+    maxPaymentAmount: number;
 }

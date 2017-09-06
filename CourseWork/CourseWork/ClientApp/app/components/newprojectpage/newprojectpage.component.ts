@@ -12,7 +12,7 @@ declare var $: any;
     templateUrl: './newprojectpage.component.html',
 })
 
-export class NewProjectPageComponent extends CurrentUserSubscriber implements AfterViewInit {
+export class NewProjectPageComponent extends CurrentUserSubscriber {
     projectForm = new NewProjectForm();
     isWrongRequest = false;
 
@@ -24,10 +24,8 @@ export class NewProjectPageComponent extends CurrentUserSubscriber implements Af
         title.setTitle("New project");
     }
 
-    ngAfterViewInit() {
-    }
-
     onSubmit() {
+        console.log(this.projectForm);
         this.projectService.addProject(this.projectForm).subscribe(
             (data) => this.isWrongRequest = !data,
             (error) => this.isWrongRequest = true
