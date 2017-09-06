@@ -1,2 +1,2 @@
-﻿<h2 *ngIf="isAdmin">ADMINKA</h2>
-<errorpage *ngIf="!isAdmin"></errorpage>
+﻿<h2 *ngIf="isReadyCurrentUser && isAdmin">ADMINKA</h2>
+<errorpage *ngIf="!(isReadyCurrentUser && isAdmin)"></errorpage>

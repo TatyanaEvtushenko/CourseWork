@@ -1,10 +1,14 @@
-﻿<div class="markdown-editor">
-    <div class="input-field">
-        <textarea id="markdownText" class="materialize-textarea" [(ngModel)]="text" (ngModelChange)="change()"></textarea>
-        <label for="markdownText">{{fieldName}}</label>
+﻿<div class="row">
+    <div class="col m8">
+        <div class="input-field markdown-editor">
+            <textarea id="markdownText" class="materialize-textarea" [(ngModel)]="text" (ngModelChange)="change()"></textarea>
+            <label for="markdownText">{{fieldName}}</label>
+        </div>
     </div>
-    <div class="input-field">
-        <a class="waves-effect waves-light btn modal-trigger" href="#markdownPreview">Preview</a>
+    <div class="col m4">
+        <div class="input-field">
+            <a class="waves-effect waves-light btn modal-trigger" href="#markdownPreview">Preview</a>
+        </div>
     </div>
 </div>
 

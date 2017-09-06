@@ -2,10 +2,9 @@
 import { NewProjectForm } from '../../viewmodels/newprojectform';
 import { Title } from '@angular/platform-browser';
 import { AccountService } from "../../services/account.service";
-import { RoleService } from '../../services/role.service';
 import { CurrentUserService } from '../../services/currentuser.service';
+import { ProjectService } from '../../services/project.service';
 import { CurrentUserSubscriber } from '../currentuser.subscriber';
-import { DatePickerComponent } from '../datepicker/datepicker.component';
 declare var $: any;
 
 @Component({
@@ -18,10 +17,10 @@ export class NewProjectPageComponent extends CurrentUserSubscriber implements Af
     isWrongRequest = false;
 
     constructor(private title: Title, 
+                private projectService: ProjectService,
                 protected currentUserService: CurrentUserService, 
-                protected accountService: AccountService, 
-                protected roleService: RoleService) {
-        super(currentUserService, accountService, roleService);
+                protected accountService: AccountService) {
+        super(currentUserService, accountService);
         title.setTitle("New project");
     }
 
@@ -29,15 +28,9 @@ export class NewProjectPageComponent extends CurrentUserSubscriber implements Af
     }
 
     onSubmit() {
-        //this.accountService.login(this.loginForm).subscribe(
-        //    (data) => {
-        //        this.isWrongRequest = !data;
-        //        if (!this.isWrongRequest) {
-        //            $('#loginModal').modal("close");
-        //            this.accountService.changeAuthState(true);
-        //        }
-        //    },
-        //    (error) => this.isWrongRequest = true
-        //);
+        this.projectService.addProject(this.projectForm).subscribe(
+            (data) => this.isWrongRequest = !data,
+            (error) => this.isWrongRequest = true
+        );
     }
 }

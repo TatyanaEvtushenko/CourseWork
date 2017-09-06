@@ -6,6 +6,7 @@ import { HttpModule }   from '@angular/http';
 import { TagCloudModule } from 'angular-tag-cloud-module';
 import { FormsModule } from '@angular/forms';
 import { MarkdownModule } from 'angular2-markdown';
+import { MaterializeModule } from "angular2-materialize";
  
 import { AppComponent } from './components/app/app.component';
 import { HomePageComponent } from './components/homepage/homepage.component';
@@ -20,12 +21,14 @@ import { TagCloudComponent } from './components/tagcloud/tagcloud.component';
 import { NewProjectPageComponent } from './components/newprojectpage/newprojectpage.component';
 import { MarkdownEditorComponent } from './components/markdowneditor/markdowneditor.component';
 import { ErrorTextComponent } from './components/errortext/errortext.component';
+import { TagSearcherComponent } from './components/tagsearcher/tagsearcher.component';
+import { FloatingButtonComponent } from './components/floatingbutton/floatingbutton.component';
 
 import { BaseService} from './services/base.service';
 import { CurrentUserService } from "./services/currentuser.service";
 import { TagService } from "./services/tag.service";
 import { AccountService } from "./services/account.service";
-import { RoleService } from "./services/role.service";
+import { ProjectService } from "./services/project.service";
 
 const appRoutes: Routes = [
     { path: '', component: HomePageComponent },
@@ -41,6 +44,7 @@ const appRoutes: Routes = [
         HttpModule,
         TagCloudModule,
         FormsModule,
+        MaterializeModule,
         MarkdownModule.forRoot(),
         RouterModule.forRoot(
             appRoutes,
@@ -60,14 +64,16 @@ const appRoutes: Routes = [
         ErrorPageComponent,
         NewProjectPageComponent,
         MarkdownEditorComponent,
-        ErrorTextComponent
+        ErrorTextComponent,
+        TagSearcherComponent,
+        FloatingButtonComponent
     ],
     providers: [
         BaseService,
         CurrentUserService,
         AccountService,
         TagService,
-        RoleService,
+        ProjectService
     ],
     bootstrap: [
         AppComponent

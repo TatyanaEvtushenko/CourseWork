@@ -22,7 +22,7 @@
     </footer>
 </div>
     
-<div *ngIf="!isUser">
+<div *ngIf="!(isReadyCurrentUser && isUser)">
     <registermodal></registermodal>
     <loginmodal></loginmodal>
 </div>

@@ -1,13 +1,22 @@
-﻿<errorpage *ngIf="!isConfirmedUser"></errorpage>
-<div *ngIf="isConfirmedUser">
+﻿<errorpage *ngIf="!(isReadyCurrentUser && isConfirmedUser)"></errorpage>
+<div *ngIf="isReadyCurrentUser && isConfirmedUser">
     <h4>Create a new project</h4>
-
     <div class="input-field">
         <input id="project-name" #name="ngModel" class="validate" required [(ngModel)]="projectForm.name" type="text" />
         <label for="project-name">Name</label>
     </div>
+    <div class="input-field">
+        <input id="datepicker" name="datepicker" [(ngModel)]="projectForm.fundRaisingEnd" materialize="pickadate" type="text"
+               [materializeParams]="[{format: 'dd/mm/yyyy'}]" />
+        <label for="datepicker">dfghj</label>
+    </div>
+
     
     <markdowneditor [fieldName]="'Description'" (onChanged)="projectForm.description = $event"></markdowneditor>
+
+    <div class="input-field">
+        <button [disabled]="" class="btn" (click)="onSubmit()">Create</button>
+    </div>
 
     <errortext *ngIf="isWrongRequest" [text]="'Mistake, the project has not been created'"></errortext>
 </div>

@@ -1,8 +1,10 @@
-﻿export class NewProjectForm{
+﻿import {FinancialPurpose} from "./financialpurpose";
+
+export class NewProjectForm{
     name: string;
     fundRaisingEnd: Date;
     description: string;
     imageUrl: string;
-    financialPurposeIdentificators: string[];
-    tagIdentificators: string[];
+    financialPurposes: FinancialPurpose[];
+    tags: string[];
 }
