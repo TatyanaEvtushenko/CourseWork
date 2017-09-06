@@ -17,6 +17,7 @@ import { LoginModalComponent } from './components/loginmodal/loginmodal.componen
 import { PreloaderComponent } from './components/preloader/preloader.component';
 import { TagCloudComponent } from './components/tagcloud/tagcloud.component';
 import { ConfirmationModalComponent } from './components/confirmationmodal/confirmationmodal.component';
+import { ImageDragAndDropComponent } from './components/imageDragAndDrop/imageDragAndDrop.component';
 
 import { BaseService} from './services/base.service';
 import { CurrentUserService } from "./services/currentuser.service";
@@ -53,7 +54,8 @@ const appRoutes: Routes = [
         PreloaderComponent,
         TagCloudComponent,
         ErrorPageComponent,
-        ConfirmationModalComponent
+        ConfirmationModalComponent,
+        ImageDragAndDropComponent
     ],
     providers: [
         BaseService,
