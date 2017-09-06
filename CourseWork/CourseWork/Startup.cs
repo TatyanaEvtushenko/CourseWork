@@ -35,18 +35,19 @@ namespace CourseWork
         
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-           // services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("DefaultConnection")));
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+            //services.AddHangfire(x => x.UseSqlServerStorage(connectionString));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
             services.AddMvc();
+
             services.Configure<MailOptions>(options => Configuration.GetSection("MailOptions").Bind(options));
-            services.Configure<CloudinaryOptions>(
-                options => Configuration.GetSection("CloudinaryOptions").Bind(options));
+            services.Configure<CloudinaryOptions>(options => 
+                Configuration.GetSection("CloudinaryOptions").Bind(options));
 
             services.AddRepositories();
             services.AddServices();

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
 using CourseWork.BusinessLogicLayer.ViewModels.FinancialPurposeViewModels;
@@ -25,11 +26,16 @@ namespace CourseWork.BusinessLogicLayer.Services.FinancialPurposeManagers.Implem
             return _financialPurposeRepository.AddRange(purposes);
         }
 
+        public decimal GetMinFinancialPurposeBudget(string projectId)
+        {
+            return _financialPurposeRepository.GetWhere(purpose => purpose.ProjectId == projectId)
+                .OrderBy(purpose => purpose.NecessaryPaymentAmount).FirstOrDefault().NecessaryPaymentAmount;
+        }
+
         private FinancialPurpose GetPreparedFinancialPurpose(FinancialPurposeViewModel purpose, string projectId)
         {
             var purposeToAdding = _mapper.ConvertTo(purpose);
             purposeToAdding.Id = _financialPurposeRepository.GetNewId();
-            purposeToAdding.PaidAmount = 0;
             purposeToAdding.ProjectId = projectId;
             return purposeToAdding;
         }

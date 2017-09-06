@@ -26,7 +26,7 @@ import { FloatingButtonComponent } from './components/floatingbutton/floatingbut
 import { ConfirmationModalComponent } from './components/confirmationmodal/confirmationmodal.component';
 
 import { BaseService} from './services/base.service';
-import { CurrentUserService } from "./services/currentuser.service";
+import { CurrentUserService } from "./services/currentuser.service"; 
 import { TagService } from "./services/tag.service";
 import { AccountService } from "./services/account.service";
 import { ProjectService } from "./services/project.service";
