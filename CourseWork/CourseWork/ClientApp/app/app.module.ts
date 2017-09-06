@@ -24,6 +24,8 @@ import { ErrorTextComponent } from './components/errortext/errortext.component';
 import { TagSearcherComponent } from './components/tagsearcher/tagsearcher.component';
 import { FloatingButtonComponent } from './components/floatingbutton/floatingbutton.component';
 import { ConfirmationModalComponent } from './components/confirmationmodal/confirmationmodal.component';
+import { FinancialPurposeComponent } from './components/financialpurpose/financialpurpose.component';
+import { FinancialPurposeModalComponent } from './components/financialpurposemodal/financialpurposemodal.component';
 
 import { BaseService} from './services/base.service';
 import { CurrentUserService } from "./services/currentuser.service"; 
@@ -68,7 +70,9 @@ const appRoutes: Routes = [
         MarkdownEditorComponent,
         ErrorTextComponent,
         TagSearcherComponent,
-        FloatingButtonComponent
+        FloatingButtonComponent,
+        FinancialPurposeComponent,
+        FinancialPurposeModalComponent
     ],
     providers: [
         BaseService,

@@ -31,11 +31,7 @@
             <button [disabled]="confirmationForm.PassportScan == null || confirmationForm.Name == null || confirmationForm.Surname == null"
                     class="btn" (click)="onSubmit()">Send</button>
         </div>
-
-        <div class="red-text input-field row">
-            <div *ngIf="isWrongRequest">
-                Invalid data
-            </div>
-        </div>
+        
+        <errortext *ngIf="isWrongRequest" [text]="'Invalid data'"></errortext>
     </div>
 </div>
