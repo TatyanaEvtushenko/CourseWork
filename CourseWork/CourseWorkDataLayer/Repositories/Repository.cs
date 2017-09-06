@@ -32,6 +32,17 @@ namespace CourseWork.DataLayer.Repositories
             return SaveActionResult(() => Table.RemoveRange(items));
         }
 
+        public bool UpdateRange(params T[] items)
+        {
+            return SaveActionResult(() =>
+            {
+                foreach (var item in items)
+                {
+                    DbContext.Entry(item).State = EntityState.Modified;
+                }
+            });
+        }
+
         public List<T> GetAll()
         {
             return Table.ToList();
