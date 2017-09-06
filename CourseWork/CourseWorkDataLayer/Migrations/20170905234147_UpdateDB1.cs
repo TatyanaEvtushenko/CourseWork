@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CourseWork.DataLayer.Migrations
 {
-    public partial class AddingNews : Migration
+    public partial class UpdateDB1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -30,25 +30,13 @@ namespace CourseWork.DataLayer.Migrations
                     Id = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
-                    PaymantAmount = table.Column<decimal>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FinancialPurposes", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "FinancialPurposeInProjects",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    FinancialPurposeId = table.Column<string>(nullable: true),
+                    NecessaryPaymentAmount = table.Column<decimal>(nullable: false),
                     PaidAmount = table.Column<decimal>(nullable: false),
                     ProjectId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FinancialPurposeInProjects", x => x.Id);
+                    table.PrimaryKey("PK_FinancialPurposes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -108,7 +96,6 @@ namespace CourseWork.DataLayer.Migrations
                     MinPayment = table.Column<decimal>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     OwnerId = table.Column<string>(nullable: true),
-                    PaidAmount = table.Column<decimal>(nullable: false),
                     Status = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -148,24 +135,12 @@ namespace CourseWork.DataLayer.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    ProjectId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tags", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TagInProjects",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    ProjectId = table.Column<string>(nullable: true),
-                    TagId = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TagInProjects", x => x.Id);
                 });
         }
 
@@ -176,9 +151,6 @@ namespace CourseWork.DataLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "FinancialPurposes");
-
-            migrationBuilder.DropTable(
-                name: "FinancialPurposeInProjects");
 
             migrationBuilder.DropTable(
                 name: "Messages");
@@ -200,9 +172,6 @@ namespace CourseWork.DataLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "Tags");
-
-            migrationBuilder.DropTable(
-                name: "TagInProjects");
         }
     }
 }

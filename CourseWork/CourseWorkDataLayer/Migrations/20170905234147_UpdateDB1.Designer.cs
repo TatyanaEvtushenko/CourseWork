@@ -9,14 +9,64 @@ using CourseWork.DataLayer.Enums;
 namespace CourseWork.DataLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170901163429_AddTables")]
-    partial class AddTables
+    [Migration("20170905234147_UpdateDB1")]
+    partial class UpdateDB1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AccessFailedCount");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256);
+
+                    b.Property<bool>("EmailConfirmed");
+
+                    b.Property<bool>("LockoutEnabled");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("PasswordHash");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<string>("SecurityStamp");
+
+                    b.Property<bool>("TwoFactorEnabled");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex");
+
+                    b.ToTable("AspNetUsers");
+                });
 
             modelBuilder.Entity("CourseWork.DataLayer.Models.Comment", b =>
                 {
@@ -45,19 +95,7 @@ namespace CourseWork.DataLayer.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<decimal>("PaymantAmount");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FinancialPurposes");
-                });
-
-            modelBuilder.Entity("CourseWork.DataLayer.Models.FinancialPurposeInProject", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("FinancialPurposeId");
+                    b.Property<decimal>("NecessaryPaymentAmount");
 
                     b.Property<decimal>("PaidAmount");
 
@@ -65,7 +103,7 @@ namespace CourseWork.DataLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FinancialPurposeInProjects");
+                    b.ToTable("FinancialPurposes");
                 });
 
             modelBuilder.Entity("CourseWork.DataLayer.Models.Message", b =>
@@ -82,6 +120,22 @@ namespace CourseWork.DataLayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.News", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ProjectId");
+
+                    b.Property<string>("Text");
+
+                    b.Property<string>("Time");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("News");
                 });
 
             modelBuilder.Entity("CourseWork.DataLayer.Models.Payment", b =>
@@ -108,6 +162,8 @@ namespace CourseWork.DataLayer.Migrations
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatingTime");
 
                     b.Property<string>("Description");
 
@@ -167,77 +223,11 @@ namespace CourseWork.DataLayer.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<string>("ProjectId");
+
                     b.HasKey("Id");
 
                     b.ToTable("Tags");
-                });
-
-            modelBuilder.Entity("CourseWork.DataLayer.Models.TagInProject", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ProjectId");
-
-                    b.Property<string>("TagId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TagInProjects");
-                });
-
-            modelBuilder.Entity("CourseWork.Models.ApplicationUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AccessFailedCount");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256);
-
-                    b.Property<bool>("EmailConfirmed");
-
-                    b.Property<bool>("LockoutEnabled");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd");
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("PasswordHash");
-
-                    b.Property<string>("PhoneNumber");
-
-                    b.Property<bool>("PhoneNumberConfirmed");
-
-                    b.Property<string>("SecurityStamp");
-
-                    b.Property<string>("Surname");
-
-                    b.Property<bool>("TwoFactorEnabled");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasName("UserNameIndex");
-
-                    b.ToTable("AspNetUsers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
@@ -357,7 +347,7 @@ namespace CourseWork.DataLayer.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("CourseWork.Models.ApplicationUser")
+                    b.HasOne("CourseWork.DataLayer.Models.ApplicationUser")
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -365,7 +355,7 @@ namespace CourseWork.DataLayer.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("CourseWork.Models.ApplicationUser")
+                    b.HasOne("CourseWork.DataLayer.Models.ApplicationUser")
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -378,7 +368,7 @@ namespace CourseWork.DataLayer.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("CourseWork.Models.ApplicationUser")
+                    b.HasOne("CourseWork.DataLayer.Models.ApplicationUser")
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
