@@ -27,5 +27,14 @@ namespace CourseWork.Controllers
         {
             return _adminManager.GetAllUsers();
         }
+
+        [HttpGet]
+        [Route("api/Admin/GetFilteredUsers")]
+        public UserListItemViewModel[] GetFilteredUsers([FromQuery] bool confirmed, [FromQuery] bool requested, [FromQuery] bool unconfirmed)
+        {
+            return _adminManager.GetFilteredUsers(confirmed, requested, unconfirmed);
+        }
+
+
     }
 }

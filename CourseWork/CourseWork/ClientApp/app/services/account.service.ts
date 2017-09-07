@@ -31,4 +31,8 @@ export class AccountService extends BaseService{
     getUserList() {
         return this.requestGet("api/Admin/GetAllUsers");
     }
+
+    getFilteredUserList(filter: any) {
+        return this.requestGetWithParams("api/Admin/GetFilteredUsers", filter);
+    }
 }
