@@ -8,5 +8,9 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers
         IEnumerable<ProjectItemViewModel> GetLastCreatedProjects();
 
         IEnumerable<ProjectItemViewModel> GetFinancedProjects();
+
+        bool AddProject(ProjectFormViewModel projectForm);
+
+        void UpdateExistedProjects();
     }
 }

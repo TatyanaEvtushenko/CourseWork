@@ -15,18 +15,23 @@ export class LoginModalComponent implements AfterViewInit {
 
     ngAfterViewInit() {
         $('#loginModal').modal();
+        $('#login-password').characterCounter();
     }
 
     onSubmit() {
-        this.accountService.login(this.loginForm).subscribe(
-            (data) => {
-                this.isWrongRequest = !data;
-                if (!this.isWrongRequest) {
-                    $('#loginModal').modal("close");
-                    this.accountService.changeAuthState(true);
-                }
-            },
-            (error) => this.isWrongRequest = true
-        );
+        if (this.loginForm.email != null && this.loginForm.password != null) {
+            this.accountService.login(this.loginForm).subscribe(
+                (data) => this.getResponse(data),
+                (error) => this.isWrongRequest = true
+            );
+        }
+    }
+
+    private getResponse(data: any) {
+        this.isWrongRequest = !data;
+        if (!this.isWrongRequest) {
+            $('#loginModal').modal("close");
+            this.accountService.changeAuthState(true);
+        }
     }
 }

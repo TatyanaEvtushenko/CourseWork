@@ -3,29 +3,25 @@
         <h4>Confirm your account</h4>
         
         <label>Passport scan</label>
-        <draganddrop (emitter)="onChange($event)"></draganddrop>
+        <imageloader (emitter)="onChange($event)" [fieldName]="'Upload pasport scan'"></imageloader>
         <div class="input-field">
-            <input id="confirmation-name" class="validate" required type="text" [(ngModel)]="confirmationForm.Name" />
+            <input id="confirmation-name" class="validate" required type="text" [(ngModel)]="confirmationForm.name" (keyup.enter)="onSubmit()"/>
             <label for="confirmation-name">Name</label>
         </div>
         <div class="input-field">
-            <input id="confirmation-surname" class="validate" required [(ngModel)]="confirmationForm.Surname" type="text" />
+            <input id="confirmation-surname" class="validate" required [(ngModel)]="confirmationForm.surname" type="text" (keyup.enter)="onSubmit()"/>
             <label for="confirmation-surname">Surname</label>
         </div>
         <div class="input-field">
-            <input id="confirmation-description" type="text" [(ngModel)]="confirmationForm.Description" />
+            <input id="confirmation-description" type="text" [(ngModel)]="confirmationForm.description" (keyup.enter)="onSubmit()"/>
             <label for="confirmation-description">Description</label>
         </div>
 
         <div class="input-field">
-            <button [disabled]="imageString == null || confirmationForm.Name == null || confirmationForm.Surname == null"
+            <button [disabled]="confirmationForm.passportScan == null || confirmationForm.name == null || confirmationForm.surname == null"
                     class="btn" (click)="onSubmit()">Send</button>
         </div>
-
-        <div class="red-text input-field row">
-            <div *ngIf="isWrongRequest">
-                Invalid data
-            </div>
-        </div>
+        
+        <errortext *ngIf="isWrongRequest" [text]="'Invalid data'"></errortext>
     </div>
 </div>

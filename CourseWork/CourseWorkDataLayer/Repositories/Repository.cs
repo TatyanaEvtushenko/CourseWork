@@ -19,6 +19,8 @@ namespace CourseWork.DataLayer.Repositories
             DbContext = dbContext;
         }
 
+        public string GetNewId() => Guid.NewGuid().ToString();
+
         public bool AddRange(params T[] items)
         {
             return SaveActionResult(() => Table.AddRange(items));
@@ -28,6 +30,22 @@ namespace CourseWork.DataLayer.Repositories
         {
             var items = Table.Where(item => identificators.Contains(GetIdentificator(item)));
             return SaveActionResult(() => Table.RemoveRange(items));
+        }
+
+        public bool UpdateRange(params T[] items)
+        {
+            return SaveActionResult(() =>
+            {
+                foreach (var item in items)
+                {
+                    DbContext.Entry(item).State = EntityState.Modified;
+                }
+            });
+        }
+
+        public List<TResult> GetUnique<TResult>(Func<T, TResult> gettinResultExpression)
+        {
+            return Table.Select(gettinResultExpression).Distinct().ToList();
         }
 
         public List<T> GetAll()
@@ -43,17 +61,6 @@ namespace CourseWork.DataLayer.Repositories
         public List<T> GetWhere(Func<T, bool> whereExpression)
         {
             return Table.Where(whereExpression).ToList();
-        }
-
-        public bool UpdateRange(params T[] items)
-        {
-            return SaveActionResult(() =>
-            {
-                foreach (var item in items)
-                {
-                    DbContext.Entry(item).State = EntityState.Modified;
-                }
-            });
         }
 
         private bool SaveActionResult(Action action)

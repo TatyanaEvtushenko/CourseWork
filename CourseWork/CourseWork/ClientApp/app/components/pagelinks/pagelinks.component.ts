@@ -1,6 +1,5 @@
 ﻿import { Component } from '@angular/core';
 import { AccountService } from "../../services/account.service";
-import { RoleService } from '../../services/role.service';
 import { CurrentUserService } from '../../services/currentuser.service';
 import { CurrentUserSubscriber } from '../currentuser.subscriber';
 
@@ -11,8 +10,8 @@ import { CurrentUserSubscriber } from '../currentuser.subscriber';
 
 export class PageLinksComponent extends CurrentUserSubscriber {
 
-    constructor(protected currentUserService: CurrentUserService, protected accountService: AccountService, protected roleService: RoleService) {
-        super(currentUserService, accountService, roleService);
+    constructor(protected currentUserService: CurrentUserService, protected accountService: AccountService) {
+        super(currentUserService, accountService);
     }
 
     logout() {   

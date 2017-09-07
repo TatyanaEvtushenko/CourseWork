@@ -1,4 +1,15 @@
-﻿.register-modal {
+﻿.btn-floating.btn-large{
+    position: fixed;
+    right: 4%;
+    bottom: 5%;
+}
+
+.markdown-editor {
+    max-height: 250px;
+    overflow-y: auto;
+ }
+
+.register-modal {
     width: 30%;
 }
 
@@ -33,8 +44,8 @@ body {
 
 /* Set widths on the form inputs since otherwise they're 100% wide */
 /*input,*/
-select,
-textarea {
+select
+/*textarea*/ {
     max-width: 280px;
 }
 

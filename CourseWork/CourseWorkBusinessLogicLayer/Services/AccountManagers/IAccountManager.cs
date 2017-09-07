@@ -11,11 +11,5 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers
         Task<bool> Login(string email, string password);
 
         Task Logout();
-
-        Task<bool> IsAdmin();
-
-        Task<bool> IsConfirmedUser();
-
-        Task<bool> IsUser();
     }
 }

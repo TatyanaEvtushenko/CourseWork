@@ -1,0 +1,9 @@
+﻿<div class="row">
+    <div class="col m11">
+        <span class="title">{{financialPurpose.name}}<span class="secondary-content">{{financialPurpose.budget}}$</span></span>
+        <p *ngIf="financialPurpose.description != null">{{financialPurpose.description}}</p>
+    </div>
+    <div class="col m1">
+        <a *ngIf="isOwner" (click)="delete()" class="secondary-content"><i class="material-icons">close</i></a>
+    </div>
+</div>

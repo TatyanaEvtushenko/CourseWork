@@ -21,5 +21,12 @@ namespace CourseWork.Controllers
         {
             return _tagService.GetAllTagViewModels();
         }
+
+        [HttpGet]
+        [Route("api/Tag/GetTagToAdding")]
+        public IEnumerable<string> GetTagToAdding()
+        {
+            return _tagService.GetAllTagNames();
+        }
     }
 }

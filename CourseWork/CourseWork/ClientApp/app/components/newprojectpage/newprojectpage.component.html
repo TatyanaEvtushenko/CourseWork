@@ -1,0 +1,81 @@
+﻿<errorpage *ngIf="!(isReadyCurrentUser && isConfirmedUser)"></errorpage>
+<div *ngIf="isReadyCurrentUser && isConfirmedUser" class="container">
+    <h4>Create a new project</h4>
+
+    <div class="row">
+        <div class="col m6">
+            <div class="input-field">
+                <input id="project-name" #projectname="ngModel" class="validate" required [(ngModel)]="projectForm.name" type="text" />
+                <label for="project-name">Name</label>
+            </div>
+        </div>
+        <div class="col m6">
+            <div class="input-field">
+                <input id="project-datepicker" #projectdate="ngModel" name="datepicker" [(ngModel)]="projectForm.fundRaisingEnd" required materialize="pickadate"
+                       type="text" [materializeParams]="[{format: 'dd/mm/yyyy'}]" />
+                <label for="project-datepicker">End of fundraising</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col m12">
+            <markdowneditor [fieldName]="'Description'" (onChanged)="projectForm.description = $event"></markdowneditor>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col m6">
+            <imageloader id="project-image" (emitter)="projectForm.imageBase64 = $event" [fieldName]="'Image'"></imageloader>
+        </div>
+        <div class="col m3">
+            <div class="input-field">
+                <input id="project-minpayment" #projectMinPayment="ngModel" class="validate" required [(ngModel)]="projectForm.minPaymentAmount" type="number" />
+                <label for="project-minpayment">Min payment, $</label>
+            </div>
+        </div>
+        <div class="col m3">
+            <div class="input-field">
+                <input id="project-maxpayment" #projectMaxPayment="ngModel" class="validate" required [(ngModel)]="projectForm.maxPaymentAmount" type="number" />
+                <label for="project-maxpayment">Max payment, $</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col m11">
+            <div class="input-field">
+                <h6 class="grey-text">Financial purposes</h6>
+                <hr *ngIf="projectForm.financialPurposes.length < 1"/>
+                <ul *ngIf="projectForm.financialPurposes.length >= 1" id="project-financialPurposes" class="collection">
+                    <li *ngFor="let purpose of projectForm.financialPurposes" class="collection-item">
+                        <financialpurpose [financialPurpose]="purpose" [isOwner]="true" (onDeleted)="deleteFinancialPurpose(purpose)"></financialpurpose>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col m1">
+            <div class="input-field">
+                <a href="#financialPurposeModal" class="btn modal-trigger"><i class="material-icons">add</i></a>
+            </div>
+        </div>
+        <financialpurposemodal (onCreated)="addFinancialPurpose($event)"></financialpurposemodal>
+    </div>
+
+    <div class="row">
+        <div class="col m12">
+            <tagsearcher (onChanged)="projectForm.tags = $event"></tagsearcher>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col m2 offset-m5">
+            <div class="input-field">
+                <button [disabled]="projectname.invalid || projectdate.invalid || projectMinPayment.invalid || projectMaxPayment.invalid || projectForm.financialPurposes.length < 1 || projectForm.imageBase64 == null || projectForm.minPaymentAmount > projectForm.maxPaymentAmount || projectForm.fundRaisingEnd < getTodayDate()" 
+                        class="btn btn-large" (click)="onSubmit()">Create</button>
+            </div>
+        </div>
+    </div>
+
+    <errortext *ngIf="isWrongRequest" [text]="'Mistake, the project has not been created'"></errortext>
+</div>
