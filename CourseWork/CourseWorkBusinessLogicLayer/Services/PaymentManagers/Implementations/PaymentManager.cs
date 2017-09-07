@@ -16,8 +16,9 @@ namespace CourseWork.BusinessLogicLayer.Services.PaymentManagers.Implementations
 
         public DateTime GetTimeLastPayment(string projectId)
         {
-            return _paymentRepository.GetWhere(payment => payment.ProjectId == projectId)
-                .OrderByDescending(payment => payment.Time).First().Time;
+            var lastPayment = _paymentRepository.GetWhere(payment => payment.ProjectId == projectId)
+                .OrderByDescending(payment => payment.Time).FirstOrDefault();
+            return lastPayment?.Time ?? DateTime.Now;
         }
     }
 }

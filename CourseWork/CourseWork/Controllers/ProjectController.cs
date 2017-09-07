@@ -19,7 +19,7 @@ namespace CourseWork.Controllers
         [HttpPost]
         [Route("api/Project/AddProject")]
         [Authorize(Roles = "Admin, ConfirmedUser")]
-        public bool AddProject(ProjectFormViewModel projectForm)
+        public bool AddProject([FromBody]ProjectFormViewModel projectForm)
         {
             return _projectManager.AddProject(projectForm);
         }

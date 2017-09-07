@@ -18,7 +18,7 @@
         </div>
 
         <div class="input-field">
-            <button [disabled]="imageString == null || confirmationForm.name == null || confirmationForm.surname == null"
+            <button [disabled]="confirmationForm.passportScan == null || confirmationForm.name == null || confirmationForm.surname == null"
                     class="btn" (click)="onSubmit()">Send</button>
         </div>
         

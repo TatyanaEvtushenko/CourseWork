@@ -72,7 +72,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             }
             else
             {
-                if (project.FundRaisingEnd > DateTime.Today)
+                if (project.FundRaisingEnd < DateTime.Today)
                 {
                     project.Status = ProjectStatus.Failed;
                 }
@@ -92,7 +92,6 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             project.OwnerUserName = _contextAccessor.HttpContext.User.Identity.Name;
             project.Status = ProjectStatus.Active;
             project.Id = _projectRepository.GetNewId();
-            project.PaidAmount = 0;
             return project;
         }
     }
