@@ -89,7 +89,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         {
             var project = _projectFormMapper.ConvertTo(projectForm);
             project.CreatingTime = DateTime.Today;
-            project.OwnerId = _contextAccessor.HttpContext.User.Identity.Name;
+            project.OwnerUserName = _contextAccessor.HttpContext.User.Identity.Name;
             project.Status = ProjectStatus.Active;
             project.Id = _projectRepository.GetNewId();
             project.PaidAmount = 0;

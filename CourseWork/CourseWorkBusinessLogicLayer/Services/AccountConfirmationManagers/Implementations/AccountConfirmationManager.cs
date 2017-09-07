@@ -30,9 +30,9 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountConfirmationManagers.Imp
             _hostingEnvironment = hostingEnvironment;
         }
 
-        public bool ConfirmAccount(string id, UserConfirmationViewModel model)
+        public bool ConfirmAccount(string userName, UserConfirmationViewModel model)
         {
-            var user = _userRepository.Get(id);
+            var user = _userRepository.Get(userName);
             if (user.Status == UserStatus.WithoutConfirmation && model != null)
             {
                 return RequestConfirmation(user, model);

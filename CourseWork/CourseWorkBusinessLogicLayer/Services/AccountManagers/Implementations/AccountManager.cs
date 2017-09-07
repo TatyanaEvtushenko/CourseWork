@@ -7,7 +7,6 @@ using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.DotNet.PlatformAbstractions;
 
 namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
 {
@@ -56,8 +55,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
             {
                 return false;
             }
-            var result = await _signInManager.PasswordSignInAsync(email, password, true, lockoutOnFailure: false);
-            return result.Succeeded && UpdateLoginTime(user);
+            return await TryLogin(user, password);
         }
 
         public async Task Logout()
@@ -65,19 +63,14 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
             await _signInManager.SignOutAsync();
         }
 
-        public async Task<bool> IsAdmin()
+        private async Task<bool> TryLogin(ApplicationUser user, string password)
         {
-            return await IsInRole(UserRole.Admin);
-        }
-
-        public async Task<bool> IsUser()
-        {
-            return await IsInRole(UserRole.User);
-        }
-
-        public async Task<bool> IsConfirmedUser()
-        {
-            return await IsInRole(UserRole.ConfirmedUser);
+            var result = await _signInManager.PasswordSignInAsync(user.UserName, password, true, false);
+            if (result.Succeeded)
+            {
+                UpdateLoginTime(user);
+            }
+            return result.Succeeded;
         }
 
         private async Task<bool> TryRegister(ApplicationUser user, string password)
@@ -90,11 +83,24 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
             return result.Succeeded;
         }
 
-        private static UserInfo CreateBasicUserInfo(string id)
+        private async Task<bool> TryConfirmRegistration(ApplicationUser user, string code)
+        {
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+            if (result.Succeeded)
+            {
+                var userInfo = CreateBasicUserInfo(user.UserName);
+                if (!_userInfoRepository.AddRange(userInfo))
+                    return false;
+                await AddRole(user, UserRole.User);
+            }
+            return result.Succeeded;
+        }
+
+        private static UserInfo CreateBasicUserInfo(string userName)
         {
             return new UserInfo
             {
-                UserId = id,
+                UserName = userName,
                 IsBlocked = false,
                 ProjectNumber = 0,
                 Raiting = 0,
@@ -104,24 +110,11 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
             };
         }
 
-        private bool UpdateLoginTime(ApplicationUser user)
+        private void UpdateLoginTime(ApplicationUser user)
         {
-            var userInfo = _userInfoRepository.Get(user.Id);
+            var userInfo = _userInfoRepository.Get(user.UserName);
             userInfo.LastLoginTime = DateTime.Now;
-            return _userInfoRepository.UpdateRange(userInfo);
-        }
-
-        private async Task<bool> TryConfirmRegistration(ApplicationUser user, string code)
-        {
-            var result = await _userManager.ConfirmEmailAsync(user, code);
-            if (result.Succeeded)
-            {
-                var userInfo = CreateBasicUserInfo(user.Id);
-                if (!_userInfoRepository.AddRange(userInfo))
-                    return false;
-                await AddRole(user, UserRole.User);
-            }
-            return result.Succeeded;
+            _userInfoRepository.UpdateRange(userInfo);
         }
 
         private async Task SendConfirmation(ApplicationUser user)

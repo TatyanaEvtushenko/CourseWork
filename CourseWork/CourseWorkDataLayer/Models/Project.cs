@@ -21,7 +21,7 @@ namespace CourseWork.DataLayer.Models
 
         public ProjectStatus Status { get; set; }
 
-        public string OwnerId { get; set; }
+        public string OwnerUserName { get; set; }
 
         public decimal MinPayment { get; set; }
 
