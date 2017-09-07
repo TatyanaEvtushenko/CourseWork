@@ -26,7 +26,7 @@
 
     <div class="row">
         <div class="col m6">
-            <imageloader id="project-image" (emitter)="projectForm.image = $event" [fieldName]="'Image'"></imageloader>
+            <imageloader id="project-image" (emitter)="projectForm.imageBase64 = $event" [fieldName]="'Image'"></imageloader>
         </div>
         <div class="col m3">
             <div class="input-field">
@@ -71,7 +71,7 @@
     <div class="row">
         <div class="col m2 offset-m5">
             <div class="input-field">
-                <button [disabled]="projectname.invalid || projectdate.invalid || projectMinPayment.invalid || projectMaxPayment.invalid || projectForm.financialPurposes.length < 1 || projectForm.image == null || projectForm.minPaymentAmount > projectForm.maxPaymentAmount" 
+                <button [disabled]="projectname.invalid || projectdate.invalid || projectMinPayment.invalid || projectMaxPayment.invalid || projectForm.financialPurposes.length < 1 || projectForm.imageBase64 == null || projectForm.minPaymentAmount > projectForm.maxPaymentAmount || projectForm.fundRaisingEnd < getTodayDate()" 
                         class="btn btn-large" (click)="onSubmit()">Create</button>
             </div>
         </div>

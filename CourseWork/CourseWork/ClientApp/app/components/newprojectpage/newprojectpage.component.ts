@@ -25,7 +25,11 @@ export class NewProjectPageComponent extends CurrentUserSubscriber {
         this.projectForm.financialPurposes = [];
     }
 
-    addFinancialPurpose(purpose : any) {
+    getTodayDate() {
+        return new Date(Date.now()).getDate();
+    }
+
+    addFinancialPurpose(purpose: any) {
         this.projectForm.financialPurposes.push(purpose);
     }
 

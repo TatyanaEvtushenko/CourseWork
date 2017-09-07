@@ -8,7 +8,7 @@ namespace CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels
     {
         public string Name { get; set; }
 
-        public DateTime FundRaisingEnd { get; set; }
+        public string FundRaisingEnd { get; set; }
 
         public string Description { get; set; }
 

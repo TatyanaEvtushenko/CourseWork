@@ -7,6 +7,6 @@ export class ProjectService extends BaseService {
 
     addProject(projectForm: NewProjectForm) {
         console.log(projectForm);
-        return this.requestGet("api/Project/AddProject");
+        return this.requestPost("api/Project/AddProject", projectForm);
     }
 }
