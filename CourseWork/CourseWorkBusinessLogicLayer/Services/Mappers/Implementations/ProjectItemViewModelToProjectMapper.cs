@@ -18,6 +18,9 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
                 CreatingTime = item.CreatingTime,
                 Id = item.Id,
                 Name = item.Name,
+                ImageUrl = item.ImageUrl,
+                PaidAmount = item.PaidAmount,
+                Status = item.Status
             };
         }
     }

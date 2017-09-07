@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using CourseWork.BusinessLogicLayer.Services.ProjectManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -22,6 +23,14 @@ namespace CourseWork.Controllers
         public bool AddProject([FromBody]ProjectFormViewModel projectForm)
         {
             return _projectManager.AddProject(projectForm);
+        }
+
+        [HttpGet]
+        [Route("api/Project/GetUserProjects")]
+        [Authorize(Roles = "Admin, ConfirmedUser")]
+        public IEnumerable<ProjectItemViewModel> GetUserProjects()
+        {
+            return _projectManager.GetUserProjects();
         }
     }
 }

@@ -52,6 +52,13 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             _projectRepository.UpdateRange(activeProjects.ToArray());
         }
 
+        public IEnumerable<ProjectItemViewModel> GetUserProjects()
+        {
+            var userName = _contextAccessor.HttpContext.User.Identity.Name;
+            return _projectRepository.GetWhere(project => project.OwnerUserName == userName)
+                .Select(project => _projectMapper.ConvertFrom(project));
+        }
+
         public IEnumerable<ProjectItemViewModel> GetLastCreatedProjects()
         {
             return _projectRepository.GetAll().OrderByDescending(project => project.CreatingTime).Take(10)
