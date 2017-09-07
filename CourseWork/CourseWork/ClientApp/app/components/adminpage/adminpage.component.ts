@@ -1,7 +1,6 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { AccountService } from "../../services/account.service";
-import { RoleService } from '../../services/role.service';
 import { CurrentUserService } from '../../services/currentuser.service';
 import { CurrentUserSubscriber } from '../currentuser.subscriber';
 import { UserInfo } from '../../viewmodels/userinfo';
@@ -18,8 +17,8 @@ export class AdminPageComponent extends CurrentUserSubscriber {
     filters = { unconfirmed: true, requested: true, confirmed: true };
     userStatus = UserStatus;
 
-    constructor(private title: Title, protected currentUserService: CurrentUserService, protected accountService: AccountService, protected roleService: RoleService) {
-        super(currentUserService, accountService, roleService);
+    constructor(private title: Title, protected currentUserService: CurrentUserService, protected accountService: AccountService) {
+        super(currentUserService, accountService);
         title.setTitle("Admin page");
     }
 

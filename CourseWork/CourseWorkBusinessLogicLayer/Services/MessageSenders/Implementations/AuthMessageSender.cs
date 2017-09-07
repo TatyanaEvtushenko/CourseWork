@@ -1,9 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using CourseWork.BusinessLogicLayer.Options;
 using MailKit.Net.Smtp;
 using MailKit.Security;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using MimeKit;
 
@@ -11,7 +9,7 @@ namespace CourseWork.BusinessLogicLayer.Services.MessageSenders.Implementations
 {
     public class AuthMessageSender : IEmailSender
     {
-        private MailOptions _options;
+        private readonly MailOptions _options;
 
         public AuthMessageSender(IOptions<MailOptions> options)
         {

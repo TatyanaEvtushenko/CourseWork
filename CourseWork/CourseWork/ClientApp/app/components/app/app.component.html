@@ -14,12 +14,7 @@
 <div class="container body-content">
     <router-outlet></router-outlet>
 </div>
-    
-<div *ngIf="isConfirmedUser">
-    <a class="btn-floating btn-large waves-effect waves-light red right-align">
-        <i class="material-icons">add</i>
-    </a>
-</div>
+<floatingbutton></floatingbutton>
 
 <div class="container body-content">
     <footer class="footer-copyright">
@@ -27,7 +22,7 @@
     </footer>
 </div>
     
-<div *ngIf="!isUser">
+<div *ngIf="!(isReadyCurrentUser && isUser)">
     <registermodal></registermodal>
     <loginmodal></loginmodal>
 </div>

@@ -13,7 +13,5 @@ namespace CourseWork.DataLayer.Models
         public DateTime Time { get; set; }
 
         public decimal PaidAmount { get; set; }
-
-        public string FinancialPurposeId { get; set; }
     }
 }

@@ -1,3 +1,3 @@
 ﻿export class ConfirmationFormImage {
-    PassportScan: File;
+    passportScan: File;
 }

@@ -1,6 +1,6 @@
 ﻿export class ConfirmationForm {
-    PassportScan: string;
-    Name: string;
-    Surname: string;
-    Description: string;
+    passportScan: string;
+    name: string;
+    surname: string;
+    description: string;
 }

@@ -1,2 +1,2 @@
-﻿<h2 *ngIf="isConfirmedUser">MY PROJECTS</h2>
-<errorpage *ngIf="!isConfirmedUser"></errorpage>
+﻿<h2 *ngIf="isReadyCurrentUser && isConfirmedUser">MY PROJECTS</h2>
+<errorpage *ngIf="!(isConfirmedUser && isReadyCurrentUser)"></errorpage>

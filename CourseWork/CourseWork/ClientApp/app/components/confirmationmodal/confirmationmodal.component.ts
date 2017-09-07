@@ -1,6 +1,5 @@
 ﻿import { Component, AfterViewInit } from '@angular/core';
 import { ConfirmationForm } from '../../viewmodels/confirmationform';
-import { ConfirmationFormImage } from '../../viewmodels/confirmationformimage';
 import { AccountService } from "../../services/account.service";
 declare var $: any;
 declare var Materialize: any;
@@ -11,8 +10,6 @@ declare var Materialize: any;
 })
 export class ConfirmationModalComponent implements AfterViewInit {
     confirmationForm = new ConfirmationForm();
-    confirmationFormImage = new ConfirmationFormImage();
-    imageString = "";
     isWrongRequest = false;
 
     constructor(private accountService: AccountService) { }
@@ -22,20 +19,23 @@ export class ConfirmationModalComponent implements AfterViewInit {
     }
 
     onChange(event: any) {
-        this.imageString = event;
+        this.confirmationForm.passportScan = event;
     }
 
     onSubmit() {
-        this.confirmationForm.PassportScan = this.imageString;
-        this.accountService.confirmAccount(this.confirmationForm).subscribe(
-            (data) => {
-                this.isWrongRequest = !data;
-                if (!this.isWrongRequest) {
-                    $('#confirmationModal').modal("close");
-                    Materialize.toast('Confirmation request has been sent to admin.', 4000);
-                }
-            },
-            (error) => this.isWrongRequest = true
-        );
+        if (this.confirmationForm.name != null && this.confirmationForm.surname != null && this.confirmationForm.passportScan != null) {
+            this.accountService.confirmAccount(this.confirmationForm).subscribe(
+                (data) => this.getResponse(data),
+                (error) => this.isWrongRequest = true
+            );
+        }
+    }
+
+    private getResponse(data: any) {
+        this.isWrongRequest = !data;
+        if (!this.isWrongRequest) {
+            $('#confirmationModal').modal("close");
+            Materialize.toast('Confirmation request has been sent to admin.', 4000);
+        }
     }
 }

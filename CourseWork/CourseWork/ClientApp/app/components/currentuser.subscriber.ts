@@ -1,16 +1,16 @@
 ﻿import { CurrentUser } from '../viewmodels/currentuser';
 import { AccountService } from "../services/account.service";
 import { CurrentUserService } from '../services/currentuser.service';
-import { RoleService } from '../services/role.service';
 
 export class CurrentUserSubscriber {
     currentUser: CurrentUser = null;
+    isReadyCurrentUser = false;
     isUser = false;
     isAdmin = false;
     isConfirmedUser = false;
     isJustUser = false;
 
-    constructor(protected currentUserService: CurrentUserService, protected accountService: AccountService, protected roleService: RoleService) {
+    constructor(protected currentUserService: CurrentUserService, protected accountService: AccountService) {
         this.subscribeCurrentUser();
         this.subscribeAccount();
         this.currentUserService.getCurrentUser();
@@ -33,14 +33,15 @@ export class CurrentUserSubscriber {
     }
 
     private updateData(user: CurrentUser) {
+        this.isReadyCurrentUser = true;
         this.currentUser = user;
         this.updateRoles();  
     }
 
     private updateRoles() {
-        this.isUser = this.roleService.isUser(this.currentUser);
-        this.isAdmin = this.roleService.isAdmin(this.currentUser);
-        this.isConfirmedUser = this.roleService.isConfirmedUser(this.currentUser);
-        this.isJustUser = this.roleService.isJustUser(this.currentUser);
+        this.isUser = this.currentUser != null;
+        this.isAdmin = this.isUser && this.currentUser.role === "Admin";
+        this.isConfirmedUser = this.isUser && (this.isAdmin || this.currentUser.role === "ConfirmedUser");
+        this.isJustUser = this.isUser && this.currentUser.role === "User";
     }
 }

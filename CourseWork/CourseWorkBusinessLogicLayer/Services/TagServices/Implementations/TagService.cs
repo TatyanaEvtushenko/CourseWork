@@ -9,22 +9,35 @@ namespace CourseWork.BusinessLogicLayer.Services.TagServices.Implementations
     public class TagService : ITagService
     {
         private readonly Repository<Tag> _tagRepository;
-        private readonly Repository<TagInProject> _tagInProjectRepository;
 
-        public TagService(Repository<Tag> tagRepository, Repository<TagInProject> tagInProjectRepository)
+        public TagService(Repository<Tag> tagRepository)
         {
             _tagRepository = tagRepository;
-            _tagInProjectRepository = tagInProjectRepository;
         }
 
         public IEnumerable<TagViewModel> GetAllTagViewModels()
         {
-            var tagsInProject = _tagInProjectRepository.GetAll();
-            return _tagRepository.GetAll().Select(tag => new TagViewModel
+            var tags = _tagRepository.GetAll();
+            return tags.Select(tag => tag.Name).Distinct().Select(tag => new TagViewModel
             {
-                Name = tag.Name,
-                NumberOfUsing = tagsInProject.Count(tagInProject => tagInProject.TagId == tag.Id)
+                Name = tag,
+                NumberOfUsing = tags.Count(tagInProject => tagInProject.Name == tag)
             });
+        }
+
+        public IEnumerable<string> GetAllTagNames()
+        {
+            return _tagRepository.GetUnique(tag => tag.Name);
+        }
+
+        public bool AddTagsInProject(IEnumerable<string> tagsToAdding, string projectId)
+        {
+            return tagsToAdding == null || _tagRepository.AddRange(tagsToAdding.Select(tagToAdding => new Tag
+            {
+                Id = _tagRepository.GetNewId(),
+                Name = tagToAdding,
+                ProjectId = projectId
+            }).ToArray());
         }
     }
 }
