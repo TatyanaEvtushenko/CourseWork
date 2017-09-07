@@ -10,12 +10,12 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
         {
             return new Project
             {
-                Description = item.Description,
-                FundRaisingEnd = item.FundRaisingEnd,
-                ImageUrl = item.ImageUrl,
-                MaxPayment = item.MaxPaymentAmount,
-                MinPayment = item.MinPaymentAmount,
-                Name = item.Name,
+                //Description = item.Description,
+                //FundRaisingEnd = item.FundRaisingEnd,
+                //ImageUrl = item.ImageUrl,
+                //MaxPayment = item.MaxPaymentAmount,
+                //MinPayment = item.MinPaymentAmount,
+                //Name = item.Name,
             };
         }
 

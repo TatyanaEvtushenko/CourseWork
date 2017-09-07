@@ -4,7 +4,7 @@ export class NewProjectForm{
     name: string;
     fundRaisingEnd: Date;
     description: string;
-    imageUrl: string;
+    image: string;
     financialPurposes: FinancialPurpose[];
     tags: string[];
     minPaymentAmount: number;

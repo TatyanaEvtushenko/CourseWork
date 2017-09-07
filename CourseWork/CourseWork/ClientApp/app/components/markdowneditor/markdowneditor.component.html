@@ -1,13 +1,13 @@
 ﻿<div class="row">
-    <div class="col m8">
+    <div class="col m11">
         <div class="input-field markdown-editor">
             <textarea id="markdownText" class="materialize-textarea" [(ngModel)]="text" (ngModelChange)="change()"></textarea>
             <label for="markdownText">{{fieldName}}</label>
         </div>
     </div>
-    <div class="col m4">
+    <div class="col m1">
         <div class="input-field">
-            <a class="waves-effect waves-light btn modal-trigger" href="#markdownPreview">Preview</a>
+            <a class="waves-effect waves-light btn modal-trigger" href="#markdownPreview"><i class="material-icons">remove_red_eye</i></a>
         </div>
     </div>
 </div>

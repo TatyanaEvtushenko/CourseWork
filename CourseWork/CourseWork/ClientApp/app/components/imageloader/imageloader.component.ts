@@ -1,4 +1,4 @@
-﻿import { Component, EventEmitter, Output } from '@angular/core';
+﻿import { Component, EventEmitter, Output, Input } from '@angular/core';
 declare var $: any;
 
 @Component({
@@ -6,6 +6,7 @@ declare var $: any;
     templateUrl: './imageloader.component.html'
 })
 export class ImageLoaderComponent {
+    @Input() fieldName: string;
     imageString = "";
 
     toBase64(file: any) {

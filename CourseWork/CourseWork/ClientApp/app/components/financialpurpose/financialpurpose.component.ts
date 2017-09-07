@@ -8,7 +8,6 @@ declare var $: any;
 })
 
 export class FinancialPurposeComponent {
-    @Input() isReached: boolean;
     @Input() isOwner: boolean;
     @Input() financialPurpose: FinancialPurpose;
     @Output() onDeleted = new EventEmitter();

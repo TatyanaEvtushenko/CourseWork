@@ -3,7 +3,7 @@
         <h4>Confirm your account</h4>
         
         <label>Passport scan</label>
-        <imageloader (emitter)="onChange($event)"></imageloader>
+        <imageloader (emitter)="onChange($event)" [fieldName]="'Upload pasport scan'"></imageloader>
         <div class="input-field">
             <input id="confirmation-name" class="validate" required type="text" [(ngModel)]="confirmationForm.name" />
             <label for="confirmation-name">Name</label>
