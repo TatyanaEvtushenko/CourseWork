@@ -31,14 +31,16 @@ export class RegisterModalComponent implements AfterViewInit {
 
     onSubmit() {
         this.accountService.register(this.registerForm).subscribe(
-            (data) => {
-                this.isWrongRequest = !data;
-                if (!this.isWrongRequest) {
-                    $('#registrationModal').modal("close");
-                    Materialize.toast('Confirmation is sent.', 4000);
-                }
-            },
+            (data) => this.getResponse(data),
             (error) => this.isWrongRequest = true
         );
+    }
+
+    private getResponse(data: any) {
+        this.isWrongRequest = !data;
+        if (!this.isWrongRequest) {
+            $('#registrationModal').modal("close");
+            Materialize.toast('Confirmation is sent.', 4000);
+        }
     }
 }

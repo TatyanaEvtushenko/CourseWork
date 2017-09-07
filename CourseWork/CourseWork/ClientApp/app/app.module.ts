@@ -68,7 +68,6 @@ const appRoutes: Routes = [
         ErrorPageComponent,
         ConfirmationModalComponent,
         ImageLoaderComponent,
-        ConfirmationModalComponent,
         NewProjectPageComponent,
         MarkdownEditorComponent,
         ErrorTextComponent,

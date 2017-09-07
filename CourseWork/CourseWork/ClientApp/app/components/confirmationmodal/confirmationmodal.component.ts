@@ -23,15 +23,19 @@ export class ConfirmationModalComponent implements AfterViewInit {
     }
 
     onSubmit() {
-        this.accountService.confirmAccount(this.confirmationForm).subscribe(
-            (data) => {
-                this.isWrongRequest = !data;
-                if (!this.isWrongRequest) {
-                    $('#confirmationModal').modal("close");
-                    Materialize.toast('Confirmation request has been sent to admin.', 4000);
-                }
-            },
-            (error) => this.isWrongRequest = true
-        );
+        if (this.confirmationForm.name != null && this.confirmationForm.surname != null && this.confirmationForm.passportScan != null) {
+            this.accountService.confirmAccount(this.confirmationForm).subscribe(
+                (data) => this.getResponse(data),
+                (error) => this.isWrongRequest = true
+            );
+        }
+    }
+
+    private getResponse(data: any) {
+        this.isWrongRequest = !data;
+        if (!this.isWrongRequest) {
+            $('#confirmationModal').modal("close");
+            Materialize.toast('Confirmation request has been sent to admin.', 4000);
+        }
     }
 }
