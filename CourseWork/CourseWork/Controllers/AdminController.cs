@@ -23,7 +23,7 @@ namespace CourseWork.Controllers
 
         [HttpGet]
         [Route("api/Admin/GetAllUsers")]
-        public List<UserListItemViewModel> GetAllUsers()
+        public UserListItemViewModel[] GetAllUsers()
         {
             return _adminManager.GetAllUsers();
         }

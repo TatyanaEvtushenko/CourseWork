@@ -1,5 +1,5 @@
 ﻿<h2 *ngIf="isAdmin">Admin page</h2>
-<table *ngIf="isAdmin">
+<table class="responsive-table highlight" *ngIf="isAdmin">
     <thead>
     <tr>
         <th>Username</th>
@@ -11,13 +11,13 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let test of tests">
-        <td>{{test}}</td>
-        <td>{{test}}</td>
-        <td>{{test}}</td>
-        <td>{{test}}</td>
-        <td>{{test}}</td>
-        <td>{{test}}</td>
+    <tr *ngFor="let user of userInfos">
+        <td>{{user.username}}</td>
+        <td>{{user.status}}</td>
+        <td>{{user.registrationTime}}</td>
+        <td>{{user.lastLoginTime}}</td>
+        <td>{{user.projectNumber}}</td>
+        <td>{{user.raiting}}</td>
     </tr>
     </tbody>
 </table>

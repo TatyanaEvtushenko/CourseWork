@@ -20,9 +20,9 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers
             _userInfoRepository = userInfoRepository;
         }
 
-        public List<UserListItemViewModel> GetAllUsers()
+        public UserListItemViewModel[] GetAllUsers()
         {
-            return _userInfoRepository.GetAll().Select(n => _mapper.ConvertFrom(n)).ToList();
+            return _userInfoRepository.GetAll().Select(n => _mapper.ConvertFrom(n)).ToArray();
         }
     }
 }

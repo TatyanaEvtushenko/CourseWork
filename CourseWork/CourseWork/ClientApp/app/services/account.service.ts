@@ -27,4 +27,8 @@ export class AccountService extends BaseService{
     confirmAccount(confirmationForm: ConfirmationForm) {
         return this.requestPost("api/UnconfirmedUser/ConfirmAccount", confirmationForm);
     }
+
+    getUserList() {
+        return this.requestGet("api/Admin/GetAllUsers");
+    }
 }
