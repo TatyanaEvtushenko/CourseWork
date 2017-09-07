@@ -21,7 +21,7 @@ export class ConfirmationModalComponent implements AfterViewInit {
         $('#confirmationModal').modal();
     }
 
-    onChange(event) {
+    onChange(event: any) {
         this.imageString = event;
     }
 

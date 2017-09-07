@@ -2,10 +2,10 @@
 declare var $: any;
 
 @Component({
-    selector: 'draganddrop',
-    templateUrl: './imageDragAndDrop.component.html'
+    selector: 'imageloader',
+    templateUrl: './imageloader.component.html'
 })
-export class ImageDragAndDropComponent {
+export class ImageLoaderComponent {
     imageString = "";
 
     toBase64(file: any) {
@@ -17,9 +17,9 @@ export class ImageDragAndDropComponent {
         reader.readAsDataURL(file);
     }
 
-    onChange(event) {
+    onChange(event: any) {
         this.toBase64(event.srcElement.files[0]);
     }
 
     @Output() emitter = new EventEmitter<string>(); 
-}
+} 
