@@ -5,20 +5,20 @@
         <label>Passport scan</label>
         <imageloader (emitter)="onChange($event)"></imageloader>
         <div class="input-field">
-            <input id="confirmation-name" class="validate" required type="text" [(ngModel)]="confirmationForm.Name" />
+            <input id="confirmation-name" class="validate" required type="text" [(ngModel)]="confirmationForm.name" />
             <label for="confirmation-name">Name</label>
         </div>
         <div class="input-field">
-            <input id="confirmation-surname" class="validate" required [(ngModel)]="confirmationForm.Surname" type="text" />
+            <input id="confirmation-surname" class="validate" required [(ngModel)]="confirmationForm.surname" type="text" />
             <label for="confirmation-surname">Surname</label>
         </div>
         <div class="input-field">
-            <input id="confirmation-description" type="text" [(ngModel)]="confirmationForm.Description" />
+            <input id="confirmation-description" type="text" [(ngModel)]="confirmationForm.description" />
             <label for="confirmation-description">Description</label>
         </div>
 
         <div class="input-field">
-            <button [disabled]="imageString == null || confirmationForm.Name == null || confirmationForm.Surname == null"
+            <button [disabled]="imageString == null || confirmationForm.name == null || confirmationForm.surname == null"
                     class="btn" (click)="onSubmit()">Send</button>
         </div>
         

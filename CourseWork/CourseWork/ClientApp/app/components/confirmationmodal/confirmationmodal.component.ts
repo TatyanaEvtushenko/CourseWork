@@ -26,7 +26,7 @@ export class ConfirmationModalComponent implements AfterViewInit {
     }
 
     onSubmit() {
-        this.confirmationForm.PassportScan = this.imageString;
+        this.confirmationForm.passportScan = this.imageString;
         this.accountService.confirmAccount(this.confirmationForm).subscribe(
             (data) => {
                 this.isWrongRequest = !data;

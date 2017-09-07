@@ -1,19 +1,12 @@
 ﻿using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
-using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Text.RegularExpressions;
 using CourseWork.BusinessLogicLayer.Services.PhotoManagers;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using System.Threading.Tasks;
 
 namespace CourseWork.BusinessLogicLayer.Services.AccountConfirmationManagers.Implementations
 {

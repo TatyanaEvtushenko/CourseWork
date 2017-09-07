@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels
+﻿namespace CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels
 {
     public class UserConfirmationViewModel
     {

@@ -12,7 +12,7 @@ namespace CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels
 
         public string Description { get; set; }
 
-        public string ImageUrl { get; set; }
+        public string ImageBase64 { get; set; }
 
         public decimal MinPaymentAmount { get; set; }
 
