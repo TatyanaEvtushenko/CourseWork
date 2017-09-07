@@ -17,7 +17,7 @@ export class ImageDragAndDropComponent {
         reader.readAsDataURL(file);
     }
 
-    onChange(event) {
+    onChange(event: any) {
         this.toBase64(event.srcElement.files[0]);
     }
 

@@ -6,6 +6,8 @@ namespace CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels
 {
     public class UserListItemViewModel
     {
+        public string Username { get; set; }
+
         public string Status { get; set; }
 
         public string RegistrationTime { get; set; }

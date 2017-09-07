@@ -12,6 +12,7 @@ namespace CourseWork.Extensions.StartupExtensions
             services.AddScoped<Repository<Tag>, TagRepository>();
             services.AddScoped<Repository<TagInProject>, TagInProjectRepository>();
             services.AddScoped<Repository<UserInfo>, UserInfoRepository>();
+            services.AddScoped<Repository<ApplicationUser>, ApplicationUserRepository>();
         }
     }
 }

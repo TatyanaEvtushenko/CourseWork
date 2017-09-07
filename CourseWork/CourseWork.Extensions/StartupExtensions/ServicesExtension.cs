@@ -2,6 +2,7 @@
 using CourseWork.BusinessLogicLayer.Services.AccountConfirmationManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.AccountManagers;
 using CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations;
+using CourseWork.BusinessLogicLayer.Services.AdminManagers;
 using CourseWork.BusinessLogicLayer.Services.MessageSenders;
 using CourseWork.BusinessLogicLayer.Services.MessageSenders.Implementations;
 using CourseWork.BusinessLogicLayer.Services.PhotoManagers;
@@ -24,6 +25,7 @@ namespace CourseWork.Extensions.StartupExtensions
             services.AddScoped<IAccountManager, AccountManager>();
             services.AddScoped<IAccountConfirmationManager, AccountConfirmationManager>();
             services.AddScoped<IPhotoManager, PhotoManager>();
+            services.AddScoped<IAdminManager, AdminManager>();
         }
     }
 }

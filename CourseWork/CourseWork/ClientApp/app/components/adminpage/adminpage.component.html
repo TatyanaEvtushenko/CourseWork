@@ -2,7 +2,8 @@
 <table *ngIf="isAdmin">
     <thead>
     <tr>
-        <th>Status</th>  
+        <th>Username</th>
+        <th>Status</th>
         <th>Registration time</th>
         <th>Last login time</th>
         <th>Project number</th>
@@ -11,6 +12,7 @@
     </thead>
     <tbody>
     <tr *ngFor="let test of tests">
+        <td>{{test}}</td>
         <td>{{test}}</td>
         <td>{{test}}</td>
         <td>{{test}}</td>
