@@ -1,2 +1,39 @@
-﻿<h2 *ngIf="isReadyCurrentUser && isAdmin">ADMINKA</h2>
-<errorpage *ngIf="!(isReadyCurrentUser && isAdmin)"></errorpage>
+﻿<div *ngIf="isAdmin">
+    <h2>Admin page</h2>
+    <div>
+        <input id="admin-onlyConfirmed" type="checkbox" [(ngModel)]="filters['confirmed']"/>
+        <label for="admin-onlyConfirmed">Show confirmed users</label>
+        <br/>
+        <input id="admin-onlyRequestedConfirmation" type="checkbox" [(ngModel)]="filters['requested']"/>
+        <label for="admin-onlyRequestedConfirmation">Show users requesting confirmation</label>
+        <br/>
+        <input id="admin-onlyUnconfirmed" type="checkbox" [(ngModel)]="filters['unconfirmed']"/>
+        <label for="admin-onlyUnconfirmed">Show unconfirmed users not requesting confirmation</label>
+    </div>
+    <div class="input-field">
+        <button class="btn" (click)="onSubmit()">Filter</button>
+    </div>
+    <table class="responsive-table highlight">
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th>Status</th>
+            <th>Registration time</th>
+            <th>Last login time</th>
+            <th>Project number</th>
+            <th>Rating</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let user of userInfos"  [attr.class]=" user.statusCode == userStatus.AwaitingConfirmation ? 'indigo lighten-4' : null">
+            <td>{{user.username}}</td>
+            <td>{{user.status}}</td>
+            <td>{{user.registrationTime}}</td>
+            <td>{{user.lastLoginTime}}</td>
+            <td>{{user.projectNumber}}</td>
+            <td>{{user.raiting}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<errorpage *ngIf="!isAdmin"></errorpage>
