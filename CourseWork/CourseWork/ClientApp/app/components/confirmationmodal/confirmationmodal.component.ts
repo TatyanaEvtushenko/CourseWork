@@ -1,4 +1,4 @@
-﻿import { Component, AfterViewInit, ViewChild } from '@angular/core';
+﻿import { Component, AfterViewInit } from '@angular/core';
 import { ConfirmationForm } from '../../viewmodels/confirmationform';
 import { ConfirmationFormImage } from '../../viewmodels/confirmationformimage';
 import { AccountService } from "../../services/account.service";
@@ -12,6 +12,7 @@ declare var Materialize: any;
 export class ConfirmationModalComponent implements AfterViewInit {
     confirmationForm = new ConfirmationForm();
     confirmationFormImage = new ConfirmationFormImage();
+    imageString = "";
     isWrongRequest = false;
 
     constructor(private accountService: AccountService) { }
@@ -20,19 +21,12 @@ export class ConfirmationModalComponent implements AfterViewInit {
         $('#confirmationModal').modal();
     }
 
-    toBase64(file: any) {
-        var reader = new FileReader();
-        reader.onloadend = (e) => {
-            this.confirmationForm.PassportScan = reader.result;
-        }
-        reader.readAsDataURL(file);
-    }
-
-    onChange(event : any) {
-        this.toBase64(event.srcElement.files[0]);
+    onChange(event) {
+        this.imageString = event;
     }
 
     onSubmit() {
+        this.confirmationForm.PassportScan = this.imageString;
         this.accountService.confirmAccount(this.confirmationForm).subscribe(
             (data) => {
                 this.isWrongRequest = !data;

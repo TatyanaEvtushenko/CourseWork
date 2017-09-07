@@ -24,6 +24,7 @@ import { ErrorTextComponent } from './components/errortext/errortext.component';
 import { TagSearcherComponent } from './components/tagsearcher/tagsearcher.component';
 import { FloatingButtonComponent } from './components/floatingbutton/floatingbutton.component';
 import { ConfirmationModalComponent } from './components/confirmationmodal/confirmationmodal.component';
+import { ImageDragAndDropComponent } from './components/imageDragAndDrop/imageDragAndDrop.component';
 import { FinancialPurposeComponent } from './components/financialpurpose/financialpurpose.component';
 import { FinancialPurposeModalComponent } from './components/financialpurposemodal/financialpurposemodal.component';
 
@@ -65,6 +66,8 @@ const appRoutes: Routes = [
         PreloaderComponent,
         TagCloudComponent,
         ErrorPageComponent,
+        ConfirmationModalComponent,
+        ImageDragAndDropComponent
         ConfirmationModalComponent,
         NewProjectPageComponent,
         MarkdownEditorComponent,
