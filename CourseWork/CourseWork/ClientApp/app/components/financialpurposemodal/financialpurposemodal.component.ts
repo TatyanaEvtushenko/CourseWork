@@ -18,5 +18,6 @@ export class FinancialPurposeModalComponent implements AfterViewInit {
     onSubmit() {
         this.onCreated.emit(this.financialPurpose);
         $('#financialPurposeModal').modal("close");
+        this.financialPurpose = new FinancialPurpose();
     }
 }

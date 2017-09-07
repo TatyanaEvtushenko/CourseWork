@@ -1,0 +1,20 @@
+﻿<div *ngIf="isReached" class="striped">
+    <span class="title">{{financialPurpose.name}}</span>
+    <p>{{financialPurpose.description}}</p>
+    <p class="secondary-content">
+        {{financialPurpose.budget}}$
+        <i *ngIf="isOwner" class="material-icons">close</i>
+    </p>
+</div>
+
+<div *ngIf="!isReached" class=" highlight">
+    <i class="material-icons circle">folder</i>
+    <span class="title">{{financialPurpose.name}}</span>
+    <p>{{financialPurpose.budget}}$<br>
+        {{financialPurpose.description}}
+    </p>
+    <a (click)="delete()" class="secondary-content">
+        <i *ngIf="isOwner" class="material-icons">close</i>
+    </a>
+</div>
+

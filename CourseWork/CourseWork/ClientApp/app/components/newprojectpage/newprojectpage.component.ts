@@ -1,4 +1,4 @@
-﻿import { Component, AfterViewInit } from '@angular/core';
+﻿import { Component } from '@angular/core';
 import { NewProjectForm } from '../../viewmodels/newprojectform';
 import { Title } from '@angular/platform-browser';
 import { AccountService } from "../../services/account.service";
@@ -22,6 +22,18 @@ export class NewProjectPageComponent extends CurrentUserSubscriber {
                 protected accountService: AccountService) {
         super(currentUserService, accountService);
         title.setTitle("New project");
+        this.projectForm.financialPurposes = [];
+    }
+
+    addFinancialPurpose(purpose : any) {
+        this.projectForm.financialPurposes.push(purpose);
+    }
+
+    deleteFinancialPurpose(purpose: any) {
+        const index = this.projectForm.financialPurposes.indexOf(purpose);
+        if (index >= 0) {
+            this.projectForm.financialPurposes.splice(index, 1);
+        }
     }
 
     onSubmit() {

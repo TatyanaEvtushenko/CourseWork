@@ -26,10 +26,27 @@
     <tagsearcher (onChanged)="projectForm.tags = $event"></tagsearcher>
     
     <markdowneditor [fieldName]="'Description'" (onChanged)="projectForm.description = $event"></markdowneditor>
+    
+    <div class="input-field">
+        <label for="project-financialPurposes">Financial purposes</label>
+        <ul id="project-financialPurposes" class="collection">
+            <ng-container *ngFor="let purpose of projectForm.financialPurposes">
+                <li class="collection-item">
+                    <financialpurpose [financialPurpose]="purpose" [isOwner]="true" [isReached]="false" 
+                                      (onDeleted)="deleteFinancialPurpose(purpose)"></financialpurpose>
+                </li>
+            </ng-container>
+        </ul>
+    </div>
+    <div class="input-field">
+        <a href="#financialPurposeModal" class="btn modal-trigger">Add financial purpose</a>
+    </div>
 
     <div class="input-field">
         <button [disabled]="" class="btn" (click)="onSubmit()">Create</button>
     </div>
 
     <errortext *ngIf="isWrongRequest" [text]="'Mistake, the project has not been created'"></errortext>
+    
+    <financialpurposemodal (onCreated)="addFinancialPurpose($event)"></financialpurposemodal>
 </div>
