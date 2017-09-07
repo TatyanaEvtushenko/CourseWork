@@ -17,5 +17,7 @@ namespace CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels
         public string ProjectNumber { get; set; }
 
         public string Raiting { get; set; }
+
+        public int StatusCode { get; set; }
     }
 }

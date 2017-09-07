@@ -25,7 +25,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let user of userInfos">
+        <tr *ngFor="let user of userInfos"  [attr.class]=" user.statusCode == userStatus.AwaitingConfirmation ? 'indigo lighten-4' : null">
             <td>{{user.username}}</td>
             <td>{{user.status}}</td>
             <td>{{user.registrationTime}}</td>

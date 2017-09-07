@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
+using CourseWork.DataLayer.Enums.Configurations;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
 using CourseWork.DataLayer.Repositories.Implementations;
@@ -30,7 +31,8 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
                 RegistrationTime = item.RegistrationTime.ToString(),
                 ProjectNumber = item.ProjectNumber.ToString(),
                 Raiting = item.Raiting.ToString(),
-                Status = item.Status.ToString()
+                Status = EnumConfiguration.StatusDisplayNames[item.Status],
+                StatusCode = (int)item.Status
             };
         }
     }

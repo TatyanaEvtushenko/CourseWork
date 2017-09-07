@@ -5,4 +5,5 @@
     lastLoginTime: string;
     projectNumber: string;
     raiting: string;
+    statusCode: number;
 }

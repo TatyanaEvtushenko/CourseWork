@@ -5,6 +5,7 @@ import { RoleService } from '../../services/role.service';
 import { CurrentUserService } from '../../services/currentuser.service';
 import { CurrentUserSubscriber } from '../currentuser.subscriber';
 import { UserInfo } from '../../viewmodels/userinfo';
+import { UserStatus } from "../../enums/userstatus";
 declare var $: any;
 
 @Component({
@@ -15,6 +16,7 @@ declare var $: any;
 export class AdminPageComponent extends CurrentUserSubscriber {
     userInfos: UserInfo[] = [];
     filters = { unconfirmed: true, requested: true, confirmed: true };
+    userStatus = UserStatus;
 
     constructor(private title: Title, protected currentUserService: CurrentUserService, protected accountService: AccountService, protected roleService: RoleService) {
         super(currentUserService, accountService, roleService);
