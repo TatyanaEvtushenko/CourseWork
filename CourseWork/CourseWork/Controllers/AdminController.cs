@@ -48,5 +48,12 @@ namespace CourseWork.Controllers
         {
             return await _adminManager.RespondToConfirmation(userName, accept);
         }
+
+        [HttpGet]
+        [Route("api/Admin/SortByField")]
+        public UserListItemViewModel[] SortByField(string fieldName, bool ascending)
+        {
+            return _adminManager.SortByField(fieldName, ascending);
+        }
     }
 }

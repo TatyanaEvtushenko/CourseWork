@@ -1,13 +1,16 @@
 ﻿<div *ngIf="isAdmin">
+    <div class="fixed-action-btn">
+        <button class="waves-effect waves-light btn" [disabled]="selectedIndex == null || userInfos[selectedIndex].statusCode != userStatus.AwaitingConfirmation" (click)="clickConfirm()">View confirmation request</button>
+    </div>
     <h2>Admin page</h2>
     <div>
-        <input id="admin-onlyConfirmed" type="checkbox" [(ngModel)]="filters['confirmed']" />
+        <input id="admin-onlyConfirmed" type="checkbox" [(ngModel)]="filters['confirmed']"/>
         <label for="admin-onlyConfirmed">Show confirmed users</label>
-        <br />
-        <input id="admin-onlyRequestedConfirmation" type="checkbox" [(ngModel)]="filters['requested']" />
+        <br/>
+        <input id="admin-onlyRequestedConfirmation" type="checkbox" [(ngModel)]="filters['requested']"/>
         <label for="admin-onlyRequestedConfirmation">Show users requesting confirmation</label>
-        <br />
-        <input id="admin-onlyUnconfirmed" type="checkbox" [(ngModel)]="filters['unconfirmed']" />
+        <br/>
+        <input id="admin-onlyUnconfirmed" type="checkbox" [(ngModel)]="filters['unconfirmed']"/>
         <label for="admin-onlyUnconfirmed">Show unconfirmed users not requesting confirmation</label>
     </div>
     <div class="input-field">
@@ -15,30 +18,25 @@
     </div>
     <table class="responsive-table highlight">
         <thead>
-            <tr>
-                <th>Username</th>
-                <th>Status</th>
-                <th>Registration time</th>
-                <th>Last login time</th>
-                <th>Project number</th>
-                <th>Rating</th>
-                <th></th>
-            </tr>
+        <tr>
+            <th>Username</th>
+            <th>Status</th>
+            <th>Registration time</th>
+            <th>Last login time</th>
+            <th>Project number</th>
+            <th>Rating</th>
+        </tr>
         </thead>
         <tbody>
         <tr *ngFor="let user of userInfos; let index=index" (click)="selectedIndex=index"
             [ngClass]="{ 'indigo lighten-4': user.statusCode == userStatus.AwaitingConfirmation, 'blue lighten-2': index == selectedIndex }">
-                <td>{{user.username}}</td>
-                <td>{{user.status}}</td>
-                <td>{{user.registrationTime}}</td>
-                <td>{{user.lastLoginTime}}</td>
-                <td>{{user.projectNumber}}</td>
-                <td>{{user.raiting}}</td>
-            <td *ngIf="index==selectedIndex && user.statusCode == userStatus.AwaitingConfirmation">
-                <adminconfirmationpopup [username]="user.username" (emitter)="changeStatus($event)"></adminconfirmationpopup>
-                <button (click)="clickConfirm()" >View confirmation request</button>
-            </td>
-            </tr>
+            <td>{{user.username}}</td>
+            <td>{{user.status}}</td>
+            <td>{{user.registrationTime}}</td>
+            <td>{{user.lastLoginTime}}</td>
+            <td>{{user.projectNumber}}</td>
+            <td>{{user.raiting}}</td>
+        </tr>
         </tbody>
     </table>
 </div>

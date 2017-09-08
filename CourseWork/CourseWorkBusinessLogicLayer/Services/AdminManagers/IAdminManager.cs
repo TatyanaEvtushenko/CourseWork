@@ -12,5 +12,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers
         UserConfirmationViewModel GetPersonalInfo(string userName);
 
         Task<bool> RespondToConfirmation(string userName, bool accept);
+
+        UserListItemViewModel[] SortByField(string fieldName, bool ascending);
     }
 }

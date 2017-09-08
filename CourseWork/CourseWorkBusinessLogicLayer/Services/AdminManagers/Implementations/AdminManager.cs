@@ -56,5 +56,10 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
             }
             return result;
         }
+
+        public UserListItemViewModel[] SortByField(string fieldName, bool ascending)
+        {
+            return _userInfoRepository.SortByField(fieldName, ascending).Select(n => _mapperList.ConvertFrom(n)).ToArray();
+        }
     }
 }

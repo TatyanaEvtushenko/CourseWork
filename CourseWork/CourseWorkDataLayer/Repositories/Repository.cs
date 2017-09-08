@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CourseWork.DataLayer.Data;
+using CourseWork.DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace CourseWork.DataLayer.Repositories
@@ -61,6 +62,11 @@ namespace CourseWork.DataLayer.Repositories
         public List<T> GetWhere(Func<T, bool> whereExpression)
         {
             return Table.Where(whereExpression).ToList();
+        }
+
+        public virtual UserInfo[] SortByField(string fieldName, bool ascending)
+        {
+            return null;
         }
 
         private bool SaveActionResult(Action action)
