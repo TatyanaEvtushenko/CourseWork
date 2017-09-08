@@ -10,13 +10,6 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
 {
     public class UserListItemViewModelToUserInfoMapper : IMapper<UserListItemViewModel, UserInfo>
     {
-        private readonly Dictionary<string, string> _usernames;
-
-        public UserListItemViewModelToUserInfoMapper(Repository<ApplicationUser> repository)
-        {
-            _usernames = ((ApplicationUserRepository) repository).GetIdUsernameDictionary();
-        }
-
         public UserInfo ConvertTo(UserListItemViewModel item)
         {
             throw new System.NotImplementedException();
@@ -26,7 +19,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
         {
             return new UserListItemViewModel
             {
-                Username = _usernames[item.UserId],
+                Username = item.UserName,
                 LastLoginTime = item.LastLoginTime.ToString(),
                 RegistrationTime = item.RegistrationTime.ToString(),
                 ProjectNumber = item.ProjectNumber.ToString(),

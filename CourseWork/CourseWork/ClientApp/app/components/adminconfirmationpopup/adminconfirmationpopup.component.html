@@ -1,0 +1,31 @@
+﻿<div id="adminConfirmationModal" class="modal register-modal">
+    <div class="modal-content center">
+        <h4>Confirm your account</h4>
+
+        <label>Passport scan</label>
+        <img src="{{userData.passportScan}}"/>
+        <div class="input-field">
+            <input type="text" value="{{username}}" readonly="readonly" />
+            <label>Name</label>
+        </div>
+        <div class="input-field">
+            <input type="text" value="{{userData.surname}}" readonly="readonly" />
+            <label>Surname</label>
+        </div>
+        <div class="input-field">
+            <input type="text" value="{{userData.description}}" readonly="readonly" />
+            <label>Description</label>
+        </div>
+
+        <div class="input-field">
+            <button class="btn" (click)="accept()">
+                Accept
+            </button>
+        </div>
+        <div class="input-field">
+            <button class="btn" (click)="decline()">
+                Decline
+            </button>
+        </div>
+    </div>
+</div>

@@ -35,6 +35,18 @@ namespace CourseWork.Controllers
             return _adminManager.GetFilteredUsers(confirmed, requested, unconfirmed);
         }
 
+        [HttpGet]
+        [Route("api/Admin/GetPersonalInfo")]
+        public UserConfirmationViewModel GetPersonalInfo([FromQuery] string userName)
+        {
+            return _adminManager.GetPersonalInfo(userName);
+        }
 
+        [HttpGet]
+        [Route("api/Admin/RespondToConfirmation")]
+        public bool RespondToConfirmation([FromQuery] string userName, [FromQuery] bool accept)
+        {
+            return _adminManager.RespondToConfirmation(userName, accept);
+        }
     }
 }

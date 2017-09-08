@@ -13,17 +13,19 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers
     public class AdminManager : IAdminManager
     {
         private readonly Repository<UserInfo> _userInfoRepository;
-        private readonly IMapper<UserListItemViewModel, UserInfo> _mapper;
+        private readonly IMapper<UserListItemViewModel, UserInfo> _mapperList;
+        private readonly IMapper<UserConfirmationViewModel, UserInfo> _mapperInfo;
 
-        public AdminManager(IMapper<UserListItemViewModel, UserInfo> mapper, Repository<UserInfo> userInfoRepository, ApplicationDbContext context, Repository<ApplicationUser> applicationUserRepository)
+        public AdminManager(IMapper<UserListItemViewModel, UserInfo> mapperList, Repository<UserInfo> userInfoRepository, ApplicationDbContext context, Repository<ApplicationUser> applicationUserRepository, IMapper<UserConfirmationViewModel, UserInfo> mapperInfo)
         {
-            _mapper = mapper;
+            _mapperList = mapperList;
             _userInfoRepository = userInfoRepository;
+            _mapperInfo = mapperInfo;
         }
 
         public UserListItemViewModel[] GetAllUsers()
         {
-            return _userInfoRepository.GetAll().Select(n => _mapper.ConvertFrom(n)).ToArray();
+            return _userInfoRepository.GetAll().Select(n => _mapperList.ConvertFrom(n)).ToArray();
         }
 
         public UserListItemViewModel[] GetFilteredUsers(bool confirmed, bool requested, bool unconfirmed)
@@ -31,7 +33,19 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers
             return _userInfoRepository.GetWhere(item => (confirmed && item.Status == UserStatus.Confirmed) ||
                        (requested && item.Status == UserStatus.AwaitingConfirmation) ||
                        (unconfirmed && item.Status == UserStatus.WithoutConfirmation)
-            ).Select(n => _mapper.ConvertFrom(n)).ToArray();
+            ).Select(n => _mapperList.ConvertFrom(n)).ToArray();
+        }
+
+        public UserConfirmationViewModel GetPersonalInfo(string userName)
+        {
+            return _mapperInfo.ConvertFrom(_userInfoRepository.Get(userName));
+        }
+
+        public bool RespondToConfirmation(string userName, bool accept)
+        {
+            var user = _userInfoRepository.Get(userName);
+            user.Status = accept ? UserStatus.Confirmed : UserStatus.WithoutConfirmation;
+            return _userInfoRepository.UpdateRange(user);
         }
     }
 }

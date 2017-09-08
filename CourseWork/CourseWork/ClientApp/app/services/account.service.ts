@@ -35,4 +35,13 @@ export class AccountService extends BaseService{
     getFilteredUserList(filter: any) {
         return this.requestGetWithParams("api/Admin/GetFilteredUsers", filter);
     }
+
+    getPersonalInfo(userName: string) {
+        return this.requestGetWithParams("api/Admin/GetPersonalInfo", { 'username': userName });
+    }
+
+    respondToConfirmation(userName: string, accept: boolean) {
+        let params = { 'username': userName, 'accept': accept }
+        return this.requestGetWithParams("api/Admin/RespondToConfirmation", params);
+    }
 }

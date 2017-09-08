@@ -8,28 +8,28 @@ namespace CourseWork.DataLayer.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
-                name: "UserId",
-                table: "UserInfos",
-                newName: "UserName");
+            //migrationBuilder.RenameColumn(
+            //    name: "UserId",
+            //    table: "UserInfos",
+            //    newName: "UserName");
 
-            migrationBuilder.RenameColumn(
-                name: "OwnerId",
-                table: "Projects",
-                newName: "OwnerUserName");
+            //migrationBuilder.RenameColumn(
+            //    name: "OwnerId",
+            //    table: "Projects",
+            //    newName: "OwnerUserName");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
-                name: "UserName",
-                table: "UserInfos",
-                newName: "UserId");
+            //migrationBuilder.RenameColumn(
+            //    name: "UserName",
+            //    table: "UserInfos",
+            //    newName: "UserId");
 
-            migrationBuilder.RenameColumn(
-                name: "OwnerUserName",
-                table: "Projects",
-                newName: "OwnerId");
+            //migrationBuilder.RenameColumn(
+            //    name: "OwnerUserName",
+            //    table: "Projects",
+            //    newName: "OwnerId");
         }
     }
 }
