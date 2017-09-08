@@ -6,4 +6,5 @@
     projectNumber: string;
     raiting: string;
     statusCode: number;
+    isBlocked: boolean;
 }

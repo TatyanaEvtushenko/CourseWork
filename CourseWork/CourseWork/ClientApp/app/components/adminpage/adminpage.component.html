@@ -3,6 +3,7 @@
     <div class="fixed-action-btn">
         <button class="waves-effect waves-light btn" [disabled]="selectedIndex == null || userInfos[selectedIndex].statusCode != userStatus.AwaitingConfirmation" (click)="clickConfirm()">View confirmation request</button>
     </div>
+
     <h2>Admin page</h2>
     <div>
         <input id="admin-onlyConfirmed" type="checkbox" [(ngModel)]="filters['confirmed']"/>
@@ -15,8 +16,14 @@
         <label for="admin-onlyUnconfirmed">Show unconfirmed users not requesting confirmation</label>
     </div>
     <div class="input-field">
-        <button class="btn" (click)="onSubmit()">Filter</button>
+        <button class="btn" (click)="filter()">Filter</button>
     </div>
+    
+    <div class="input-field">
+        <button class="btn" (click)="blockUnblock()">Block/Unblock selected</button>
+        <button class="btn" (click)="delete()">Delete selected</button>
+    </div>
+
     <table class="responsive-table highlight">
         <thead>
         <tr>
@@ -30,17 +37,24 @@
             </th>
             <th>Project number</th>
             <th>Rating</th>
+            <th>Select user</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let user of userInfos; let index=index" (click)="selectedIndex=index"
-            [ngClass]="{ 'indigo lighten-4': user.statusCode == userStatus.AwaitingConfirmation, 'blue lighten-2': index == selectedIndex }">
+            [ngClass]="{ 'indigo lighten-4': user.statusCode == userStatus.AwaitingConfirmation, 'blue lighten-2': index == selectedIndex, 'red lighten-2': user.isBlocked }">
             <td>{{user.username}}</td>
             <td>{{user.status}}</td>
             <td>{{user.registrationTime}}</td>
             <td>{{user.lastLoginTime}}</td>
             <td>{{user.projectNumber}}</td>
             <td>{{user.raiting}}</td>
+            <td>
+                <div>
+                    <input id="checkbox-{{user.username}}" type="checkbox" [(ngModel)]="isCheckedAtIndex[index]"/>
+                    <label for="checkbox-{{user.username}}"></label>
+                </div>
+            </td>
         </tr>
         </tbody>
     </table>

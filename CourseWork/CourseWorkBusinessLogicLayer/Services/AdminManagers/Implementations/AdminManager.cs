@@ -61,5 +61,15 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
         {
             return _userInfoRepository.SortByField(fieldName, ascending).Select(n => _mapperList.ConvertFrom(n)).ToArray();
         }
+
+        public bool BlockUnblock(string[] usersToBlock)
+        {
+            var users = _userInfoRepository.GetWhere(n => usersToBlock.Contains(n.UserName));
+            foreach (var user in users)
+            {
+                user.IsBlocked = !user.IsBlocked;
+            }
+            return _userInfoRepository.UpdateRange(users.ToArray());
+        }
     }
 }

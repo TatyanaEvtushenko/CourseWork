@@ -55,5 +55,12 @@ namespace CourseWork.Controllers
         {
             return _adminManager.SortByField(fieldName, ascending);
         }
+
+        [HttpGet]
+        [Route("api/Admin/BlockUnblock")]
+        public bool BlockUnblock([FromQuery] string[] usersToBlock)
+        {
+            return _adminManager.BlockUnblock(usersToBlock);
+        }
     }
 }

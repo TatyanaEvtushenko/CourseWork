@@ -25,7 +25,8 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
                 ProjectNumber = item.ProjectNumber.ToString(),
                 Raiting = item.Raiting.ToString(),
                 Status = EnumConfiguration.StatusDisplayNames[item.Status],
-                StatusCode = (int)item.Status
+                StatusCode = (int)item.Status,
+                IsBlocked = item.IsBlocked
             };
         }
     }

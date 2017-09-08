@@ -19,5 +19,7 @@ namespace CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels
         public string Raiting { get; set; }
 
         public int StatusCode { get; set; }
+
+        public bool IsBlocked { get; set; }
     }
 }

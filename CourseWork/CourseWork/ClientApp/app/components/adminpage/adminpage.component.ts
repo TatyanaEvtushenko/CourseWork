@@ -14,6 +14,7 @@ declare var $: any;
 
 export class AdminPageComponent extends CurrentUserSubscriber {
     userInfos: UserInfo[] = [];
+    isCheckedAtIndex: boolean[] = [];
     filters = { unconfirmed: true, requested: true, confirmed: true };
     userStatus = UserStatus;
     selectedIndex: number = null;
@@ -26,12 +27,14 @@ export class AdminPageComponent extends CurrentUserSubscriber {
 
     ngOnInit() {
         this.accountService.getUserList().subscribe(userInfos => {
+            this.isCheckedAtIndex = new Array<boolean>(userInfos.length);
             this.userInfos = userInfos;
         });
     }
 
-    onSubmit() {
+    filter() {
         this.accountService.getFilteredUserList(this.filters).subscribe(userInfos => {
+            this.isCheckedAtIndex = new Array<boolean>(userInfos.length);
             this.userInfos = userInfos;
         });
     }
@@ -41,7 +44,6 @@ export class AdminPageComponent extends CurrentUserSubscriber {
     }
 
     changeStatus(accept: boolean) {
-        console.log(accept);
         if (accept) {
             this.userInfos[this.selectedIndex].statusCode = UserStatus.Confirmed;
             this.userInfos[this.selectedIndex].status = "Confirmed"; 
@@ -55,6 +57,32 @@ export class AdminPageComponent extends CurrentUserSubscriber {
         this.accountService.sortByField(fieldName, this.sortOrderAscending[fieldName]).subscribe(userInfos => {
             this.userInfos = userInfos;
             this.sortOrderAscending[fieldName] = !this.sortOrderAscending[fieldName];
+            this.isCheckedAtIndex = new Array<boolean>(this.userInfos.length);
         });
+    }
+
+    delete() {
+        
+    }
+
+    blockUnblock() {
+        this.accountService.blockUnblock(this.getSelectedUsers()).subscribe((success) => {
+            if (success) {
+                this.userInfos.forEach((item, index) => {
+                    if (this.isCheckedAtIndex[index])
+                        item.isBlocked = !item.isBlocked;
+                });
+                this.isCheckedAtIndex = new Array<boolean>(this.userInfos.length);
+            }
+        });
+    }
+
+    private getSelectedUsers() {
+        var result: string[] = [];
+        this.userInfos.forEach((item, index) => {
+            if (this.isCheckedAtIndex[index])
+                result.push(item.username);
+        });
+        return result;
     }
 }
