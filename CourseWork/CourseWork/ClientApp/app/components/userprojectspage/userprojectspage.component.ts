@@ -1,17 +1,26 @@
 ﻿import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { AccountService } from "../../services/account.service";
-import { CurrentUserService } from '../../services/currentuser.service';
-import { CurrentUserSubscriber } from '../currentuser.subscriber';
+import { ProjectService } from '../../services/project.service';
 
 @Component({
     selector: 'userprojectspage',
     templateUrl: './userprojectspage.component.html'
 })
-export class UserProjectsPageComponent extends CurrentUserSubscriber {
+export class UserProjectsPageComponent {
+    projects: any[] = [];
+    selectedProjectId: string = null;
 
-    constructor(private title: Title, protected currentUserService: CurrentUserService, protected accountService: AccountService) {
-        super(currentUserService, accountService);
+    constructor(private title: Title, protected projectService: ProjectService) {
         title.setTitle("My projects");
+    }
+
+    ngOnInit() {
+        this.projectService.getUserProjects().subscribe(
+            (data) => this.projects = data
+        );
+    }
+
+    openNewsModal(event: any) {
+        this.selectedProjectId = event;
     }
 }

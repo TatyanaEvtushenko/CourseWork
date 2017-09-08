@@ -1,0 +1,12 @@
+﻿<div class="card small">
+    <div class="card-image">
+        <img src="{{project.imageUrl}}">
+        <span class="card-title">{{project.name}}, {{project.paidAmount}}$</span>
+    </div>
+    <div class="card-content">
+        <p>{{project.status}}</p>
+    </div>
+    <div class="card-action">
+        <a (click)="openNews()" href="#newsModal" class="modal-trigger">Create news</a>
+    </div>
+</div>

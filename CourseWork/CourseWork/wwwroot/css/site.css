@@ -9,6 +9,14 @@
     overflow-y: auto;
  }
 
+.news-modal {
+    width: 38%;
+}
+
+.news-modal button {
+    top: 20%
+}
+
 .register-modal {
     width: 30%;
 }
