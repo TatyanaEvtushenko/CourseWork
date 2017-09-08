@@ -38,11 +38,7 @@ export class AdminPageComponent extends CurrentUserSubscriber {
         });
     }
 
-    clickConfirm() {
-        $('#adminConfirmationModal').data('username', 'fhrfh').modal("open");
-    }
-
-    openPersonalInformation() {
-        //$('#adminConfirmationModal').modal("open");
+    clickConfirm(index: number) {
+        $('#adminConfirmationModal').modal("open");
     }
 }

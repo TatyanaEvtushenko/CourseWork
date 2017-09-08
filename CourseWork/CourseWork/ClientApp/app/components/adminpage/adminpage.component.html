@@ -1,5 +1,4 @@
-﻿<adminconfirmationpopup #popup></adminconfirmationpopup>
-<div *ngIf="isAdmin">
+﻿<div *ngIf="isAdmin">
     <h2>Admin page</h2>
     <div>
         <input id="admin-onlyConfirmed" type="checkbox" [(ngModel)]="filters['confirmed']" />
@@ -28,7 +27,6 @@
         </thead>
         <tbody>
         <tr *ngFor="let user of userInfos; let index=index" (click)="selectedIndex=index"
-            [class.active]="index == selectedIndex"
             [ngClass]="{ 'indigo lighten-4': user.statusCode == userStatus.AwaitingConfirmation, 'blue lighten-2': index == selectedIndex }">
                 <td>{{user.username}}</td>
                 <td>{{user.status}}</td>
@@ -36,8 +34,9 @@
                 <td>{{user.lastLoginTime}}</td>
                 <td>{{user.projectNumber}}</td>
                 <td>{{user.raiting}}</td>
-            <td>
-                <button (click)="clickConfirm()" *ngIf="index==selectedIndex && user.statusCode == userStatus.AwaitingConfirmation">View confirmation request</button>
+            <td *ngIf="index==selectedIndex && user.statusCode == userStatus.AwaitingConfirmation">
+                <adminconfirmationpopup [username]="user.username"></adminconfirmationpopup>
+                <button (click)="clickConfirm(index)" >View confirmation request</button>
             </td>
             </tr>
         </tbody>

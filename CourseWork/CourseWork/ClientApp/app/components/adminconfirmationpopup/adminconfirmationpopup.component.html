@@ -2,27 +2,23 @@
     <div class="modal-content center">
         <h4>Confirm your account</h4>
 
-        <label>Passport scan</label>
-        <img src="{{userData.passportScan}}"/>
+        <a href="{{userData.passportScan}}">Passport scan</a> <br/>
         <div class="input-field">
-            <input type="text" value="{{username}}" readonly="readonly" />
-            <label>Name</label>
+            <label class="active">Name</label>
+            <input type="text" value="{{userData.name}}" readonly="readonly" />
         </div>
         <div class="input-field">
+            <label class="active">Surname</label>
             <input type="text" value="{{userData.surname}}" readonly="readonly" />
-            <label>Surname</label>
         </div>
         <div class="input-field">
+            <label class="active">Description</label>
             <input type="text" value="{{userData.description}}" readonly="readonly" />
-            <label>Description</label>
         </div>
-
         <div class="input-field">
             <button class="btn" (click)="accept()">
                 Accept
             </button>
-        </div>
-        <div class="input-field">
             <button class="btn" (click)="decline()">
                 Decline
             </button>

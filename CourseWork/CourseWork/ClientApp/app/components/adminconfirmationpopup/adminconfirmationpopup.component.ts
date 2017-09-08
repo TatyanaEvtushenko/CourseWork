@@ -1,4 +1,4 @@
-﻿import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+﻿import { Component, AfterViewInit, Input } from '@angular/core';
 import { ConfirmationForm } from '../../viewmodels/confirmationform';
 import { AccountService } from "../../services/account.service";
 declare var $: any;
@@ -10,13 +10,14 @@ declare var Materialize: any;
 })
 export class AdminConfirmationPopupComponent implements AfterViewInit {
     userData = new ConfirmationForm();
-    username = "";
+    @Input() username: string;
 
     constructor(private accountService: AccountService) { }
 
     ngAfterViewInit() {
-        this.username = $('#adminConfirmationModal').data('username');
-        console.log(this.username);
+        this.accountService.getPersonalInfo(this.username).subscribe(userData => {
+            this.userData = userData;
+        });
         $('#adminConfirmationModal').modal();
     }
 
@@ -28,11 +29,9 @@ export class AdminConfirmationPopupComponent implements AfterViewInit {
         this.respondToConfirmation(false);
     }
 
-    display() {
-        $('#adminConfirmationModal').modal();
-    }
-
     private respondToConfirmation(accept: boolean) {
-        this.accountService.respondToConfirmation("2", accept);
+        this.accountService.respondToConfirmation(this.username, accept).subscribe(() => {
+            $('#adminConfirmationModal').modal("close");
+        });
     }
 }
