@@ -44,9 +44,9 @@ namespace CourseWork.Controllers
 
         [HttpGet]
         [Route("api/Admin/RespondToConfirmation")]
-        public bool RespondToConfirmation([FromQuery] string userName, [FromQuery] bool accept)
+        public async Task<bool> RespondToConfirmation([FromQuery] string userName, [FromQuery] bool accept)
         {
-            return _adminManager.RespondToConfirmation(userName, accept);
+            return await _adminManager.RespondToConfirmation(userName, accept);
         }
     }
 }

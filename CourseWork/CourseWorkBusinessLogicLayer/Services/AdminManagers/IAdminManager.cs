@@ -1,4 +1,5 @@
-﻿using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
+﻿using System.Threading.Tasks;
+using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
 
 namespace CourseWork.BusinessLogicLayer.Services.AdminManagers
 {
@@ -10,6 +11,6 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers
 
         UserConfirmationViewModel GetPersonalInfo(string userName);
 
-        bool RespondToConfirmation(string userName, bool accept);
+        Task<bool> RespondToConfirmation(string userName, bool accept);
     }
 }

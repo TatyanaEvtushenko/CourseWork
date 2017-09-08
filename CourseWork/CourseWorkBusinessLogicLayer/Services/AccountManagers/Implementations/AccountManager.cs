@@ -63,6 +63,18 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
             await _signInManager.SignOutAsync();
         }
 
+        public async Task AddRole(string userName, UserRole role)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            await AddRole(user, role);
+        }
+
+        public async Task RemoveRole(string userName, UserRole role)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            await RemoveRole(user, role);
+        }
+
         private async Task<bool> TryLogin(ApplicationUser user, string password)
         {
             var result = await _signInManager.PasswordSignInAsync(user.UserName, password, true, false);
@@ -132,6 +144,11 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
         private async Task AddRole(ApplicationUser user, UserRole role)
         {
             await _userManager.AddToRoleAsync(user, EnumConfiguration.RoleNames[role]);
+        }
+
+        private async Task RemoveRole(ApplicationUser user, UserRole role)
+        {
+            await _userManager.RemoveFromRoleAsync(user, EnumConfiguration.RoleNames[role]);
         }
 
         private static string GetMessageToSendConfirmLink(string url) =>

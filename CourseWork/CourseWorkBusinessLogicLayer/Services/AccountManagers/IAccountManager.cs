@@ -1,4 +1,6 @@
 ﻿using System.Threading.Tasks;
+using CourseWork.DataLayer.Enums;
+using CourseWork.DataLayer.Models;
 
 namespace CourseWork.BusinessLogicLayer.Services.AccountManagers
 {
@@ -11,5 +13,9 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers
         Task<bool> Login(string email, string password);
 
         Task Logout();
+
+        Task AddRole(string userName, UserRole role);
+
+        Task RemoveRole(string userName, UserRole role);
     }
 }
