@@ -16,6 +16,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
     public class ProjectManager : IProjectManager
     {
         private readonly Repository<Project> _projectRepository;
+        private readonly Repository<Raiting> _raitingRepository;
         private readonly ITagService _tagService;
         private readonly IFinancialPurposeManager _financialPurposeManager;
         private readonly IPaymentManager _paymentManager;
@@ -27,7 +28,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             IMapper<ProjectItemViewModel, Project> projectMapper,
             IMapper<ProjectFormViewModel, Project> projectFormMapper, ITagService tagService,
             IFinancialPurposeManager financialPurposeManager,
-            IHttpContextAccessor contextAccessor, IPaymentManager paymentManager)
+            IHttpContextAccessor contextAccessor, IPaymentManager paymentManager, Repository<Raiting> raitingRepository)
         {
             _projectRepository = projectRepository;
             _projectMapper = projectMapper;
@@ -36,20 +37,14 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             _financialPurposeManager = financialPurposeManager;
             _contextAccessor = contextAccessor;
             _paymentManager = paymentManager;
+            _raitingRepository = raitingRepository;
         }
 
         public bool AddProject(ProjectFormViewModel projectForm)
         {
             var project = GetPreparedProject(projectForm);
-            return _projectRepository.AddRange(project) && _tagService.AddTagsInProject(projectForm.Tags, project.Id) &&
+            return _projectRepository.AddRange(project) & _tagService.AddTagsInProject(projectForm.Tags, project.Id) &
                    _financialPurposeManager.AddFinancialPurposes(projectForm.FinancialPurposes, project.Id);
-        }
-
-        public void UpdateExistedProjects()
-        {
-            var activeProjects = _projectRepository.GetWhere(project => project.Status == ProjectStatus.Active);
-            activeProjects.ForEach(project => ChangeProjectStatus(ref project));
-            _projectRepository.UpdateRange(activeProjects.ToArray());
         }
 
         public IEnumerable<ProjectItemViewModel> GetUserProjects()
@@ -76,7 +71,34 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             return _projectRepository.Get(projectId).Name;
         }
 
-        private void ChangeProjectStatus(ref Project project)
+        public void UpdateExistedProjects()
+        {
+            var projects = _projectRepository.GetAll();
+            UpdateProjectRaiting(projects);
+            UpdateProjectStatus(projects);
+            _projectRepository.UpdateRange(projects.ToArray());
+        }
+
+        private void UpdateProjectRaiting(IEnumerable<Project> projects)
+        {
+            var raitings = _raitingRepository.GetAll();
+            foreach (var project in projects)
+            {
+                var projectRaitings = raitings.Where(raiting => raiting.ProjectId == project.Id);
+                project.Raiting = !projectRaitings.Any() ? 0 : projectRaitings.Average(raiting => raiting.RaitingResult);
+            }
+        }
+
+        private void UpdateProjectStatus(IEnumerable<Project> projects)
+        {
+            var activeProjects = projects.Where(project => project.Status == ProjectStatus.Active);
+            foreach (var project in activeProjects)
+            {
+                ChangeProjectStatus(project);
+            }
+        }
+
+        private void ChangeProjectStatus(Project project)
         {
             if (IsFinancialProject(project))
             {

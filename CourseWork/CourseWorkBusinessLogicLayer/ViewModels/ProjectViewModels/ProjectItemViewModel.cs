@@ -1,5 +1,4 @@
-﻿using System;
-using CourseWork.DataLayer.Enums;
+﻿using CourseWork.DataLayer.Enums;
 
 namespace CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels
 {
@@ -11,10 +10,10 @@ namespace CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels
 
         public decimal PaidAmount { get; set; }
 
-        public DateTime CreatingTime { get; set; }
-
         public string ImageUrl { get; set; }
 
         public ProjectStatus Status { get; set; }
+
+        public double Raiting { get; set; }
     }
 }

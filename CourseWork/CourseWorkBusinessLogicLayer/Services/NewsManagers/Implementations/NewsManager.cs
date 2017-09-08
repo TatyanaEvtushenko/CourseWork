@@ -6,7 +6,7 @@ using CourseWork.BusinessLogicLayer.Services.Mappers;
 using CourseWork.BusinessLogicLayer.Services.MessageSenders;
 using CourseWork.BusinessLogicLayer.Services.PaymentManagers;
 using CourseWork.BusinessLogicLayer.Services.ProjectManagers;
-using CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManager;
+using CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManagers;
 using CourseWork.BusinessLogicLayer.Services.UserManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.NewsViewModels;
 using CourseWork.DataLayer.Enums;

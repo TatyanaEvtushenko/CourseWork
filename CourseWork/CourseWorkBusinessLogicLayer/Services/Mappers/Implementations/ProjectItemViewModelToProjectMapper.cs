@@ -15,12 +15,12 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
         {
             return new ProjectItemViewModel
             {
-                CreatingTime = item.CreatingTime,
                 Id = item.Id,
                 Name = item.Name,
                 ImageUrl = item.ImageUrl,
                 PaidAmount = item.PaidAmount,
-                Status = item.Status
+                Status = item.Status,
+                Raiting = item.Raiting
             };
         }
     }

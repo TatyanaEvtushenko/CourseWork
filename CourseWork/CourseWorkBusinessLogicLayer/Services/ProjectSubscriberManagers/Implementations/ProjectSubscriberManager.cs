@@ -2,7 +2,7 @@
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
 
-namespace CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManager.Implementations
+namespace CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManagers.Implementations
 {
     public class ProjectSubscriberManager : IProjectSubscriberManager
     {

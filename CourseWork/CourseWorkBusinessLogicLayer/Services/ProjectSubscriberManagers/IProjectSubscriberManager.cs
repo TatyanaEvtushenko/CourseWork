@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using CourseWork.DataLayer.Models;
 
-namespace CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManager
+namespace CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManagers
 {
     public interface IProjectSubscriberManager
     {
