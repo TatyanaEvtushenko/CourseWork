@@ -5,7 +5,6 @@ import { CurrentUserService } from '../../services/currentuser.service';
 import { CurrentUserSubscriber } from '../currentuser.subscriber';
 import { UserInfo } from '../../viewmodels/userinfo';
 import { UserStatus } from "../../enums/userstatus";
-import { AdminConfirmationPopupComponent } from "../adminconfirmationpopup/adminconfirmationpopup.component";
 declare var $: any;
 
 @Component({
@@ -18,11 +17,9 @@ export class AdminPageComponent extends CurrentUserSubscriber {
     filters = { unconfirmed: true, requested: true, confirmed: true };
     userStatus = UserStatus;
     selectedIndex: number = null;
-    popup: AdminConfirmationPopupComponent;
 
     constructor(private title: Title, protected currentUserService: CurrentUserService, protected accountService: AccountService) {
         super(currentUserService, accountService);
-        this.popup = new AdminConfirmationPopupComponent(accountService);
         title.setTitle("Admin page");
     }
 
@@ -38,7 +35,19 @@ export class AdminPageComponent extends CurrentUserSubscriber {
         });
     }
 
-    clickConfirm(index: number) {
+    clickConfirm() {
         $('#adminConfirmationModal').modal("open");
+    }
+
+    changeStatus(accept: boolean) {
+        console.log(accept);
+        if (accept) {
+            this.userInfos[this.selectedIndex].statusCode = UserStatus.Confirmed;
+            this.userInfos[this.selectedIndex].status = "Confirmed"; 
+        } else {
+            this.userInfos[this.selectedIndex].statusCode = UserStatus.WithoutConfirmation;
+            this.userInfos[this.selectedIndex].status = "Without confirmation";
+        }
+        
     }
 }

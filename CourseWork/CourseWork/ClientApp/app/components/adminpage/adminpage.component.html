@@ -35,8 +35,8 @@
                 <td>{{user.projectNumber}}</td>
                 <td>{{user.raiting}}</td>
             <td *ngIf="index==selectedIndex && user.statusCode == userStatus.AwaitingConfirmation">
-                <adminconfirmationpopup [username]="user.username"></adminconfirmationpopup>
-                <button (click)="clickConfirm(index)" >View confirmation request</button>
+                <adminconfirmationpopup [username]="user.username" (emitter)="changeStatus($event)"></adminconfirmationpopup>
+                <button (click)="clickConfirm()" >View confirmation request</button>
             </td>
             </tr>
         </tbody>
