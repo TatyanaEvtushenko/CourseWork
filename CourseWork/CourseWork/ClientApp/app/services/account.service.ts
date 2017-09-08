@@ -44,4 +44,9 @@ export class AccountService extends BaseService{
         let params = { 'username': userName, 'accept': accept }
         return this.requestGetWithParams("api/Admin/RespondToConfirmation", params);
     }
+
+    sortByField(fieldName: string, ascending: boolean) {
+        let params = { 'fieldName': fieldName, 'ascending': ascending }
+        return this.requestGetWithParams("api/Admin/SortByField", params);
+    }
 }

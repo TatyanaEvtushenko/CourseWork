@@ -17,6 +17,7 @@ export class AdminPageComponent extends CurrentUserSubscriber {
     filters = { unconfirmed: true, requested: true, confirmed: true };
     userStatus = UserStatus;
     selectedIndex: number = null;
+    sortOrderAscending = { "Status": true, "LastLoginTime": true };
 
     constructor(private title: Title, protected currentUserService: CurrentUserService, protected accountService: AccountService) {
         super(currentUserService, accountService);
@@ -48,6 +49,12 @@ export class AdminPageComponent extends CurrentUserSubscriber {
             this.userInfos[this.selectedIndex].statusCode = UserStatus.WithoutConfirmation;
             this.userInfos[this.selectedIndex].status = "Without confirmation";
         }
-        
+    }
+
+    sortByField(fieldName: string) {
+        this.accountService.sortByField(fieldName, this.sortOrderAscending[fieldName]).subscribe(userInfos => {
+            this.userInfos = userInfos;
+            this.sortOrderAscending[fieldName] = !this.sortOrderAscending[fieldName];
+        });
     }
 }

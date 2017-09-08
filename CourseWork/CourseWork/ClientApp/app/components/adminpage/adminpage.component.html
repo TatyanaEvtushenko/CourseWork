@@ -1,4 +1,5 @@
-﻿<div *ngIf="isAdmin">
+﻿<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<div *ngIf="isAdmin">
     <div class="fixed-action-btn">
         <button class="waves-effect waves-light btn" [disabled]="selectedIndex == null || userInfos[selectedIndex].statusCode != userStatus.AwaitingConfirmation" (click)="clickConfirm()">View confirmation request</button>
     </div>
@@ -20,9 +21,13 @@
         <thead>
         <tr>
             <th>Username</th>
-            <th>Status</th>
+            <th (click)="sortByField('Status')">
+                <i [attr.class]="sortOrderAscending['Status'] ? 'fa fa-fw fa-sort-asc' : 'fa fa-fw fa-sort-desc'"></i>Status
+            </th>
             <th>Registration time</th>
-            <th>Last login time</th>
+            <th (click)="sortByField('LastLoginTime')">
+                <i [attr.class]="sortOrderAscending['LastLoginTime'] ? 'fa fa-fw fa-sort-asc' : 'fa fa-fw fa-sort-desc'"></i>Last login time
+            </th>
             <th>Project number</th>
             <th>Rating</th>
         </tr>
