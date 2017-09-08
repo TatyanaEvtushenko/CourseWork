@@ -71,6 +71,11 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
                 .Select(project => _projectMapper.ConvertFrom(project));
         }
 
+        public string GetProjectName(string projectId)
+        {
+            return _projectRepository.Get(projectId).Name;
+        }
+
         private void ChangeProjectStatus(ref Project project)
         {
             if (IsFinancialProject(project))

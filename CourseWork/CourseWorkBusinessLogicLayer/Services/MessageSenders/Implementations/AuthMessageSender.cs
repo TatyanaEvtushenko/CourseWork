@@ -18,14 +18,13 @@ namespace CourseWork.BusinessLogicLayer.Services.MessageSenders.Implementations
 
         public Task SendEmailAsync(string email, string subject, string message)
         {
-            SendMessage(CreateMessage(email, subject, message));
-            return Task.FromResult(0);
+            return Task.Factory.StartNew(() => SendMessage(CreateMessage(email, subject, message)));
         }
 
         private MimeMessage CreateMessage(string email, string subject, string message)
         {
             var emailMessage = new MimeMessage();
-            emailMessage.From.Add(new MailboxAddress("Email confirmation", _options.Email));
+            emailMessage.From.Add(new MailboxAddress("Course work", _options.Email));
             emailMessage.To.Add(new MailboxAddress("", email));
             emailMessage.Subject = subject;
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)

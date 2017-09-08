@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
@@ -19,6 +20,11 @@ namespace CourseWork.BusinessLogicLayer.Services.PaymentManagers.Implementations
             var lastPayment = _paymentRepository.GetWhere(payment => payment.ProjectId == projectId)
                 .OrderByDescending(payment => payment.Time).FirstOrDefault();
             return lastPayment?.Time ?? DateTime.Now;
+        }
+
+        public IEnumerable<Payment> GetProjectPayments(string projectId)
+        {
+            return _paymentRepository.GetWhere(payment => payment.ProjectId == projectId);
         }
     }
 }

@@ -6,12 +6,16 @@ using CourseWork.BusinessLogicLayer.Services.FinancialPurposeManagers;
 using CourseWork.BusinessLogicLayer.Services.FinancialPurposeManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.MessageSenders;
 using CourseWork.BusinessLogicLayer.Services.MessageSenders.Implementations;
+using CourseWork.BusinessLogicLayer.Services.NewsManagers;
+using CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.PaymentManagers;
 using CourseWork.BusinessLogicLayer.Services.PaymentManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.PhotoManagers;
 using CourseWork.BusinessLogicLayer.Services.PhotoManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.ProjectManagers;
 using CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations;
+using CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManager;
+using CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManager.Implementations;
 using CourseWork.BusinessLogicLayer.Services.TagServices;
 using CourseWork.BusinessLogicLayer.Services.TagServices.Implementations;
 using CourseWork.BusinessLogicLayer.Services.UserManagers;
@@ -33,6 +37,8 @@ namespace CourseWork.Extensions.StartupExtensions
             services.AddScoped<IPhotoManager, PhotoManager>();
             services.AddScoped<IProjectManager, ProjectManager>();
             services.AddScoped<IPaymentManager, PaymentManager>();
+            services.AddScoped<INewsManager, NewsManager>();
+            services.AddScoped<IProjectSubscriberManager, ProjectSubscriberManager>();
         }
     }
 }
