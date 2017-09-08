@@ -62,7 +62,17 @@ export class AdminPageComponent extends CurrentUserSubscriber {
     }
 
     delete() {
-        
+        this.accountService.delete(this.getSelectedUsers()).subscribe((success) => {
+            if (success) {
+                var result: UserInfo[] = [];
+                this.userInfos.forEach((item, index) => {
+                    if (!this.isCheckedAtIndex[index])
+                        result.push(item);
+                });
+                this.userInfos = result;
+                this.isCheckedAtIndex = new Array<boolean>(this.userInfos.length);
+            }
+        });
     }
 
     blockUnblock() {

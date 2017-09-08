@@ -16,5 +16,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers
         UserListItemViewModel[] SortByField(string fieldName, bool ascending);
 
         bool BlockUnblock(string[] usersToBlock);
+
+        bool Delete(string[] usersToDelete);
     }
 }

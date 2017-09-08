@@ -14,16 +14,20 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
     public class AdminManager : IAdminManager
     {
         private readonly Repository<UserInfo> _userInfoRepository;
+        private readonly Repository<ApplicationUser> _applicationUserRepository;
+        private readonly Repository<Project> _projectRepository;
         private readonly IMapper<UserListItemViewModel, UserInfo> _mapperList;
         private readonly IMapper<UserConfirmationViewModel, UserInfo> _mapperInfo;
         private readonly IAccountManager _accountManager;
 
-        public AdminManager(IMapper<UserListItemViewModel, UserInfo> mapperList, Repository<UserInfo> userInfoRepository, IMapper<UserConfirmationViewModel, UserInfo> mapperInfo, IAccountManager accountManager)
+        public AdminManager(IMapper<UserListItemViewModel, UserInfo> mapperList, Repository<UserInfo> userInfoRepository, IMapper<UserConfirmationViewModel, UserInfo> mapperInfo, IAccountManager accountManager, Repository<ApplicationUser> applicationUserRepository, Repository<Project> projectRepository)
         {
             _mapperList = mapperList;
             _userInfoRepository = userInfoRepository;
             _mapperInfo = mapperInfo;
             _accountManager = accountManager;
+            _applicationUserRepository = applicationUserRepository;
+            _projectRepository = projectRepository;
         }
 
         public UserListItemViewModel[] GetAllUsers()
@@ -70,6 +74,13 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
                 user.IsBlocked = !user.IsBlocked;
             }
             return _userInfoRepository.UpdateRange(users.ToArray());
+        }
+
+        public bool Delete(string[] usersToDelete)
+        {
+            return _projectRepository.RemoveWhere(n => usersToDelete.Contains(n.OwnerUserName)) && 
+                _userInfoRepository.RemoveRange(usersToDelete) &&
+                _applicationUserRepository.RemoveWhere(n => usersToDelete.Contains(n.UserName));
         }
     }
 }

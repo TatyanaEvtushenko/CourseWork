@@ -62,5 +62,12 @@ namespace CourseWork.Controllers
         {
             return _adminManager.BlockUnblock(usersToBlock);
         }
+
+        [HttpGet]
+        [Route("api/Admin/Delete")]
+        public bool Delete([FromQuery] string[] usersToDelete)
+        {
+            return _adminManager.Delete(usersToDelete);
+        }
     }
 }

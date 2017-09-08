@@ -33,6 +33,12 @@ namespace CourseWork.DataLayer.Repositories
             return SaveActionResult(() => Table.RemoveRange(items));
         }
 
+        public bool RemoveWhere(Func<T, bool> whereExpression)
+        {
+            var identificators = GetWhere(whereExpression).Select(GetIdentificator).ToArray();
+            return RemoveRange(identificators);
+        }
+
         public bool UpdateRange(params T[] items)
         {
             return SaveActionResult(() =>

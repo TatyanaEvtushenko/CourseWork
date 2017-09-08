@@ -55,4 +55,9 @@ export class AccountService extends BaseService{
         var params = { 'usersToBlock': usersToBlock };
         return this.requestGetWithParams("api/Admin/BlockUnblock", params);
     }
+
+    delete(usersToDelete: string[]) {
+        var params = { 'usersToDelete': usersToDelete };
+        return this.requestGetWithParams("api/Admin/Delete", params);
+    }
 }
