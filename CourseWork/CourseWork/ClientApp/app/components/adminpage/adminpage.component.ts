@@ -14,7 +14,8 @@ declare var $: any;
 
 export class AdminPageComponent extends CurrentUserSubscriber {
     userInfos: UserInfo[] = [];
-    isCheckedAtIndex: boolean[] = [];
+	isCheckedAtIndex: boolean[] = [];
+	deleteWithCommentsAndRaitings = false;
     filters = { unconfirmed: true, requested: true, confirmed: true };
     userStatus = UserStatus;
     selectedIndex: number = null;
@@ -62,7 +63,7 @@ export class AdminPageComponent extends CurrentUserSubscriber {
     }
 
     delete() {
-        this.accountService.delete(this.getSelectedUsers()).subscribe((success) => {
+        this.accountService.delete(this.getSelectedUsers(), this.deleteWithCommentsAndRaitings).subscribe((success) => {
             if (success) {
                 var result: UserInfo[] = [];
                 this.userInfos.forEach((item, index) => {

@@ -21,10 +21,15 @@
     
     <div class="input-field">
         <button class="btn" (click)="blockUnblock()">Block/Unblock selected</button>
-        <button class="btn" (click)="delete()">Delete selected</button>
+	    <button class="btn" (click)="delete()">Delete selected</button>
     </div>
+	
+	<div>
+		<input id="admin-deleteWithCommentsAndRaitings" type="checkbox" [(ngModel)]="deleteWithCommentsAndRaitings"/>
+		<label for="admin-deleteWithCommentsAndRaitings">Delete with comments and raitings</label>
+	</div>
 
-    <table class="responsive-table highlight">
+	<table class="responsive-table highlight">
         <thead>
         <tr>
             <th>Username</th>

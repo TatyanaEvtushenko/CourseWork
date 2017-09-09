@@ -17,6 +17,6 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers
 
         bool BlockUnblock(string[] usersToBlock);
 
-        bool Delete(string[] usersToDelete);
+        bool Delete(string[] usersToDelete, bool withCommentsAndRaitings);
     }
 }

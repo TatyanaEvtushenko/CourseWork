@@ -56,8 +56,8 @@ export class AccountService extends BaseService{
         return this.requestGetWithParams("api/Admin/BlockUnblock", params);
     }
 
-    delete(usersToDelete: string[]) {
-        var params = { 'usersToDelete': usersToDelete };
+    delete(usersToDelete: string[], withCommentsAndRaitings: boolean) {
+        var params = { 'usersToDelete': usersToDelete, 'withCommentsAndRaitings': withCommentsAndRaitings };
         return this.requestGetWithParams("api/Admin/Delete", params);
     }
 }

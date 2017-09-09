@@ -65,9 +65,9 @@ namespace CourseWork.Controllers
 
         [HttpGet]
         [Route("api/Admin/Delete")]
-        public bool Delete([FromQuery] string[] usersToDelete)
+        public bool Delete([FromQuery] string[] usersToDelete, [FromQuery] bool withCommentsAndRaitings)
         {
-            return _adminManager.Delete(usersToDelete);
+            return _adminManager.Delete(usersToDelete, withCommentsAndRaitings);
         }
     }
 }
