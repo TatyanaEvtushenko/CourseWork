@@ -1,8 +1,8 @@
 ﻿<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 <div *ngIf="isAdmin">
-    <div class="fixed-action-btn">
-        <button class="waves-effect waves-light btn" [disabled]="selectedIndex == null || userInfos[selectedIndex].statusCode != userStatus.AwaitingConfirmation" (click)="clickConfirm()">View confirmation request</button>
-    </div>
+	<div class="fixed-action-btn">
+		<button class="waves-effect waves-light btn" [disabled]="selectedIndex == null || userInfos[selectedIndex].statusCode != userStatus.AwaitingConfirmation" (click)="clickConfirm()">View confirmation request</button>
+	</div>
 
     <h2>Admin page</h2>
     <div>
@@ -54,12 +54,15 @@
             <td>{{user.lastLoginTime}}</td>
             <td>{{user.projectNumber}}</td>
             <td>{{user.raiting}}</td>
-            <td>
-                <div>
-                    <input id="checkbox-{{user.username}}" type="checkbox" [(ngModel)]="isCheckedAtIndex[index]"/>
-                    <label for="checkbox-{{user.username}}"></label>
-                </div>
-            </td>
+	        <td>
+		        <div>
+			        <input id="checkbox-{{user.username}}" type="checkbox" [(ngModel)]="isCheckedAtIndex[index]"/>
+			        <label for="checkbox-{{user.username}}"></label>
+		        </div>
+	        </td>
+	        <td *ngIf="index == selectedIndex && user.statusCode == userStatus.AwaitingConfirmation">
+		        <adminconfirmationpopup [username]="user.username" (emitter)="changeStatus($event)"></adminconfirmationpopup>
+	        </td>
         </tr>
         </tbody>
     </table>
