@@ -10,5 +10,12 @@ namespace CourseWork.DataLayer.Enums.Configurations
             { UserRole.ConfirmedUser,  "ConfirmedUser" },
             { UserRole.Admin, "Admin" }
         };
+
+        public static Dictionary<UserStatus, string> StatusDisplayNames = new Dictionary<UserStatus, string>
+        {
+            {UserStatus.WithoutConfirmation, "Without confirmation"},
+            {UserStatus.AwaitingConfirmation, "Awaiting confirmation"},
+            {UserStatus.Confirmed, "Confirmed"}
+        };
     }
 }

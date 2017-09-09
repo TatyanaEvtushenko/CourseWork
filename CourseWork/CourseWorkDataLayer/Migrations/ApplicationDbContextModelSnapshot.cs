@@ -78,7 +78,7 @@ namespace CourseWork.DataLayer.Data.Migrations
 
                     b.Property<DateTime>("Time");
 
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserName");
 
                     b.HasKey("Id");
 
@@ -208,7 +208,7 @@ namespace CourseWork.DataLayer.Data.Migrations
 
                     b.Property<int>("RaitingResult");
 
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserName");
 
                     b.HasKey("Id");
 

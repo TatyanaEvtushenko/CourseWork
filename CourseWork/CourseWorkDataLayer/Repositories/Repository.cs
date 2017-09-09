@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CourseWork.DataLayer.Data;
+using CourseWork.DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace CourseWork.DataLayer.Repositories
@@ -30,6 +31,12 @@ namespace CourseWork.DataLayer.Repositories
         {
             var items = Table.Where(item => identificators.Contains(GetIdentificator(item)));
             return SaveActionResult(() => Table.RemoveRange(items));
+        }
+
+        public bool RemoveWhere(Func<T, bool> whereExpression)
+        {
+            var identificators = GetWhere(whereExpression).Select(GetIdentificator).ToArray();
+            return RemoveRange(identificators);
         }
 
         public bool UpdateRange(params T[] items)
@@ -61,6 +68,11 @@ namespace CourseWork.DataLayer.Repositories
         public List<T> GetWhere(Func<T, bool> whereExpression)
         {
             return Table.Where(whereExpression).ToList();
+        }
+
+        public virtual UserInfo[] SortByField(string fieldName, bool ascending)
+        {
+            return null;
         }
 
         private bool SaveActionResult(Action action)
