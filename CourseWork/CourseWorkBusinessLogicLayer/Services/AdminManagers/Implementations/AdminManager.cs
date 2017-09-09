@@ -40,11 +40,11 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
             return _userInfoRepository.GetAll().Select(n => _mapperList.ConvertFrom(n)).ToArray();
         }
 
-        public UserListItemViewModel[] GetFilteredUsers(bool confirmed, bool requested, bool unconfirmed)
+        public UserListItemViewModel[] GetFilteredUsers(FilterRequestViewModel model)
         {
-            return _userInfoRepository.GetWhere(item => (confirmed && item.Status == UserStatus.Confirmed) ||
-                       (requested && item.Status == UserStatus.AwaitingConfirmation) ||
-                       (unconfirmed && item.Status == UserStatus.WithoutConfirmation)
+            return _userInfoRepository.GetWhere(item => (model.Confirmed && item.Status == UserStatus.Confirmed) ||
+                       (model.Requested && item.Status == UserStatus.AwaitingConfirmation) ||
+                       (model.Unconfirmed && item.Status == UserStatus.WithoutConfirmation)
             ).Select(n => _mapperList.ConvertFrom(n)).ToArray();
         }
 

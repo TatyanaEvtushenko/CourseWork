@@ -30,9 +30,9 @@ namespace CourseWork.Controllers
 
         [HttpGet]
         [Route("api/Admin/GetFilteredUsers")]
-        public UserListItemViewModel[] GetFilteredUsers([FromQuery] bool confirmed, [FromQuery] bool requested, [FromQuery] bool unconfirmed)
+        public UserListItemViewModel[] GetFilteredUsers([FromQuery] FilterRequestViewModel model)
         {
-            return _adminManager.GetFilteredUsers(confirmed, requested, unconfirmed);
+            return _adminManager.GetFilteredUsers(model);
         }
 
         [HttpGet]

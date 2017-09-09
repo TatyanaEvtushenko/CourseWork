@@ -7,7 +7,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers
     {
         UserListItemViewModel[] GetAllUsers();
 
-        UserListItemViewModel[] GetFilteredUsers(bool confirmed, bool requested, bool unconfirmed);
+        UserListItemViewModel[] GetFilteredUsers(FilterRequestViewModel model);
 
         UserConfirmationViewModel GetPersonalInfo(string userName);
 
