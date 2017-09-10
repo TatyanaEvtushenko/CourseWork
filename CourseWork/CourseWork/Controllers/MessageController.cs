@@ -19,9 +19,9 @@ namespace CourseWork.Controllers
 		    _userManager = userManager;
 	    }
 
-	    [HttpGet]
+	    [HttpPost]
 	    [Route("api/Message/Send")]
-	    public void Send([FromQuery] MessageViewModel[] messages)
+	    public void Send([FromBody] MessageViewModel[] messages)
 	    {
 		    _messageManager.Send(messages);
 	    }

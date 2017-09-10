@@ -1,4 +1,5 @@
-﻿using CourseWork.BusinessLogicLayer.ViewModels.MessageViewModels;
+﻿using System;
+using CourseWork.BusinessLogicLayer.ViewModels.MessageViewModels;
 using CourseWork.DataLayer.Models;
 
 namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
@@ -9,6 +10,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
 	    {
 		    return new Message
 		    {
+				Id = Guid.NewGuid().ToString(),
 			    IsSeen = false,
 			    RecipientUserName = item.RecipientUserName,
 			    Text = item.Text

@@ -5,6 +5,8 @@ import { CurrentUserService } from '../../services/currentuser.service';
 import { UserInfo } from '../../viewmodels/userinfo';
 import { UserStatus } from "../../enums/userstatus";
 import { MessageSubscriber } from '../message.subscriber';
+import { MessageSenderService } from "../../services/messagesender.service";
+import { SentMessage } from "../../viewmodels/sentmessage";
 declare var $: any;
 declare var Materialize: any;
 
@@ -22,7 +24,7 @@ export class AdminPageComponent extends MessageSubscriber {
     selectedIndex: number = null;
     sortOrderAscending = { "Status": true, "LastLoginTime": true };
 
-    constructor(private title: Title, protected currentUserService: CurrentUserService, protected accountService: AccountService) {
+    constructor(private title: Title, protected currentUserService: CurrentUserService, protected accountService: AccountService, private messageSenderService: MessageSenderService) {
         super(currentUserService, accountService);
 		title.setTitle("Admin page");
     }
@@ -48,11 +50,12 @@ export class AdminPageComponent extends MessageSubscriber {
     changeStatus(accept: boolean) {
         if (accept) {
             this.userInfos[this.selectedIndex].statusCode = UserStatus.Confirmed;
-            this.userInfos[this.selectedIndex].status = "Confirmed"; 
+			this.userInfos[this.selectedIndex].status = "Confirmed"; 
         } else {
             this.userInfos[this.selectedIndex].statusCode = UserStatus.WithoutConfirmation;
             this.userInfos[this.selectedIndex].status = "Without confirmation";
-        }
+		}
+	    this.sendConfirmationMessage(this.userInfos[this.selectedIndex].username, this.generateResponseMessage(accept));
     }
 
     sortByField(fieldName: string) {
@@ -96,5 +99,14 @@ export class AdminPageComponent extends MessageSubscriber {
                 result.push(item.username);
         });
         return result;
-    }
+	}
+
+	private sendConfirmationMessage(username: string, message: string) {
+		this.messageSenderService.sendMessage([{ recipientUserName: username, text: message }]).
+			subscribe((data: void) => { });
+	}
+
+	private generateResponseMessage(accept: boolean) {
+		return accept ? 'Your confirmation request has been approved.' : 'Your confirmation request has been declined.';
+	}
 }

@@ -35,6 +35,7 @@ import { CurrentUserService } from "./services/currentuser.service";
 import { TagService } from "./services/tag.service";
 import { AccountService } from "./services/account.service";
 import { ProjectService } from "./services/project.service";
+import { MessageSenderService } from "./services/messagesender.service"
 
 const appRoutes: Routes = [
     { path: '', component: HomePageComponent },
@@ -85,7 +86,8 @@ const appRoutes: Routes = [
         CurrentUserService,
         AccountService,
         TagService,
-        ProjectService
+		ProjectService,
+		MessageSenderService
     ],
     bootstrap: [
         AppComponent

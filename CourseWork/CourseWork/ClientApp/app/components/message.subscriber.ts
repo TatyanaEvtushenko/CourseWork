@@ -26,8 +26,7 @@ export class MessageSubscriber extends CurrentUserSubscriber {
 			messages.forEach((message) => {
 				Materialize.toast(message.text, 60000);
 			});
-			this.currentUserService.markAsRead(ids).subscribe((data: void) => {
-			});
+			this.currentUserService.markAsRead(ids).subscribe((data: void) => {});
 		});
 	}
 

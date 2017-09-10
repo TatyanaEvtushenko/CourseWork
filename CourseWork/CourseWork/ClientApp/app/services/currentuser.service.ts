@@ -18,7 +18,6 @@ export class CurrentUserService extends BaseService {
 
 	markAsRead(messages: string[]) {
 		var params = { 'id': messages };
-		console.log(params);
 		return this.requestGetWithParams("api/Message/MarkAsRead", params);
 	}
 

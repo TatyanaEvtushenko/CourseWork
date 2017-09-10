@@ -4,7 +4,6 @@ using CourseWork.BusinessLogicLayer.Services.Mappers;
 using CourseWork.BusinessLogicLayer.ViewModels.MessageViewModels;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
-using Microsoft.AspNetCore.Http;
 
 namespace CourseWork.BusinessLogicLayer.Services.MessageManagers.Implementations
 {
@@ -23,7 +22,7 @@ namespace CourseWork.BusinessLogicLayer.Services.MessageManagers.Implementations
 
 	    public void Send(MessageViewModel[] messages)
 	    {
-		    _messageRepository.AddRange(messages.Select(message => _serverMapper.ConvertTo(message)).ToArray());
+			_messageRepository.AddRange(messages.Select(message => _serverMapper.ConvertTo(message)).ToArray());
 	    }
 
 	    public ClientMessageViewModel[] GetUnreadMessages(string username)
