@@ -16,7 +16,19 @@ export class UserProjectsPageComponent {
 
     ngOnInit() {
         this.projectService.getUserProjects().subscribe(
-            (data) => this.projects = data
+            (data) => {
+                this.projects = data;
+                this.projects.sort((a, b) => {
+                    if (a.status > b.status) {
+                        return 1;
+                    }
+                    if (a.status === b.status) {
+                        return 0;
+                    } else {
+                        return -1;
+                    }
+                });
+            }
         );
     }
 

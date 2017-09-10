@@ -7,7 +7,7 @@ import { TagCloudModule } from 'angular-tag-cloud-module';
 import { FormsModule } from '@angular/forms';
 import { MarkdownModule } from 'angular2-markdown';
 import { MaterializeModule } from "angular2-materialize";
-import { StarRatingModule } from 'angular-star-rating';
+import { RatingModule } from "ngx-rating";
  
 import { AppComponent } from './components/app/app.component';
 import { HomePageComponent } from './components/homepage/homepage.component';
@@ -54,7 +54,7 @@ const appRoutes: Routes = [
         FormsModule,
         MaterializeModule,
         MarkdownModule.forRoot(),
-        StarRatingModule.forRoot(),
+        RatingModule,
         RouterModule.forRoot(
             appRoutes,
             { enableTracing: true }
