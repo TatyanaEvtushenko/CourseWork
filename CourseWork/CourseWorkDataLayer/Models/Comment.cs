@@ -1,12 +1,15 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations;
 
 namespace CourseWork.DataLayer.Models
 {
     public class Comment
     {
+		[Key]
         public string Id { get; set; }
 
-        public string UserId { get; set; }
+        public string UserName { get; set; }
 
         public string ProjectId { get; set; }
 

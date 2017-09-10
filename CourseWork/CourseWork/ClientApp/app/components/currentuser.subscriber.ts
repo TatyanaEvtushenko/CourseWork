@@ -35,7 +35,8 @@ export class CurrentUserSubscriber {
     private updateData(user: CurrentUser) {
         this.isReadyCurrentUser = true;
         this.currentUser = user;
-        this.updateRoles();  
+		this.updateRoles();
+	    this.updateBlockedStatus(user.isBlocked);
     }
 
     private updateRoles() {
@@ -43,5 +44,10 @@ export class CurrentUserSubscriber {
         this.isAdmin = this.isUser && this.currentUser.role === "Admin";
         this.isConfirmedUser = this.isUser && (this.isAdmin || this.currentUser.role === "ConfirmedUser");
         this.isJustUser = this.isUser && this.currentUser.role === "User";
-    }
+	}
+
+	private updateBlockedStatus(isBlocked: boolean) {
+		if (isBlocked)
+			this.accountService.changeAuthState(false);
+	}
 }
