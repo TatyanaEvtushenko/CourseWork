@@ -56,7 +56,7 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
             var recipientUserNames = _paymentManager.GetProjectPayments(newsForm.ProjectId)
                 .Select(payment => payment.UserName);
             await SendMailing(newsForm, recipientUserNames);
-            return AddNewsToRepository(newsForm, NewsType.MailingToSubscribers);
+            return AddNewsToRepository(newsForm, NewsType.MailingToPayers);
         }
 
         private bool AddNewsToRepository(NewsFormViewModel newsForm, NewsType type)
@@ -69,9 +69,10 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
         {
             var recipientEmails = _userManager.GetEmails(recipientUserNames);
             var subject = GetSubjectForLetter(newsForm);
+            var message = CommonMark.CommonMarkConverter.Convert(newsForm.Text);
             foreach (var recipientEmail in recipientEmails)
             {
-                await _emailSender.SendEmailAsync(recipientEmail, subject, newsForm.Text);
+                await _emailSender.SendEmailAsync(recipientEmail, subject, message);
             }
         }
 

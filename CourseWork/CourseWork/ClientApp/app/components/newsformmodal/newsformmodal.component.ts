@@ -2,6 +2,7 @@
 import { NewsForm } from '../../viewmodels/newsform';
 import { ProjectService } from "../../services/project.service";
 declare var $: any;
+declare var Materialize: any;
 
 @Component({
     selector: 'newsformmodal',
@@ -14,6 +15,7 @@ export class NewsFormModalComponent implements AfterViewInit {
     isNews = true;
     isMailingToSubscribers = false;
     isMailingToPayers = false;
+    isSent = false;
 
     constructor(private projectService: ProjectService) { }
 
@@ -22,19 +24,48 @@ export class NewsFormModalComponent implements AfterViewInit {
     }
 
     onSubmit() {
-        //if (this.loginForm.email != null && this.loginForm.password != null) {
-        //    this.accountService.login(this.loginForm).subscribe(
-        //        (data) => this.getResponse(data),
-        //        (error) => this.isWrongRequest = true
-        //    );
-        //}
+        this.isSent = false;
+        this.newsForm.projectId = this.projectId;
+        this.addNews();
+        this.addMailingToSubscribers();
+        this.addMailingToPayers();
+    }
+
+    private addNews() {
+        if (this.isNews) {
+            this.projectService.addNews(this.newsForm).subscribe(
+                (data) => this.getResponse(data),
+                (error) => this.isWrongRequest = true
+            );
+        }
+    }
+
+    private addMailingToSubscribers() {
+        if (this.isMailingToSubscribers) {
+            this.projectService.addMailingToSubscribers(this.newsForm).subscribe(
+                (data) => this.getResponse(data),
+                (error) => this.isWrongRequest = true
+            );
+        }
+    }
+
+    private addMailingToPayers() {
+        if (this.isMailingToPayers) {
+            this.projectService.addMailingToPayers(this.newsForm).subscribe(
+                (data) => this.getResponse(data),
+                (error) => this.isWrongRequest = true
+            );
+        }
     }
 
     private getResponse(data: any) {
-        //this.isWrongRequest = !data;
-        //if (!this.isWrongRequest) {
-        //    $('#loginModal').modal("close");
-        //    this.accountService.changeAuthState(true);
-        //}
+        if (!this.isSent) {
+            this.isSent = true;
+            this.isWrongRequest = !data;
+            if (!this.isWrongRequest) {
+                $('#newsModal').modal("close");
+                Materialize.toast('News is sent.', 4000);
+            }
+        }
     }
 }

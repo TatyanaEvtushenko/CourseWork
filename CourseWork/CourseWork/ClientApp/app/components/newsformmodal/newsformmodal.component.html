@@ -13,15 +13,15 @@
         
         <div class="row">
             <div class="col m6 input-field right-align">
-                <button [disabled]="subject.invalid || newsForm.text == null || (!isNews && !isMailingToSubscribers && !isMailingToPayers)"
+                <button [disabled]="subject.invalid || newsForm.text == null || newsForm.text == '' || !(isNews || isMailingToSubscribers || isMailingToPayers)"
                         class="btn btn-large" (click)="onSubmit()">Create</button>
             </div>
-            <div class="col m6 input-field  left-align">
-                <input type="checkbox" id="news" [checked]="isNews" />
+            <div class="col m6 left-align">
+                <input type="checkbox" id="news" [(ngModel)]="isNews"/>
                 <label for="news">Just a news</label>
-                <input type="checkbox" id="mailing-subscribers" [checked]="isMailingToSubscribers" />
+                <input type="checkbox" id="mailing-subscribers" [(ngModel)]="isMailingToSubscribers" />
                 <label for="mailing-subscribers">Mailing to subscribers</label>
-                <input type="checkbox" id="mailing-payers" [checked]="isMailingToPayers" />
+                <input type="checkbox" id="mailing-payers" [(ngModel)]="isMailingToPayers" />
                 <label for="mailing-payers">Mailing to payers</label>
             </div>
         </div>
