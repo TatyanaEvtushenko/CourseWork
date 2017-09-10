@@ -36,7 +36,8 @@ export class CurrentUserSubscriber {
         this.isReadyCurrentUser = true;
         this.currentUser = user;
 		this.updateRoles();
-	    this.updateBlockedStatus(user.isBlocked);
+		if (user != null)
+			this.updateBlockedStatus(user.isBlocked);
     }
 
     private updateRoles() {

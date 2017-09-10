@@ -7,6 +7,7 @@ import { TagCloudModule } from 'angular-tag-cloud-module';
 import { FormsModule } from '@angular/forms';
 import { MarkdownModule } from 'angular2-markdown';
 import { MaterializeModule } from "angular2-materialize";
+import { FlashMessagesModule } from "angular2-flash-messages";
  
 import { AppComponent } from './components/app/app.component';
 import { HomePageComponent } from './components/homepage/homepage.component';
@@ -40,7 +41,7 @@ const appRoutes: Routes = [
     { path: 'UserProjectsPage', component: UserProjectsPageComponent },
     { path: 'AdminPage', component: AdminPageComponent },
     { path: 'ProjectEditorPage', component: NewProjectPageComponent },
-    { path: '**', component: ErrorPageComponent },
+    { path: '**', component: ErrorPageComponent }
 ];
 
 @NgModule({
@@ -50,6 +51,7 @@ const appRoutes: Routes = [
         TagCloudModule,
         FormsModule,
         MaterializeModule,
+		FlashMessagesModule,
         MarkdownModule.forRoot(),
         RouterModule.forRoot(
             appRoutes,

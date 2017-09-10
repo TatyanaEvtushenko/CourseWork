@@ -5,7 +5,9 @@ import { CurrentUserService } from '../../services/currentuser.service';
 import { CurrentUserSubscriber } from '../currentuser.subscriber';
 import { UserInfo } from '../../viewmodels/userinfo';
 import { UserStatus } from "../../enums/userstatus";
+import { FlashMessagesService } from "angular2-flash-messages";
 declare var $: any;
+declare var Materialize: any;
 
 @Component({
     selector: 'adminpage',
@@ -21,7 +23,7 @@ export class AdminPageComponent extends CurrentUserSubscriber {
     selectedIndex: number = null;
     sortOrderAscending = { "Status": true, "LastLoginTime": true };
 
-    constructor(private title: Title, protected currentUserService: CurrentUserService, protected accountService: AccountService) {
+    constructor(private title: Title, private flashMessageService: FlashMessagesService, protected currentUserService: CurrentUserService, protected accountService: AccountService) {
         super(currentUserService, accountService);
         title.setTitle("Admin page");
     }
@@ -29,8 +31,8 @@ export class AdminPageComponent extends CurrentUserSubscriber {
     ngOnInit() {
         this.accountService.getUserList().subscribe(userInfos => {
             this.isCheckedAtIndex = new Array<boolean>(userInfos.length);
-            this.userInfos = userInfos;
-        });
+	        this.userInfos = userInfos;
+		});
     }
 
     filter() {
