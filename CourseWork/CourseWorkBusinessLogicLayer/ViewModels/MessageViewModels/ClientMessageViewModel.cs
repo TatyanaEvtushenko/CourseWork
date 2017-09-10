@@ -1,9 +1,9 @@
 ﻿namespace CourseWork.BusinessLogicLayer.ViewModels.MessageViewModels
 {
-    public class MessageViewModel
-    {
-		public string RecipientUserName { get; set; }
+	public class ClientMessageViewModel
+	{
+		public string Id { get; set; }
 
 		public string Text { get; set; }
-    }
+	}
 }

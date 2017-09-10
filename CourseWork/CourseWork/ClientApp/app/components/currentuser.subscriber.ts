@@ -8,7 +8,7 @@ export class CurrentUserSubscriber {
     isUser = false;
     isAdmin = false;
     isConfirmedUser = false;
-    isJustUser = false;
+	isJustUser = false;
 
     constructor(protected currentUserService: CurrentUserService, protected accountService: AccountService) {
         this.subscribeCurrentUser();

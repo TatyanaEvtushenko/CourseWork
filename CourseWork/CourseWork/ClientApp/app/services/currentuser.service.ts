@@ -10,7 +10,11 @@ export class CurrentUserService extends BaseService {
         this.getCurrentUserFromServer().subscribe((data) => {
             this.changeServiceState(data);
         });
-    }
+	}
+
+	updateMessages() {
+		return this.requestGet("api/Message/GetUnreadMessages");
+	}
 
     private changeServiceState(user: CurrentUser) {
         this.isReady.emit(user);

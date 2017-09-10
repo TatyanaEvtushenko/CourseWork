@@ -6,6 +6,8 @@ namespace CourseWork.BusinessLogicLayer.Services.MessageManagers
     {
 	    void Send(MessageViewModel[] message);
 
+	    ClientMessageViewModel[] GetUnreadMessages(string username);
+
 	    void MarkAsRead(string[] id);
     }
 }

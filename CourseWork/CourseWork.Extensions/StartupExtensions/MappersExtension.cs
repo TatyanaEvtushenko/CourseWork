@@ -20,6 +20,7 @@ namespace CourseWork.Extensions.StartupExtensions
             services
                 .AddScoped<IMapper<UserConfirmationViewModel, UserInfo>, UserConfirmationViewModelToUserInfoMapper>();
 	        services.AddScoped<IMapper<MessageViewModel, Message>, MessageViewModelToMessageMapper>();
-        }
+	        services.AddScoped<IMapper<ClientMessageViewModel, Message>, ClientMessageViewModelToMessageMapper>();
+		}
     }
 }

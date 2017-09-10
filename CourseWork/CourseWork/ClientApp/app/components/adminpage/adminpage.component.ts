@@ -2,10 +2,9 @@
 import { Title } from '@angular/platform-browser';
 import { AccountService } from "../../services/account.service";
 import { CurrentUserService } from '../../services/currentuser.service';
-import { CurrentUserSubscriber } from '../currentuser.subscriber';
 import { UserInfo } from '../../viewmodels/userinfo';
 import { UserStatus } from "../../enums/userstatus";
-import { FlashMessagesService } from "angular2-flash-messages";
+import { MessageSubscriber } from '../message.subscriber';
 declare var $: any;
 declare var Materialize: any;
 
@@ -14,7 +13,7 @@ declare var Materialize: any;
     templateUrl: './adminpage.component.html'
 })
 
-export class AdminPageComponent extends CurrentUserSubscriber {
+export class AdminPageComponent extends MessageSubscriber {
     userInfos: UserInfo[] = [];
 	isCheckedAtIndex: boolean[] = [];
 	deleteWithCommentsAndRaitings = false;
@@ -23,9 +22,9 @@ export class AdminPageComponent extends CurrentUserSubscriber {
     selectedIndex: number = null;
     sortOrderAscending = { "Status": true, "LastLoginTime": true };
 
-    constructor(private title: Title, private flashMessageService: FlashMessagesService, protected currentUserService: CurrentUserService, protected accountService: AccountService) {
+    constructor(private title: Title, protected currentUserService: CurrentUserService, protected accountService: AccountService) {
         super(currentUserService, accountService);
-        title.setTitle("Admin page");
+		title.setTitle("Admin page");
     }
 
     ngOnInit() {
