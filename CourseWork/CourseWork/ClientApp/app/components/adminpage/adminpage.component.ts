@@ -1,5 +1,6 @@
 ﻿import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from "../../services/account.service";
 import { CurrentUserService } from '../../services/currentuser.service';
 import { UserInfo } from '../../viewmodels/userinfo';
@@ -24,17 +25,23 @@ export class AdminPageComponent extends MessageSubscriber {
     selectedIndex: number = null;
     sortOrderAscending = { "Status": true, "LastLoginTime": true };
 
-    constructor(private title: Title, protected currentUserService: CurrentUserService, protected accountService: AccountService, private messageSenderService: MessageSenderService) {
-        super(currentUserService, accountService);
+	constructor(private title: Title, private route: ActivatedRoute, private router: Router,
+		protected currentUserService: CurrentUserService, protected accountService: AccountService, protected messageSenderService: MessageSenderService) {
+        super(currentUserService, accountService, messageSenderService);
 		title.setTitle("Admin page");
     }
 
-    ngOnInit() {
-        this.accountService.getUserList().subscribe(userInfos => {
-            this.isCheckedAtIndex = new Array<boolean>(userInfos.length);
-	        this.userInfos = userInfos;
+	ngOnInit() {
+		this.route.queryParams.subscribe(params => {
+			this.filters.confirmed = !(params["confirmed"] == 'false');
+			this.filters.unconfirmed = !(params["unconfirmed"] == 'false');
+			this.filters.requested = !(params["requested"] == 'false');
+			this.accountService.getFilteredUserList(this.filters).subscribe(userInfos => {
+				this.isCheckedAtIndex = new Array<boolean>(userInfos.length);
+				this.userInfos = userInfos;
+			});
 		});
-    }
+	}
 
     filter() {
         this.accountService.getFilteredUserList(this.filters).subscribe(userInfos => {
@@ -107,6 +114,6 @@ export class AdminPageComponent extends MessageSubscriber {
 	}
 
 	private generateResponseMessage(accept: boolean) {
-		return accept ? 'Your confirmation request has been approved.' : 'Your confirmation request has been declined.';
+		return accept ? 'Your account confirmation request has been approved.' : 'Your account confirmation request has been declined.';
 	}
 }

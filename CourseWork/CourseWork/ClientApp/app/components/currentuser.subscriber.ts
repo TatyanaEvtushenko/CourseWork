@@ -1,4 +1,5 @@
-﻿import { CurrentUser } from '../viewmodels/currentuser';
+﻿import { EventEmitter } from '@angular/core';
+import { CurrentUser } from '../viewmodels/currentuser';
 import { AccountService } from "../services/account.service";
 import { CurrentUserService } from '../services/currentuser.service';
 
@@ -9,6 +10,7 @@ export class CurrentUserSubscriber {
     isAdmin = false;
     isConfirmedUser = false;
 	isJustUser = false;
+	isInitialized = new EventEmitter();
 
     constructor(protected currentUserService: CurrentUserService, protected accountService: AccountService) {
         this.subscribeCurrentUser();
@@ -32,12 +34,14 @@ export class CurrentUserSubscriber {
         });
     }
 
-    private updateData(user: CurrentUser) {
+	protected updateData(user: CurrentUser) {
+		console.log("Hi");
         this.isReadyCurrentUser = true;
         this.currentUser = user;
 		this.updateRoles();
 		if (user != null)
 			this.updateBlockedStatus(user.isBlocked);
+		this.isInitialized.emit();
     }
 
     private updateRoles() {
