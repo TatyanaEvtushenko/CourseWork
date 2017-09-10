@@ -16,6 +16,12 @@ export class CurrentUserService extends BaseService {
 		return this.requestGet("api/Message/GetUnreadMessages");
 	}
 
+	markAsRead(messages: string[]) {
+		var params = { 'id': messages };
+		console.log(params);
+		return this.requestGetWithParams("api/Message/MarkAsRead", params);
+	}
+
     private changeServiceState(user: CurrentUser) {
         this.isReady.emit(user);
     }

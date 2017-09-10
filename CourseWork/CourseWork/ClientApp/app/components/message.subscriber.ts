@@ -22,9 +22,20 @@ export class MessageSubscriber extends CurrentUserSubscriber {
 
 	private subscribeToMessages() {
 		this.messages.subscribe((messages: UserMessage[]) => {
+			let ids = this.getIds(messages);
 			messages.forEach((message) => {
-				Materialize.toast(message.text, 4000);
+				Materialize.toast(message.text, 60000);
+			});
+			this.currentUserService.markAsRead(ids).subscribe((data: void) => {
 			});
 		});
+	}
+
+	private getIds(messages: UserMessage[]) {
+		var result: string[] = [];
+		messages.forEach((message) => {
+			result.push(message.id);
+		});
+		return result;
 	}
 }
