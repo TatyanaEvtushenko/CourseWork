@@ -1,2 +1,70 @@
-﻿<h2 *ngIf="isReadyCurrentUser && isAdmin">ADMINKA</h2>
-<errorpage *ngIf="!(isReadyCurrentUser && isAdmin)"></errorpage>
+﻿<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<div *ngIf="isAdmin">
+	<div class="fixed-action-btn">
+		<button class="waves-effect waves-light btn" [disabled]="selectedIndex == null || userInfos[selectedIndex].statusCode != userStatus.AwaitingConfirmation" (click)="clickConfirm()">View confirmation request</button>
+	</div>
+
+    <h2>Admin page</h2>
+    <div>
+        <input id="admin-onlyConfirmed" type="checkbox" [(ngModel)]="filters['confirmed']"/>
+        <label for="admin-onlyConfirmed">Show confirmed users</label>
+        <br/>
+        <input id="admin-onlyRequestedConfirmation" type="checkbox" [(ngModel)]="filters['requested']"/>
+        <label for="admin-onlyRequestedConfirmation">Show users requesting confirmation</label>
+        <br/>
+        <input id="admin-onlyUnconfirmed" type="checkbox" [(ngModel)]="filters['unconfirmed']"/>
+        <label for="admin-onlyUnconfirmed">Show unconfirmed users not requesting confirmation</label>
+    </div>
+    <div class="input-field">
+        <button class="btn" (click)="filter()">Filter</button>
+    </div>
+    
+    <div class="input-field">
+        <button class="btn" (click)="blockUnblock()">Block/Unblock selected</button>
+	    <button class="btn" (click)="delete()">Delete selected</button>
+    </div>
+	
+	<div>
+		<input id="admin-deleteWithCommentsAndRaitings" type="checkbox" [(ngModel)]="deleteWithCommentsAndRaitings"/>
+		<label for="admin-deleteWithCommentsAndRaitings">Delete with comments and raitings</label>
+	</div>
+
+	<table class="responsive-table highlight">
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th (click)="sortByField('Status')">
+                <i [attr.class]="sortOrderAscending['Status'] ? 'fa fa-fw fa-sort-asc' : 'fa fa-fw fa-sort-desc'"></i>Status
+            </th>
+            <th>Registration time</th>
+            <th (click)="sortByField('LastLoginTime')">
+                <i [attr.class]="sortOrderAscending['LastLoginTime'] ? 'fa fa-fw fa-sort-asc' : 'fa fa-fw fa-sort-desc'"></i>Last login time
+            </th>
+            <th>Project number</th>
+            <th>Rating</th>
+            <th>Select user</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let user of userInfos; let index=index" (click)="selectedIndex=index"
+            [ngClass]="{ 'indigo lighten-4': user.statusCode == userStatus.AwaitingConfirmation, 'blue lighten-2': index == selectedIndex, 'red lighten-2': user.isBlocked }">
+            <td>{{user.username}}</td>
+            <td>{{user.status}}</td>
+            <td>{{user.registrationTime}}</td>
+            <td>{{user.lastLoginTime}}</td>
+            <td>{{user.projectNumber}}</td>
+            <td>{{user.raiting}}</td>
+	        <td>
+		        <div>
+			        <input id="checkbox-{{user.username}}" type="checkbox" [(ngModel)]="isCheckedAtIndex[index]"/>
+			        <label for="checkbox-{{user.username}}"></label>
+		        </div>
+	        </td>
+	        <td *ngIf="index == selectedIndex && user.statusCode == userStatus.AwaitingConfirmation">
+		        <adminconfirmationpopup [username]="user.username" (emitter)="changeStatus($event)"></adminconfirmationpopup>
+	        </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<errorpage *ngIf="!isAdmin"></errorpage>

@@ -13,14 +13,17 @@ namespace CourseWork.BusinessLogicLayer.Services.UserManagers.Implementations
     {
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly UserManager<ApplicationUser> _userManager;
+	    private readonly Repository<UserInfo> _userInfoRepository;
         private readonly Repository<ApplicationUser> _applicationUserRepository;
 
         public UserManager(IHttpContextAccessor contextAccessor, UserManager<ApplicationUser> userManager,
+            Repository<UserInfo> userInfoRepository,
             Repository<ApplicationUser> applicationUserRepository)
         {
             _contextAccessor = contextAccessor;
             _userManager = userManager;
             _applicationUserRepository = applicationUserRepository;
+            _userInfoRepository = userInfoRepository;
         }
 
         public async Task<CurrentUserViewModel> GetCurrentUserInfo()
@@ -29,7 +32,8 @@ namespace CourseWork.BusinessLogicLayer.Services.UserManagers.Implementations
             return !user.IsAuthenticated ? null : new CurrentUserViewModel
             { 
                 UserName = user.Name,
-                Role = (await _userManager.GetRolesAsync(await _userManager.FindByNameAsync(user.Name))).ElementAt(0)
+                Role = (await _userManager.GetRolesAsync(await _userManager.FindByNameAsync(user.Name))).ElementAt(0),
+				IsBlocked = _userInfoRepository.Get(user.Name).IsBlocked
             };
         }
 

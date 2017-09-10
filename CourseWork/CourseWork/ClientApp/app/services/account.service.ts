@@ -3,6 +3,7 @@ import { BaseService} from './base.service';
 import {RegisterForm} from '../viewmodels/registerform';
 import { LoginForm } from '../viewmodels/loginform';
 import { ConfirmationForm } from '../viewmodels/confirmationForm';
+import { UserInfo } from "../viewmodels/userinfo";
 
 @Injectable()
 export class AccountService extends BaseService{
@@ -26,5 +27,37 @@ export class AccountService extends BaseService{
 
     confirmAccount(confirmationForm: ConfirmationForm) {
         return this.requestPost("api/UnconfirmedUser/ConfirmAccount", confirmationForm);
+    }
+
+    getUserList() {
+        return this.requestGet("api/Admin/GetAllUsers");
+    }
+
+    getFilteredUserList(filter: any) {
+        return this.requestGetWithParams("api/Admin/GetFilteredUsers", filter);
+    }
+
+    getPersonalInfo(userName: string) {
+        return this.requestGetWithParams("api/Admin/GetPersonalInfo", { 'username': userName });
+    }
+
+    respondToConfirmation(userName: string, accept: boolean) {
+        let params = { 'username': userName, 'accept': accept }
+        return this.requestGetWithParams("api/Admin/RespondToConfirmation", params);
+    }
+
+    sortByField(fieldName: string, ascending: boolean) {
+        let params = { 'fieldName': fieldName, 'ascending': ascending }
+        return this.requestGetWithParams("api/Admin/SortByField", params);
+    }
+
+    blockUnblock(usersToBlock: string[]) {
+        var params = { 'usersToBlock': usersToBlock };
+        return this.requestGetWithParams("api/Admin/BlockUnblock", params);
+    }
+
+    delete(usersToDelete: string[], withCommentsAndRaitings: boolean) {
+        var params = { 'usersToDelete': usersToDelete, 'withCommentsAndRaitings': withCommentsAndRaitings };
+        return this.requestGetWithParams("api/Admin/Delete", params);
     }
 }

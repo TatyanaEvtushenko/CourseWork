@@ -52,7 +52,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
         public async Task<bool> Login(string email, string password)
         {
             var user = await _userManager.FindByEmailAsync(email);
-            if (user != null && !await _userManager.IsEmailConfirmedAsync(user))
+            if (user == null || !await _userManager.IsEmailConfirmedAsync(user) || _userInfoRepository.Get(user.UserName).IsBlocked)
             {
                 return false;
             }
@@ -62,6 +62,18 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
         public async Task Logout()
         {
             await _signInManager.SignOutAsync();
+        }
+
+        public async Task AddRole(string userName, UserRole role)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            await AddRole(user, role);
+        }
+
+        public async Task RemoveRole(string userName, UserRole role)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            await RemoveRole(user, role);
         }
 
         private async Task<bool> TryLogin(ApplicationUser user, string password)
@@ -133,6 +145,11 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
         private async Task AddRole(ApplicationUser user, UserRole role)
         {
             await _userManager.AddToRoleAsync(user, EnumConfiguration.RoleNames[role]);
+        }
+
+        private async Task RemoveRole(ApplicationUser user, UserRole role)
+        {
+            await _userManager.RemoveFromRoleAsync(user, EnumConfiguration.RoleNames[role]);
         }
 
         private static string GetMessageToSendConfirmLink(string url) =>

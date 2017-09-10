@@ -1,7 +1,11 @@
-﻿namespace CourseWork.DataLayer.Models
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
+namespace CourseWork.DataLayer.Models
 {
     public class Raiting
     {
+		[Key]
         public string Id { get; set; }
 
         public string ProjectId { get; set; }
