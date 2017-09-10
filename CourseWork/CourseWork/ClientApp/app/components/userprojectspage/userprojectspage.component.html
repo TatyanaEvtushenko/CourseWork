@@ -1,2 +1,11 @@
-﻿<h2 *ngIf="isReadyCurrentUser && isConfirmedUser">MY PROJECTS</h2>
-<errorpage *ngIf="!(isConfirmedUser && isReadyCurrentUser)"></errorpage>
+﻿<!--<errorpage *ngIf="!(isConfirmedUser && isReadyCurrentUser)"></errorpage>-->
+
+<div>
+    <h2>My projects</h2>
+    <div class="row">
+        <div class="col m4" *ngFor="let project of projects">
+            <projectitem [project]="project" (onClickNews)="openNewsModal($event)"></projectitem>
+        </div>
+    </div>
+    <newsformmodal [projectId]="selectedProjectId"></newsformmodal>
+</div>

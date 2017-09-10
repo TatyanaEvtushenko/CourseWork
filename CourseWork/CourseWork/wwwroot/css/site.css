@@ -1,4 +1,12 @@
-﻿.btn-floating.btn-large{
+﻿.news-open {
+    margin-right: 0 !important;
+}
+
+.project-item-rating {
+    font-size: 12px;
+}
+
+.btn-floating.btn-large{
     position: fixed;
     right: 4%;
     bottom: 5%;
@@ -8,6 +16,14 @@
     max-height: 250px;
     overflow-y: auto;
  }
+
+.news-modal {
+    width: 38%;
+}
+
+.news-modal button {
+    top: 20%
+}
 
 .register-modal {
     width: 30%;

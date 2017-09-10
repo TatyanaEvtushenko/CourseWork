@@ -3,7 +3,7 @@
 export class NewProjectForm{
     name: string;
     fundRaisingEnd: Date;
-    description: string;
+    description = "";
     imageBase64: string;
     minPaymentAmount: number;
     maxPaymentAmount: number;

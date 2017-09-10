@@ -15,6 +15,7 @@ namespace CourseWork.Extensions.StartupExtensions
             services.AddScoped<Repository<FinancialPurpose>, FinancialPurposeRepository>();
             services.AddScoped<Repository<UserInfo>, UserInfoRepository>();
             services.AddScoped<Repository<Payment>, PaymentRepository>();
+            services.AddScoped<Repository<ProjectSubscriber>, ProjectSubscriberRepository>();
             services.AddScoped<Repository<ApplicationUser>, ApplicationUserRepository>();
 	        services.AddScoped<Repository<Raiting>, RaitingRepository>();
 	        services.AddScoped<Repository<Comment>, CommentRepository>();

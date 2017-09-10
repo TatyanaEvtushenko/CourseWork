@@ -112,7 +112,7 @@ namespace CourseWork.DataLayer.Data.Migrations
 
                     b.Property<bool>("IsSeen");
 
-                    b.Property<string>("RecipientId");
+                    b.Property<string>("RecipientUserName");
 
                     b.Property<string>("Text");
 
@@ -128,9 +128,13 @@ namespace CourseWork.DataLayer.Data.Migrations
 
                     b.Property<string>("ProjectId");
 
+                    b.Property<string>("Subject");
+
                     b.Property<string>("Text");
 
-                    b.Property<string>("Time");
+                    b.Property<DateTime>("Time");
+
+                    b.Property<int>("Type");
 
                     b.HasKey("Id");
 
@@ -148,7 +152,7 @@ namespace CourseWork.DataLayer.Data.Migrations
 
                     b.Property<DateTime>("Time");
 
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserName");
 
                     b.HasKey("Id");
 
@@ -178,6 +182,8 @@ namespace CourseWork.DataLayer.Data.Migrations
 
                     b.Property<decimal>("PaidAmount");
 
+                    b.Property<double>("Raiting");
+
                     b.Property<int>("Status");
 
                     b.HasKey("Id");
@@ -192,7 +198,7 @@ namespace CourseWork.DataLayer.Data.Migrations
 
                     b.Property<string>("ProjectId");
 
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserName");
 
                     b.HasKey("Id");
 

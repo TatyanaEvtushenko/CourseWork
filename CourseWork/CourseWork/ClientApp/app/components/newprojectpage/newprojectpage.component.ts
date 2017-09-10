@@ -41,7 +41,6 @@ export class NewProjectPageComponent extends CurrentUserSubscriber {
     }
 
     onSubmit() {
-        console.log(this.projectForm);
         this.projectService.addProject(this.projectForm).subscribe(
             (data) => this.isWrongRequest = !data,
             (error) => this.isWrongRequest = true

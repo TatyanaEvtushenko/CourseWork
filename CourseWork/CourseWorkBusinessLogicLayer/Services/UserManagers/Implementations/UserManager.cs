@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CourseWork.BusinessLogicLayer.ViewModels.CurrentUserViewModels;
 using CourseWork.DataLayer.Models;
@@ -13,12 +14,16 @@ namespace CourseWork.BusinessLogicLayer.Services.UserManagers.Implementations
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly UserManager<ApplicationUser> _userManager;
 	    private readonly Repository<UserInfo> _userInfoRepository;
+        private readonly Repository<ApplicationUser> _applicationUserRepository;
 
-        public UserManager(IHttpContextAccessor contextAccessor, UserManager<ApplicationUser> userManager, Repository<UserInfo> userInfoRepository)
+        public UserManager(IHttpContextAccessor contextAccessor, UserManager<ApplicationUser> userManager,
+            Repository<UserInfo> userInfoRepository,
+            Repository<ApplicationUser> applicationUserRepository)
         {
             _contextAccessor = contextAccessor;
             _userManager = userManager;
-	        _userInfoRepository = userInfoRepository;
+            _applicationUserRepository = applicationUserRepository;
+            _userInfoRepository = userInfoRepository;
         }
 
         public async Task<CurrentUserViewModel> GetCurrentUserInfo()
@@ -30,6 +35,11 @@ namespace CourseWork.BusinessLogicLayer.Services.UserManagers.Implementations
                 Role = (await _userManager.GetRolesAsync(await _userManager.FindByNameAsync(user.Name))).ElementAt(0),
 				IsBlocked = _userInfoRepository.Get(user.Name).IsBlocked
             };
+        }
+
+        public IEnumerable<string> GetEmails(IEnumerable<string> userNames)
+        {
+            return _applicationUserRepository.GetWhere(user => userNames.Contains(user.UserName)).Select(user => user.Email);
         }
     }
 }
