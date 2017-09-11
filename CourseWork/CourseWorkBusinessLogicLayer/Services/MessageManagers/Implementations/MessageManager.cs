@@ -25,7 +25,12 @@ namespace CourseWork.BusinessLogicLayer.Services.MessageManagers.Implementations
 			_messageRepository.AddRange(messages.Select(message => _serverMapper.ConvertTo(message)).ToArray());
 	    }
 
-	    public ClientMessageViewModel[] GetUnreadMessages(string username)
+        public void SendAsAdmin(MessageViewModel[] messages)
+        {
+            Send(messages);
+        }
+
+        public ClientMessageViewModel[] GetUnreadMessages(string username)
 	    {
 		    return _messageRepository.GetWhere(item => item.RecipientUserName.Equals(username) && !item.IsSeen).
 				Select(item => _clientMapper.ConvertFrom(item)).ToArray();

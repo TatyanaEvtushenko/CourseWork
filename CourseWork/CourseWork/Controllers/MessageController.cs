@@ -1,3 +1,4 @@
+using System.Linq;
 using CourseWork.BusinessLogicLayer.Services.MessageManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.MessageViewModels;
 using CourseWork.DataLayer.Models;
@@ -18,6 +19,16 @@ namespace CourseWork.Controllers
 		    _messageManager = messageManager;
 		    _userManager = userManager;
 	    }
+
+        [HttpPost]
+        [Route("api/Message/SendAsAdmin")]
+        [Authorize(Roles = "Admin")]
+        public void SendAsAdmin([FromBody] string[] messages)
+        {
+            var username = _userManager.GetUserName(HttpContext.User);
+            _messageManager.Send(messages.Select(message => 
+                new MessageViewModel{ Text = message, RecipientUserName = username }).ToArray());
+        }
 
 	    [HttpPost]
 	    [Route("api/Message/Send")]

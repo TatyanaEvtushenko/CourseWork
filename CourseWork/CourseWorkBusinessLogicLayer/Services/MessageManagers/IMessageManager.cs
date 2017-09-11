@@ -4,7 +4,9 @@ namespace CourseWork.BusinessLogicLayer.Services.MessageManagers
 {
     public interface IMessageManager
     {
-	    void Send(MessageViewModel[] message);
+	    void Send(MessageViewModel[] messages);
+
+        void SendAsAdmin(MessageViewModel[] messages);
 
 	    ClientMessageViewModel[] GetUnreadMessages(string username);
 

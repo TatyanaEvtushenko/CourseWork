@@ -6,5 +6,9 @@ import { SentMessage } from "../viewmodels/sentmessage";
 export class MessageSenderService extends BaseService {
 	sendMessage(messages: SentMessage[]) {
 		return this.requestPost("api/Message/Send", messages);
-	}
+    }
+
+    sendMessagesAsAdmin(messages: string[]) {
+        return this.requestPost("api/Message/SendAsAdmin", messages);
+    }
 }

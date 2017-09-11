@@ -4,21 +4,18 @@ import { AccountService } from "../services/account.service";
 import { CurrentUserSubscriber } from './currentuser.subscriber';
 import { UserMessage } from "../viewmodels/message";
 import { MessageSenderService } from "../services/messagesender.service";
-import { CurrentUser } from "../viewmodels/currentuser";
 import { UserInfo } from "../viewmodels/userinfo";
 declare var Materialize: any;
 
 export class MessageSubscriber extends CurrentUserSubscriber {
-	messages = new EventEmitter<UserMessage[]>();
+    messages = new EventEmitter<UserMessage[]>();
+    subscribed = false;
 
 	constructor(protected currentUserService: CurrentUserService, protected accountService: AccountService, protected messageSenderService: MessageSenderService) {
         super(currentUserService, accountService);
-		this.isInitialized.subscribe(() => {
-		//	this.getConfirmationRequests();
-		    console.log("Again");
-		});
-		this.subscribeToMessages();
-		this.updateMessages();
+        this.subscribeToMessages();
+        this.getConfirmationRequests();
+	    this.updateMessages();
 	}
 
     private updateMessages() {
@@ -38,17 +35,16 @@ export class MessageSubscriber extends CurrentUserSubscriber {
 	}
 
 	private getConfirmationRequests() {
-		if (this.isAdmin) {
-			this.accountService.getFilteredUserList({ unconfirmed: false, requested: true, confirmed: false }).subscribe(
-				(userInfos: UserInfo[]) => {
-					if (userInfos.length > 0) {
-						var generatedText = this.generateConfirmationMessageText(userInfos);
-						Materialize.toast(generatedText, 60000);
-						//this.messageSenderService.sendMessage([{ recipientUserName: this.currentUser.userName, text: generatedText }]).
-						//	subscribe((data: void) => { });
-					}
-				});
-		}
+		this.accountService.getFilteredUserList({ unconfirmed: false, requested: true, confirmed: false }).subscribe(
+			(userInfos: UserInfo[]) => {
+				if (userInfos.length > 0) {
+					var generatedText = this.generateConfirmationMessageText(userInfos);
+					this.messageSenderService.sendMessagesAsAdmin([generatedText]).
+						subscribe((data: void) => {
+					        this.updateMessages();
+					    });
+				}
+			});
 	}
 
 	private generateConfirmationMessageText(userInfos: UserInfo[]) {
