@@ -37,13 +37,14 @@ import { CurrentUserService } from "./services/currentuser.service";
 import { TagService } from "./services/tag.service";
 import { AccountService } from "./services/account.service";
 import { ProjectService } from "./services/project.service";
+import { MessageSenderService } from "./services/messagesender.service"
 
 const appRoutes: Routes = [
     { path: '', component: HomePageComponent },
     { path: 'UserProjectsPage', component: UserProjectsPageComponent },
     { path: 'AdminPage', component: AdminPageComponent },
     { path: 'ProjectEditorPage', component: NewProjectPageComponent },
-    { path: '**', component: ErrorPageComponent },
+    { path: '**', component: ErrorPageComponent }
 ];
 
 @NgModule({
@@ -53,6 +54,7 @@ const appRoutes: Routes = [
         TagCloudModule,
         FormsModule,
         MaterializeModule,
+		FlashMessagesModule,
         MarkdownModule.forRoot(),
         RatingModule,
         RouterModule.forRoot(
@@ -89,7 +91,8 @@ const appRoutes: Routes = [
         CurrentUserService,
         AccountService,
         TagService,
-        ProjectService
+		ProjectService,
+		MessageSenderService
     ],
     bootstrap: [
         AppComponent

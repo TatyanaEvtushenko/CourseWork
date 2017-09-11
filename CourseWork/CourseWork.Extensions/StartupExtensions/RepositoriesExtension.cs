@@ -19,6 +19,7 @@ namespace CourseWork.Extensions.StartupExtensions
             services.AddScoped<Repository<ApplicationUser>, ApplicationUserRepository>();
 	        services.AddScoped<Repository<Raiting>, RaitingRepository>();
 	        services.AddScoped<Repository<Comment>, CommentRepository>();
+	        services.AddScoped<Repository<Message>, MessageRepository>();
         }
     }
 }

@@ -6,6 +6,8 @@ using CourseWork.BusinessLogicLayer.Services.FinancialPurposeManagers;
 using CourseWork.BusinessLogicLayer.Services.FinancialPurposeManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.AdminManagers;
 using CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations;
+using CourseWork.BusinessLogicLayer.Services.MessageManagers;
+using CourseWork.BusinessLogicLayer.Services.MessageManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.MessageSenders;
 using CourseWork.BusinessLogicLayer.Services.MessageSenders.Implementations;
 using CourseWork.BusinessLogicLayer.Services.NewsManagers;
@@ -42,6 +44,7 @@ namespace CourseWork.Extensions.StartupExtensions
             services.AddScoped<IAdminManager, AdminManager>();
             services.AddScoped<INewsManager, NewsManager>();
             services.AddScoped<IProjectSubscriberManager, ProjectSubscriberManager>();
+	        services.AddScoped<IMessageManager, MessageManager>();
         }
     }
 }

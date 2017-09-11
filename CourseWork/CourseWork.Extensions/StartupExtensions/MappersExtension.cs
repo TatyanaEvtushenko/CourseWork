@@ -2,6 +2,7 @@
 using CourseWork.BusinessLogicLayer.Services.Mappers.Implementations;
 using CourseWork.BusinessLogicLayer.ViewModels.FinancialPurposeViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.NewsViewModels;
+using CourseWork.BusinessLogicLayer.ViewModels.MessageViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
 using CourseWork.DataLayer.Models;
@@ -20,6 +21,8 @@ namespace CourseWork.Extensions.StartupExtensions
             services.AddScoped<IMapper<UserListItemViewModel, UserInfo>, UserListItemViewModelToUserInfoMapper>();
             services
                 .AddScoped<IMapper<UserConfirmationViewModel, UserInfo>, UserConfirmationViewModelToUserInfoMapper>();
-        }
+	        services.AddScoped<IMapper<MessageViewModel, Message>, MessageViewModelToMessageMapper>();
+	        services.AddScoped<IMapper<ClientMessageViewModel, Message>, ClientMessageViewModelToMessageMapper>();
+		}
     }
 }
