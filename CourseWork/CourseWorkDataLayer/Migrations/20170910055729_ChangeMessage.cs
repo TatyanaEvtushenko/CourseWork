@@ -8,18 +8,18 @@ namespace CourseWork.DataLayer.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
-                name: "RecipientId",
-                table: "Messages",
-                newName: "RecipientUserName");
+            //migrationBuilder.RenameColumn(
+            //    name: "RecipientId",
+            //    table: "Messages",
+            //    newName: "RecipientUserName");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
-                name: "RecipientUserName",
-                table: "Messages",
-                newName: "RecipientId");
+            //migrationBuilder.RenameColumn(
+            //    name: "RecipientUserName",
+            //    table: "Messages",
+            //    newName: "RecipientId");
         }
     }
 }

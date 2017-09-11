@@ -11,13 +11,13 @@ namespace CourseWork.DataLayer.Migrations
             migrationBuilder.RenameColumn(
                 name: "UserId",
                 table: "ProjectSubscribers",
-                newName: "UserUserName");
+                newName: "UserName");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
-                name: "UserUserName",
+                name: "UserName",
                 table: "ProjectSubscribers",
                 newName: "UserId");
         }

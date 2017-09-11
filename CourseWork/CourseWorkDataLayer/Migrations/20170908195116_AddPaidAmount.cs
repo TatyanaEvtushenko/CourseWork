@@ -8,18 +8,18 @@ namespace CourseWork.DataLayer.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<decimal>(
-                name: "PaidAmount",
-                table: "Projects",
-                nullable: false,
-                defaultValue: 0m);
+            //migrationBuilder.AddColumn<decimal>(
+            //    name: "PaidAmount",
+            //    table: "Projects",
+            //    nullable: false,
+            //    defaultValue: 0m);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                    name: "PaidAmount",
-                    table: "Projects");
+            //migrationBuilder.DropColumn(
+            //        name: "PaidAmount",
+            //        table: "Projects");
         }
     }
 }

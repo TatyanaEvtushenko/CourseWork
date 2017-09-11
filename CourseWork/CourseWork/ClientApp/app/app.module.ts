@@ -54,7 +54,6 @@ const appRoutes: Routes = [
         TagCloudModule,
         FormsModule,
         MaterializeModule,
-		FlashMessagesModule,
         MarkdownModule.forRoot(),
         RatingModule,
         RouterModule.forRoot(

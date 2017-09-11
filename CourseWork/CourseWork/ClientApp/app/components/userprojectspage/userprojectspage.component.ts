@@ -11,11 +11,10 @@ import { ProjectService } from '../../services/project.service';
     templateUrl: './userprojectspage.component.html'
 })
 export class UserProjectsPageComponent extends MessageSubscriber {
-export class UserProjectsPageComponent {
     projects: any[] = [];
     selectedProjectId: string = null;
 
-	constructor(private title: Title, protected currentUserService: CurrentUserService, protected accountService: AccountService, protected messageSenderService: MessageSenderService) {
+	constructor(private title: Title, protected currentUserService: CurrentUserService, protected accountService: AccountService, protected messageSenderService: MessageSenderService, private projectService: ProjectService) {
         super(currentUserService, accountService, messageSenderService);
         title.setTitle("My projects");
     }
