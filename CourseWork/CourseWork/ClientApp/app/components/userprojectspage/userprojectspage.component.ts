@@ -1,16 +1,21 @@
 ﻿import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { AccountService } from "../../services/account.service";
+import { CurrentUserService } from '../../services/currentuser.service';
+import { MessageSubscriber } from '../message.subscriber';
+import { MessageSenderService } from "../../services/messagesender.service";
 import { ProjectService } from '../../services/project.service';
 
 @Component({
     selector: 'userprojectspage',
     templateUrl: './userprojectspage.component.html'
 })
-export class UserProjectsPageComponent {
+export class UserProjectsPageComponent extends MessageSubscriber {
     projects: any[] = [];
     selectedProjectId: string = null;
 
-    constructor(private title: Title, protected projectService: ProjectService) {
+	constructor(private title: Title, protected currentUserService: CurrentUserService, protected accountService: AccountService, protected messageSenderService: MessageSenderService, private projectService: ProjectService) {
+        super(currentUserService, accountService, messageSenderService);
         title.setTitle("My projects");
     }
 
