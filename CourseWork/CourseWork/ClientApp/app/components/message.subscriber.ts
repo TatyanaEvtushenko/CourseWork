@@ -10,6 +10,9 @@ declare var Materialize: any;
 export class MessageSubscriber extends CurrentUserSubscriber {
     messages = new EventEmitter<UserMessage[]>();
     subscribed = false;
+    private xIconHtml = '<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">' +
+        '<div><a onclick="this.parentElement.parentElement.parentElement.removeChild(this.parentElement.parentElement)">' +
+        '<i class="fa fa-times"></i></a></div>';
 
 	constructor(protected currentUserService: CurrentUserService, protected accountService: AccountService, protected messageSenderService: MessageSenderService) {
         super(currentUserService, accountService);
@@ -28,7 +31,7 @@ export class MessageSubscriber extends CurrentUserSubscriber {
 		this.messages.subscribe((messages: UserMessage[]) => {
 			let ids = this.getIds(messages);
 			messages.forEach((message) => {
-				Materialize.toast(message.text, 60000);
+                Materialize.toast(message.text + this.xIconHtml, 60000);
 			});
 			this.currentUserService.markAsRead(ids).subscribe((data: void) => {});
 		});
