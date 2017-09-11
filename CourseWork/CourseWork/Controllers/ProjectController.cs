@@ -32,5 +32,12 @@ namespace CourseWork.Controllers
         {
             return _projectManager.GetUserProjects();
         }
+
+        [HttpGet]
+        [Route("api/Project/GetProject/{id}")]
+        public ProjectViewModel GetProject(string id)
+        {
+            return _projectManager.GetProject(id);
+        }
     }
 }

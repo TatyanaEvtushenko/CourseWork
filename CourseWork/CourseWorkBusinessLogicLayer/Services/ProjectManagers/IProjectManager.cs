@@ -16,5 +16,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers
         IEnumerable<ProjectItemViewModel> GetUserProjects();
 
         string GetProjectName(string projectId);
+
+        ProjectViewModel GetProject(string projectId);
     }
 }

@@ -18,8 +18,8 @@ namespace CourseWork.Extensions.StartupExtensions
             services.AddScoped<IMapper<FinancialPurposeViewModel, FinancialPurpose>, FinancialPurposeViewModelToFinancialPurposeMapper>();
             services.AddScoped<IMapper<NewsFormViewModel, News>, NewsFormViewModelToNewsMapper>();
             services.AddScoped<IMapper<UserListItemViewModel, UserInfo>, UserListItemViewModelToUserInfoMapper>();
-            services
-                .AddScoped<IMapper<UserConfirmationViewModel, UserInfo>, UserConfirmationViewModelToUserInfoMapper>();
+            services.AddScoped<IMapper<UserConfirmationViewModel, UserInfo>, UserConfirmationViewModelToUserInfoMapper>();
+            services.AddScoped<IMapper<ProjectViewModel, Project>, ProjectViewModelToProjectMapper>();
         }
     }
 }

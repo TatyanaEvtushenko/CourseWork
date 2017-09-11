@@ -14,6 +14,10 @@ export class ProjectService extends BaseService {
         return this.requestGet("api/Project/GetUserProjects");
     }
 
+    getProject(id: string) {
+        return this.requestGet(`api/Project/GetProject/${id}`);
+    }
+
     addNews(newsForm: NewsForm) {
         return this.requestPost("api/News/AddNews", newsForm);
     }

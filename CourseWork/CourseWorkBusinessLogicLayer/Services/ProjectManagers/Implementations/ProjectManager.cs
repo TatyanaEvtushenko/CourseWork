@@ -20,24 +20,27 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         private readonly ITagService _tagService;
         private readonly IFinancialPurposeManager _financialPurposeManager;
         private readonly IPaymentManager _paymentManager;
-        private readonly IMapper<ProjectItemViewModel, Project> _projectMapper;
+        private readonly IMapper<ProjectItemViewModel, Project> _projectItemMapper;
         private readonly IMapper<ProjectFormViewModel, Project> _projectFormMapper;
+        private readonly IMapper<ProjectViewModel, Project> _projectMapper;
         private readonly IHttpContextAccessor _contextAccessor;
 
         public ProjectManager(Repository<Project> projectRepository,
-            IMapper<ProjectItemViewModel, Project> projectMapper,
+            IMapper<ProjectItemViewModel, Project> projectItemMapper,
             IMapper<ProjectFormViewModel, Project> projectFormMapper, ITagService tagService,
             IFinancialPurposeManager financialPurposeManager,
-            IHttpContextAccessor contextAccessor, IPaymentManager paymentManager, Repository<Raiting> raitingRepository)
+            IHttpContextAccessor contextAccessor, IPaymentManager paymentManager, Repository<Raiting> raitingRepository,
+            IMapper<ProjectViewModel, Project> projectMapper)
         {
             _projectRepository = projectRepository;
-            _projectMapper = projectMapper;
+            _projectItemMapper = projectItemMapper;
             _projectFormMapper = projectFormMapper;
             _tagService = tagService;
             _financialPurposeManager = financialPurposeManager;
             _contextAccessor = contextAccessor;
             _paymentManager = paymentManager;
             _raitingRepository = raitingRepository;
+            _projectMapper = projectMapper;
         }
 
         public bool AddProject(ProjectFormViewModel projectForm)
@@ -47,23 +50,29 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
                    _financialPurposeManager.AddFinancialPurposes(projectForm.FinancialPurposes, project.Id);
         }
 
+        public ProjectViewModel GetProject(string projectId)
+        {
+            var project = _projectMapper.ConvertFrom(_projectRepository.Get(projectId));
+            return project;
+        }
+
         public IEnumerable<ProjectItemViewModel> GetUserProjects()
         {
             var userName = _contextAccessor.HttpContext.User.Identity.Name;
             return _projectRepository.GetWhere(project => project.OwnerUserName == userName)
-                .Select(project => _projectMapper.ConvertFrom(project));
+                .Select(project => _projectItemMapper.ConvertFrom(project));
         }
 
         public IEnumerable<ProjectItemViewModel> GetLastCreatedProjects()
         {
             return _projectRepository.GetAll().OrderByDescending(project => project.CreatingTime).Take(10)
-                .Select(project => _projectMapper.ConvertFrom(project));
+                .Select(project => _projectItemMapper.ConvertFrom(project));
         }
 
         public IEnumerable<ProjectItemViewModel> GetFinancedProjects()
         {
             return _projectRepository.GetWhere(project => project.Status == ProjectStatus.Financed)
-                .Select(project => _projectMapper.ConvertFrom(project));
+                .Select(project => _projectItemMapper.ConvertFrom(project));
         }
 
         public string GetProjectName(string projectId)
