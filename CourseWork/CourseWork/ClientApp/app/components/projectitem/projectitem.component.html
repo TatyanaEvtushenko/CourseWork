@@ -1,10 +1,12 @@
 ﻿<div class="card small">
     <div class="card-image">
-        <img src="{{project.imageUrl}}">
-        <div class="card-title">
-            {{project.name}}<br/>
-            <rating class="project-item-rating" [(ngModel)]="project.raiting" [readonly]="true" [titles]="['one', 'two', 'three', 'four', 'five']"></rating>
-        </div>
+        <a href="/ProjectPage/{{project.id}}">
+            <img src="{{project.imageUrl}}">
+            <div class="card-title">
+                {{project.name}}<br/>
+                <rating class="project-item-rating" [(ngModel)]="project.raiting" [readonly]="true" [titles]="['one', 'two', 'three', 'four', 'five']"></rating>
+            </div>
+        </a>
     </div>
     <div class="card-content row">
         <div class="col m6">
@@ -18,5 +20,10 @@
     </div>
     <div class="card-action right-align">
         <a (click)="openNews()" href="#newsModal" class="news-open modal-trigger">Create news</a>
+        <i class="material-icons right activator">more_vert</i>
+    </div>
+    <div class="card-reveal">
+        <span class="card-title grey-text text-darken-4">Description<i class="material-icons right">close</i></span>
+        <markdown>{{project.description}}</markdown>
     </div>
 </div>

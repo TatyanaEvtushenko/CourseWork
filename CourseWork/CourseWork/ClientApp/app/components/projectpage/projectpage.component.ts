@@ -1,38 +1,24 @@
 ﻿import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ProjectService } from '../../services/project.service';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
     selector: 'projectpage',
     templateUrl: './projectpage.component.html'
 })
 export class ProjectPageComponent {
-    projects: any[] = [];
-    selectedProjectId: string = null;
+    project: any;
+    route: ActivatedRoute;
 
-    constructor(private title: Title, protected projectService: ProjectService) {
-        title.setTitle("My projects");
-    }
+    constructor(private title: Title, protected projectService: ProjectService) { }
 
     ngOnInit() {
-        this.projectService.getUserProjects().subscribe(
-            (data) => {
-                this.projects = data;
-                this.projects.sort((a, b) => {
-                    if (a.status > b.status) {
-                        return 1;
-                    }
-                    if (a.status === b.status) {
-                        return 0;
-                    } else {
-                        return -1;
-                    }
-                });
-            }
-        );
-    }
-
-    openNewsModal(event: any) {
-        this.selectedProjectId = event;
+        this.route.paramMap.switchMap((params: ParamMap) =>
+            this.projectService.getProject(params.get('id'))).subscribe(
+            data => {
+                this.project = data;
+                this.title.setTitle(data.name);
+            });
     }
 }

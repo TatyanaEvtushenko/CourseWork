@@ -20,7 +20,8 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
                 ImageUrl = item.ImageUrl,
                 PaidAmount = item.PaidAmount,
                 Status = item.Status,
-                Raiting = item.Raiting
+                Raiting = item.Raiting,
+                Description = item.Description
             };
         }
     }
