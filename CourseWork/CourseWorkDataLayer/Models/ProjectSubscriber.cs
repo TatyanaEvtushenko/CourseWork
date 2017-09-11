@@ -6,6 +6,6 @@
 
         public string ProjectId { get; set; }
 
-        public string UserUserName { get; set; }
+        public string UserName { get; set; }
     }
 }

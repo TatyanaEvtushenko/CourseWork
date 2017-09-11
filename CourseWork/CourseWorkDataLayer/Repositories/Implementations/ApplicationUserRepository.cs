@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using CourseWork.DataLayer.Data;
+﻿using CourseWork.DataLayer.Data;
 using CourseWork.DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
 

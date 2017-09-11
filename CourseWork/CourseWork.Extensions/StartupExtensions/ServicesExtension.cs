@@ -10,12 +10,16 @@ using CourseWork.BusinessLogicLayer.Services.MessageManagers;
 using CourseWork.BusinessLogicLayer.Services.MessageManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.MessageSenders;
 using CourseWork.BusinessLogicLayer.Services.MessageSenders.Implementations;
+using CourseWork.BusinessLogicLayer.Services.NewsManagers;
+using CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.PaymentManagers;
 using CourseWork.BusinessLogicLayer.Services.PaymentManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.PhotoManagers;
 using CourseWork.BusinessLogicLayer.Services.PhotoManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.ProjectManagers;
 using CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations;
+using CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManagers;
+using CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.TagServices;
 using CourseWork.BusinessLogicLayer.Services.TagServices.Implementations;
 using CourseWork.BusinessLogicLayer.Services.UserManagers;
@@ -38,6 +42,8 @@ namespace CourseWork.Extensions.StartupExtensions
             services.AddScoped<IProjectManager, ProjectManager>();
             services.AddScoped<IPaymentManager, PaymentManager>();
             services.AddScoped<IAdminManager, AdminManager>();
+            services.AddScoped<INewsManager, NewsManager>();
+            services.AddScoped<IProjectSubscriberManager, ProjectSubscriberManager>();
 	        services.AddScoped<IMessageManager, MessageManager>();
         }
     }

@@ -7,7 +7,7 @@ import { TagCloudModule } from 'angular-tag-cloud-module';
 import { FormsModule } from '@angular/forms';
 import { MarkdownModule } from 'angular2-markdown';
 import { MaterializeModule } from "angular2-materialize";
-import { FlashMessagesModule } from "angular2-flash-messages";
+import { RatingModule } from "ngx-rating";
  
 import { AppComponent } from './components/app/app.component';
 import { HomePageComponent } from './components/homepage/homepage.component';
@@ -29,6 +29,8 @@ import { AdminConfirmationPopupComponent } from './components/adminconfirmationp
 import { ImageLoaderComponent } from './components/imageloader/imageloader.component';
 import { FinancialPurposeComponent } from './components/financialpurpose/financialpurpose.component';
 import { FinancialPurposeModalComponent } from './components/financialpurposemodal/financialpurposemodal.component';
+import { ProjectItemComponent } from './components/projectitem/projectitem.component';
+import { NewsFormModalComponent } from './components/newsformmodal/newsformmodal.component';
 
 import { BaseService} from './services/base.service';
 import { CurrentUserService } from "./services/currentuser.service"; 
@@ -54,6 +56,7 @@ const appRoutes: Routes = [
         MaterializeModule,
 		FlashMessagesModule,
         MarkdownModule.forRoot(),
+        RatingModule,
         RouterModule.forRoot(
             appRoutes,
             { enableTracing: true }
@@ -79,7 +82,9 @@ const appRoutes: Routes = [
         TagSearcherComponent,
         FloatingButtonComponent,
         FinancialPurposeComponent,
-        FinancialPurposeModalComponent
+        FinancialPurposeModalComponent,
+        ProjectItemComponent,
+        NewsFormModalComponent
     ],
     providers: [
         BaseService,
