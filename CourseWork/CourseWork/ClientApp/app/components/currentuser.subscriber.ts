@@ -35,13 +35,13 @@ export class CurrentUserSubscriber {
     }
 
 	protected updateData(user: CurrentUser) {
-		console.log("Hi");
         this.isReadyCurrentUser = true;
         this.currentUser = user;
 		this.updateRoles();
 		if (user != null)
-			this.updateBlockedStatus(user.isBlocked);
-		this.isInitialized.emit();
+            this.updateBlockedStatus(user.isBlocked);
+	    console.log(this.constructor.name);
+        this.isInitialized.emit();
     }
 
     private updateRoles() {

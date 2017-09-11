@@ -192,7 +192,7 @@ namespace CourseWork.DataLayer.Data.Migrations
 
                     b.Property<string>("ProjectId");
 
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserUserName");
 
                     b.HasKey("Id");
 

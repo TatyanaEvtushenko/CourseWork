@@ -12,15 +12,16 @@ export class MessageSubscriber extends CurrentUserSubscriber {
 	messages = new EventEmitter<UserMessage[]>();
 
 	constructor(protected currentUserService: CurrentUserService, protected accountService: AccountService, protected messageSenderService: MessageSenderService) {
-		super(currentUserService, accountService);
-		//this.isInitialized.subscribe(() => {
+        super(currentUserService, accountService);
+		this.isInitialized.subscribe(() => {
 		//	this.getConfirmationRequests();
-		//});
+		    console.log("Again");
+		});
 		this.subscribeToMessages();
 		this.updateMessages();
 	}
 
-	private updateMessages() {
+    private updateMessages() {
 		this.currentUserService.updateMessages().subscribe((messages: UserMessage[]) => {
 			this.messages.emit(messages);
 		});
@@ -51,8 +52,8 @@ export class MessageSubscriber extends CurrentUserSubscriber {
 	}
 
 	private generateConfirmationMessageText(userInfos: UserInfo[]) {
-		var text = "";
-		let ending = '<br> have requested account confirmation. <a href="/AdminPage?confirmed=false?unconfirmed=false?requested=true"> &nbsp; Go to admin page </a>';
+        var text = "<a href=\"/AdminPage?confirmed=false?unconfirmed=false?requested=true\">";
+		let ending = '<br> have requested account confirmation.</a>';
 		text = text.concat(userInfos[0].username);
 		if (userInfos.length == 1) return text.concat(ending);
 		userInfos.forEach((item, index) => {
