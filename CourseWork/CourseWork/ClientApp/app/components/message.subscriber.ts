@@ -48,7 +48,7 @@ export class MessageSubscriber extends CurrentUserSubscriber {
 	}
 
 	private generateConfirmationMessageText(userInfos: UserInfo[]) {
-        var text = "<a href=\"/AdminPage?confirmed=false?unconfirmed=false?requested=true\">";
+        var text = "<a href=\"/AdminPage?confirmed=false&unconfirmed=false&requested=true\">";
 		let ending = '<br> have requested account confirmation.</a>';
 		text = text.concat(userInfos[0].username);
 		if (userInfos.length == 1) return text.concat(ending);

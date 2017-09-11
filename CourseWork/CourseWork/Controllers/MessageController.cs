@@ -21,6 +21,14 @@ namespace CourseWork.Controllers
 	    }
 
         [HttpPost]
+        [Route("api/Message/NotifySubscribers")]
+        [Authorize(Roles = "Admin, ConfirmedUser")]
+        public void NotifySubscribers([FromBody] SubscriberNotificationViewModel model)
+        {
+            _messageManager.NotifySubscribers(model);
+        }
+
+        [HttpPost]
         [Route("api/Message/SendAsAdmin")]
         [Authorize(Roles = "Admin")]
         public void SendAsAdmin([FromBody] string[] messages)

@@ -8,6 +8,8 @@ namespace CourseWork.BusinessLogicLayer.Services.MessageManagers
 
         void SendAsAdmin(MessageViewModel[] messages);
 
+        void NotifySubscribers(SubscriberNotificationViewModel model);
+
 	    ClientMessageViewModel[] GetUnreadMessages(string username);
 
 	    void MarkAsRead(string[] id);

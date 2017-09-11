@@ -10,14 +10,16 @@ namespace CourseWork.BusinessLogicLayer.Services.MessageManagers.Implementations
     public class MessageManager : IMessageManager
     {
 	    private readonly Repository<Message> _messageRepository;
+        private readonly Repository<ProjectSubscriber> _projectSubscribeRepository;
 	    private readonly IMapper<MessageViewModel, Message> _serverMapper;
 	    private readonly IMapper<ClientMessageViewModel, Message> _clientMapper;
 
-		public MessageManager(Repository<Message> messageRepository, IMapper<MessageViewModel, Message> serverMapper, IMapper<ClientMessageViewModel, Message> clientMapper)
+		public MessageManager(Repository<Message> messageRepository, IMapper<MessageViewModel, Message> serverMapper, IMapper<ClientMessageViewModel, Message> clientMapper, Repository<ProjectSubscriber> projectSubscribeRepository)
 	    {
 		    _messageRepository = messageRepository;
 		    _serverMapper = serverMapper;
 		    _clientMapper = clientMapper;
+	        _projectSubscribeRepository = projectSubscribeRepository;
 	    }
 
 	    public void Send(MessageViewModel[] messages)
@@ -28,6 +30,13 @@ namespace CourseWork.BusinessLogicLayer.Services.MessageManagers.Implementations
         public void SendAsAdmin(MessageViewModel[] messages)
         {
             Send(messages);
+        }
+
+        public void NotifySubscribers(SubscriberNotificationViewModel model)
+        {
+            var notifications = _projectSubscribeRepository.GetWhere(n => n.ProjectId.Equals(model.Id)).
+                Select(n => new MessageViewModel { RecipientUserName = n.UserName, Text = model.Text }).ToArray();
+            Send(notifications);
         }
 
         public ClientMessageViewModel[] GetUnreadMessages(string username)
