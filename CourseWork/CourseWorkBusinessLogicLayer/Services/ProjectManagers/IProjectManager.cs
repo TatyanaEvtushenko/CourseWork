@@ -18,5 +18,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers
         string GetProjectName(string projectId);
 
         ProjectViewModel GetProject(string projectId);
+
+        void ChangeRating(string projectId, int value);
     }
 }

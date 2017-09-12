@@ -1,5 +1,5 @@
 ﻿<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-<div *ngIf="isAdmin">
+<div *ngIf="isReadyCurrentUser && isAdmin">
 	<div class="fixed-action-btn">
 		<button class="waves-effect waves-light btn" [disabled]="selectedIndex == null || userInfos[selectedIndex].statusCode != userStatus.AwaitingConfirmation" (click)="clickConfirm()">View confirmation request</button>
 	</div>
@@ -67,4 +67,4 @@
         </tbody>
     </table>
 </div>
-<errorpage *ngIf="!isAdmin"></errorpage>
+<errorpage *ngIf="isReadyCurrentUser && !isAdmin"></errorpage>

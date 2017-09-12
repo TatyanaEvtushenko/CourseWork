@@ -70,6 +70,11 @@ namespace CourseWork.DataLayer.Repositories
             return Table.Where(whereExpression).ToList();
         }
 
+        public T FirstOrDefault(Func<T, bool> whereExpression)
+        {
+            return Table.FirstOrDefault(whereExpression);
+        }
+
         public virtual UserInfo[] SortByField(string fieldName, bool ascending)
         {
             return null;

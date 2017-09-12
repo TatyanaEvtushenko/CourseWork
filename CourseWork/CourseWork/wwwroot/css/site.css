@@ -1,4 +1,13 @@
-﻿.news-open {
+﻿.project .card {
+    margin-top: 0;
+    overflow: hidden;
+}
+
+.project .card-image img{
+    margin:-30% 0 0 0;
+}
+
+.news-open {
     margin-right: 0 !important;
 }
 

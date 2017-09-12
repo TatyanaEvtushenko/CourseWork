@@ -7,7 +7,7 @@
     <li><a (click)="logout()">Log out</a></li>
 </ng-container>
 
-<ng-container *ngIf="!(isReadyCurrentUser && isUser)">
+<ng-container *ngIf="isReadyCurrentUser && !isUser">
     <li><a href="#registrationModal" class="modal-trigger">Register</a></li>
     <li><a href="#loginModal" class="modal-trigger">Log in</a></li>
 </ng-container>   

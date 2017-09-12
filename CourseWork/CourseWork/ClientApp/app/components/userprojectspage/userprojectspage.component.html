@@ -1,6 +1,6 @@
-﻿<!--<errorpage *ngIf="!(isConfirmedUser && isReadyCurrentUser)"></errorpage>-->
+﻿<errorpage *ngIf="isReadyCurrentUser && !isConfirmedUser"></errorpage>
 
-<div>
+<div *ngIf="isReadyCurrentUser && isConfirmedUser">
     <h2>My projects</h2>
     <div class="row">
         <div class="col m4" *ngFor="let project of projects">

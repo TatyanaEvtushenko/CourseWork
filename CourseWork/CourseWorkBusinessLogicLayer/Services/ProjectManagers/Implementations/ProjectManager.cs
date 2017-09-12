@@ -50,9 +50,26 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
                    _financialPurposeManager.AddFinancialPurposes(projectForm.FinancialPurposes, project.Id);
         }
 
+        public void ChangeRating(string projectId, int value)
+        {
+            var userName = _contextAccessor.HttpContext.User.Identity.Name;
+            var ratingModel = _raitingRepository.FirstOrDefault(rating => rating.ProjectId == projectId && rating.UserName == userName);
+            if (ratingModel == null)
+            {
+                AddRating(projectId, value, userName);
+            }
+            else
+            {
+                UpdateRating(value, ratingModel);
+            }
+        }
+
         public ProjectViewModel GetProject(string projectId)
         {
+            var userName = _contextAccessor.HttpContext.User.Identity.Name;
             var project = _projectMapper.ConvertFrom(_projectRepository.Get(projectId));
+            project.Rating = _raitingRepository
+                .FirstOrDefault(rating => rating.ProjectId == projectId && rating.UserName == userName)?.RaitingResult ?? 0;
             return project;
         }
 
@@ -86,6 +103,23 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             UpdateProjectRaiting(projects);
             UpdateProjectStatus(projects);
             _projectRepository.UpdateRange(projects.ToArray());
+        }
+
+        private void AddRating(string projectId, int rating, string userName)
+        {
+            _raitingRepository.AddRange(new Raiting
+            {
+                Id = _raitingRepository.GetNewId(),
+                ProjectId = projectId,
+                RaitingResult = rating,
+                UserName = userName
+            });
+        }
+
+        private void UpdateRating(int rating, Raiting ratingModel)
+        {
+            ratingModel.RaitingResult = rating;
+            _raitingRepository.UpdateRange(ratingModel);
         }
 
         private void UpdateProjectRaiting(IEnumerable<Project> projects)
@@ -139,3 +173,4 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         }
     }
 }
+

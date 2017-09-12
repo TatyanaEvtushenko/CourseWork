@@ -34,10 +34,18 @@ namespace CourseWork.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("api/Project/GetProject/{id}")]
         public ProjectViewModel GetProject(string id)
         {
             return _projectManager.GetProject(id);
+        }
+
+        [HttpPost]
+        [Route("api/Project/ChangeRating")]
+        public void ChangeRating([FromBody]RatingViewModel rating)
+        {
+            _projectManager.ChangeRating(rating.ProjectId, rating.RatingValue);
         }
     }
 }

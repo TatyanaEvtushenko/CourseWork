@@ -35,8 +35,10 @@ export class CurrentUserSubscriber {
     private updateData(user: CurrentUser) {
         this.isReadyCurrentUser = true;
         this.currentUser = user;
-		this.updateRoles();
-	    this.updateBlockedStatus(user.isBlocked);
+        this.updateRoles();
+        if (user != null) {
+            this.updateBlockedStatus(user.isBlocked);
+        }
     }
 
     private updateRoles() {

@@ -29,4 +29,10 @@ export class ProjectService extends BaseService {
     addMailingToPayers(newsForm: NewsForm) {
         return this.requestPost("api/News/AddMailingToPayers", newsForm);
     }
+
+    changeRating(projectId: string, ratingValue: number) {
+        const rating = { "projectId": projectId, "ratingValue": ratingValue };
+        console.log(rating);
+        return this.requestPost("api/Project/ChangeRating", rating);
+    }
 }

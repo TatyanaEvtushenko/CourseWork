@@ -1,9 +1,17 @@
-﻿<div class="parallax-container">
-    <div class="parallax"><img src="{{project.imageUrl}}"></div>
-</div>
-<div class="section white">
-    <div class="row container">
-        <h2 class="header">Parallax</h2>
-        <p class="grey-text text-darken-3 lighten-3">Parallax is an effect where the background content or image in this case, is moved at a different speed than the foreground content while scrolling.</p>
+﻿<div *ngIf="project != null" class="center project">
+    <div class="card">
+        <div class="card-image">
+            <img src="{{project.imageUrl}}">
+            <div class="card-title">
+                <h1>{{project.name}}</h1>
+                <h6 class="left-align">
+                    <rating [(ngModel)]="project.rating" (ngModelChange)="updateRating()" 
+                            [titles]="['one', 'two', 'three', 'four', 'five']"></rating>
+                </h6>
+            </div>
+        </div>
     </div>
+    <!--<div class="card-panel teal">
+        <markdown>{{project.description}}</markdown>
+    </div>-->
 </div>
