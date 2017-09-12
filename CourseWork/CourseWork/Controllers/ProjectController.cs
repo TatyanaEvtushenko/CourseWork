@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CourseWork.Controllers
 {
     [Produces("application/json")]
+    [Authorize]
     public class ProjectController : Controller
     {
         private readonly IProjectManager _projectManager;
@@ -42,7 +43,6 @@ namespace CourseWork.Controllers
 
         [HttpPost]
         [Route("api/Project/ChangeRating")]
-        [Authorize]
         public void ChangeRating([FromBody]RatingViewModel rating)
         {
             _projectManager.ChangeRating(rating.ProjectId, rating.RatingValue);

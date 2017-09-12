@@ -32,6 +32,6 @@ export class ProjectPageComponent extends CurrentUserSubscriber {
     }
 
     updateRating() {
-        this.projectService.changeRating(this.project.id, this.project.rating);
+        this.projectService.changeRating(this.project.id, this.project.rating).subscribe();
     }
 }
