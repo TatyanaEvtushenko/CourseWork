@@ -45,7 +45,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
 
         public bool AddProject(ProjectFormViewModel projectForm)
         {
-            var project = GetPreparedProject(projectForm);
+            var project = _projectFormMapper.ConvertTo(projectForm);
             return _projectRepository.AddRange(project) & _tagService.AddTagsInProject(projectForm.Tags, project.Id) &
                    _financialPurposeManager.AddFinancialPurposes(projectForm.FinancialPurposes, project.Id);
         }
@@ -66,11 +66,8 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
 
         public ProjectViewModel GetProject(string projectId)
         {
-            var userName = _contextAccessor.HttpContext.User.Identity.Name;
-            var project = _projectMapper.ConvertFrom(_projectRepository.Get(projectId));
-            project.Rating = _raitingRepository
-                .FirstOrDefault(rating => rating.ProjectId == projectId && rating.UserName == userName)?.RaitingResult ?? 0;
-            return project;
+            var project = _projectRepository.Get(projectId);
+            return _projectMapper.ConvertFrom(project);
         }
 
         public IEnumerable<ProjectItemViewModel> GetUserProjects()
@@ -90,11 +87,6 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         {
             return _projectRepository.GetWhere(project => project.Status == ProjectStatus.Financed)
                 .Select(project => _projectItemMapper.ConvertFrom(project));
-        }
-
-        public string GetProjectName(string projectId)
-        {
-            return _projectRepository.Get(projectId).Name;
         }
 
         public void UpdateExistedProjects()
@@ -160,16 +152,6 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         {
             return project.FundRaisingEnd <= _paymentManager.GetTimeLastPayment(project.Id) 
                 && project.PaidAmount >= _financialPurposeManager.GetMinFinancialPurposeBudget(project.Id);
-        }
-
-        private Project GetPreparedProject(ProjectFormViewModel projectForm)
-        {
-            var project = _projectFormMapper.ConvertTo(projectForm);
-            project.CreatingTime = DateTime.Today;
-            project.OwnerUserName = _contextAccessor.HttpContext.User.Identity.Name;
-            project.Status = ProjectStatus.Active;
-            project.Id = _projectRepository.GetNewId();
-            return project;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿<div class="row">
+﻿<div class="row" [class.grey]="financialPurpose.isReached">
     <div class="col m11">
         <span class="title">{{financialPurpose.name}}<span class="secondary-content">{{financialPurpose.budget}}$</span></span>
         <p *ngIf="financialPurpose.description != null">{{financialPurpose.description}}</p>

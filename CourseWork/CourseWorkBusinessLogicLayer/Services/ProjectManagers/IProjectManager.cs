@@ -14,9 +14,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers
         void UpdateExistedProjects();
 
         IEnumerable<ProjectItemViewModel> GetUserProjects();
-
-        string GetProjectName(string projectId);
-
+        
         ProjectViewModel GetProject(string projectId);
 
         void ChangeRating(string projectId, int value);

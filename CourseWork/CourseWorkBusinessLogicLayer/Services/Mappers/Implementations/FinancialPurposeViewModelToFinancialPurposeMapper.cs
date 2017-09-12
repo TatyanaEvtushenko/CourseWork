@@ -1,5 +1,4 @@
-﻿using System;
-using CourseWork.BusinessLogicLayer.ViewModels.FinancialPurposeViewModels;
+﻿using CourseWork.BusinessLogicLayer.ViewModels.FinancialPurposeViewModels;
 using CourseWork.DataLayer.Models;
 
 namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
@@ -12,13 +11,20 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
             {
                 Description = item.Description,
                 Name = item.Name,
-                NecessaryPaymentAmount = item.Budget
+                NecessaryPaymentAmount = item.Budget,
+                IsReached = item.IsReached
             };
         }
 
         public FinancialPurposeViewModel ConvertFrom(FinancialPurpose item)
         {
-            throw new NotImplementedException();
+            return new FinancialPurposeViewModel()
+            {
+                Description = item.Description,
+                Name = item.Name,
+                Budget = item.NecessaryPaymentAmount,
+                IsReached = item.IsReached
+            };
         }
     }
 }

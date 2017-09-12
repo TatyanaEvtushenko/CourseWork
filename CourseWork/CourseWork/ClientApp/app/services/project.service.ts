@@ -33,6 +33,6 @@ export class ProjectService extends BaseService {
     changeRating(projectId: string, ratingValue: number) {
         const rating = { "projectId": projectId, "ratingValue": ratingValue };
         console.log(rating);
-        return this.requestPost("api/Project/ChangeRating", rating);
+        return this.requestPost("api/Project/ChangeRating", rating);   
     }
 }

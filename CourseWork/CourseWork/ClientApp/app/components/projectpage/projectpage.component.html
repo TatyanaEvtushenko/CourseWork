@@ -1,17 +1,30 @@
-﻿<div *ngIf="project != null" class="center project">
+﻿<div *ngIf="project != null" class="project">
     <div class="card">
         <div class="card-image">
             <img src="{{project.imageUrl}}">
-            <div class="card-title">
+            <div class="card-title left-align">
                 <h1>{{project.name}}</h1>
-                <h6 class="left-align">
-                    <rating [(ngModel)]="project.rating" (ngModelChange)="updateRating()" 
-                            [titles]="['one', 'two', 'three', 'four', 'five']"></rating>
-                </h6>
+                <h6><rating [(ngModel)]="project.rating" (ngModelChange)="updateRating()"
+                            [titles]="['one', 'two', 'three', 'four', 'five']"></rating></h6>
             </div>
         </div>
     </div>
-    <!--<div class="card-panel teal">
-        <markdown>{{project.description}}</markdown>
-    </div>-->
+    <div class="row">
+        <div class="col m3 left-align">
+            <h5>Payed amount: {{project.paidAmount}}$</h5>
+        </div>
+        <div class="col m3 left-align">
+            <h5>Count of payments: {{project.countOfPayments}}</h5>
+        </div>
+        <div class="col m6 right-align">
+            <button class="btn">Subscribe</button>
+            <button class="btn">Pay</button>
+        </div>
+    </div>
+    <markdown>{{project.description}}</markdown>
+    <ul class="collection">
+        <li *ngFor="let purpose of project.financialPurposes" class="collection-item">
+            <financialpurpose [financialPurpose]="purpose"></financialpurpose>  <!--[isOwner]="false" (onDeleted)="deleteFinancialPurpose(purpose)"-->
+        </li>
+    </ul>
 </div>

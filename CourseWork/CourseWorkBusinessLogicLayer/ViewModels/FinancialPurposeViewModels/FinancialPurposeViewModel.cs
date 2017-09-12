@@ -7,5 +7,7 @@
         public string Description { get; set; }
 
         public decimal Budget { get; set; }
+
+        public bool IsReached { get; set; }
     }
 }

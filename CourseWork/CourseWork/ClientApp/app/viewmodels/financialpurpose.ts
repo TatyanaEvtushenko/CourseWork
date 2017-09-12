@@ -1,5 +1,6 @@
 ﻿export class FinancialPurpose{
     name: string;
     description: string;
-	budget: number;
+    budget: number;
+    isReached = false;
 }
