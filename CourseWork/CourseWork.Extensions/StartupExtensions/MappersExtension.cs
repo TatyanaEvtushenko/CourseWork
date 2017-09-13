@@ -1,4 +1,5 @@
-﻿using CourseWork.BusinessLogicLayer.Services.Mappers;
+﻿using CourseWork.BusinessLogicLayer.ElasticSearch.Documents;
+using CourseWork.BusinessLogicLayer.Services.Mappers;
 using CourseWork.BusinessLogicLayer.Services.Mappers.Implementations;
 using CourseWork.BusinessLogicLayer.ViewModels.FinancialPurposeViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.NewsViewModels;
@@ -23,6 +24,7 @@ namespace CourseWork.Extensions.StartupExtensions
                 .AddScoped<IMapper<UserConfirmationViewModel, UserInfo>, UserConfirmationViewModelToUserInfoMapper>();
 	        services.AddScoped<IMapper<MessageViewModel, Message>, MessageViewModelToMessageMapper>();
 	        services.AddScoped<IMapper<ClientMessageViewModel, Message>, ClientMessageViewModelToMessageMapper>();
-		}
+            services.AddScoped<IMapper<ProjectSearchNote, Project>, ProjectSearchNoteToProjectMapper>();
+        }
     }
 }

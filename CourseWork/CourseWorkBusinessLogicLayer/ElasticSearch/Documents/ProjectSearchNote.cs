@@ -15,15 +15,21 @@ namespace CourseWork.BusinessLogicLayer.ElasticSearch.Documents
         public string Description { get; set; }
 
         [Keyword(Name = "tag", Index = true)]
-        public string Tag { get; set; }
+        public string[] Tag { get; set; }
 
         [Text(Name = "newsSubject", Index = true)]
-        public string NewsSubject { get; set; }
+        public string[] NewsSubject { get; set; }
 
         [Text(Name = "newsText", Index = true)]
-        public string NewsText { get; set; }
+        public string[] NewsText { get; set; }
 
         [Text(Name = "comment", Index = true)]
-        public string Comment { get; set; }
+        public string[] Comment { get; set; }
+
+        [Text(Name = "financialPurpose", Index = true)]
+        public string[] FinancialPurposeName { get; set; }
+
+        [Text(Name = "financialPurposeDescription", Index = true)]
+        public string[] FinancialPurposeDescription { get; set; }
     }
 }
