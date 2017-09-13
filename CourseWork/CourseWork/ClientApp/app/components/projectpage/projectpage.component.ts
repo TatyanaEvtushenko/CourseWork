@@ -25,22 +25,10 @@ export class ProjectPageComponent extends CurrentUserSubscriber {
         this.route.paramMap.switchMap((params: ParamMap) =>
             this.projectService.getProject(params.get('id'))).subscribe(
             data => {
-                this.sortFinancialPurposes(data);
+                this.prepareData(data);
                 this.project = data;
                 this.title.setTitle(data.name);
             });
-    }
-
-    sortFinancialPurposes(data: any) {
-        data.financialPurposes.sort((a: any, b: any) => {
-            if (a.budget > b.budget) {
-                return -1;
-            }
-            if (a.budget === b.budget) {
-                return 0;
-            }
-            return 1;
-        });
     }
 
     updateRating() {
@@ -49,5 +37,32 @@ export class ProjectPageComponent extends CurrentUserSubscriber {
 
     deleteFinancialPurpose(purpose: any) {
         alert("delete");
+    }
+
+    private prepareData(data: any) {
+        data.financialPurposes.sort(this.sortByBudget);
+        data.news.sort(this.sortByTime);
+        data.comments.sort(this.sortByTime);
+        console.log(data);
+    }
+
+    private sortByTime(a: any, b: any) {
+        if (a.time > b.time) {
+            return -1;
+        }
+        if (a.time === b.time) {
+            return 0;
+        }
+        return 1;
+    }
+
+    private sortByBudget(a: any, b: any) {
+        if (a.budget > b.budget) {
+            return -1;
+        }
+        if (a.budget === b.budget) {
+            return 0;
+        }
+        return 1;
     }
 }

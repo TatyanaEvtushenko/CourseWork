@@ -13,9 +13,7 @@
             <p>{{project.paidAmount}}$</p>
         </div>
         <div class="col m6 right-align">
-            <p *ngIf="project.status == projectStatus.Active">Active</p>
-            <p *ngIf="project.status == projectStatus.Failed" class="red-text">Failed</p>
-            <p *ngIf="project.status == projectStatus.Financed" class="green-text">Financed</p>
+            <p><projectstatus [status]="project.status"></projectstatus></p>
         </div>
     </div>
     <div class="card-action right-align">

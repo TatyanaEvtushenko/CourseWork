@@ -11,13 +11,16 @@
     </div>
 
     <div class="row">
-        <div class="col m3 left-align">
+        <div class="col m3">
+            <h5>Project status: <projectstatus [status]="project.status"></projectstatus></h5>
+        </div>
+        <div class="col m3">
             <h5>Payed amount: {{project.paidAmount}}$</h5>
         </div>
-        <div class="col m3 left-align">
+        <div class="col m3">
             <h5>Count of payments: {{project.countOfPayments}}</h5>
         </div>
-        <div class="col m6 right-align">
+        <div class="col m3 right-align">
             <button class="btn" (click)="updateRating()">Subscribe</button>
             <button class="btn">Pay</button>
         </div>
