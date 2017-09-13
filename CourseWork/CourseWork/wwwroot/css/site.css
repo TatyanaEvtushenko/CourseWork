@@ -46,6 +46,10 @@
     font-size: inherit;
 }
 
+#search {
+    height: 64px;
+}
+
 body {
     /*padding-top: 50px;*/
     padding-bottom: 20px;
