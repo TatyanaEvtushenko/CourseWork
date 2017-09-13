@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using CourseWork.BusinessLogicLayer.ViewModels.CommentViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.FinancialPurposeViewModels;
+using CourseWork.BusinessLogicLayer.ViewModels.NewsViewModels;
+using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
+using CourseWork.DataLayer.Enums;
 
 namespace CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels
 {
@@ -12,7 +16,7 @@ namespace CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels
 
         public string ImageUrl { get; set; }
 
-        public int Rating { get; set; }
+        public double Rating { get; set; }
 
         public string Description { get; set; }
 
@@ -23,14 +27,19 @@ namespace CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels
         public IEnumerable<FinancialPurposeViewModel> FinancialPurposes { get; set; }
 
         public IEnumerable<string> Tags { get; set; }
-
-        public bool IsOwner { get; set; }
-
-
+        
         public DateTime FundRaisingEnd { get; set; }
 
         public decimal MinPaymentAmount { get; set; }
 
         public decimal MaxPaymentAmount { get; set; }
+
+        public IEnumerable<CommentViewModel> Comments { get; set; }
+
+        public IEnumerable<NewsViewModel> News { get; set; }
+
+        public UserSmallViewModel Owner { get; set; }
+
+        public ProjectStatus Status { get; set; }
     }
 }
