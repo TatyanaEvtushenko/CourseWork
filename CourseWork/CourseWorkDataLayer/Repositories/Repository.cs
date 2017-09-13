@@ -75,6 +75,11 @@ namespace CourseWork.DataLayer.Repositories
             return Table.FirstOrDefault(whereExpression);
         }
 
+        public int Count(Func<T, bool> whereExpression)
+        {
+            return Table.Count(whereExpression);
+        }
+
         public virtual UserInfo[] SortByField(string fieldName, bool ascending)
         {
             return null;

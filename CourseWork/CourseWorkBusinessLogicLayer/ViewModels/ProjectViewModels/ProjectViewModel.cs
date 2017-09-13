@@ -22,13 +22,15 @@ namespace CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels
 
         public IEnumerable<FinancialPurposeViewModel> FinancialPurposes { get; set; }
 
+        public IEnumerable<string> Tags { get; set; }
+
+        public bool IsOwner { get; set; }
+
 
         public DateTime FundRaisingEnd { get; set; }
 
         public decimal MinPaymentAmount { get; set; }
 
         public decimal MaxPaymentAmount { get; set; }
-
-        public IEnumerable<string> Tags { get; set; }
     }
 }

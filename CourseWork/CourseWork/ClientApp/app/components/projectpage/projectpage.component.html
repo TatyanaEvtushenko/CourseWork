@@ -9,6 +9,7 @@
             </div>
         </div>
     </div>
+
     <div class="row">
         <div class="col m3 left-align">
             <h5>Payed amount: {{project.paidAmount}}$</h5>
@@ -21,10 +22,28 @@
             <button class="btn">Pay</button>
         </div>
     </div>
-    <markdown>{{project.description}}</markdown>
-    <ul class="collection">
-        <li *ngFor="let purpose of project.financialPurposes" class="collection-item">
-            <financialpurpose [financialPurpose]="purpose"></financialpurpose>  <!--[isOwner]="false" (onDeleted)="deleteFinancialPurpose(purpose)"-->
-        </li>
-    </ul>
+
+    <div class="row">
+        <div class="col m12">
+            <markdown>{{project.description}}</markdown>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col m12">
+            <ul class="collection">
+                <li *ngFor="let purpose of project.financialPurposes" class="collection-item">
+                    <financialpurpose [financialPurpose]="purpose" [isOwner]="project.isOwner || isReadyCurrentUser && isAdmin" 
+                                      (onDeleted)="deleteFinancialPurpose(purpose)"></financialpurpose>  
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+        <div *ngFor="let tag of project.tags">
+            <div class="chip">{{tag}}
+                <i *ngIf="project.isOwner || isReadyCurrentUser && isAdmin" class="close material-icons">close</i></div>
+        </div>
+    </div>
 </div>

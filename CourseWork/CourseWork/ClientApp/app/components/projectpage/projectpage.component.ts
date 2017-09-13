@@ -25,13 +25,29 @@ export class ProjectPageComponent extends CurrentUserSubscriber {
         this.route.paramMap.switchMap((params: ParamMap) =>
             this.projectService.getProject(params.get('id'))).subscribe(
             data => {
+                this.sortFinancialPurposes(data);
                 this.project = data;
-                console.log(data);
                 this.title.setTitle(data.name);
             });
     }
 
+    sortFinancialPurposes(data: any) {
+        data.financialPurposes.sort((a: any, b: any) => {
+            if (a.budget > b.budget) {
+                return -1;
+            }
+            if (a.budget === b.budget) {
+                return 0;
+            }
+            return 1;
+        });
+    }
+
     updateRating() {
         this.projectService.changeRating(this.project.id, this.project.rating).subscribe();
+    }
+
+    deleteFinancialPurpose(purpose: any) {
+        alert("delete");
     }
 }
