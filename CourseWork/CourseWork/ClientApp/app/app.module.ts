@@ -32,6 +32,7 @@ import { FinancialPurposeModalComponent } from './components/financialpurposemod
 import { ProjectItemComponent } from './components/projectitem/projectitem.component';
 import { NewsFormModalComponent } from './components/newsformmodal/newsformmodal.component';
 import { SearcherComponent } from './components/searcher/searcher.component';
+import { SearchResultComponent } from './components/searchresult/searchresult.component';
 
 import { BaseService} from './services/base.service';
 import { CurrentUserService } from "./services/currentuser.service"; 
@@ -45,6 +46,7 @@ const appRoutes: Routes = [
     { path: 'UserProjectsPage', component: UserProjectsPageComponent },
     { path: 'AdminPage', component: AdminPageComponent },
     { path: 'ProjectEditorPage', component: NewProjectPageComponent },
+    { path: 'SearchResult', component: SearchResultComponent },
     { path: '**', component: ErrorPageComponent }
 ];
 
@@ -85,7 +87,8 @@ const appRoutes: Routes = [
         FinancialPurposeModalComponent,
         ProjectItemComponent,
         NewsFormModalComponent,
-        SearcherComponent
+        SearcherComponent,
+        SearchResultComponent
     ],
     providers: [
         BaseService,

@@ -29,4 +29,9 @@ export class ProjectService extends BaseService {
     addMailingToPayers(newsForm: NewsForm) {
         return this.requestPost("api/News/AddMailingToPayers", newsForm);
     }
+
+    search(queryString: string) {
+        var params = { query: queryString };
+        return this.requestGetWithParams("api/Search/Search", params);
+    }
 }
