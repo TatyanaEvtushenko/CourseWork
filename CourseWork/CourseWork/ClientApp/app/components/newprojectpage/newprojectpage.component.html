@@ -1,5 +1,5 @@
-﻿<errorpage *ngIf="isReadyCurrentUser && !isConfirmedUser"></errorpage>
-<div *ngIf="isReadyCurrentUser && isConfirmedUser" class="container">
+﻿<errorpage *ngIf="storage.isReadyCurrentUser && !storage.isConfirmedUser"></errorpage>
+<div *ngIf="storage.isReadyCurrentUser && storage.isConfirmedUser" class="container">
     <h4>Create a new project</h4>
 
     <div class="row">

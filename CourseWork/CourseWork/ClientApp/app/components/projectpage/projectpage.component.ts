@@ -2,24 +2,19 @@
 import { Title } from '@angular/platform-browser';
 import { ProjectService } from '../../services/project.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { AccountService } from "../../services/account.service";
-import { CurrentUserService } from '../../services/currentuser.service';
-import { CurrentUserSubscriber } from '../currentuser.subscriber';
+import { StorageService } from '../../services/storage.service';
 
 @Component({
     selector: 'projectpage',
     templateUrl: './projectpage.component.html'
 })
-export class ProjectPageComponent extends CurrentUserSubscriber {
+export class ProjectPageComponent {
     project: any = null;
 
-    constructor(private route: ActivatedRoute,
+    constructor(public storage: StorageService,
+        private route: ActivatedRoute,
         private title: Title,
-        private projectService: ProjectService,
-        protected currentUserService: CurrentUserService,
-        protected accountService: AccountService) {
-        super(currentUserService, accountService);
-    }
+        private projectService: ProjectService) { }
 
     ngOnInit() {
         this.route.paramMap.switchMap((params: ParamMap) =>

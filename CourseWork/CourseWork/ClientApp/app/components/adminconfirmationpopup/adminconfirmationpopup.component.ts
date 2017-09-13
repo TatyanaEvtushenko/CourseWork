@@ -15,8 +15,7 @@ export class AdminConfirmationPopupComponent implements AfterViewInit {
 
     constructor(private accountService: AccountService) { }
 
-	ngAfterViewInit() {
-		console.log(this.username);
+    ngAfterViewInit() {
         this.accountService.getPersonalInfo(this.username).subscribe(userData => {
             this.userData = userData;
         });

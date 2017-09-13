@@ -1,5 +1,4 @@
 ﻿using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
-using CourseWork.DataLayer.Enums.Configurations;
 using CourseWork.DataLayer.Models;
 
 namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations

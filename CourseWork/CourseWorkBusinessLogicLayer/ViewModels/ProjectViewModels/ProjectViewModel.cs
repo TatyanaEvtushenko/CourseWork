@@ -41,5 +41,7 @@ namespace CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels
         public UserSmallViewModel Owner { get; set; }
 
         public ProjectStatus Status { get; set; }
+
+        public bool IsSubscriber { get; set; }
     }
 }

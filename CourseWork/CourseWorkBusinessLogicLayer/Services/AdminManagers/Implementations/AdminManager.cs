@@ -48,7 +48,8 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
 
         public UserConfirmationViewModel GetPersonalInfo(string userName)
         {
-            return _mapperInfo.ConvertFrom(_userInfoRepository.Get(userName));
+            var userInfo = _userInfoRepository.Get( userName);
+            return _mapperInfo.ConvertFrom(userInfo);
         }
 
         public async Task<bool> RespondToConfirmation(string userName, bool accept)
@@ -83,10 +84,10 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
         {
 	        var usersToDeleteSet = usersToDelete.ToImmutableHashSet();
             return (!withCommentsAndRaitings ||
-				(_raitingRepository.RemoveWhere(n => usersToDeleteSet.Contains(n.UserName)) &&
-				_commentRepository.RemoveWhere(n => usersToDeleteSet.Contains(n.UserName)))) &&
-				_projectRepository.RemoveWhere(n => usersToDeleteSet.Contains(n.OwnerUserName)) && 
-                _userInfoRepository.RemoveRange(usersToDelete) &&
+				(_raitingRepository.RemoveWhere(n => usersToDeleteSet.Contains(n.UserName)) &
+				_commentRepository.RemoveWhere(n => usersToDeleteSet.Contains(n.UserName)))) &
+				_projectRepository.RemoveWhere(n => usersToDeleteSet.Contains(n.OwnerUserName)) & 
+                _userInfoRepository.RemoveRange(usersToDelete) &
                 _applicationUserRepository.RemoveWhere(n => usersToDeleteSet.Contains(n.UserName));
         }
     }

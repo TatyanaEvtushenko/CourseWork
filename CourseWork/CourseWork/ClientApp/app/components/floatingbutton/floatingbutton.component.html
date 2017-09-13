@@ -1,11 +1,11 @@
-﻿<div *ngIf="isConfirmedUser">
+﻿<div *ngIf="storage.isReadyCurrentUser && storage.isConfirmedUser">
     <a href="/ProjectEditorPage" class="btn-floating btn-large waves-effect waves-light">
         <i class="material-icons">add</i>
     </a>
 </div>
 
 
-<div *ngIf="isAdmin" class="fixed-action-btn">
+<div *ngIf="storage.isReadyCurrentUser && storage.isAdmin" class="fixed-action-btn">
     <a class="btn-floating btn-large red">
         <i class="large material-icons">mode_edit</i>
     </a>

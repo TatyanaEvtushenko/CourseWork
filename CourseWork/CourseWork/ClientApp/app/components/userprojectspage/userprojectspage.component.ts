@@ -1,23 +1,19 @@
 ﻿import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ProjectService } from '../../services/project.service';
-import { AccountService } from "../../services/account.service";
-import { CurrentUserService } from '../../services/currentuser.service';
-import { CurrentUserSubscriber } from '../currentuser.subscriber';
+import { StorageService } from '../../services/storage.service';
 
 @Component({
     selector: 'userprojectspage',
     templateUrl: './userprojectspage.component.html'
 })
-export class UserProjectsPageComponent extends CurrentUserSubscriber {
+export class UserProjectsPageComponent {
     projects: any[] = [];
     selectedProjectId: string = null;
 
-    constructor(private title: Title,
-        private projectService: ProjectService,
-        protected currentUserService: CurrentUserService,
-        protected accountService: AccountService) {
-        super(currentUserService, accountService);
+    constructor(public storage: StorageService,
+        private title: Title,
+        private projectService: ProjectService) {
         title.setTitle("My projects");
     }
 

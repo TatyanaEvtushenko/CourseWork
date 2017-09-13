@@ -1,24 +1,19 @@
 ﻿import { Component } from '@angular/core';
 import { AccountService } from "../../services/account.service";
-import { CurrentUserService } from '../../services/currentuser.service';
-import { CurrentUserSubscriber } from '../currentuser.subscriber';
+import { StorageService } from '../../services/storage.service';
 
 @Component({
     selector: 'pagelinks',
     templateUrl: './pagelinks.component.html'
 })
 
-export class PageLinksComponent extends CurrentUserSubscriber {
+export class PageLinksComponent {
 
-    constructor(protected currentUserService: CurrentUserService, protected accountService: AccountService) {
-        super(currentUserService, accountService);
-    }
+    constructor(public storage: StorageService, private accountService: AccountService) { }
 
     logout() {   
         this.accountService.logout().subscribe(
-            (data: void) => {
-                this.accountService.changeAuthState(false);
-            }
+            data  => this.accountService.changeAuthState(false)
         );
     }
 }
