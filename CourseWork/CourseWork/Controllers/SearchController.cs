@@ -23,6 +23,8 @@ namespace CourseWork.Controllers
         [Route("api/Search/Search")]
         public IEnumerable<ProjectItemViewModel> Search([FromQuery] string query)
         {
+            if (String.IsNullOrEmpty(query))
+                return Enumerable.Empty<ProjectItemViewModel>();
             return _searchManager.Search(query);
         }
     }

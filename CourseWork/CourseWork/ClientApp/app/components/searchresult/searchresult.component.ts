@@ -23,7 +23,7 @@ export class SearchResultComponent extends MessageSubscriber {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.projectService.search(params['queryString']).subscribe(result => {
+            this.projectService.search(params['searchQuery']).subscribe(result => {
                 this.projects = result;
             });
         });
