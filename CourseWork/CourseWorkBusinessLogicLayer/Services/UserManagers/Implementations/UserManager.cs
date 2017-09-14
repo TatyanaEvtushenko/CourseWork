@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using CourseWork.BusinessLogicLayer.ViewModels.CurrentUserViewModels;
 using CourseWork.DataLayer.Models;
@@ -11,6 +12,10 @@ namespace CourseWork.BusinessLogicLayer.Services.UserManagers.Implementations
 {
     public class UserManager : IUserManager
     {
+        public IIdentity CurrentUserIdentity => _contextAccessor.HttpContext.User.Identity;
+
+        public string CurrentUserName => _contextAccessor.HttpContext.User.Identity.Name;
+
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly UserManager<ApplicationUser> _userManager;
 	    private readonly Repository<UserInfo> _userInfoRepository;
@@ -28,7 +33,7 @@ namespace CourseWork.BusinessLogicLayer.Services.UserManagers.Implementations
 
         public async Task<CurrentUserViewModel> GetCurrentUserInfo()
         {
-            var user = _contextAccessor.HttpContext.User.Identity;
+            var user = CurrentUserIdentity;
             return !user.IsAuthenticated ? null : new CurrentUserViewModel
             { 
                 UserName = user.Name,

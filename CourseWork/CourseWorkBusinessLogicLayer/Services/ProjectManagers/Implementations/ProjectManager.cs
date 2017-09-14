@@ -5,6 +5,7 @@ using CourseWork.BusinessLogicLayer.Services.FinancialPurposeManagers;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
 using CourseWork.BusinessLogicLayer.Services.PaymentManagers;
 using CourseWork.BusinessLogicLayer.Services.TagServices;
+using CourseWork.BusinessLogicLayer.Services.UserManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
@@ -20,27 +21,27 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         private readonly ITagService _tagService;
         private readonly IFinancialPurposeManager _financialPurposeManager;
         private readonly IPaymentManager _paymentManager;
+        private readonly IUserManager _userManager;
         private readonly IMapper<ProjectItemViewModel, Project> _projectItemMapper;
         private readonly IMapper<ProjectFormViewModel, Project> _projectFormMapper;
         private readonly IMapper<ProjectViewModel, Project> _projectMapper;
-        private readonly IHttpContextAccessor _contextAccessor;
 
         public ProjectManager(Repository<Project> projectRepository,
             IMapper<ProjectItemViewModel, Project> projectItemMapper,
             IMapper<ProjectFormViewModel, Project> projectFormMapper, ITagService tagService,
-            IFinancialPurposeManager financialPurposeManager,
-            IHttpContextAccessor contextAccessor, IPaymentManager paymentManager, Repository<Raiting> raitingRepository,
-            IMapper<ProjectViewModel, Project> projectMapper)
+            IFinancialPurposeManager financialPurposeManager, IPaymentManager paymentManager,
+            Repository<Raiting> raitingRepository,
+            IMapper<ProjectViewModel, Project> projectMapper, IUserManager userManager)
         {
             _projectRepository = projectRepository;
             _projectItemMapper = projectItemMapper;
             _projectFormMapper = projectFormMapper;
             _tagService = tagService;
             _financialPurposeManager = financialPurposeManager;
-            _contextAccessor = contextAccessor;
             _paymentManager = paymentManager;
             _raitingRepository = raitingRepository;
             _projectMapper = projectMapper;
+            _userManager = userManager;
         }
 
         public bool AddProject(ProjectFormViewModel projectForm)
@@ -50,17 +51,17 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
                    _financialPurposeManager.AddFinancialPurposes(projectForm.FinancialPurposes, project.Id);
         }
 
-        public void ChangeRating(string projectId, int value)
+        public void ChangeRating(RatingViewModel ratingForm)
         {
-            var userName = _contextAccessor.HttpContext.User.Identity.Name;
-            var ratingModel = _raitingRepository.FirstOrDefault(rating => rating.ProjectId == projectId && rating.UserName == userName);
+            var ratingModel = _raitingRepository.FirstOrDefault(
+                    rating => rating.ProjectId == ratingForm.ProjectId && rating.UserName == _userManager.CurrentUserName);
             if (ratingModel == null)
             {
-                AddRating(projectId, value, userName);
+                AddRating(ratingForm, _userManager.CurrentUserName);
             }
             else
             {
-                UpdateRating(value, ratingModel);
+                UpdateRating(ratingForm.RatingValue, ratingModel);
             }
         }
 
@@ -72,8 +73,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
 
         public IEnumerable<ProjectItemViewModel> GetUserProjects()
         {
-            var userName = _contextAccessor.HttpContext.User.Identity.Name;
-            return _projectRepository.GetWhere(project => project.OwnerUserName == userName)
+            return _projectRepository.GetWhere(project => project.OwnerUserName == _userManager.CurrentUserName)
                 .Select(project => _projectItemMapper.ConvertFrom(project));
         }
 
@@ -97,13 +97,13 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             _projectRepository.UpdateRange(projects.ToArray());
         }
 
-        private void AddRating(string projectId, int rating, string userName)
+        private void AddRating(RatingViewModel rating, string userName)
         {
             _raitingRepository.AddRange(new Raiting
             {
                 Id = _raitingRepository.GetNewId(),
-                ProjectId = projectId,
-                RaitingResult = rating,
+                ProjectId = rating.ProjectId,
+                RaitingResult = rating.RatingValue,
                 UserName = userName
             });
         }

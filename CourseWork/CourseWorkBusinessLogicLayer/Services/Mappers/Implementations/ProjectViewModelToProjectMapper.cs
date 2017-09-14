@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using CourseWork.BusinessLogicLayer.Services.UserManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.CommentViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.FinancialPurposeViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.NewsViewModels;
@@ -8,13 +9,11 @@ using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
-using Microsoft.AspNetCore.Http;
 
 namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
 {
     public class ProjectViewModelToProjectMapper : IMapper<ProjectViewModel, Project>
     {
-        private readonly IHttpContextAccessor _contextAccessor;
         private readonly Repository<Payment> _paymentRepository;
         private readonly Repository<Raiting> _raitingRepository;
         private readonly Repository<FinancialPurpose> _financialPurposeRepository;
@@ -24,15 +23,16 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
         private readonly IMapper<FinancialPurposeViewModel, FinancialPurpose> _financialPurposeMapper;
         private readonly IMapper<NewsViewModel, News> _newsMapper;
         private readonly IMapper<CommentViewModel, Comment> _commentMapper;
+        private readonly IUserManager _userManager;
 
-        public ProjectViewModelToProjectMapper(IHttpContextAccessor contextAccessor,
+        public ProjectViewModelToProjectMapper(
             Repository<Raiting> raitingRepository,
             IMapper<FinancialPurposeViewModel, FinancialPurpose> financialPurposeMapper,
             Repository<FinancialPurpose> financialPurposeRepository, Repository<Payment> paymentRepository,
             Repository<Tag> tagRepository, Repository<News> newsRepository, Repository<Comment> commentRepository,
-            IMapper<CommentViewModel, Comment> commentMapper, IMapper<NewsViewModel, News> newsMapper)
+            IMapper<CommentViewModel, Comment> commentMapper, IMapper<NewsViewModel, News> newsMapper,
+            IUserManager userManager)
         {
-            _contextAccessor = contextAccessor;
             _raitingRepository = raitingRepository;
             _financialPurposeMapper = financialPurposeMapper;
             _financialPurposeRepository = financialPurposeRepository;
@@ -42,6 +42,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
             _commentRepository = commentRepository;
             _commentMapper = commentMapper;
             _newsMapper = newsMapper;
+            _userManager = userManager;
         }
 
         public Project ConvertTo(ProjectViewModel item)
@@ -51,7 +52,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
 
         public ProjectViewModel ConvertFrom(Project item)
         {
-            var userName = _contextAccessor.HttpContext.User.Identity.Name;
+            var userName = _userManager.CurrentUserName;
             var project = new ProjectViewModel();
             ConvertFromBaseInformation(project, item, userName);
             ConvertFromPayment(project, item);

@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
+﻿using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
 using CourseWork.DataLayer.Enums.Configurations;
 using CourseWork.DataLayer.Models;
-using CourseWork.DataLayer.Repositories;
-using CourseWork.DataLayer.Repositories.Implementations;
-using Microsoft.AspNetCore.Identity;
 
 namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
 {

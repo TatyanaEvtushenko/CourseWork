@@ -1,21 +1,21 @@
 ﻿using System;
 using CourseWork.BusinessLogicLayer.Services.PhotoManagers;
+using CourseWork.BusinessLogicLayer.Services.UserManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
-using Microsoft.AspNetCore.Http;
 
 namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
 {
     public class ProjectFormViewModelToProjectMapper : IMapper<ProjectFormViewModel, Project>
     {
         private readonly IPhotoManager _photoManager;
-        private readonly IHttpContextAccessor _contextAccessor;
+        private readonly IUserManager _userManager;
 
-        public ProjectFormViewModelToProjectMapper(IPhotoManager photoManager, IHttpContextAccessor contextAccessor)
+        public ProjectFormViewModelToProjectMapper(IPhotoManager photoManager, IUserManager userManager)
         {
             _photoManager = photoManager;
-            _contextAccessor = contextAccessor;
+            _userManager = userManager;
         }
 
         public Project ConvertTo(ProjectFormViewModel item)
@@ -31,7 +31,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
                 CreatingTime = DateTime.Today,
                 Id = Guid.NewGuid().ToString(),
                 Status = ProjectStatus.Active,
-                OwnerUserName = _contextAccessor.HttpContext.User.Identity.Name
+                OwnerUserName = _userManager.CurrentUserName
             };
         }
 
