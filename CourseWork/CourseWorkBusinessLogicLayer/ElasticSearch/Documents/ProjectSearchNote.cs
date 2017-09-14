@@ -15,7 +15,7 @@ namespace CourseWork.BusinessLogicLayer.ElasticSearch.Documents
         [Text(Name = "description", Index = true)]
         public string Description { get; set; }
 
-        [Keyword(Name = "tag", Index = true)]
+        [Text(Name = "tag", Index = true)]
         public List<string> Tag { get; set; }
 
         [Text(Name = "newsSubject", Index = true)]

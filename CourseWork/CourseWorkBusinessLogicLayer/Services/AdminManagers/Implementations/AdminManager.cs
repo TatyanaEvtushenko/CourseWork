@@ -18,12 +18,15 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
         private readonly Repository<Project> _projectRepository;
 	    private readonly Repository<Raiting> _raitingRepository;
 	    private readonly Repository<Comment> _commentRepository;
+        private readonly Repository<Tag> _tagRepository;
+        private readonly Repository<FinancialPurpose> _financialPurposeRepository;
+        private readonly Repository<News> _newsRepository;
         private readonly IMapper<UserListItemViewModel, UserInfo> _mapperList;
         private readonly IMapper<UserConfirmationViewModel, UserInfo> _mapperInfo;
         private readonly IAccountManager _accountManager;
         private readonly ISearchManager _searchManager;
 
-        public AdminManager(IMapper<UserListItemViewModel, UserInfo> mapperList, Repository<UserInfo> userInfoRepository, IMapper<UserConfirmationViewModel, UserInfo> mapperInfo, IAccountManager accountManager, Repository<ApplicationUser> applicationUserRepository, Repository<Project> projectRepository, Repository<Comment> commentRepository, Repository<Raiting> raitingRepository, ISearchManager searchManager)
+        public AdminManager(IMapper<UserListItemViewModel, UserInfo> mapperList, Repository<UserInfo> userInfoRepository, IMapper<UserConfirmationViewModel, UserInfo> mapperInfo, IAccountManager accountManager, Repository<ApplicationUser> applicationUserRepository, Repository<Project> projectRepository, Repository<Comment> commentRepository, Repository<Raiting> raitingRepository, ISearchManager searchManager, Repository<Tag> tagRepository, Repository<FinancialPurpose> financialPurposeRepository, Repository<News> newsRepository)
         {
             _mapperList = mapperList;
             _userInfoRepository = userInfoRepository;
@@ -34,6 +37,9 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
 	        _commentRepository = commentRepository;
 	        _raitingRepository = raitingRepository;
             _searchManager = searchManager;
+            _tagRepository = tagRepository;
+            _financialPurposeRepository = financialPurposeRepository;
+            _newsRepository = newsRepository;
         }
 
         public UserListItemViewModel[] GetAllUsers()
@@ -86,11 +92,15 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
         {
 	        var usersToDeleteSet = usersToDelete.ToImmutableHashSet();
             var projectsToRemove = _projectRepository.GetWhere(n => usersToDeleteSet.Contains(n.OwnerUserName));
+            var projectSet = projectsToRemove.Select(p => p.Id).ToImmutableHashSet();
             return (!withCommentsAndRaitings ||
 				(_raitingRepository.RemoveWhere(n => usersToDeleteSet.Contains(n.UserName)) &&
 				_commentRepository.RemoveWhere(n => usersToDeleteSet.Contains(n.UserName)))) &&
-				_projectRepository.RemoveRange(projectsToRemove.Select(p => p.Id).ToArray()) && 
-                _searchManager.RemoveProjectsFromIndex(projectsToRemove.ToArray()) &&
+                 _searchManager.RemoveProjectsFromIndex(projectsToRemove.ToArray()) &&
+                _projectRepository.RemoveRange(projectsToRemove.Select(p => p.Id).ToArray()) && 
+                _tagRepository.RemoveWhere(n => projectSet.Contains(n.ProjectId)) &&
+                _newsRepository.RemoveWhere(n => projectSet.Contains(n.ProjectId)) && 
+                _financialPurposeRepository.RemoveWhere(n => projectSet.Contains(n.ProjectId)) &&
                 _userInfoRepository.RemoveRange(usersToDelete) &&
                 _applicationUserRepository.RemoveWhere(n => usersToDeleteSet.Contains(n.UserName));
         }

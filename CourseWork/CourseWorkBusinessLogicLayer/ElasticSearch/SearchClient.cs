@@ -31,14 +31,14 @@ namespace CourseWork.BusinessLogicLayer.ElasticSearch
             var settings = new ConnectionSettings(node);
             settings.DefaultIndex(_options.DefaultIndex);
             Client = new ElasticClient(settings);
-            if (_options.Repopulate)
+            //Client.DeleteIndex(_options.DefaultIndex);
+            if (!Client.IndexExists(_options.DefaultIndex).Exists)
             {
-                Client.DeleteIndex(_options.DefaultIndex);
                 var indexDescriptor =
                         new CreateIndexDescriptor(_options.DefaultIndex).Mappings(ms =>
                             ms.Map<ProjectSearchNote>(m => m.AutoMap()));
                 Client.CreateIndex(indexDescriptor);
-                Repopulate();
+                //Repopulate();
             }
         }
 

@@ -6,6 +6,6 @@
 
         public string DefaultIndex { get; set; }
 
-        public bool Repopulate { get; set; }
+        //public bool Repopulate { get; set; }
     }
 }
