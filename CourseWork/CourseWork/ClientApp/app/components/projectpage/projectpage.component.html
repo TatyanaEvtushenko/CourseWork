@@ -21,11 +21,11 @@
             <h5>Count of payments: {{project.countOfPayments}}</h5>
         </div>
         <div class="col m3 right-align">
-            <!--<button *ngIf="storage.isReadyCurrentUser && currentUser != null && project!= null && project.owner.userName != currentUser.userName && project.isSubscriber" class="btn"
-                    (click)="updateRating()">Subscribe</button>
-            <button *ngIf="isReadyCurrentUser && currentUser != null && project != null && project.owner.userName != currentUser.userName && !project.isSubscriber" class="btn"
-                    (click)="updateRating()">Unsubscribe</button>
-            <button class="btn">Pay</button>-->
+            <button *ngIf="storage.isReadyCurrentUser && storage.currentUser != null && project != null && project.owner.userName != storage.currentUser.userName && !project.isSubscriber"
+                    class="btn" (click)="subscribe()">Subscribe</button>
+            <button *ngIf="storage.isReadyCurrentUser && storage.currentUser != null && project != null && project.owner.userName != storage.currentUser.userName && project.isSubscriber" 
+                    class="btn" (click)="unsubscribe()">Unsubscribe</button>
+            <button class="btn">Pay</button>
         </div>
     </div>
 

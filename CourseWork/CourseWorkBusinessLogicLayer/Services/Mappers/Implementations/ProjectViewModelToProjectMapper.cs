@@ -20,6 +20,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
         private readonly Repository<Tag> _tagRepository;
         private readonly Repository<Comment> _commentRepository;
         private readonly Repository<News> _newsRepository;
+        private readonly Repository<ProjectSubscriber> _projectSubscriberRepository;
         private readonly IMapper<FinancialPurposeViewModel, FinancialPurpose> _financialPurposeMapper;
         private readonly IMapper<NewsViewModel, News> _newsMapper;
         private readonly IMapper<CommentViewModel, Comment> _commentMapper;
@@ -27,11 +28,11 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
 
         public ProjectViewModelToProjectMapper(
             Repository<Raiting> raitingRepository,
-            IMapper<FinancialPurposeViewModel, FinancialPurpose> financialPurposeMapper,
             Repository<FinancialPurpose> financialPurposeRepository, Repository<Payment> paymentRepository,
             Repository<Tag> tagRepository, Repository<News> newsRepository, Repository<Comment> commentRepository,
             IMapper<CommentViewModel, Comment> commentMapper, IMapper<NewsViewModel, News> newsMapper,
-            IUserManager userManager)
+            IMapper<FinancialPurposeViewModel, FinancialPurpose> financialPurposeMapper,
+            IUserManager userManager, Repository<ProjectSubscriber> projectSubscriberRepository)
         {
             _raitingRepository = raitingRepository;
             _financialPurposeMapper = financialPurposeMapper;
@@ -43,6 +44,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
             _commentMapper = commentMapper;
             _newsMapper = newsMapper;
             _userManager = userManager;
+            _projectSubscriberRepository = projectSubscriberRepository;
         }
 
         public Project ConvertTo(ProjectViewModel item)
@@ -52,13 +54,19 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
 
         public ProjectViewModel ConvertFrom(Project item)
         {
-            var userName = _userManager.CurrentUserName;
             var project = new ProjectViewModel();
-            ConvertFromBaseInformation(project, item, userName);
+            ConvertFromBaseInformation(project, item, _userManager.CurrentUserName);
+            ConvertFromCurrentUser(project, item, _userManager.CurrentUserName);
             ConvertFromPayment(project, item);
             ConvertFromCompleteObjects(project, item.Id);
-            ConvertFromRating(project, item, userName);
             return project;
+        }
+
+        private void ConvertFromCurrentUser(ProjectViewModel viewModel, Project model, string userName)
+        {
+            viewModel.IsSubscriber = _projectSubscriberRepository.FirstOrDefault(
+                    subscriber => subscriber.UserName == userName && subscriber.ProjectId == model.Id) != null;
+            ConvertFromRating(viewModel, model, userName);
         }
 
         private void ConvertFromBaseInformation(ProjectViewModel viewModel, Project model, string userName)

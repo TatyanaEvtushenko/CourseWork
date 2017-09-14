@@ -30,6 +30,22 @@ export class ProjectPageComponent {
         this.projectService.changeRating(this.project.id, this.project.rating).subscribe();
     }
 
+    subscribe() {
+        this.projectService.subscribe(this.project.id).subscribe(
+            data => this.project.isSubscriber = data,
+            error => this.project.isSubscriber = false
+        );
+        this.project.isSubscriber = true;
+    }
+
+    unsubscribe() {
+        this.projectService.unsubscribe(this.project.id).subscribe(
+            data => this.project.isSubscriber = !data,
+            error => this.project.isSubscriber = true
+        );
+        this.project.isSubscriber = false;
+    }
+
     deleteFinancialPurpose(purpose: any) {
         alert("delete");
     }

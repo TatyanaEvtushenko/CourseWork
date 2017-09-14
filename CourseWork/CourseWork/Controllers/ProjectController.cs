@@ -45,7 +45,7 @@ namespace CourseWork.Controllers
         [Route("api/Project/ChangeRating")]
         public void ChangeRating([FromBody]RatingViewModel rating)
         {
-            _projectManager.ChangeRating(rating.ProjectId, rating.RatingValue);
+            _projectManager.ChangeRating(rating);
         }
     }
 }
