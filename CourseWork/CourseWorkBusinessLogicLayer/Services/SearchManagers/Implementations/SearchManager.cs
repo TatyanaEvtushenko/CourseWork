@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using CourseWork.BusinessLogicLayer.ElasticSearch;
 using CourseWork.BusinessLogicLayer.ElasticSearch.Documents;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
+using CourseWork.BusinessLogicLayer.ViewModels.NewsViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
@@ -38,11 +40,25 @@ namespace CourseWork.BusinessLogicLayer.Services.SearchManagers.Implementations
             return _projectRepository.GetWhere(n => projectIds.Contains(n.Id)).Select(n => _mapper.ConvertFrom(n));
         }
 
-        public bool AddToIndex(Project project)
+        public bool AddProjectToIndex(Project project)
         {
             var searchDocument = _projectSearchMapper.ConvertFrom(project);
             var response = _client.Index(searchDocument, p => p.Id(searchDocument.Id).Refresh(Refresh.True));
             return response.Result == Result.Created;
+        }
+
+        public bool AddNewsToIndex(News news)
+        {
+            var searchResponse = _client.Search<ProjectSearchNote>(s =>
+                s.Type("projectSearchNote").Query(q => q.Term(t => t.Field("id").Value(news.ProjectId))));
+            var doc = searchResponse.Hits.Select(n => n.Source).Single();
+            var updatedNewsSubjects = doc.NewsSubject;
+            var updatedNewsTexts = doc.NewsText;
+            updatedNewsSubjects.Add(news.Subject);
+            updatedNewsTexts.Add(news.Text);
+            var updateResponse = _client.Update<ProjectSearchNote, Object>(news.ProjectId, d => d.Type("projectSearchNote")
+                .Doc(new { NewsSubject = updatedNewsSubjects, NewsText = updatedNewsTexts }).Refresh(Refresh.True));
+            return updateResponse.Result == Result.Updated;
         }
     }
 }

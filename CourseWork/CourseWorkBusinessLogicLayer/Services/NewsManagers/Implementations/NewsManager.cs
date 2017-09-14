@@ -9,6 +9,7 @@ using CourseWork.BusinessLogicLayer.Services.MessageSenders;
 using CourseWork.BusinessLogicLayer.Services.PaymentManagers;
 using CourseWork.BusinessLogicLayer.Services.ProjectManagers;
 using CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManagers;
+using CourseWork.BusinessLogicLayer.Services.SearchManagers;
 using CourseWork.BusinessLogicLayer.Services.UserManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.NewsViewModels;
 using CourseWork.DataLayer.Enums;
@@ -28,11 +29,11 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
         private readonly IPaymentManager _paymentManager;
         private readonly IProjectSubscriberManager _projectSubscriberManager;
         private readonly IUserManager _userManager;
-        private readonly ElasticClient _client;
+        private readonly ISearchManager _searchManager;
 
         public NewsManager(Repository<News> newsRepository, IMapper<NewsFormViewModel, News> newsMapper,
             IEmailSender emailSender, IProjectManager projectManager, IPaymentManager paymentManager,
-            IProjectSubscriberManager projectSubscriberManager, IUserManager userManager, SearchClient searchClient)
+            IProjectSubscriberManager projectSubscriberManager, IUserManager userManager, ISearchManager searchManager)
         {
             _newsRepository = newsRepository;
             _newsMapper = newsMapper;
@@ -41,8 +42,7 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
             _paymentManager = paymentManager;
             _projectSubscriberManager = projectSubscriberManager;
             _userManager = userManager;
-            searchClient.CreateNewElasticClient();
-            _client = searchClient.Client;
+            _searchManager = searchManager;
         }
 
         public bool AddNews(NewsFormViewModel newsForm)
@@ -69,21 +69,7 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
         private bool AddNewsToRepository(NewsFormViewModel newsForm, NewsType type)
         {
             var news = GetPreparedNews(newsForm, type);
-            AddNewsToIndex(news);
-            return _newsRepository.AddRange(news);
-        }
-
-        private void AddNewsToIndex(News news)
-        {
-            var response = _client.Search<ProjectSearchNote>(s =>
-                s.Type("projectSearchNote").Query(q => q.Term(t => t.Field("id").Value(news.ProjectId))));
-            var doc = response.Hits.Select(n => n.Source).Single();
-            var updatedNewsSubjects = doc.NewsSubject;
-            var updatedNewsTexts = doc.NewsText;
-            updatedNewsSubjects.Add(news.Subject);
-            updatedNewsTexts.Add(news.Text);
-            _client.Update<ProjectSearchNote, Object>(news.ProjectId, d => d.Type("projectSearchNote")
-                .Doc(new {NewsSubject = updatedNewsSubjects, NewsText = updatedNewsTexts}).Refresh(Refresh.True));
+            return _newsRepository.AddRange(news) && _searchManager.AddNewsToIndex(news);
         }
 
         private async Task SendMailing(NewsFormViewModel newsForm, IEnumerable<string> recipientUserNames)

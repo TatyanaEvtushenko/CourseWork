@@ -6,7 +6,7 @@ namespace CourseWork.BusinessLogicLayer.ElasticSearch.Documents
     [ElasticsearchType(Name = "projectSearchNote")]
     public class ProjectSearchNote
     {
-        [Keyword(Name = "id", Index = false)]
+        [Keyword(Name = "id", Index = true)]
         public string Id { get; set; }
 
         [Text(Name = "name", Index = true)]
