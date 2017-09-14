@@ -6,6 +6,7 @@ using CourseWork.BusinessLogicLayer.ElasticSearch.Documents;
 using CourseWork.BusinessLogicLayer.Services.FinancialPurposeManagers;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
 using CourseWork.BusinessLogicLayer.Services.PaymentManagers;
+using CourseWork.BusinessLogicLayer.Services.SearchManagers;
 using CourseWork.BusinessLogicLayer.Services.TagServices;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using CourseWork.DataLayer.Enums;
@@ -26,15 +27,14 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         private readonly IPaymentManager _paymentManager;
         private readonly IMapper<ProjectItemViewModel, Project> _projectMapper;
         private readonly IMapper<ProjectFormViewModel, Project> _projectFormMapper;
-        private readonly IMapper<ProjectSearchNote, Project> _projectSearchMapper;
         private readonly IHttpContextAccessor _contextAccessor;
-        private readonly ElasticClient _client;
+        private readonly ISearchManager _searchManager;
 
         public ProjectManager(Repository<Project> projectRepository,
             IMapper<ProjectItemViewModel, Project> projectMapper,
             IMapper<ProjectFormViewModel, Project> projectFormMapper, ITagService tagService,
             IFinancialPurposeManager financialPurposeManager,
-            IHttpContextAccessor contextAccessor, IPaymentManager paymentManager, Repository<Raiting> raitingRepository, IMapper<ProjectSearchNote, Project> projectSearchMapper, SearchClient searchClient)
+            IHttpContextAccessor contextAccessor, IPaymentManager paymentManager, Repository<Raiting> raitingRepository, ISearchManager searchManager)
         {
             _projectRepository = projectRepository;
             _projectMapper = projectMapper;
@@ -44,22 +44,15 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             _contextAccessor = contextAccessor;
             _paymentManager = paymentManager;
             _raitingRepository = raitingRepository;
-            _projectSearchMapper = projectSearchMapper;
-            searchClient.CreateNewElasticClient();
-            _client = searchClient.Client;
+            _searchManager = searchManager;
         }
 
         public bool AddProject(ProjectFormViewModel projectForm)
         {
             var project = GetPreparedProject(projectForm);
-            bool result = _projectRepository.AddRange(project) & _tagService.AddTagsInProject(projectForm.Tags, project.Id) &
-                   _financialPurposeManager.AddFinancialPurposes(projectForm.FinancialPurposes, project.Id);
-            if (result)
-            {
-                var searchDocument = _projectSearchMapper.ConvertFrom(project);
-                _client.Index(searchDocument, p => p.Id(searchDocument.Id).Refresh(Refresh.True));
-            }
-            return result;
+            return _projectRepository.AddRange(project) & _tagService.AddTagsInProject(projectForm.Tags, project.Id) &
+                   _financialPurposeManager.AddFinancialPurposes(projectForm.FinancialPurposes, project.Id) & 
+                   _searchManager.AddToIndex(project);
         }
 
         public IEnumerable<ProjectItemViewModel> GetUserProjects()

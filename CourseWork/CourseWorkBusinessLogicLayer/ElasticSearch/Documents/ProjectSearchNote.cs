@@ -1,4 +1,5 @@
-﻿using Nest;
+﻿using System.Collections.Generic;
+using Nest;
 
 namespace CourseWork.BusinessLogicLayer.ElasticSearch.Documents
 {
@@ -15,21 +16,21 @@ namespace CourseWork.BusinessLogicLayer.ElasticSearch.Documents
         public string Description { get; set; }
 
         [Keyword(Name = "tag", Index = true)]
-        public string[] Tag { get; set; }
+        public List<string> Tag { get; set; }
 
         [Text(Name = "newsSubject", Index = true)]
-        public string[] NewsSubject { get; set; }
+        public List<string> NewsSubject { get; set; }
 
         [Text(Name = "newsText", Index = true)]
-        public string[] NewsText { get; set; }
+        public List<string> NewsText { get; set; }
 
         [Text(Name = "comment", Index = true)]
-        public string[] Comment { get; set; }
+        public List<string> Comment { get; set; }
 
         [Text(Name = "financialPurpose", Index = true)]
-        public string[] FinancialPurposeName { get; set; }
+        public List<string> FinancialPurposeName { get; set; }
 
         [Text(Name = "financialPurposeDescription", Index = true)]
-        public string[] FinancialPurposeDescription { get; set; }
+        public List<string> FinancialPurposeDescription { get; set; }
     }
 }

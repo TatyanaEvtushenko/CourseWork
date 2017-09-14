@@ -78,14 +78,12 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
             var response = _client.Search<ProjectSearchNote>(s =>
                 s.Type("projectSearchNote").Query(q => q.Term(t => t.Field("id").Value(news.ProjectId))));
             var doc = response.Hits.Select(n => n.Source).Single();
-            var updatedNewsSubjects = doc.NewsSubject.ToList();
-            var updatedNewsTexts = doc.NewsText.ToList();
+            var updatedNewsSubjects = doc.NewsSubject;
+            var updatedNewsTexts = doc.NewsText;
             updatedNewsSubjects.Add(news.Subject);
             updatedNewsTexts.Add(news.Text);
-            doc.NewsSubject = updatedNewsSubjects.ToArray();
-            doc.NewsText = updatedNewsTexts.ToArray();
             _client.Update<ProjectSearchNote, Object>(news.ProjectId, d => d.Type("projectSearchNote")
-                .Doc(new {NewsSubject = updatedNewsSubjects.ToArray(), NewsText = updatedNewsTexts.ToArray()}).Refresh(Refresh.True));
+                .Doc(new {NewsSubject = updatedNewsSubjects, NewsText = updatedNewsTexts}).Refresh(Refresh.True));
         }
 
         private async Task SendMailing(NewsFormViewModel newsForm, IEnumerable<string> recipientUserNames)

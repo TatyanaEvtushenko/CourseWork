@@ -22,10 +22,10 @@ namespace CourseWork.Controllers
 
         [HttpGet]
         [Route("api/Search/Search")]
-        public IEnumerable<ProjectSearchNote> Search([FromQuery] string query)
+        public IEnumerable<ProjectItemViewModel> Search([FromQuery] string query)
         {
             if (String.IsNullOrEmpty(query))
-                return Enumerable.Empty<ProjectSearchNote>();
+                return Enumerable.Empty<ProjectItemViewModel>();
             return _searchManager.Search(query);
         }
     }
