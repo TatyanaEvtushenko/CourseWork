@@ -49,27 +49,28 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
 
         private void AddFinancialPurposes(ProjectSearchNote item)
         {
-            var purposes = _financialPurposeRepository.GetWhere(n => n.ProjectId == item.Id);
+            var purposes = _financialPurposeRepository.GetWhere(n => n.ProjectId.Equals(item.Id));
             item.FinancialPurposeName = purposes.Select(n => n.Name).ToArray();
             item.FinancialPurposeDescription = purposes.Select(n => n.Description).ToArray();
         }
 
         private void AddTags(ProjectSearchNote item)
         {
-            var tags = _tagRepository.GetWhere(n => n.ProjectId == item.Id);
+            var tags = _tagRepository.GetWhere(n => n.ProjectId.Equals(item.Id));
+            System.Diagnostics.Debug.WriteLine("Count: " + tags.Count);
             item.Tag = tags.Select(n => n.Name).ToArray();
         }
 
         private void AddNews(ProjectSearchNote item)
         {
-            var news = _newsRepository.GetWhere(n => n.ProjectId == item.Id);
+            var news = _newsRepository.GetWhere(n => n.ProjectId.Equals(item.Id));
             item.NewsSubject = news.Select(n => n.Subject).ToArray();
             item.NewsText = news.Select(n => n.Text).ToArray();
         }
 
         private void AddComments(ProjectSearchNote item)
         {
-            var comments = _commentRepository.GetWhere(n => n.ProjectId == item.Id);
+            var comments = _commentRepository.GetWhere(n => n.ProjectId.Equals(item.Id));
             item.Comment = comments.Select(n => n.Text).ToArray();
         }
     }

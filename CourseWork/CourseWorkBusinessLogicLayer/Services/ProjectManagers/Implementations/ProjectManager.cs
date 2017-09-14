@@ -52,10 +52,14 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         public bool AddProject(ProjectFormViewModel projectForm)
         {
             var project = GetPreparedProject(projectForm);
-            var searchDocument = _projectSearchMapper.ConvertFrom(project);
-            _client.Index(searchDocument, p => p.Id(searchDocument.Id).Refresh(Refresh.True));
-            return _projectRepository.AddRange(project) & _tagService.AddTagsInProject(projectForm.Tags, project.Id) &
+            bool result = _projectRepository.AddRange(project) & _tagService.AddTagsInProject(projectForm.Tags, project.Id) &
                    _financialPurposeManager.AddFinancialPurposes(projectForm.FinancialPurposes, project.Id);
+            if (result)
+            {
+                var searchDocument = _projectSearchMapper.ConvertFrom(project);
+                _client.Index(searchDocument, p => p.Id(searchDocument.Id).Refresh(Refresh.True));
+            }
+            return result;
         }
 
         public IEnumerable<ProjectItemViewModel> GetUserProjects()

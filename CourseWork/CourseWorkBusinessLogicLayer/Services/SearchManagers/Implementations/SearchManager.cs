@@ -25,14 +25,15 @@ namespace CourseWork.BusinessLogicLayer.Services.SearchManagers.Implementations
             _client = searchClient.Client;
         }
 
-        public IEnumerable<ProjectItemViewModel> Search(string query)
+        public IEnumerable<ProjectSearchNote> Search(string query)
         {
             var response = _client.Search<ProjectSearchNote>(s => s.Query(q => q.MultiMatch(m => m
                 .Fields(f => f.Field(p => p.Name).Field(p => p.Comment).Field(p => p.Description).Field(p => p.FinancialPurposeDescription)
                     .Field(p => p.FinancialPurposeName).Field(p => p.NewsSubject).Field(p => p.NewsText).Field(p => p.Tag))
                     .Query(query).Operator(Operator.Or))));
             var projectIds = response.Hits.Select(n => n.Source.Id).ToImmutableHashSet();
-            return _projectRepository.GetWhere(n => projectIds.Contains(n.Id)).Select(n => _mapper.ConvertFrom(n));
+            return
+                response.Hits.Select(n => n.Source); //_projectRepository.GetWhere(n => projectIds.Contains(n.Id)).Select(n => _mapper.ConvertFrom(n));
         }
     }
 }

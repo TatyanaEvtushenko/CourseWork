@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CourseWork.BusinessLogicLayer.ElasticSearch.Documents;
 using CourseWork.BusinessLogicLayer.Services.SearchManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using Microsoft.AspNetCore.Http;
@@ -21,10 +22,10 @@ namespace CourseWork.Controllers
 
         [HttpGet]
         [Route("api/Search/Search")]
-        public IEnumerable<ProjectItemViewModel> Search([FromQuery] string query)
+        public IEnumerable<ProjectSearchNote> Search([FromQuery] string query)
         {
             if (String.IsNullOrEmpty(query))
-                return Enumerable.Empty<ProjectItemViewModel>();
+                return Enumerable.Empty<ProjectSearchNote>();
             return _searchManager.Search(query);
         }
     }
