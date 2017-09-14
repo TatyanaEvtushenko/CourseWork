@@ -11,5 +11,7 @@ namespace CourseWork.BusinessLogicLayer.Services.SearchManagers
         bool AddProjectToIndex(Project project);
 
         bool AddNewsToIndex(News news);
+
+        bool RemoveProjectsFromIndex(Project[] projects);
     }
 }

@@ -60,5 +60,12 @@ namespace CourseWork.BusinessLogicLayer.Services.SearchManagers.Implementations
                 .Doc(new { NewsSubject = updatedNewsSubjects, NewsText = updatedNewsTexts }).Refresh(Refresh.True));
             return updateResponse.Result == Result.Updated;
         }
+
+        public bool RemoveProjectsFromIndex(Project[] projects)
+        {
+            var projectDocuments = projects.Select(p => _projectSearchMapper.ConvertFrom(p));
+            var response = _client.DeleteMany(projectDocuments);
+            return !response.Errors;
+        }
     }
 }
