@@ -33,6 +33,7 @@ import { ProjectItemComponent } from './components/projectitem/projectitem.compo
 import { NewsFormModalComponent } from './components/newsformmodal/newsformmodal.component';
 import { ProjectPageComponent } from './components/projectpage/projectpage.component';
 import { ProjectStatusComponent } from './components/projectstatus/projectstatus.component';
+import { UserMinInfoComponent } from './components/usermininfo/usermininfo.component';
 
 import { BaseService} from './services/base.service';
 import { CurrentUserService } from "./services/currentuser.service"; 
@@ -88,7 +89,8 @@ const appRoutes: Routes = [
         ProjectItemComponent,
         NewsFormModalComponent,
         ProjectPageComponent,
-        ProjectStatusComponent
+        ProjectStatusComponent,
+        UserMinInfoComponent
     ],
     providers: [
         BaseService,
