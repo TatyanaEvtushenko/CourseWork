@@ -34,6 +34,7 @@ import { NewsFormModalComponent } from './components/newsformmodal/newsformmodal
 import { ProjectPageComponent } from './components/projectpage/projectpage.component';
 import { ProjectStatusComponent } from './components/projectstatus/projectstatus.component';
 import { UserMinInfoComponent } from './components/usermininfo/usermininfo.component';
+import { ProjectEditorPageComponent } from './components/projecteditorpage/projecteditorpage.component';
 
 import { BaseService} from './services/base.service';
 import { CurrentUserService } from "./services/currentuser.service"; 
@@ -41,12 +42,14 @@ import { TagService } from "./services/tag.service";
 import { AccountService } from "./services/account.service";
 import { ProjectService } from "./services/project.service";
 import { StorageService } from "./services/storage.service";
+import { SortingService } from "./services/sorting.service";
 
 const appRoutes: Routes = [
     { path: '', component: HomePageComponent },
     { path: 'UserProjectsPage', component: UserProjectsPageComponent },
     { path: 'AdminPage', component: AdminPageComponent },
-    { path: 'ProjectEditorPage', component: NewProjectPageComponent },
+    { path: 'NewProjectPage', component: NewProjectPageComponent },
+    { path: 'ProjectEditorPage/:id', component: ProjectEditorPageComponent },
     { path: 'ProjectPage/:id', component: ProjectPageComponent },
     { path: '**', component: ErrorPageComponent },
 ];
@@ -90,7 +93,8 @@ const appRoutes: Routes = [
         NewsFormModalComponent,
         ProjectPageComponent,
         ProjectStatusComponent,
-        UserMinInfoComponent
+        UserMinInfoComponent,
+        ProjectEditorPageComponent
     ],
     providers: [
         BaseService,
@@ -98,7 +102,8 @@ const appRoutes: Routes = [
         AccountService,
         TagService,
         ProjectService,
-        StorageService
+        StorageService,
+        SortingService
     ],
     bootstrap: [
         AppComponent
