@@ -55,6 +55,11 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
             return AddNewsToRepository(newsForm, NewsType.MailingToPayers);
         }
 
+        public bool RemoveNews(string newsId)
+        {
+            return _newsRepository.RemoveRange(newsId);
+        }
+
         private bool AddNewsToRepository(NewsFormViewModel newsForm, NewsType type)
         {
             var news = GetPreparedNews(newsForm, type);

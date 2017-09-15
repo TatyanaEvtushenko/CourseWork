@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using CourseWork.BusinessLogicLayer.Services.FinancialPurposeManagers;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
 using CourseWork.BusinessLogicLayer.Services.PhotoManagers;
-using CourseWork.BusinessLogicLayer.Services.TagServices;
 using CourseWork.BusinessLogicLayer.Services.UserManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.FinancialPurposeViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
@@ -28,13 +25,14 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         private readonly IMapper<ProjectViewModel, Project> _projectMapper;
         private readonly IMapper<ProjectEditorFormViewModel, Project> _projectEditorFormMapper;
         private readonly IMapper<FinancialPurposeViewModel, FinancialPurpose> _financialPurposeMapper;
+        private readonly IMapper<RatingViewModel, Rating> _ratingMapper;
 
         public ProjectManager(Repository<Project> projectRepository,
             IMapper<ProjectItemViewModel, Project> projectItemMapper,
             IMapper<ProjectFormViewModel, Project> projectFormMapper,
             Repository<Rating> raitingRepository,
             IMapper<ProjectViewModel, Project> projectMapper, IUserManager userManager,
-            IMapper<ProjectEditorFormViewModel, Project> projectEditorFormMapper, Repository<Tag> tagRepository, IMapper<FinancialPurposeViewModel, FinancialPurpose> financialPurposeMapper, Repository<FinancialPurpose> financialPurposeRepository, IPhotoManager photoManager)
+            IMapper<ProjectEditorFormViewModel, Project> projectEditorFormMapper, Repository<Tag> tagRepository, IMapper<FinancialPurposeViewModel, FinancialPurpose> financialPurposeMapper, Repository<FinancialPurpose> financialPurposeRepository, IPhotoManager photoManager, IMapper<RatingViewModel, Rating> ratingMapper)
         {
             _projectRepository = projectRepository;
             _projectItemMapper = projectItemMapper;
@@ -47,6 +45,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             _financialPurposeMapper = financialPurposeMapper;
             _financialPurposeRepository = financialPurposeRepository;
             _photoManager = photoManager;
+            _ratingMapper = ratingMapper;
         }
 
         public void ChangeProjectStatus(Project project, IEnumerable<Payment> payments, IEnumerable<FinancialPurpose> purposes)
@@ -184,14 +183,10 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             });
         }
 
-        private void AddRating(RatingViewModel rating, string userName)
+        private void AddRating(RatingViewModel ratingViewModel, string userName)
         {
-            _raitingRepository.AddRange(new Rating
-            {
-                ProjectId = rating.ProjectId,
-                RatingResult = rating.RatingValue,
-                UserName = userName
-            });
+            var ratingModel = _ratingMapper.ConvertTo(ratingViewModel);
+            _raitingRepository.AddRange(ratingModel);
         }
 
         private void UpdateRating(int rating, Rating ratingModel)
@@ -201,6 +196,3 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         }
     }
 }
-
-
-

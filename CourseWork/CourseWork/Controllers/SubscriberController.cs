@@ -1,9 +1,11 @@
 using CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManagers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CourseWork.Controllers
 {
     [Produces("application/json")]
+    [Authorize]
     public class SubscriberController : Controller
     {
         private readonly IProjectSubscriberManager _projectSubscriberManager;

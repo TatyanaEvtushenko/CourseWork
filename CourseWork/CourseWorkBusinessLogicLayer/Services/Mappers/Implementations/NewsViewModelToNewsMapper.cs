@@ -17,7 +17,8 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
             {
                 Subject = item.Subject,
                 Text = item.Text,
-                Time = item.Time
+                Time = item.Time,
+                Id = item.Id
             };
         }
     }

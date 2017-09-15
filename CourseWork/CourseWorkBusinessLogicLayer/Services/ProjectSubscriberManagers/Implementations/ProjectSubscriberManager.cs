@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CourseWork.BusinessLogicLayer.Services.UserManagers;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
@@ -11,7 +10,8 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManagers.Imple
         private readonly Repository<ProjectSubscriber> _projectSubscriberRepository;
         private readonly IUserManager _userManager;
 
-        public ProjectSubscriberManager(Repository<ProjectSubscriber> projectSubscriberRepository, IUserManager userManager)
+        public ProjectSubscriberManager(Repository<ProjectSubscriber> projectSubscriberRepository,
+            IUserManager userManager)
         {
             _projectSubscriberRepository = projectSubscriberRepository;
             _userManager = userManager;
