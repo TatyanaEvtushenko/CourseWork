@@ -10,6 +10,8 @@ namespace CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels
 
         public string OwnerUserName { get; set; }
 
+        public bool IsSubscriber { get; set; }
+
         public string Description { get; set; }
 
         public decimal PaidAmount { get; set; }

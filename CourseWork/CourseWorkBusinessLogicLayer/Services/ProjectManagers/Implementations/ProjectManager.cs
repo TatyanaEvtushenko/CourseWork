@@ -17,6 +17,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         private readonly Repository<Project> _projectRepository;
         private readonly Repository<Rating> _raitingRepository;
         private readonly Repository<Tag> _tagRepository;
+        private readonly Repository<ProjectSubscriber> _subscriberRepository;
         private readonly Repository<FinancialPurpose> _financialPurposeRepository;
         private readonly IUserManager _userManager;
         private readonly IPhotoManager _photoManager;
@@ -32,7 +33,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             IMapper<ProjectFormViewModel, Project> projectFormMapper,
             Repository<Rating> raitingRepository,
             IMapper<ProjectViewModel, Project> projectMapper, IUserManager userManager,
-            IMapper<ProjectEditorFormViewModel, Project> projectEditorFormMapper, Repository<Tag> tagRepository, IMapper<FinancialPurposeViewModel, FinancialPurpose> financialPurposeMapper, Repository<FinancialPurpose> financialPurposeRepository, IPhotoManager photoManager, IMapper<RatingViewModel, Rating> ratingMapper)
+            IMapper<ProjectEditorFormViewModel, Project> projectEditorFormMapper, Repository<Tag> tagRepository, IMapper<FinancialPurposeViewModel, FinancialPurpose> financialPurposeMapper, Repository<FinancialPurpose> financialPurposeRepository, IPhotoManager photoManager, IMapper<RatingViewModel, Rating> ratingMapper, Repository<ProjectSubscriber> subscriberRepository)
         {
             _projectRepository = projectRepository;
             _projectItemMapper = projectItemMapper;
@@ -46,6 +47,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             _financialPurposeRepository = financialPurposeRepository;
             _photoManager = photoManager;
             _ratingMapper = ratingMapper;
+            _subscriberRepository = subscriberRepository;
         }
 
         public void ChangeProjectStatus(Project project, IEnumerable<Payment> payments, IEnumerable<FinancialPurpose> purposes)
@@ -105,8 +107,9 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
 
         public IEnumerable<ProjectItemViewModel> GetUserProjects()
         {
+            var userSubscriptions = _subscriberRepository.GetWhere(subscriber => subscriber.UserName == _userManager.CurrentUserName);
             return _projectRepository.GetWhere(project => project.OwnerUserName == _userManager.CurrentUserName)
-                .Select(project => _projectItemMapper.ConvertFrom(project));
+                .Select(project => GetPreparedProjectItem(project, userSubscriptions));
         }
 
         public IEnumerable<ProjectItemViewModel> GetLastCreatedProjects()
@@ -146,6 +149,13 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             ConvertProjectFormToProject(project, projectForm);
             ChangeProjectStatus(project, null, purposes);
             return project;
+        }
+
+        private ProjectItemViewModel GetPreparedProjectItem(Project project, IEnumerable<ProjectSubscriber> subscribers)
+        {
+            var projectViewModel = _projectItemMapper.ConvertFrom(project);
+            projectViewModel.IsSubscriber = subscribers.FirstOrDefault(subscriber => subscriber.ProjectId == project.Id) != null;
+            return projectViewModel;
         }
 
         private void ConvertProjectFormToProject(Project project, ProjectFormViewModel projectForm)
