@@ -12,7 +12,6 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
                 Description = item.Description,
                 Name = item.Name,
                 NecessaryPaymentAmount = item.Budget,
-                IsReached = item.IsReached
             };
         }
 
@@ -23,7 +22,6 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
                 Description = item.Description,
                 Name = item.Name,
                 Budget = item.NecessaryPaymentAmount,
-                IsReached = item.IsReached
             };
         }
     }

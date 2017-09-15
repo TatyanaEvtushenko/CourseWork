@@ -17,7 +17,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
     public class ProjectViewModelToProjectMapper : IMapper<ProjectViewModel, Project>
     {
         private readonly Repository<Payment> _paymentRepository;
-        private readonly Repository<Raiting> _raitingRepository;
+        private readonly Repository<Rating> _raitingRepository;
         private readonly Repository<Comment> _commentRepository;
         private readonly Repository<News> _newsRepository;
         private readonly Repository<ProjectSubscriber> _projectSubscriberRepository;
@@ -28,7 +28,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
         private readonly ITagService _tagService;
 
         public ProjectViewModelToProjectMapper(
-            Repository<Raiting> raitingRepository, Repository<Payment> paymentRepository,
+            Repository<Rating> raitingRepository, Repository<Payment> paymentRepository,
             Repository<News> newsRepository, Repository<Comment> commentRepository,
             IMapper<CommentViewModel, Comment> commentMapper, IMapper<NewsViewModel, News> newsMapper,
             IUserManager userManager, Repository<ProjectSubscriber> projectSubscriberRepository,

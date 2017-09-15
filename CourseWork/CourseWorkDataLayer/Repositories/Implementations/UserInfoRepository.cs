@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using CourseWork.DataLayer.Data;
 using CourseWork.DataLayer.Dictionaries;
 using CourseWork.DataLayer.Models;
@@ -15,7 +14,7 @@ namespace CourseWork.DataLayer.Repositories.Implementations
 
         protected override DbSet<UserInfo> Table => DbContext.UserInfos;
 
-        protected override string GetIdentificator(UserInfo item) => item.UserName;
+        public override object GetIdentificator(UserInfo item) => item.UserName;
 
         public override UserInfo[] SortByField(string fieldName, bool ascending)
         {

@@ -16,7 +16,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
     public class ProjectManager : IProjectManager
     {
         private readonly Repository<Project> _projectRepository;
-        private readonly Repository<Raiting> _raitingRepository;
+        private readonly Repository<Rating> _raitingRepository;
         private readonly Repository<FinancialPurpose> _financialPurposeRepository;
         private readonly ITagService _tagService;
         private readonly IFinancialPurposeManager _financialPurposeManager;
@@ -31,7 +31,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             IMapper<ProjectItemViewModel, Project> projectItemMapper,
             IMapper<ProjectFormViewModel, Project> projectFormMapper, ITagService tagService,
             IFinancialPurposeManager financialPurposeManager, IPaymentManager paymentManager,
-            Repository<Raiting> raitingRepository,
+            Repository<Rating> raitingRepository,
             IMapper<ProjectViewModel, Project> projectMapper, IUserManager userManager,
             IMapper<ProjectEditorFormViewModel, Project> projectEditorFormMapper, Repository<FinancialPurpose> financialPurposeRepository)
         {
@@ -129,16 +129,15 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
 
         private void AddRating(RatingViewModel rating, string userName)
         {
-            _raitingRepository.AddRange(new Raiting
+            _raitingRepository.AddRange(new Rating
             {
-                Id = _raitingRepository.GetNewId(),
                 ProjectId = rating.ProjectId,
                 RaitingResult = rating.RatingValue,
                 UserName = userName
             });
         }
 
-        private void UpdateRating(int rating, Raiting ratingModel)
+        private void UpdateRating(int rating, Rating ratingModel)
         {
             ratingModel.RaitingResult = rating;
             _raitingRepository.UpdateRange(ratingModel);

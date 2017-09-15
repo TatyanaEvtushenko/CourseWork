@@ -64,6 +64,8 @@ namespace CourseWork.DataLayer.Data.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex");
 
+                    b.HasIndex("UserName");
+
                     b.ToTable("AspNetUsers");
                 });
 
@@ -91,8 +93,6 @@ namespace CourseWork.DataLayer.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Description");
-
-                    b.Property<bool>("IsReached");
 
                     b.Property<string>("Name");
 
@@ -193,44 +193,39 @@ namespace CourseWork.DataLayer.Data.Migrations
 
             modelBuilder.Entity("CourseWork.DataLayer.Models.ProjectSubscriber", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<string>("UserName");
 
                     b.Property<string>("ProjectId");
 
-                    b.Property<string>("UserName");
+                    b.HasKey("UserName", "ProjectId");
 
-                    b.HasKey("Id");
+                    b.HasAlternateKey("ProjectId", "UserName");
 
                     b.ToTable("ProjectSubscribers");
                 });
 
-            modelBuilder.Entity("CourseWork.DataLayer.Models.Raiting", b =>
+            modelBuilder.Entity("CourseWork.DataLayer.Models.Rating", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<string>("UserName");
 
                     b.Property<string>("ProjectId");
 
                     b.Property<int>("RaitingResult");
 
-                    b.Property<string>("UserName");
+                    b.HasKey("UserName", "ProjectId");
 
-                    b.HasKey("Id");
+                    b.HasAlternateKey("ProjectId", "UserName");
 
-                    b.ToTable("Raitings");
+                    b.ToTable("Ratings");
                 });
 
             modelBuilder.Entity("CourseWork.DataLayer.Models.Tag", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
                     b.Property<string>("Name");
 
                     b.Property<string>("ProjectId");
 
-                    b.HasKey("Id");
+                    b.HasKey("Name", "ProjectId");
 
                     b.ToTable("Tags");
                 });

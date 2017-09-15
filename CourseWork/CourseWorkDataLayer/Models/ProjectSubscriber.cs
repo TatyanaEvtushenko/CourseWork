@@ -1,11 +1,13 @@
-﻿namespace CourseWork.DataLayer.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CourseWork.DataLayer.Models
 {
     public class ProjectSubscriber
     {
-        public string Id { get; set; }
-
+        [Key]
         public string ProjectId { get; set; }
 
+        [Key]
         public string UserName { get; set; }
     }
 }

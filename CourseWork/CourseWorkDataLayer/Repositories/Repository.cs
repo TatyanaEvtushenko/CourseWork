@@ -11,14 +11,14 @@ namespace CourseWork.DataLayer.Repositories
     {
         protected readonly ApplicationDbContext DbContext;
 
-        protected abstract DbSet<T> Table { get; }
-
-        protected abstract string GetIdentificator(T item);
-
         protected Repository(ApplicationDbContext dbContext)
         {
             DbContext = dbContext;
         }
+
+        public abstract object GetIdentificator(T item);
+
+        protected abstract DbSet<T> Table { get; }
 
         public string GetNewId() => Guid.NewGuid().ToString();
 
@@ -27,7 +27,7 @@ namespace CourseWork.DataLayer.Repositories
             return SaveActionResult(() => Table.AddRange(items));
         }
 
-        public bool RemoveRange(params string[] identificators)
+        public bool RemoveRange(params object[] identificators)
         {
             var items = Table.Where(item => identificators.Contains(GetIdentificator(item)));
             return SaveActionResult(() => Table.RemoveRange(items));
@@ -35,8 +35,8 @@ namespace CourseWork.DataLayer.Repositories
 
         public bool RemoveWhere(Func<T, bool> whereExpression)
         {
-            var identificators = GetWhere(whereExpression).Select(GetIdentificator).ToArray();
-            return RemoveRange(identificators);
+            var items = Table.Where(whereExpression);
+            return SaveActionResult(() => Table.RemoveRange(items));
         }
 
         public bool UpdateRange(params T[] items)
@@ -60,7 +60,7 @@ namespace CourseWork.DataLayer.Repositories
             return Table.ToList();
         }
 
-        public T Get(string id)
+        public T Get(object id)
         {
             return Table.Find(id);
         }
