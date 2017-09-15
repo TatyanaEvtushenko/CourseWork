@@ -6,12 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using CourseWork.DataLayer.Data;
 using CourseWork.DataLayer.Enums;
 
-namespace CourseWork.DataLayer.Data.Migrations
+namespace CourseWork.DataLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170915180903_AddForeignKeys")]
+    partial class AddForeignKeys
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -208,14 +209,11 @@ namespace CourseWork.DataLayer.Data.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ProjectId")
-                        .IsRequired();
+                    b.Property<string>("ProjectId");
 
                     b.Property<string>("UserName");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProjectId");
 
                     b.ToTable("ProjectSubscribers");
                 });
@@ -243,8 +241,7 @@ namespace CourseWork.DataLayer.Data.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<string>("ProjectId")
-                        .IsRequired();
+                    b.Property<string>("ProjectId");
 
                     b.HasKey("Id");
 
@@ -422,20 +419,11 @@ namespace CourseWork.DataLayer.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("CourseWork.DataLayer.Models.ProjectSubscriber", b =>
-                {
-                    b.HasOne("CourseWork.DataLayer.Models.Project", "Project")
-                        .WithMany()
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("CourseWork.DataLayer.Models.Tag", b =>
                 {
                     b.HasOne("CourseWork.DataLayer.Models.Project", "Project")
                         .WithMany()
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ProjectId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>

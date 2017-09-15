@@ -92,15 +92,11 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
         {
 	        var usersToDeleteSet = usersToDelete.ToImmutableHashSet();
             var projectsToRemove = _projectRepository.GetWhere(n => usersToDeleteSet.Contains(n.OwnerUserName));
-            var projectSet = projectsToRemove.Select(p => p.Id).ToImmutableHashSet();
             return (!withCommentsAndRaitings ||
 				(_raitingRepository.RemoveWhere(n => usersToDeleteSet.Contains(n.UserName)) &&
 				_commentRepository.RemoveWhere(n => usersToDeleteSet.Contains(n.UserName)))) &&
                  _searchManager.RemoveProjectsFromIndex(projectsToRemove.ToArray()) &&
                 _projectRepository.RemoveRange(projectsToRemove.Select(p => p.Id).ToArray()) && 
-                _tagRepository.RemoveWhere(n => projectSet.Contains(n.ProjectId)) &&
-                _newsRepository.RemoveWhere(n => projectSet.Contains(n.ProjectId)) && 
-                _financialPurposeRepository.RemoveWhere(n => projectSet.Contains(n.ProjectId)) &&
                 _userInfoRepository.RemoveRange(usersToDelete) &&
                 _applicationUserRepository.RemoveWhere(n => usersToDeleteSet.Contains(n.UserName));
         }
