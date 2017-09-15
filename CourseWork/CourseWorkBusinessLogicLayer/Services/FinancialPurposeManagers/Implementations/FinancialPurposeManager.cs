@@ -26,12 +26,6 @@ namespace CourseWork.BusinessLogicLayer.Services.FinancialPurposeManagers.Implem
             return _financialPurposeRepository.AddRange(purposes);
         }
 
-        public decimal GetMinFinancialPurposeBudget(string projectId)
-        {
-            return _financialPurposeRepository.GetWhere(purpose => purpose.ProjectId == projectId)
-                .OrderBy(purpose => purpose.NecessaryPaymentAmount).First().NecessaryPaymentAmount;
-        }
-
         public IEnumerable<FinancialPurposeViewModel> GetProjectFinancialPurposees(string projectId)
         {
             return _financialPurposeRepository.GetWhere(purpose => purpose.ProjectId == projectId)

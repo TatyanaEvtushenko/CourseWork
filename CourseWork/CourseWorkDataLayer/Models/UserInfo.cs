@@ -19,7 +19,7 @@ namespace CourseWork.DataLayer.Models
 
         public int ProjectNumber { get; set; }
 
-        public int Raiting { get; set; }
+        public double Rating { get; set; }
 
         public string Name { get; set; }
 

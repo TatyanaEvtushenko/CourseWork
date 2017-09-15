@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using CourseWork.BusinessLogicLayer.Services.FinancialPurposeManagers;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
-using CourseWork.BusinessLogicLayer.Services.PaymentManagers;
 using CourseWork.BusinessLogicLayer.Services.TagServices;
 using CourseWork.BusinessLogicLayer.Services.UserManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
@@ -17,10 +15,8 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
     {
         private readonly Repository<Project> _projectRepository;
         private readonly Repository<Rating> _raitingRepository;
-        private readonly Repository<FinancialPurpose> _financialPurposeRepository;
         private readonly ITagService _tagService;
         private readonly IFinancialPurposeManager _financialPurposeManager;
-        private readonly IPaymentManager _paymentManager;
         private readonly IUserManager _userManager;
         private readonly IMapper<ProjectItemViewModel, Project> _projectItemMapper;
         private readonly IMapper<ProjectFormViewModel, Project> _projectFormMapper;
@@ -30,22 +26,20 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         public ProjectManager(Repository<Project> projectRepository,
             IMapper<ProjectItemViewModel, Project> projectItemMapper,
             IMapper<ProjectFormViewModel, Project> projectFormMapper, ITagService tagService,
-            IFinancialPurposeManager financialPurposeManager, IPaymentManager paymentManager,
+            IFinancialPurposeManager financialPurposeManager,
             Repository<Rating> raitingRepository,
             IMapper<ProjectViewModel, Project> projectMapper, IUserManager userManager,
-            IMapper<ProjectEditorFormViewModel, Project> projectEditorFormMapper, Repository<FinancialPurpose> financialPurposeRepository)
+            IMapper<ProjectEditorFormViewModel, Project> projectEditorFormMapper)
         {
             _projectRepository = projectRepository;
             _projectItemMapper = projectItemMapper;
             _projectFormMapper = projectFormMapper;
             _tagService = tagService;
             _financialPurposeManager = financialPurposeManager;
-            _paymentManager = paymentManager;
             _raitingRepository = raitingRepository;
             _projectMapper = projectMapper;
             _userManager = userManager;
             _projectEditorFormMapper = projectEditorFormMapper;
-            _financialPurposeRepository = financialPurposeRepository;
         }
 
         public bool AddProject(ProjectFormViewModel projectForm)
@@ -84,7 +78,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         public bool UpdateProject(ProjectFormViewModel projectForm)
         {
             var project = _projectFormMapper.ConvertTo(projectForm);
-            ChangeProjectStatus(project);
+           // ChangeProjectStatus(project);
             _tagService.AddTagsInProject(projectForm.Tags, project.Id);
             //var oldFinancialPurposeIds = _financialPurposeRepository
             //    .GetWhere(purpose => purpose.ProjectId == project.Id).Select(purpose => purpose.Id);
@@ -110,65 +104,20 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
                 .Select(project => _projectItemMapper.ConvertFrom(project));
         }
 
-        public void UpdateExistedProjects()
-        {
-            var projects = _projectRepository.GetAll();
-            UpdateProjectRaiting(projects);
-            UpdateProjectStatus(projects);
-            _projectRepository.UpdateRange(projects.ToArray());
-        }
-
-        private void UpdateProjectStatus(IEnumerable<Project> projects)
-        {
-            var activeProjects = projects.Where(project => project.Status == ProjectStatus.Active);
-            foreach (var project in activeProjects)
-            {
-                ChangeProjectStatus(project);
-            }
-        }
-
         private void AddRating(RatingViewModel rating, string userName)
         {
             _raitingRepository.AddRange(new Rating
             {
                 ProjectId = rating.ProjectId,
-                RaitingResult = rating.RatingValue,
+                RatingResult = rating.RatingValue,
                 UserName = userName
             });
         }
 
         private void UpdateRating(int rating, Rating ratingModel)
         {
-            ratingModel.RaitingResult = rating;
+            ratingModel.RatingResult = rating;
             _raitingRepository.UpdateRange(ratingModel);
-        }
-
-        private void UpdateProjectRaiting(IEnumerable<Project> projects)
-        {
-            var raitings = _raitingRepository.GetAll();
-            foreach (var project in projects)
-            {
-                var projectRaitings = raitings.Where(raiting => raiting.ProjectId == project.Id);
-                project.Raiting = !projectRaitings.Any() ? 0 : projectRaitings.Average(raiting => raiting.RaitingResult);
-            }
-        }
-
-        private void ChangeProjectStatus(Project project)
-        {
-            if (IsFinancialProject(project))
-            {
-                project.Status = ProjectStatus.Financed;
-            }
-            else
-            {
-                project.Status = project.FundRaisingEnd < DateTime.Today ? ProjectStatus.Failed : ProjectStatus.Active;
-            }
-        }
-
-        private bool IsFinancialProject(Project project)
-        {
-            return project.FundRaisingEnd <= _paymentManager.GetTimeLastPayment(project.Id) 
-                && project.PaidAmount >= _financialPurposeManager.GetMinFinancialPurposeBudget(project.Id);
         }
     }
 }

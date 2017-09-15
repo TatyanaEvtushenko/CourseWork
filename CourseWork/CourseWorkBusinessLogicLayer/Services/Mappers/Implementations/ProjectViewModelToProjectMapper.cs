@@ -99,7 +99,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
         {
             viewModel.Rating = _raitingRepository.FirstOrDefault(
                                     rating => rating.ProjectId == model.Id && rating.UserName == userName)
-                                   ?.RaitingResult ?? model.Raiting;
+                                   ?.RatingResult ?? model.Rating;
         }
 
         private void ConvertFromNews(ProjectViewModel viewModel, string projectId)

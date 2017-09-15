@@ -19,7 +19,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
                 LastLoginTime = item.LastLoginTime.ToString(),
                 RegistrationTime = item.RegistrationTime.ToString(),
                 ProjectNumber = item.ProjectNumber.ToString(),
-                Raiting = item.Raiting.ToString(),
+                Raiting = item.Rating.ToString(),
                 Status = EnumConfiguration.StatusDisplayNames[item.Status],
                 StatusCode = (int)item.Status,
                 IsBlocked = item.IsBlocked

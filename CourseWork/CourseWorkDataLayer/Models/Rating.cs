@@ -10,6 +10,6 @@ namespace CourseWork.DataLayer.Models
         [Key]
         public string UserName { get; set; }
 
-        public int RaitingResult { get; set; }
+        public int RatingResult { get; set; }
     }
 }
