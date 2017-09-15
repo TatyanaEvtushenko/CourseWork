@@ -4,7 +4,6 @@ using CourseWork.BusinessLogicLayer.Services.FinancialPurposeManagers;
 using CourseWork.BusinessLogicLayer.Services.TagServices;
 using CourseWork.BusinessLogicLayer.Services.UserManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.CommentViewModels;
-using CourseWork.BusinessLogicLayer.ViewModels.FinancialPurposeViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.NewsViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
@@ -57,7 +56,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
             ConvertFromBaseInformation(project, item, _userManager.CurrentUserName);
             ConvertFromCurrentUser(project, item, _userManager.CurrentUserName);
             ConvertFromPayment(project, item);
-            ConvertFromCompleteObjects(project, item.Id);
+            ConvertFromCompleteObjects(project, item);
             return project;
         }
 
@@ -87,12 +86,12 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
             viewModel.CountOfPayments = _paymentRepository.Count(payment => payment.ProjectId == model.Id);
         }
 
-        private void ConvertFromCompleteObjects(ProjectViewModel viewModel, string projectId)
+        private void ConvertFromCompleteObjects(ProjectViewModel viewModel, Project model)
         {
-            viewModel.FinancialPurposes = _financialPurposeManager.GetProjectFinancialPurposees(projectId);
-            viewModel.Tags = _tagService.GetProjectTags(projectId);
-            ConvertFromNews(viewModel, projectId);
-            ConvertFromComments(viewModel, projectId);
+            viewModel.FinancialPurposes = _financialPurposeManager.GetProjectFinancialPurposes(model.Id, model.PaidAmount);
+            viewModel.Tags = _tagService.GetProjectTags(model.Id);
+            ConvertFromNews(viewModel, model.Id);
+            ConvertFromComments(viewModel, model.Id);
         }
 
         private void ConvertFromRating(ProjectViewModel viewModel, Project model, string userName)

@@ -1,4 +1,5 @@
-﻿using CourseWork.BusinessLogicLayer.ViewModels.FinancialPurposeViewModels;
+﻿using System;
+using CourseWork.BusinessLogicLayer.ViewModels.FinancialPurposeViewModels;
 using CourseWork.DataLayer.Models;
 
 namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
@@ -12,6 +13,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
                 Description = item.Description,
                 Name = item.Name,
                 NecessaryPaymentAmount = item.Budget,
+                Id = Guid.NewGuid().ToString()
             };
         }
 
@@ -22,6 +24,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
                 Description = item.Description,
                 Name = item.Name,
                 Budget = item.NecessaryPaymentAmount,
+                Id = item.Id,
             };
         }
     }

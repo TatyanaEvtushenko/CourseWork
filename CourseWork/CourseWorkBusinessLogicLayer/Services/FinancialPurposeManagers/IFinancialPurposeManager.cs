@@ -5,8 +5,6 @@ namespace CourseWork.BusinessLogicLayer.Services.FinancialPurposeManagers
 {
     public interface IFinancialPurposeManager
     {
-        bool AddFinancialPurposes(IEnumerable<FinancialPurposeViewModel> financialPurposes, string projectId);
-
-        IEnumerable<FinancialPurposeViewModel> GetProjectFinancialPurposees(string projectId);
+        IEnumerable<FinancialPurposeViewModel> GetProjectFinancialPurposes(string projectId, decimal projectPaidAmount);
     }
 }

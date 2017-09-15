@@ -21,7 +21,8 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
                 PaidAmount = item.PaidAmount,
                 Status = item.Status,
                 Raiting = item.Rating,
-                Description = item.Description
+                Description = item.Description,
+                OwnerUserName = item.OwnerUserName
             };
         }
     }

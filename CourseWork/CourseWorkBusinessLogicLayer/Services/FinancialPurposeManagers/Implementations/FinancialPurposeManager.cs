@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
 using CourseWork.BusinessLogicLayer.ViewModels.FinancialPurposeViewModels;
@@ -20,24 +19,14 @@ namespace CourseWork.BusinessLogicLayer.Services.FinancialPurposeManagers.Implem
             _mapper = mapper;
         }
 
-        public bool AddFinancialPurposes(IEnumerable<FinancialPurposeViewModel> financialPurposes, string projectId)
+        public IEnumerable<FinancialPurposeViewModel> GetProjectFinancialPurposes(string projectId, decimal projectPaidAmount)
         {
-            var purposes = financialPurposes.Select(purpose => GetPreparedFinancialPurpose(purpose, projectId)).ToArray();
-            return _financialPurposeRepository.AddRange(purposes);
-        }
-
-        public IEnumerable<FinancialPurposeViewModel> GetProjectFinancialPurposees(string projectId)
-        {
-            return _financialPurposeRepository.GetWhere(purpose => purpose.ProjectId == projectId)
-                .Select(purpose => _mapper.ConvertFrom(purpose));
-        }
-
-        private FinancialPurpose GetPreparedFinancialPurpose(FinancialPurposeViewModel purpose, string projectId)
-        {
-            var purposeToAdding = _mapper.ConvertTo(purpose);
-            purposeToAdding.Id = Guid.NewGuid().ToString(); 
-            purposeToAdding.ProjectId = projectId;
-            return purposeToAdding;
+            return _financialPurposeRepository.GetWhere(purpose => purpose.ProjectId == projectId).Select(purpose =>
+            {
+                var purposeViewModel = _mapper.ConvertFrom(purpose);
+                purposeViewModel.IsReached = purposeViewModel.Budget <= projectPaidAmount;
+                return purposeViewModel;
+            });
         }
     }
 }

@@ -27,7 +27,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
             return new ProjectEditorFormViewModel
             {
                 Description = item.Description,
-                FinancialPurposes = _financialPurposeManager.GetProjectFinancialPurposees(item.Id),
+                FinancialPurposes = _financialPurposeManager.GetProjectFinancialPurposes(item.Id, item.PaidAmount),
                 FundRaisingEnd = item.FundRaisingEnd,
                 Id = item.Id,
                 ImageUrl = item.ImageUrl,

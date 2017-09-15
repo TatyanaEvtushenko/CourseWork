@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using CourseWork.DataLayer.Enums;
+using CourseWork.BusinessLogicLayer.Services.ProjectManagers;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
 
@@ -14,15 +13,18 @@ namespace CourseWork.BusinessLogicLayer.Services.Scedulers.Implementations
         private readonly Repository<Payment> _paymentRepository;
         private readonly Repository<Rating> _ratingRepository;
         private readonly Repository<UserInfo> _userInfoRepository;
+        private readonly IProjectManager _projectManager;
 
         public Scheduler(Repository<Project> projectRepository, Repository<FinancialPurpose> financialPurposeRepository,
-            Repository<Payment> paymentRepository, Repository<Rating> ratingRepository, Repository<UserInfo> userInfoRepository)
+            Repository<Payment> paymentRepository, Repository<Rating> ratingRepository,
+            Repository<UserInfo> userInfoRepository, IProjectManager projectManager)
         {
             _projectRepository = projectRepository;
             _financialPurposeRepository = financialPurposeRepository;
             _paymentRepository = paymentRepository;
             _ratingRepository = ratingRepository;
             _userInfoRepository = userInfoRepository;
+            _projectManager = projectManager;
         }
 
         public void UpdateData()
@@ -32,27 +34,6 @@ namespace CourseWork.BusinessLogicLayer.Services.Scedulers.Implementations
             UpdateRatings(projects);
             _projectRepository.UpdateRange(projects.ToArray());
         }
-        
-        public void ChangeProjectStatus(Project project, IEnumerable<Payment> payments, IEnumerable<FinancialPurpose> purposes)
-        {
-            if (IsFinancialProject(project, payments, purposes))
-            {
-                project.Status = ProjectStatus.Financed;
-            }
-            else
-            {
-                project.Status = project.FundRaisingEnd < DateTime.Today ? ProjectStatus.Failed : ProjectStatus.Active;
-            }
-        }
-
-        private bool IsFinancialProject(Project project, IEnumerable<Payment> payments, IEnumerable<FinancialPurpose> purposes)
-        {
-            var projectPayments = payments.Where(payment => payment.ProjectId == project.Id);
-            var lastPaymentTime = projectPayments.Any() ? projectPayments.Max(payment => payment.Time) : DateTime.Now;
-            var minFinancialPurposeBudget = purposes.Where(purpose => purpose.ProjectId == project.Id)
-                .Min(purpose => purpose.NecessaryPaymentAmount);
-            return project.PaidAmount >= minFinancialPurposeBudget && project.FundRaisingEnd <= lastPaymentTime;
-        }
 
         private void UpdateProjectStatuses(IEnumerable<Project> projects)
         {
@@ -60,7 +41,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Scedulers.Implementations
             var purposes = _financialPurposeRepository.GetAll();
             foreach (var project in projects)
             {
-                ChangeProjectStatus(project, payments, purposes);
+                _projectManager.ChangeProjectStatus(project, payments, purposes);
             }
         }
 
