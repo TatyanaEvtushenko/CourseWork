@@ -31,6 +31,12 @@ namespace CourseWork.BusinessLogicLayer.Services.FinancialPurposeManagers.Implem
                 .OrderBy(purpose => purpose.NecessaryPaymentAmount).First().NecessaryPaymentAmount;
         }
 
+        public IEnumerable<FinancialPurposeViewModel> GetProjectFinancialPurposees(string projectId)
+        {
+            return _financialPurposeRepository.GetWhere(purpose => purpose.ProjectId == projectId)
+                .Select(purpose => _mapper.ConvertFrom(purpose));
+        }
+
         private FinancialPurpose GetPreparedFinancialPurpose(FinancialPurposeViewModel purpose, string projectId)
         {
             var purposeToAdding = _mapper.ConvertTo(purpose);

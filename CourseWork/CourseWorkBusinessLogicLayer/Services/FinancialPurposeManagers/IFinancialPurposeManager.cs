@@ -8,5 +8,7 @@ namespace CourseWork.BusinessLogicLayer.Services.FinancialPurposeManagers
         bool AddFinancialPurposes(IEnumerable<FinancialPurposeViewModel> financialPurposes, string projectId);
 
         decimal GetMinFinancialPurposeBudget(string projectId);
+
+        IEnumerable<FinancialPurposeViewModel> GetProjectFinancialPurposees(string projectId);
     }
 }

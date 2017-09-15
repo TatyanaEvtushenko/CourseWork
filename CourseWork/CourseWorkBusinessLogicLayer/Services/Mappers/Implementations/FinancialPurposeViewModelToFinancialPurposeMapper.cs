@@ -18,7 +18,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
 
         public FinancialPurposeViewModel ConvertFrom(FinancialPurpose item)
         {
-            return new FinancialPurposeViewModel()
+            return new FinancialPurposeViewModel
             {
                 Description = item.Description,
                 Name = item.Name,

@@ -10,5 +10,7 @@ namespace CourseWork.BusinessLogicLayer.Services.TagServices
         IEnumerable<string> GetAllTagNames();
 
         bool AddTagsInProject(IEnumerable<string> tagsToAdding, string projectId);
+
+        IEnumerable<string> GetProjectTags(string projectId);
     }
 }

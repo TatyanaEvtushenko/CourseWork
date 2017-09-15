@@ -1,19 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CourseWork.BusinessLogicLayer.ViewModels.FinancialPurposeViewModels;
 
 namespace CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels
 {
-    public class ProjectFormViewModel
+    public class ProjectEditorFormViewModel
     {
         public string Id { get; set; }
 
+        public string OwnerUserName { get; set; }
+
         public string Name { get; set; }
 
-        public string FundRaisingEnd { get; set; }
+        public DateTime FundRaisingEnd { get; set; }
 
         public string Description { get; set; }
 
-        public string ImageBase64 { get; set; }
+        public string ImageUrl { get; set; }
 
         public decimal MinPaymentAmount { get; set; }
 
