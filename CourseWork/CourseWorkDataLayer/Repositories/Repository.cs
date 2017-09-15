@@ -20,8 +20,6 @@ namespace CourseWork.DataLayer.Repositories
 
         protected abstract DbSet<T> Table { get; }
 
-        public string GetNewId() => Guid.NewGuid().ToString();
-
         public bool AddRange(params T[] items)
         {
             return SaveActionResult(() => Table.AddRange(items));

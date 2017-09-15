@@ -21,11 +21,26 @@
             <h5>Count of payments: {{project.countOfPayments}}</h5>
         </div>
         <div class="col m3 right-align">
-            <button *ngIf="storage.isReadyCurrentUser && storage.currentUser != null && project != null && project.owner.userName != storage.currentUser.userName && !project.isSubscriber"
+            <button *ngIf="storage.isReadyCurrentUser && storage.isUser && project != null && project.owner.userName != storage.currentUser.userName && !project.isSubscriber"
                     class="btn" (click)="subscribe()">Subscribe</button>
-            <button *ngIf="storage.isReadyCurrentUser && storage.currentUser != null && project != null && project.owner.userName != storage.currentUser.userName && project.isSubscriber" 
+            <button *ngIf="storage.isReadyCurrentUser && storage.isUser && project != null && project.owner.userName != storage.currentUser.userName && project.isSubscriber" 
                     class="btn" (click)="unsubscribe()">Unsubscribe</button>
             <button class="btn">Pay</button>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col m6">
+            <usermininfo [user]="project.owner"></usermininfo>
+        </div>
+        <div class="col m6 right-align" *ngIf="storage.isReadyCurrentUser && project != null && (storage.isAdmin || project.owner.userName == storage.currentUser.userName)">
+            <button class="btn btn-icon modal-trigger" href="#newsModal">
+                <i class="material-icons">library_books</i>
+            </button>
+            <a class="btn btn-icon" href="/ProjectEditorPage/{{project.id}}">
+                <i class="material-icons">edit</i>
+            </a>
+            <newsformmodal [projectId]="project.id"></newsformmodal>
         </div>
     </div>
 

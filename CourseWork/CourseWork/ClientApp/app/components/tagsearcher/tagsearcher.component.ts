@@ -1,4 +1,4 @@
-﻿import { Component, EventEmitter, Output } from '@angular/core';
+﻿import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { TagService } from '../../services/tag.service';
 declare var $: any;
 
@@ -8,23 +8,26 @@ declare var $: any;
 })
 
 export class TagSearcherComponent {
-    data: string[] = [];
+    @Input() data: string[] = [];
     autocompleteInit: any;
     @Output() onChanged = new EventEmitter<string[]>();
     
-    constructor(private tagService: TagService) {
-        tagService.getTags().subscribe((data) => {
+    constructor(private tagService: TagService) { }
+
+    ngOnInit() {
+        this.tagService.getTags().subscribe((data) => {
             this.autocompleteInit = {
-                autocompleteOptions: {
-                    data: this.convertToData(data)
-                }
+                autocompleteOptions: { data: this.convertToAutocompeteData(data) },
+                data: this.addExistedTags()
             }
         });
     }
     
     add(chip: any) {
-        this.data.push(chip.tag);
-        this.change();
+        if (this.data.indexOf(chip.tag) < 0) {
+            this.data.push(chip.tag);
+            this.change();
+        }
     }
 
     delete(chip: any) {
@@ -35,7 +38,16 @@ export class TagSearcherComponent {
         this.change();
     }
 
-    private convertToData(data: string[]) {
+    private addExistedTags() {
+        const existedTags: any = [];
+        for (let tag of this.data) {
+            existedTags.push({ "tag": tag });
+        }
+        return existedTags;
+
+    }
+
+    private convertToAutocompeteData(data: string[]) {
         const autocompleteData: any = [];
         for (let tag of data) {
             autocompleteData[tag] = null;
@@ -44,10 +56,6 @@ export class TagSearcherComponent {
     }
 
     private change() {
-        const tags = [];
-        for (let i = 0; i < this.data.length; i += 2) {
-            tags.push(this.data[i]);
-        }
-        this.onChanged.emit(tags);
+        this.onChanged.emit(this.data);
     }
 }

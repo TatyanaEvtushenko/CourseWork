@@ -10,6 +10,14 @@ export class ProjectService extends BaseService {
         return this.requestPost("api/Project/AddProject", projectForm);
     }
 
+    updateProject(projectForm: NewProjectForm) {
+        return this.requestPost("api/Project/UpdateProject", projectForm);
+    }
+
+    getProjectEditorForm(id: string) {
+        return this.requestGet(`api/Project/GetProjectEditorForm/${id}`);
+    }
+
     subscribe(projectId: string) {
         return this.requestPost("api/Subscriber/Subscribe", projectId);
     }

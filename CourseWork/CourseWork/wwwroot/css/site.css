@@ -1,4 +1,13 @@
-﻿.project .card {
+﻿.user-min-info img {
+    width: 50px;
+}
+
+.btn-icon.btn {
+    width: 40px;
+    padding: inherit;
+}
+
+.project .card {
     margin-top: 0;
     overflow: hidden;
 }

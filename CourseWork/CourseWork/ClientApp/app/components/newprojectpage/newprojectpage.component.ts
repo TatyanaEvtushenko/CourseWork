@@ -16,7 +16,7 @@ export class NewProjectPageComponent{
 
     constructor(public storage: StorageService,
                 private title: Title, 
-                private projectService: ProjectService){
+                private projectService: ProjectService) {
         title.setTitle("New project");
         this.projectForm.financialPurposes = [];
     }
@@ -38,7 +38,12 @@ export class NewProjectPageComponent{
 
     onSubmit() {
         this.projectService.addProject(this.projectForm).subscribe(
-            (data) => this.isWrongRequest = !data,
+            (data) => {
+                this.isWrongRequest = !data;
+                if (!this.isWrongRequest) {
+                    window.location.href = "/UserProjectsPage";
+                }
+            },
             (error) => this.isWrongRequest = true
         );
     }

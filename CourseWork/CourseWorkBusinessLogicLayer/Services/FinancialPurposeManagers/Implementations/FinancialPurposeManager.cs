@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
 using CourseWork.BusinessLogicLayer.ViewModels.FinancialPurposeViewModels;
@@ -40,7 +41,7 @@ namespace CourseWork.BusinessLogicLayer.Services.FinancialPurposeManagers.Implem
         private FinancialPurpose GetPreparedFinancialPurpose(FinancialPurposeViewModel purpose, string projectId)
         {
             var purposeToAdding = _mapper.ConvertTo(purpose);
-            purposeToAdding.Id = _financialPurposeRepository.GetNewId();
+            purposeToAdding.Id = Guid.NewGuid().ToString(); 
             purposeToAdding.ProjectId = projectId;
             return purposeToAdding;
         }

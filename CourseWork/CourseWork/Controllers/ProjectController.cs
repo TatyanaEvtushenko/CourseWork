@@ -47,5 +47,21 @@ namespace CourseWork.Controllers
         {
             _projectManager.ChangeRating(rating);
         }
+
+        [HttpGet]
+        [Route("api/Project/GetProjectEditorForm/{id}")]
+        [Authorize(Roles = "Admin, ConfirmedUser")]
+        public ProjectEditorFormViewModel GetProjectEditorForm(string id)
+        {
+            return _projectManager.GetProjectEditorForm(id);
+        }
+
+        [HttpPost]
+        [Route("api/Project/UpdateProject")]
+        [Authorize(Roles = "Admin, ConfirmedUser")]
+        public bool UpdateProject([FromBody]ProjectFormViewModel projectForm)
+        {
+            return _projectManager.UpdateProject(projectForm);
+        }
     }
 }
