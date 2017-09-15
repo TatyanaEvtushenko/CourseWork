@@ -2,7 +2,13 @@
     <h2>Results of search.</h2>
     <div class="row">
         <div class="col m4" *ngFor="let project of projects">
-            <projectitem [project]="project"></projectitem>
+            <div class="card small">
+                <baseprojectitem [project]="project"></baseprojectitem>
+                <div class="card-reveal">
+                    <span class="card-title grey-text text-darken-4">Description<i class="material-icons right">close</i></span>
+                    <markdown>{{project.description}}</markdown>
+                </div>
+            </div>
         </div>
     </div>
 </div>

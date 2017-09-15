@@ -38,7 +38,7 @@ namespace CourseWork.BusinessLogicLayer.ElasticSearch
                         new CreateIndexDescriptor(_options.DefaultIndex).Mappings(ms =>
                             ms.Map<ProjectSearchNote>(m => m.AutoMap()));
                 Client.CreateIndex(indexDescriptor);
-                //Repopulate();
+                Repopulate();
             }
         }
 
