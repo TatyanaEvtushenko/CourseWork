@@ -8,6 +8,7 @@ using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
+using CourseWork.BusinessLogicLayer.Services.ConverterExtensions;
 
 namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
 {
@@ -38,15 +39,20 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
 
         public UserListItemViewModel[] GetAllUsers()
         {
-            return _userInfoRepository.GetAll().Select(n => _mapperList.ConvertFrom(n)).ToArray();
+            //return _userInfoRepository.GetAll().Select(n => _mapperList.ConvertFrom(n)).ToArray();
+            return _userInfoRepository.GetUserListItemViewModels(item => true).Select(item => item.ConvertTo<UserListItemViewModel>()).ToArray();
         }
 
         public UserListItemViewModel[] GetFilteredUsers(FilterRequestViewModel model)
         {
-            return _userInfoRepository.GetWhere(item => (model.Confirmed && item.Status == UserStatus.Confirmed) ||
+            //return _userInfoRepository.GetWhere(item => (model.Confirmed && item.Status == UserStatus.Confirmed) ||
+            //           (model.Requested && item.Status == UserStatus.AwaitingConfirmation) ||
+            //           (model.Unconfirmed && item.Status == UserStatus.WithoutConfirmation)
+            //).Select(n => _mapperList.ConvertFrom(n)).ToArray();
+            return _userInfoRepository.GetUserListItemViewModels(item => (model.Confirmed && item.Status == UserStatus.Confirmed) ||
                        (model.Requested && item.Status == UserStatus.AwaitingConfirmation) ||
-                       (model.Unconfirmed && item.Status == UserStatus.WithoutConfirmation)
-            ).Select(n => _mapperList.ConvertFrom(n)).ToArray();
+                       (model.Unconfirmed && item.Status == UserStatus.WithoutConfirmation))
+                       .Select(item => item.ConvertTo<UserListItemViewModel>()).ToArray();
         }
 
         public UserConfirmationViewModel GetPersonalInfo(string userName)

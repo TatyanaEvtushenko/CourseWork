@@ -75,6 +75,11 @@ namespace CourseWork.DataLayer.Repositories
             return null;
         }
 
+        public virtual List<Object> GetUserListItemViewModels(Func<T, bool> whereExpression)
+        {
+            return null;
+        }
+
         private bool SaveActionResult(Action action)
         {
             try

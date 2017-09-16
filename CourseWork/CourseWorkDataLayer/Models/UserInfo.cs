@@ -17,8 +17,6 @@ namespace CourseWork.DataLayer.Models
 
         public DateTime LastLoginTime { get; set; }
 
-        public int ProjectNumber { get; set; }
-
         public int Raiting { get; set; }
 
         public string Name { get; set; }

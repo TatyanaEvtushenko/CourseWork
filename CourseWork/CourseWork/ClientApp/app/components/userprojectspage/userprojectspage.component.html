@@ -1,7 +1,7 @@
 ﻿<errorpage *ngIf="!isConfirmedUser"></errorpage>
 
 <div *ngIf="isConfirmedUser">
-    <h2>My projects</h2>
+    <h3>My projects</h3>
     <div class="row">
         <div class="col m4" *ngFor="let project of projects">
             <projectitem [project]="project" (onClickNews)="openNewsModal($event)"></projectitem>
