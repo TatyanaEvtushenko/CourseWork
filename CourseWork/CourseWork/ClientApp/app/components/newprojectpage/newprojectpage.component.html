@@ -20,7 +20,7 @@
 
     <div class="row">
         <div class="col m12">
-            <markdowneditor [fieldName]="'Description'" (onChanged)="projectForm.description = $event"></markdowneditor> 
+            <markdowneditor [fieldName]="'Description'" [text]="projectForm.description" (onChanged)="projectForm.description = $event"></markdowneditor> 
         </div>
     </div>
 
@@ -47,11 +47,8 @@
             <div class="input-field">
                 <h6 class="grey-text">Financial purposes</h6>
                 <hr *ngIf="projectForm.financialPurposes.length < 1"/>
-                <ul *ngIf="projectForm.financialPurposes.length >= 1" id="project-financialPurposes" class="collection">
-                    <li *ngFor="let purpose of projectForm.financialPurposes" class="collection-item">
-                        <financialpurpose [financialPurpose]="purpose" [isOwner]="true" (onDeleted)="deleteFinancialPurpose(purpose)"></financialpurpose>
-                    </li>
-                </ul>
+                <financialpurposes *ngIf="projectForm.financialPurposes.length >= 1" 
+                                   [(financialPurposes)]="projectForm.financialPurposes" [canChange]="true"></financialpurposes>
             </div>
         </div>
         <div class="col m1">
@@ -64,7 +61,7 @@
 
     <div class="row">
         <div class="col m12">
-            <tagsearcher (onChanged)="projectForm.tags = $event"></tagsearcher>
+            <tagsearcher [(data)]="projectForm.tags"></tagsearcher>
         </div>
     </div>
 

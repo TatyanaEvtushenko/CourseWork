@@ -1,4 +1,4 @@
-﻿import { Component, EventEmitter, Output, Input } from '@angular/core';
+﻿import { Component, Output, Input } from '@angular/core';
 import { TagService } from '../../services/tag.service';
 declare var $: any;
 
@@ -8,9 +8,8 @@ declare var $: any;
 })
 
 export class TagSearcherComponent {
-    @Input() data: string[] = [];
+    @Input() @Output() data: string[] = [];
     autocompleteInit: any;
-    @Output() onChanged = new EventEmitter<string[]>();
     
     constructor(private tagService: TagService) { }
 
@@ -26,7 +25,6 @@ export class TagSearcherComponent {
     add(chip: any) {
         if (this.data.indexOf(chip.tag) < 0) {
             this.data.push(chip.tag);
-            this.change();
         }
     }
 
@@ -35,7 +33,6 @@ export class TagSearcherComponent {
         if (index >= 0) {
             this.data.splice(index, 1);
         }
-        this.change();
     }
 
     private addExistedTags() {
@@ -44,7 +41,6 @@ export class TagSearcherComponent {
             existedTags.push({ "tag": tag });
         }
         return existedTags;
-
     }
 
     private convertToAutocompeteData(data: string[]) {
@@ -53,9 +49,5 @@ export class TagSearcherComponent {
             autocompleteData[tag] = null;
         }
         return autocompleteData; 
-    }
-
-    private change() {
-        this.onChanged.emit(this.data);
     }
 }

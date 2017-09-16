@@ -9,7 +9,7 @@
             </div>
         </div>
 
-        <markdowneditor [fieldName]="'News text'" (onChanged)="newsForm.text = $event"></markdowneditor>
+        <markdowneditor [fieldName]="'News text'" [text]="newsForm.text" (onChanged)="newsForm.text = $event"></markdowneditor>
         
         <div class="row">
             <div class="col m6 input-field right-align">

@@ -1,0 +1,18 @@
+﻿<ul id="project-financialPurposes" class="collection">
+    <li *ngFor="let financialPurpose of financialPurposes" class="collection-item">
+        <div class="row" [class.grey]="financialPurpose.isReached" [class.lighten-2]="financialPurpose.isReached" 
+             [class.grey-text]="financialPurpose.isReached">
+            <div class="col m11">
+                <span class="title">{{financialPurpose.name}}
+                    <span class="secondary-content right-align">{{financialPurpose.budget}}$</span>
+                </span>
+                <p *ngIf="financialPurpose.description != null">{{financialPurpose.description}}</p>
+            </div>
+            <div class="col m1">
+                <a *ngIf="canChange" (click)="delete(financialPurpose)" class="secondary-content" [class.disabled]="financialPurpose.isReached">
+                    <i class="material-icons">close</i>
+                </a>
+            </div>
+        </div>
+    </li>
+</ul>

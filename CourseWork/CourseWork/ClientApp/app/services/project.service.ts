@@ -38,6 +38,10 @@ export class ProjectService extends BaseService {
         return this.requestPost("api/News/AddNews", newsForm);
     }
 
+    deleteNews(newsId: string) {
+        return this.requestPost("api/News/RemoveNews", newsId);
+    }
+
     addMailingToSubscribers(newsForm: NewsForm) {
         return this.requestPost("api/News/AddMailingToSubscribers", newsForm);
     }

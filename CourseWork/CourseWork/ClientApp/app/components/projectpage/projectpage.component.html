@@ -40,31 +40,33 @@
             <a class="btn btn-icon" href="/ProjectEditorPage/{{project.id}}">
                 <i class="material-icons">edit</i>
             </a>
-            <newsformmodal [projectId]="project.id"></newsformmodal>
+            <newsformmodal [projectId]="project.id" (onAdded)="addNews($event)"></newsformmodal>
         </div>
     </div>
 
     <div class="row">
         <div class="col m12">
+            Description
             <markdown>{{project.description}}</markdown>
         </div>
     </div>
     
     <div class="row">
         <div class="col m12">
-            <ul class="collection">
-                <li *ngFor="let purpose of project.financialPurposes" class="collection-item">
-                    <financialpurpose [financialPurpose]="purpose" [isOwner]="project.isOwner || storage.isReadyCurrentUser && storage.isAdmin" 
-                                      (onDeleted)="deleteFinancialPurpose(purpose)"></financialpurpose>  
-                </li>
-            </ul>
+            Financial purposes
+            <financialpurposes [(financialPurposes)]="project.financialPurposes" [canChange]="false"></financialpurposes>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col m12">
+            <news [someNews]="project.news" [canChange]="storage.isReadyCurrentUser && (project.owner.userName == storage.currentUser.userName || storage.isAdmin)"></news>
         </div>
     </div>
 
     <div class="row">
         <div *ngFor="let tag of project.tags">
-            <div class="chip">{{tag}}
-                <i *ngIf="project.isOwner || storage.isReadyCurrentUser && storage.isAdmin" class="close material-icons">close</i></div>
+            <div class="chip">{{tag}}</div>
         </div>
     </div>
 </div>

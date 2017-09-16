@@ -1,0 +1,11 @@
+﻿<ul materialize="collapsible" class="collapsible popout" data-collapsible="accordion">
+    <li *ngFor="let news of someNews" class="collection-item">
+        <div class="collapsible-header" [class.active]="true">
+            <i class="material-icons">filter_drama</i>{{news.subject}} {{timeService.getFormatDate(news.time)}}
+            <i class="material-icons right" (click)="delete(news)">close</i>
+        </div>
+        <div class="collapsible-body">
+            <markdown>{{news.text}}</markdown>
+        </div>
+    </li>
+</ul>

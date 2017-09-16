@@ -1,4 +1,4 @@
-﻿import { Component } from '@angular/core';
+﻿import { Component} from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ProjectService } from '../../services/project.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
@@ -29,6 +29,11 @@ export class ProjectPageComponent {
         });
     }
 
+    addNews(news: any) {
+        news.time = new Date(Date.now());
+        this.project.news.push(news);
+    }
+
     updateRating() {
         this.projectService.changeRating(this.project.id, this.project.rating).subscribe();
     }
@@ -47,10 +52,6 @@ export class ProjectPageComponent {
             error => this.project.isSubscriber = true
         );
         this.project.isSubscriber = false;
-    }
-
-    deleteFinancialPurpose(purpose: any) {
-        alert("delete");
     }
 
     private prepareData(data: any) {

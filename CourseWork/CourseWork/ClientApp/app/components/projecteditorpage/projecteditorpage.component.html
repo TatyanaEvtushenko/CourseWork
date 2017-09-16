@@ -47,11 +47,8 @@
                 <div class="input-field">
                     <h6 class="grey-text">Financial purposes</h6>
                     <hr *ngIf="project.financialPurposes.length < 1" />
-                    <ul *ngIf="project.financialPurposes.length >= 1" id="project-financialPurposes" class="collection">
-                        <li *ngFor="let purpose of project.financialPurposes" class="collection-item">
-                            <financialpurpose [financialPurpose]="purpose" [isOwner]="true" (onDeleted)="deleteFinancialPurpose(purpose)"></financialpurpose>
-                        </li>
-                    </ul>
+                    <financialpurposes *ngIf="project.financialPurposes.length >= 1" 
+                                       [(financialPurposes)]="project.financialPurposes" [canChange]="true"></financialpurposes>
                 </div>
             </div>
             <div class="col m1">
@@ -64,7 +61,7 @@
 
         <div class="row">
             <div class="col m12">
-                <tagsearcher [data]="project.tags" (onChanged)="project.tags = $event"></tagsearcher>
+                <tagsearcher [(data)]="project.tags"></tagsearcher>
             </div>
         </div>
 

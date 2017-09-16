@@ -29,13 +29,6 @@ export class NewProjectPageComponent{
         this.projectForm.financialPurposes.push(purpose);
     }
 
-    deleteFinancialPurpose(purpose: any) {
-        const index = this.projectForm.financialPurposes.indexOf(purpose);
-        if (index >= 0) {
-            this.projectForm.financialPurposes.splice(index, 1);
-        }
-    }
-
     onSubmit() {
         this.projectService.addProject(this.projectForm).subscribe(
             (data) => {

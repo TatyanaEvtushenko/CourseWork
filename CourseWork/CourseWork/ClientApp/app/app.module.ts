@@ -27,7 +27,7 @@ import { FloatingButtonComponent } from './components/floatingbutton/floatingbut
 import { ConfirmationModalComponent } from './components/confirmationmodal/confirmationmodal.component';
 import { AdminConfirmationPopupComponent } from './components/adminconfirmationpopup/adminconfirmationpopup.component';
 import { ImageLoaderComponent } from './components/imageloader/imageloader.component';
-import { FinancialPurposeComponent } from './components/financialpurpose/financialpurpose.component';
+import { FinancialPurposesComponent } from './components/financialpurposes/financialpurposes.component';
 import { FinancialPurposeModalComponent } from './components/financialpurposemodal/financialpurposemodal.component';
 import { ProjectItemComponent } from './components/projectitem/projectitem.component';
 import { NewsFormModalComponent } from './components/newsformmodal/newsformmodal.component';
@@ -35,6 +35,7 @@ import { ProjectPageComponent } from './components/projectpage/projectpage.compo
 import { ProjectStatusComponent } from './components/projectstatus/projectstatus.component';
 import { UserMinInfoComponent } from './components/usermininfo/usermininfo.component';
 import { ProjectEditorPageComponent } from './components/projecteditorpage/projecteditorpage.component';
+import { NewsComponent } from './components/news/news.component';
 
 import { BaseService} from './services/base.service';
 import { CurrentUserService } from "./services/currentuser.service"; 
@@ -43,6 +44,7 @@ import { AccountService } from "./services/account.service";
 import { ProjectService } from "./services/project.service";
 import { StorageService } from "./services/storage.service";
 import { SortingService } from "./services/sorting.service";
+import { TimeService } from "./services/time.service";
 
 const appRoutes: Routes = [
     { path: '', component: HomePageComponent },
@@ -87,14 +89,15 @@ const appRoutes: Routes = [
         ErrorTextComponent,
         TagSearcherComponent,
         FloatingButtonComponent,
-        FinancialPurposeComponent,
+        FinancialPurposesComponent,
         FinancialPurposeModalComponent,
         ProjectItemComponent,
         NewsFormModalComponent,
         ProjectPageComponent,
         ProjectStatusComponent,
         UserMinInfoComponent,
-        ProjectEditorPageComponent
+        ProjectEditorPageComponent,
+        NewsComponent
     ],
     providers: [
         BaseService,
@@ -103,7 +106,8 @@ const appRoutes: Routes = [
         TagService,
         ProjectService,
         StorageService,
-        SortingService
+        SortingService,
+        TimeService
     ],
     bootstrap: [
         AppComponent

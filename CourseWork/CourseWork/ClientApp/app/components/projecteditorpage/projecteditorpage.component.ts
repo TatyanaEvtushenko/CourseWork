@@ -38,13 +38,6 @@ export class ProjectEditorPageComponent {
         this.project.financialPurposes.push(purpose);
     }
 
-    deleteFinancialPurpose(purpose: any) {
-        const index = this.project.financialPurposes.indexOf(purpose);
-        if (index >= 0) {
-            this.project.financialPurposes.splice(index, 1);
-        }
-    }
-
     onSubmit() {
         this.projectService.updateProject(this.project).subscribe(
             (data) => {
