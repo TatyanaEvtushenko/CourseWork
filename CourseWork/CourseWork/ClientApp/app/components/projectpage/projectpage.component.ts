@@ -3,7 +3,6 @@ import { Title } from '@angular/platform-browser';
 import { ProjectService } from '../../services/project.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { StorageService } from '../../services/storage.service';
-import { SortingService } from '../../services/sorting.service';
 
 @Component({
     selector: 'projectpage',
@@ -15,15 +14,13 @@ export class ProjectPageComponent {
     constructor(public storage: StorageService,
         private route: ActivatedRoute,
         private title: Title,
-        private projectService: ProjectService,
-        private sortingService: SortingService) {
+        private projectService: ProjectService) {
     }
 
     ngOnInit() {
         const request = this.route.paramMap.switchMap((params: ParamMap) =>
             this.projectService.getProject(params.get('id')));
         request.subscribe(data => {
-            this.prepareData(data);
             this.project = data;
             this.title.setTitle(data.name);
         });
@@ -31,7 +28,7 @@ export class ProjectPageComponent {
 
     addNews(news: any) {
         news.time = new Date(Date.now());
-        this.project.news.push(news);
+        this.project.news = [news].concat(this.project.news);
     }
 
     updateRating() {
@@ -52,12 +49,5 @@ export class ProjectPageComponent {
             error => this.project.isSubscriber = true
         );
         this.project.isSubscriber = false;
-    }
-
-    private prepareData(data: any) {
-        data.financialPurposes.sort(this.sortingService.sortByBudget);
-        data.news.sort(this.sortingService.sortByTime);
-        data.comments.sort(this.sortingService.sortByTime);
-        console.log(data);
     }
 }

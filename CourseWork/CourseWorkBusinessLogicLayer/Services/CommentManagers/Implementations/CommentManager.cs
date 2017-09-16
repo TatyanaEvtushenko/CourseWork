@@ -16,10 +16,11 @@ namespace CourseWork.BusinessLogicLayer.Services.CommentManagers.Implementations
             _commentMapper = commentMapper;
         }
 
-        public bool AddComment(CommentFormViewModel commentForm)
+        public string AddComment(CommentFormViewModel commentForm)
         {
             var comment = _commentMapper.ConvertTo(commentForm);
-            return _commentRepository.AddRange(comment);
+            var result = _commentRepository.AddRange(comment);
+            return result ? comment.Id : null;
         }
 
         public bool RemoveComment(string commentId)

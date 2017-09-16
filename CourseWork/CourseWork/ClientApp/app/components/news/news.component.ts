@@ -1,6 +1,7 @@
 ﻿import { Component, Input } from '@angular/core';
 import { ProjectService } from '../../services/project.service';
 import { TimeService } from '../../services/time.service';
+import { SortingService } from '../../services/sorting.service';
 
 @Component({
     selector: 'news',
@@ -11,20 +12,20 @@ export class NewsComponent {
     @Input() canChange = false;
     @Input() someNews: any;
 
-    constructor(private projectService: ProjectService, public timeService: TimeService){}
-
-    delete(news: any) {
-        this.projectService.deleteNews(news.id).subscribe(
-            data => this.getResponse(data, news)
-        );
+    constructor(private projectService: ProjectService,
+        public timeService: TimeService,
+        private sortingService: SortingService) {
     }
 
-    private getResponse(response: boolean, news: any) {
-        if (response) {
-            const index = this.someNews.indexOf(news);
-            if (index >= 0) {
-                this.someNews.splice(index, 1);
-            }
+    ngOnInit() {
+        this.someNews.sort(this.sortingService.sortByTime);
+    }
+
+    delete(news: any) {
+        const index = this.someNews.indexOf(news);
+        if (index >= 0) {
+            this.someNews.splice(index, 1);
         }
+        this.projectService.deleteNews(news.id).subscribe();
     }
 }

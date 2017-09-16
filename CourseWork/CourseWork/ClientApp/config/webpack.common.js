@@ -46,6 +46,20 @@ module.exports = {
         ]
     },
 
+    CopyWebpackPlugin: [{
+            from: 'node_modules/froala-editor/css/',
+            to: 'assets/froala-editor/css/',
+        },
+        {
+            from: 'node_modules/font-awesome/css/font-awesome.min.css',
+            to: 'assets/font-awesome/css/font-awesome.min.css',
+        },
+        {
+            from: 'node_modules/font-awesome/fonts',
+            to: 'assets/font-awesome/fonts'
+        }
+    ],
+
     plugins: [
         // Workaround for angular/angular#11580
         new webpack.ContextReplacementPlugin(
@@ -61,6 +75,11 @@ module.exports = {
 
         new HtmlWebpackPlugin({
             template: 'ClientApp/dist/index.html'
+        }),
+
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery"
         })
     ]
 };

@@ -1,0 +1,26 @@
+﻿<div class="input-field">
+    <input id="newComment" [(ngModel)]="commentText" (keyup.enter)="add()"/>
+    <label for="newComment">
+        <i class="material-icons" (click)="add()">mode_edit</i> New comment
+    </label>
+</div>
+<ul class="collection" *ngIf="comments.length > 0">
+    <li *ngFor="let comment of comments" class="collection-item">
+        <div class="row">
+            <div class="col m8">
+                <usermininfo [user]="comment.user"></usermininfo>
+            </div>
+            <div class="col m3 right-align">
+                {{timeService.getFormatDate(comment.time)}}
+            </div>
+            <div class="col m1 right-align" *ngIf="storage.isReadyCurrentUser && (comment.user.userName == storage.currentUser.UserName || projectOwnerUserName == storage.currentUser.userName || storage.isAdmin)">
+                <i class="material-icons" (click)="delete(comment)">close</i>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col m12">
+                {{comment.text}}
+            </div>
+        </div>
+    </li>
+</ul>

@@ -18,7 +18,7 @@ namespace CourseWork.Controllers
 
         [HttpPost]
         [Route("api/Comment/AddComment")]
-        public bool AddComment([FromBody]CommentFormViewModel comment)
+        public string AddComment([FromBody]CommentFormViewModel comment)
         {
             return _commentManager.AddComment(comment);
         }

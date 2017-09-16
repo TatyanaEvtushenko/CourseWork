@@ -44,29 +44,37 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row" *ngIf="project.description != null">
         <div class="col m12">
-            Description
+            <h5 class="center-align">Description</h5>
             <markdown>{{project.description}}</markdown>
         </div>
     </div>
     
     <div class="row">
         <div class="col m12">
-            Financial purposes
+            <h5 class="center-align">Financial purposes</h5>
             <financialpurposes [(financialPurposes)]="project.financialPurposes" [canChange]="false"></financialpurposes>
         </div>
     </div>
 
-    <div class="row">
+    <div class="row" *ngIf="project.news.length > 0">
         <div class="col m12">
+            <h5 class="center-align">News</h5>
             <news [someNews]="project.news" [canChange]="storage.isReadyCurrentUser && (project.owner.userName == storage.currentUser.userName || storage.isAdmin)"></news>
         </div>
     </div>
 
+
     <div class="row">
-        <div *ngFor="let tag of project.tags">
-            <div class="chip">{{tag}}</div>
+        <div class="col m12">
+            <comments [comments]="project.comments" [projectId]="project.id" [projectOwnerUserName]="project.owner.userName"></comments>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="chip" *ngFor="let tag of project.tags">
+            {{tag}}
         </div>
     </div>
 </div>

@@ -54,4 +54,13 @@ export class ProjectService extends BaseService {
         const rating = { "projectId": projectId, "ratingValue": ratingValue };
         return this.requestPost("api/Project/ChangeRating", rating);   
     }
+
+    addComment(projectId: string, text: string) {
+        const comment = { "projectId": projectId, "text": text };
+        return this.requestPost("api/Comment/AddComment", comment);
+    }
+
+    removeComment(commentId: string) {
+        return this.requestPost("api/Comment/RemoveComment", commentId);
+    }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CourseWork.BusinessLogicLayer.Services.FinancialPurposesManagers;
 using CourseWork.BusinessLogicLayer.Services.PaymentManagers;
@@ -21,9 +22,10 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
         private readonly Repository<Comment> _commentRepository;
         private readonly Repository<News> _newsRepository;
         private readonly Repository<ProjectSubscriber> _projectSubscriberRepository;
-        private readonly Repository<FinancialPurpose> _financialPurposeRepository;
+        private readonly Repository<UserInfo> _userInfoRepository;
         private readonly IMapper<NewsViewModel, News> _newsMapper;
         private readonly IMapper<CommentViewModel, Comment> _commentMapper;
+        private readonly IMapper<UserSmallViewModel, UserInfo> _userInfoMapper;
         private readonly IUserManager _userManager;
         private readonly ITagService _tagService;
         private readonly IPaymentManager _paymentManager;
@@ -35,7 +37,8 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
             IMapper<CommentViewModel, Comment> commentMapper, IMapper<NewsViewModel, News> newsMapper,
             IUserManager userManager, Repository<ProjectSubscriber> projectSubscriberRepository,
             ITagService tagService, IPaymentManager paymentManager,
-            Repository<FinancialPurpose> financialPurposeRepository, IFinancialPurposeManager financialPurposeManager)
+            IFinancialPurposeManager financialPurposeManager, Repository<UserInfo> userInfoRepository,
+            IMapper<UserSmallViewModel, UserInfo> userInfoMapper)
         {
             _raitingRepository = raitingRepository;
             _paymentRepository = paymentRepository;
@@ -47,8 +50,9 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
             _projectSubscriberRepository = projectSubscriberRepository;
             _tagService = tagService;
             _paymentManager = paymentManager;
-            _financialPurposeRepository = financialPurposeRepository;
             _financialPurposeManager = financialPurposeManager;
+            _userInfoRepository = userInfoRepository;
+            _userInfoMapper = userInfoMapper;
         }
 
         public Project ConvertTo(ProjectViewModel item)
@@ -116,14 +120,18 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
 
         private void ConvertFromComments(ProjectViewModel viewModel, string projectId)
         {
-            viewModel.Comments = _commentRepository.GetWhere(comment => comment.ProjectId == projectId)
-                .Select(comment => _commentMapper.ConvertFrom(comment));
+            var comments = _commentRepository.GetWhere(comment => comment.ProjectId == projectId);
+            var commentators = comments.Select(comment => comment.UserName);
+            var commentatorsInfo = _userInfoRepository.GetWhere(info => commentators.Contains(info.UserName));
+            viewModel.Comments = comments.Select(comment => GetComment(commentatorsInfo, comment));
         }
 
-        private void ConvertFromFinancialPurposes(ProjectViewModel viewModel, string projectId)
+        private CommentViewModel GetComment(IEnumerable<UserInfo> commentatorsInfo, Comment commentModel)
         {
-            viewModel.Comments = _commentRepository.GetWhere(comment => comment.ProjectId == projectId)
-                .Select(comment => _commentMapper.ConvertFrom(comment));
+            var commentViewModel = _commentMapper.ConvertFrom(commentModel);
+            var userInfo = commentatorsInfo.FirstOrDefault(info => info.UserName == commentModel.UserName);
+            commentViewModel.User = _userInfoMapper.ConvertFrom(userInfo);
+            return commentViewModel;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
 
 namespace CourseWork.BusinessLogicLayer.ViewModels.CommentViewModels
 {
@@ -6,7 +7,7 @@ namespace CourseWork.BusinessLogicLayer.ViewModels.CommentViewModels
     {
         public string Id { get; set; }
 
-        public string UserName { get; set; }
+        public UserSmallViewModel User { get; set; }
 
         public string Text { get; set; }
 

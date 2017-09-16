@@ -13,7 +13,11 @@
 }
 
 .project .card-image img{
-    margin:-30% 0 0 0;
+    margin:-15% 0 -15% 0;
+}
+
+.project .card-title {
+    margin-bottom: 15%;
 }
 
 .news-open {

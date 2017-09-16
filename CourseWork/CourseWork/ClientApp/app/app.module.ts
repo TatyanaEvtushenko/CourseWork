@@ -1,4 +1,5 @@
 ﻿import "jquery";
+import "froala-editor/js/froala_editor.pkgd.min.js";
 import { NgModule } from '@angular/core';
 import { BrowserModule }  from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
@@ -8,7 +9,8 @@ import { FormsModule } from '@angular/forms';
 import { MarkdownModule } from 'angular2-markdown';
 import { MaterializeModule } from "angular2-materialize";
 import { RatingModule } from "ngx-rating";
- 
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+
 import { AppComponent } from './components/app/app.component';
 import { HomePageComponent } from './components/homepage/homepage.component';
 import { ErrorPageComponent } from './components/errorpage/errorpage.component';
@@ -36,6 +38,7 @@ import { ProjectStatusComponent } from './components/projectstatus/projectstatus
 import { UserMinInfoComponent } from './components/usermininfo/usermininfo.component';
 import { ProjectEditorPageComponent } from './components/projecteditorpage/projecteditorpage.component';
 import { NewsComponent } from './components/news/news.component';
+import { CommentsComponent } from './components/comments/comments.component';
 
 import { BaseService} from './services/base.service';
 import { CurrentUserService } from "./services/currentuser.service"; 
@@ -65,6 +68,8 @@ const appRoutes: Routes = [
         MaterializeModule,
         MarkdownModule.forRoot(),
         RatingModule,
+        FroalaEditorModule.forRoot(),
+        FroalaViewModule.forRoot(),
         RouterModule.forRoot(
             appRoutes,
             { enableTracing: true }
@@ -97,7 +102,8 @@ const appRoutes: Routes = [
         ProjectStatusComponent,
         UserMinInfoComponent,
         ProjectEditorPageComponent,
-        NewsComponent
+        NewsComponent,
+        CommentsComponent
     ],
     providers: [
         BaseService,
