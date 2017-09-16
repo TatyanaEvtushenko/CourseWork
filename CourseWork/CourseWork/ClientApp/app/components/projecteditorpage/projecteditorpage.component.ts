@@ -46,12 +46,11 @@ export class ProjectEditorPageComponent {
     }
 
     onSubmit() {
-        console.log(this.project);
         this.projectService.updateProject(this.project).subscribe(
             (data) => {
                 this.isWrongRequest = !data;
                 if (!this.isWrongRequest) {
-                    window.location.href = `/ProjectsPage/${this.project.id}`;
+                    window.location.href = `/ProjectPage/${this.project.id}`;
                 }
             },
             (error) => this.isWrongRequest = true

@@ -1,5 +1,5 @@
 ﻿using System;
-using CourseWork.BusinessLogicLayer.Services.FinancialPurposeManagers;
+using CourseWork.BusinessLogicLayer.Services.FinancialPurposesManagers;
 using CourseWork.BusinessLogicLayer.Services.TagServices;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using CourseWork.DataLayer.Models;
@@ -11,10 +11,10 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
         private readonly ITagService _tagService;
         private readonly IFinancialPurposeManager _financialPurposeManager;
 
-        public ProjectEditorFormViewModelToProjectMapper(IFinancialPurposeManager financialPurposeManager, ITagService tagService)
+        public ProjectEditorFormViewModelToProjectMapper(ITagService tagService, IFinancialPurposeManager financialPurposeManager)
         {
-            _financialPurposeManager = financialPurposeManager;
             _tagService = tagService;
+            _financialPurposeManager = financialPurposeManager;
         }
 
         public Project ConvertTo(ProjectEditorFormViewModel item)
@@ -27,7 +27,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
             return new ProjectEditorFormViewModel
             {
                 Description = item.Description,
-                FinancialPurposes = _financialPurposeManager.GetProjectFinancialPurposes(item.Id, item.PaidAmount),
+                FinancialPurposes = _financialPurposeManager.GetProjectFinancialPurposeViewModels(item.Id),
                 FundRaisingEnd = item.FundRaisingEnd,
                 Id = item.Id,
                 ImageUrl = item.ImageUrl,

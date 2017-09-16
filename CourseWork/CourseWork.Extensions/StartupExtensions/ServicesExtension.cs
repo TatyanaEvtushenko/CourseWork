@@ -2,12 +2,12 @@
 using CourseWork.BusinessLogicLayer.Services.AccountConfirmationManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.AccountManagers;
 using CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations;
-using CourseWork.BusinessLogicLayer.Services.FinancialPurposeManagers;
-using CourseWork.BusinessLogicLayer.Services.FinancialPurposeManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.AdminManagers;
 using CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.CommentManagers;
 using CourseWork.BusinessLogicLayer.Services.CommentManagers.Implementations;
+using CourseWork.BusinessLogicLayer.Services.FinancialPurposesManagers;
+using CourseWork.BusinessLogicLayer.Services.FinancialPurposesManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.MessageSenders;
 using CourseWork.BusinessLogicLayer.Services.MessageSenders.Implementations;
 using CourseWork.BusinessLogicLayer.Services.NewsManagers;
@@ -37,7 +37,6 @@ namespace CourseWork.Extensions.StartupExtensions
             services.AddScoped<IUserManager, UserManager>();
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<IAccountManager, AccountManager>();
-            services.AddScoped<IFinancialPurposeManager, FinancialPurposeManager>();
             services.AddScoped<IAccountConfirmationManager, AccountConfirmationManager>();
             services.AddScoped<IPhotoManager, PhotoManager>();
             services.AddScoped<IProjectManager, ProjectManager>();
@@ -47,6 +46,7 @@ namespace CourseWork.Extensions.StartupExtensions
             services.AddScoped<IProjectSubscriberManager, ProjectSubscriberManager>();
             services.AddScoped<IScheduler, BusinessLogicLayer.Services.Scedulers.Implementations.Scheduler>();
             services.AddScoped<ICommentManager, CommentManager>();
+            services.AddScoped<IFinancialPurposeManager, FinancialPurposeManager>();
         }
     }
 }

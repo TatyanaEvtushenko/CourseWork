@@ -76,6 +76,10 @@
             </div>
         </div>
     </div>
-
-    <errortext *ngIf="isWrongRequest" [text]="'Mistake, the project has not been created'"></errortext>
+    
+    <div class="row">
+        <div class="col m12 center-align">
+            <errortext *ngIf="isWrongRequest" [text]="'Mistake, the project has not been created'"></errortext>
+        </div>
+    </div>
 </div>

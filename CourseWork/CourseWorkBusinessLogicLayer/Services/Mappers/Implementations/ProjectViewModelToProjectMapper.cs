@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
-using CourseWork.BusinessLogicLayer.Services.FinancialPurposeManagers;
+using CourseWork.BusinessLogicLayer.Services.FinancialPurposesManagers;
+using CourseWork.BusinessLogicLayer.Services.PaymentManagers;
 using CourseWork.BusinessLogicLayer.Services.TagServices;
 using CourseWork.BusinessLogicLayer.Services.UserManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.CommentViewModels;
@@ -20,18 +21,21 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
         private readonly Repository<Comment> _commentRepository;
         private readonly Repository<News> _newsRepository;
         private readonly Repository<ProjectSubscriber> _projectSubscriberRepository;
+        private readonly Repository<FinancialPurpose> _financialPurposeRepository;
         private readonly IMapper<NewsViewModel, News> _newsMapper;
         private readonly IMapper<CommentViewModel, Comment> _commentMapper;
         private readonly IUserManager _userManager;
-        private readonly IFinancialPurposeManager _financialPurposeManager;
         private readonly ITagService _tagService;
+        private readonly IPaymentManager _paymentManager;
+        private readonly IFinancialPurposeManager _financialPurposeManager;
 
         public ProjectViewModelToProjectMapper(
             Repository<Rating> raitingRepository, Repository<Payment> paymentRepository,
             Repository<News> newsRepository, Repository<Comment> commentRepository,
             IMapper<CommentViewModel, Comment> commentMapper, IMapper<NewsViewModel, News> newsMapper,
             IUserManager userManager, Repository<ProjectSubscriber> projectSubscriberRepository,
-            IFinancialPurposeManager financialPurposeManager, ITagService tagService)
+            ITagService tagService, IPaymentManager paymentManager,
+            Repository<FinancialPurpose> financialPurposeRepository, IFinancialPurposeManager financialPurposeManager)
         {
             _raitingRepository = raitingRepository;
             _paymentRepository = paymentRepository;
@@ -41,8 +45,10 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
             _newsMapper = newsMapper;
             _userManager = userManager;
             _projectSubscriberRepository = projectSubscriberRepository;
-            _financialPurposeManager = financialPurposeManager;
             _tagService = tagService;
+            _paymentManager = paymentManager;
+            _financialPurposeRepository = financialPurposeRepository;
+            _financialPurposeManager = financialPurposeManager;
         }
 
         public Project ConvertTo(ProjectViewModel item)
@@ -82,13 +88,14 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
         {
             viewModel.MaxPaymentAmount = model.MaxPayment;
             viewModel.MinPaymentAmount = model.MinPayment;
-            viewModel.PaidAmount = model.PaidAmount;
-            viewModel.CountOfPayments = _paymentRepository.Count(payment => payment.ProjectId == model.Id);
+            var projectPayments = _paymentRepository.GetWhere(payment => payment.ProjectId == model.Id);
+            viewModel.PaidAmount = _paymentManager.GetProjectPaidAmount(model.Id, projectPayments);
+            viewModel.CountOfPayments = projectPayments.Count;
+            viewModel.FinancialPurposes = _financialPurposeManager.GetProjectFinancialPurposeViewModels(model.Id, viewModel.PaidAmount);
         }
 
         private void ConvertFromCompleteObjects(ProjectViewModel viewModel, Project model)
         {
-            viewModel.FinancialPurposes = _financialPurposeManager.GetProjectFinancialPurposes(model.Id, model.PaidAmount);
             viewModel.Tags = _tagService.GetProjectTags(model.Id);
             ConvertFromNews(viewModel, model.Id);
             ConvertFromComments(viewModel, model.Id);
@@ -108,6 +115,12 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
         }
 
         private void ConvertFromComments(ProjectViewModel viewModel, string projectId)
+        {
+            viewModel.Comments = _commentRepository.GetWhere(comment => comment.ProjectId == projectId)
+                .Select(comment => _commentMapper.ConvertFrom(comment));
+        }
+
+        private void ConvertFromFinancialPurposes(ProjectViewModel viewModel, string projectId)
         {
             viewModel.Comments = _commentRepository.GetWhere(comment => comment.ProjectId == projectId)
                 .Select(comment => _commentMapper.ConvertFrom(comment));

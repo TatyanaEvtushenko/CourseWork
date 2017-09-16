@@ -25,7 +25,8 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
 
         public NewsManager(Repository<News> newsRepository, IMapper<NewsFormViewModel, News> newsMapper,
             IEmailSender emailSender, IPaymentManager paymentManager,
-            IProjectSubscriberManager projectSubscriberManager, IUserManager userManager, Repository<Project> projectRepository)
+            IProjectSubscriberManager projectSubscriberManager, IUserManager userManager,
+            Repository<Project> projectRepository)
         {
             _newsRepository = newsRepository;
             _newsMapper = newsMapper;

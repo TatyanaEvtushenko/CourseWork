@@ -13,7 +13,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
                 Description = item.Description,
                 Name = item.Name,
                 NecessaryPaymentAmount = item.Budget,
-                Id = Guid.NewGuid().ToString()
+                Id = item.Id ?? Guid.NewGuid().ToString()
             };
         }
 

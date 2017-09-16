@@ -91,7 +91,7 @@ namespace CourseWork.DataLayer.Repositories
                 DbContext.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
                 return false;
             }

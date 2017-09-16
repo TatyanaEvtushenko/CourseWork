@@ -4,7 +4,7 @@
             <img src="{{project.imageUrl}}">
             <div class="card-title">
                 {{project.name}}<br/>
-                <rating class="project-item-rating" [(ngModel)]="project.raiting" [readonly]="true" [titles]="['one', 'two', 'three', 'four', 'five']"></rating>
+                <rating class="project-item-rating" [(ngModel)]="project.rating" [readonly]="true" [titles]="['one', 'two', 'three', 'four', 'five']"></rating>
             </div>
         </a>
     </div>
@@ -16,9 +16,17 @@
             <p><projectstatus [status]="project.status"></projectstatus></p>
         </div>
     </div>
-    <div class="card-action right-align">
-        <a (click)="openNews()" href="#newsModal" class="news-open modal-trigger">Create news</a>
-        <i class="material-icons right activator">more_vert</i>
+    <div class="card-action">
+        <ng-container *ngIf="storage.isReadyCurrentUser && storage.currentUser.userName != project.ownerUserName">
+            <button *ngIf="!project.isSubscriber" (click)="subscribe()" class="btn left">Subscribe</button>
+            <button *ngIf="project.isSubscriber" (click)="unsubscribe()" class="btn left">Unsubscribe</button>
+        </ng-container>
+        <a><i class="material-icons right activator">more_vert</i></a>
+        <ng-container *ngIf="storage.isReadyCurrentUser && (storage.currentUser.userName == project.ownerUserName || storage.isAdmin)">
+            <a href="/ProjectEditorPage/{{project.id}}" class="right"><i class="material-icons">edit</i></a>
+            <a (click)="openNews()" href="#newsModal" class="modal-trigger right"><i class="material-icons">library_books</i></a>
+        </ng-container>
+        <a *ngIf="storage.isReadyCurrentUser && storage.isConfirmedUser"><i class="material-icons right">payment</i></a>
     </div>
     <div class="card-reveal">
         <span class="card-title grey-text text-darken-4">Description<i class="material-icons right">close</i></span>

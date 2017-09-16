@@ -1,4 +1,4 @@
-﻿<errorpage *ngIf="storage.isReadyCurrentUser && (project == null || project != null && project.ownerUserName != storage.currentUser.userName)"></errorpage>
+﻿<errorpage *ngIf="storage.isReadyCurrentUser && project != null && project.ownerUserName != storage.currentUser.userName"></errorpage>
 <div *ngIf="storage.isReadyCurrentUser && project != null && project.ownerUserName == storage.currentUser.userName" class="container">
     <h4>Edit the project</h4>
     <div>

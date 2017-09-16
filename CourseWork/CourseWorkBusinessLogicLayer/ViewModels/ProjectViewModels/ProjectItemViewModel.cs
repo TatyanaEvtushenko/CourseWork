@@ -20,6 +20,6 @@ namespace CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels
 
         public ProjectStatus Status { get; set; }
 
-        public double Raiting { get; set; }
+        public double Rating { get; set; }
     }
 }

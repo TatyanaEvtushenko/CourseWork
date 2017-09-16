@@ -22,4 +22,15 @@ export class SortingService {
         }
         return 1;
     }
+
+    sortByProjectStatus(a: any, b: any) {
+        if (a.status > b.status) {
+            return 1;
+        }
+        if (a.status === b.status) {
+            return 0;
+        } else {
+            return -1;
+        }
+    }
 }

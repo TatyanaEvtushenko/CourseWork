@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
+using CourseWork.BusinessLogicLayer.Services.PaymentManagers;
 using CourseWork.BusinessLogicLayer.Services.PhotoManagers;
 using CourseWork.BusinessLogicLayer.Services.UserManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.FinancialPurposeViewModels;
@@ -19,8 +20,10 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         private readonly Repository<Tag> _tagRepository;
         private readonly Repository<ProjectSubscriber> _subscriberRepository;
         private readonly Repository<FinancialPurpose> _financialPurposeRepository;
+        private readonly Repository<Payment> _paymentRepository;
         private readonly IUserManager _userManager;
         private readonly IPhotoManager _photoManager;
+        private readonly IPaymentManager _paymentManager;
         private readonly IMapper<ProjectItemViewModel, Project> _projectItemMapper;
         private readonly IMapper<ProjectFormViewModel, Project> _projectFormMapper;
         private readonly IMapper<ProjectViewModel, Project> _projectMapper;
@@ -33,7 +36,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             IMapper<ProjectFormViewModel, Project> projectFormMapper,
             Repository<Rating> raitingRepository,
             IMapper<ProjectViewModel, Project> projectMapper, IUserManager userManager,
-            IMapper<ProjectEditorFormViewModel, Project> projectEditorFormMapper, Repository<Tag> tagRepository, IMapper<FinancialPurposeViewModel, FinancialPurpose> financialPurposeMapper, Repository<FinancialPurpose> financialPurposeRepository, IPhotoManager photoManager, IMapper<RatingViewModel, Rating> ratingMapper, Repository<ProjectSubscriber> subscriberRepository)
+            IMapper<ProjectEditorFormViewModel, Project> projectEditorFormMapper, Repository<Tag> tagRepository, IMapper<FinancialPurposeViewModel, FinancialPurpose> financialPurposeMapper, Repository<FinancialPurpose> financialPurposeRepository, IPhotoManager photoManager, IMapper<RatingViewModel, Rating> ratingMapper, Repository<ProjectSubscriber> subscriberRepository, IPaymentManager paymentManager, Repository<Payment> paymentRepository)
         {
             _projectRepository = projectRepository;
             _projectItemMapper = projectItemMapper;
@@ -48,6 +51,8 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             _photoManager = photoManager;
             _ratingMapper = ratingMapper;
             _subscriberRepository = subscriberRepository;
+            _paymentManager = paymentManager;
+            _paymentRepository = paymentRepository;
         }
 
         public void ChangeProjectStatus(Project project, IEnumerable<Payment> payments, IEnumerable<FinancialPurpose> purposes)
@@ -58,7 +63,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             }
             else
             {
-                project.Status = project.FundRaisingEnd < DateTime.Today ? ProjectStatus.Failed : ProjectStatus.Active;
+                project.Status = project.FundRaisingEnd < DateTime.UtcNow.Date ? ProjectStatus.Failed : ProjectStatus.Active;
             }
         }
 
@@ -67,7 +72,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             var project = _projectFormMapper.ConvertTo(projectForm);
             var purposes = GetPurposesOfProjectForm(projectForm.FinancialPurposes, project.Id);
             ChangeProjectStatus(project, null, purposes);
-            return _projectRepository.AddRange(project) & _financialPurposeRepository.AddRange(purposes.ToArray()) &
+            return _projectRepository.AddRange(project) && _financialPurposeRepository.AddRange(purposes.ToArray()) &&
                    AddTagsInProject(projectForm.Tags, project.Id);
         }
 
@@ -99,17 +104,18 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
 
         public bool UpdateProject(ProjectFormViewModel projectForm)
         {
-            var financialPurposes = UpdateFinancialPurposes(projectForm.Id, projectForm.FinancialPurposes);
-            UpdateTagsInProject(projectForm.Id, _userManager.CurrentUserName, projectForm.Tags);
-            var project = GetUpdatedProject(projectForm, financialPurposes);
-            return _projectRepository.UpdateRange(project);
+            var purposesForAdding = GetPurposesOfProjectForm(projectForm.FinancialPurposes, projectForm.Id).ToArray();
+            var project = GetUpdatedProject(projectForm, purposesForAdding);
+            return _projectRepository.UpdateRange(project) && UpdateFinancialPurposes(project.Id, purposesForAdding) &&
+                   UpdateTagsInProject(projectForm.Id, projectForm.Tags);
         }
 
         public IEnumerable<ProjectItemViewModel> GetUserProjects()
         {
-            var userSubscriptions = _subscriberRepository.GetWhere(subscriber => subscriber.UserName == _userManager.CurrentUserName);
-            return _projectRepository.GetWhere(project => project.OwnerUserName == _userManager.CurrentUserName)
-                .Select(project => GetPreparedProjectItem(project, userSubscriptions));
+            var userProjects = _projectRepository.GetWhere(project => project.OwnerUserName == _userManager.CurrentUserName);
+            var userProjectIds = userProjects.Select(project => project.Id);
+            var userProjectPayments = _paymentRepository.GetWhere(payment => userProjectIds.Contains(payment.ProjectId));
+            return userProjects.Select(project => GetPreparedProjectItem(project, null, userProjectPayments));
         }
 
         public IEnumerable<ProjectItemViewModel> GetLastCreatedProjects()
@@ -126,11 +132,10 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
 
         private bool IsFinancialProject(Project project, IEnumerable<Payment> payments, IEnumerable<FinancialPurpose> purposes)
         {
-            var projectPayments = payments.Where(payment => payment.ProjectId == project.Id);
-            var lastPaymentTime = projectPayments.Any() ? projectPayments.Max(payment => payment.Time) : DateTime.Now;
+            var projectPayments = payments?.Where(payment => payment.ProjectId == project.Id && payment.Time <= project.FundRaisingEnd);
             var minFinancialPurposeBudget = purposes.Where(purpose => purpose.ProjectId == project.Id)
                 .Min(purpose => purpose.NecessaryPaymentAmount);
-            return project.PaidAmount >= minFinancialPurposeBudget && project.FundRaisingEnd <= lastPaymentTime;
+            return _paymentManager.GetProjectPaidAmount(project.Id, projectPayments) >= minFinancialPurposeBudget;
         }
 
         private bool AddTagsInProject(IEnumerable<string> tagsToAdding, string projectId)
@@ -145,16 +150,18 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
 
         private Project GetUpdatedProject(ProjectFormViewModel projectForm, IEnumerable<FinancialPurpose> purposes)
         {
-            var project = _projectRepository.FirstOrDefault(model => model.Id == projectForm.Id);
+            var project = _projectRepository.Get(projectForm.Id);
             ConvertProjectFormToProject(project, projectForm);
-            ChangeProjectStatus(project, null, purposes);
+            var projectPayments = _paymentManager.GetProjectPayments(projectForm.Id);
+            ChangeProjectStatus(project, projectPayments, purposes);
             return project;
         }
 
-        private ProjectItemViewModel GetPreparedProjectItem(Project project, IEnumerable<ProjectSubscriber> subscribers)
+        private ProjectItemViewModel GetPreparedProjectItem(Project project, IEnumerable<ProjectSubscriber> subscribers, IEnumerable<Payment> payments)
         {
             var projectViewModel = _projectItemMapper.ConvertFrom(project);
-            projectViewModel.IsSubscriber = subscribers.FirstOrDefault(subscriber => subscriber.ProjectId == project.Id) != null;
+            projectViewModel.IsSubscriber = subscribers?.FirstOrDefault(subscriber => subscriber.ProjectId == project.Id) != null;
+            projectViewModel.PaidAmount = _paymentManager.GetProjectPaidAmount(project.Id, payments);
             return projectViewModel;
         }
 
@@ -168,19 +175,19 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             project.Name = projectForm.Name;
         }
 
-        private bool UpdateTagsInProject(string projectId, string userName, IEnumerable<string> newTags)
+        private bool UpdateTagsInProject(string projectId, IEnumerable<string> newTags)
         {
-            var oldTags = _tagRepository.GetWhere(tag => tag.ProjectId == projectId && tag.Name == userName);
-            return _tagRepository.RemoveRange(oldTags) & AddTagsInProject(newTags, projectId);
+            var successedRemoving = _tagRepository.RemoveWhere(tag => !newTags.Contains(tag.Name) && tag.ProjectId == projectId);
+            var oldTags = _tagRepository.GetWhere(tag => tag.ProjectId == projectId).Select(tag => tag.Name); 
+            var tagsForAdding = newTags.Where(tag => !oldTags.Contains(tag));
+            var successedAdding = AddTagsInProject(tagsForAdding, projectId);
+            return successedRemoving && successedAdding;
         }
 
-        private IEnumerable<FinancialPurpose> UpdateFinancialPurposes(string projectId, IEnumerable<FinancialPurposeViewModel> newPurposes)
+        private bool UpdateFinancialPurposes(string projectId, FinancialPurpose[] purposesForAdding)
         {
-            var oldPurposes = _financialPurposeRepository.GetWhere(purpose => purpose.ProjectId == projectId);
-            _financialPurposeRepository.RemoveRange(oldPurposes);
-            var purposesForAdding = GetPurposesOfProjectForm(newPurposes, projectId).ToArray();
-            _financialPurposeRepository.AddRange(purposesForAdding);
-            return purposesForAdding;
+            return _financialPurposeRepository.RemoveWhere(purpose => purpose.ProjectId == projectId) &
+                   _financialPurposeRepository.AddRange(purposesForAdding);
         }
 
         private IEnumerable<FinancialPurpose> GetPurposesOfProjectForm(IEnumerable<FinancialPurposeViewModel> financialPurposes, string projectId)

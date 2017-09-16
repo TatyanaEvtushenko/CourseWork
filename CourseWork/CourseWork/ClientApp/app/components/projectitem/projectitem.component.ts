@@ -1,5 +1,5 @@
 ﻿import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { ProjectStatus } from "../../enums/projectstatus";
+import { StorageService } from '../../services/storage.service';
 
 @Component({
     selector: 'projectitem',
@@ -9,9 +9,22 @@ import { ProjectStatus } from "../../enums/projectstatus";
 export class ProjectItemComponent {
     @Input() project: any;
     @Output() onClickNews = new EventEmitter<string>();
-    projectStatus = ProjectStatus;
+    @Output() onClickSubscribe = new EventEmitter<string>();
+    @Output() onClickUnsubscribe = new EventEmitter<string>();
+
+    constructor(public storage: StorageService) { }
 
     openNews() {
         this.onClickNews.emit(this.project.id);
+    }
+
+    subscribe() {
+        this.onClickSubscribe.emit(this.project.id);
+        this.project.isSubscriber = true;
+    }
+
+    unsubscribe() {
+        this.onClickUnsubscribe.emit(this.project.id);
+        this.project.isSubscriber = false;
     }
 }
