@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using CourseWork.DataLayer.Data;
 using CourseWork.DataLayer.Dictionaries;
@@ -38,11 +39,12 @@ namespace CourseWork.DataLayer.Repositories.Implementations
             return query.ToList();
         }
 
-        public Object GetDisplayableInfo(string userName)
+        public Object[] GetDisplayableInfo(string[] userNames)
         {
+            var userNamesSet = userNames.ToImmutableHashSet();
             var query = from userInfo in Table
                 join project in DbContext.Projects on userInfo.UserName equals project.OwnerUserName into userProjects
-                where userInfo.UserName.Equals(userName)
+                where userNamesSet.Contains(userInfo.UserName)
                 select (Object) new
                 {
                     UserName = userInfo.UserName,
@@ -51,7 +53,7 @@ namespace CourseWork.DataLayer.Repositories.Implementations
                     About = userInfo.About,
                     ProjectNumber = userProjects.Count()
                 };
-            return query.SingleOrDefault();
+            return query.ToArray();
         }
 
         public UserInfo[] SortByField(string fieldName, bool ascending)

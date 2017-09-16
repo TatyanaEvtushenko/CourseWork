@@ -60,4 +60,13 @@ export class AccountService extends BaseService{
         var params = { 'usersToDelete': usersToDelete, 'withCommentsAndRaitings': withCommentsAndRaitings };
         return this.requestGetWithParams("api/Admin/Delete", params);
     }
+
+    getCurrentUserDisplayableInfo() {
+        return this.requestGet("api/Account/GetCurrentUserDisplayableInfo");
+    }
+
+    getDisplayableInfo(userNames: string[]) {
+        var params = { 'userNames': userNames };
+        return this.requestGetWithParams("api/Account/GetDisplayableInfo", params);
+    }
 }

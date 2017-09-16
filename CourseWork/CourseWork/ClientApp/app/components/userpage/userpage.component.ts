@@ -12,10 +12,11 @@ import { MessageSenderService } from '../../services/messagesender.service';
 })
 export class UserPageComponent extends MessageSubscriber {
     projects: any[] = [];
+    displayableInfo: any;
 
     constructor(private title: Title, protected currentUserService: CurrentUserService, protected accountService: AccountService, protected messageSenderService: MessageSenderService, private projectService: ProjectService) {
         super(currentUserService, accountService, messageSenderService);
-        title.setTitle("My projects");
+        title.setTitle("My page");
     }
 
     ngOnInit() {
@@ -34,5 +35,9 @@ export class UserPageComponent extends MessageSubscriber {
                 });
             }
         );
+        this.accountService.getCurrentUserDisplayableInfo().subscribe((data) => {
+            this.displayableInfo = data;
+            console.log(this.displayableInfo);
+        });
     }
 }

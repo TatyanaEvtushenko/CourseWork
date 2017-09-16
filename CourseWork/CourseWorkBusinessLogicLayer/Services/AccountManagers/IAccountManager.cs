@@ -19,6 +19,8 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers
 
         Task RemoveRole(string userName, UserRole role);
 
-        DisplayableInfoViewModel GetDisplayableInfo(string userName);
+        DisplayableInfoViewModel[] GetDisplayableInfo(string[] userNames);
+
+        DisplayableInfoViewModel GetCurrentUserDisplayableInfo();
     }
 }

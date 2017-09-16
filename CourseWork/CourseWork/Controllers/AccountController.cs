@@ -52,11 +52,19 @@ namespace CourseWork.Controllers
         }
 
         [HttpGet]
+        [Route("api/Account/GetCurrentUserDisplayableInfo")]
+        [Authorize]
+        public DisplayableInfoViewModel GetCurrentUserDisplayableInfo()
+        {
+            return _accountManager.GetCurrentUserDisplayableInfo();
+        }
+
+        [HttpGet]
         [Route("api/Account/GetDisplayableInfo")]
         [AllowAnonymous]
-        public DisplayableInfoViewModel GetDisplayableInfo([FromQuery] string userName)
+        public DisplayableInfoViewModel[] GetDisplayableInfo([FromQuery] string[] userNames)
         {
-            return _accountManager.GetDisplayableInfo(userName);
+            return _accountManager.GetDisplayableInfo(userNames);
         }
     }
 }

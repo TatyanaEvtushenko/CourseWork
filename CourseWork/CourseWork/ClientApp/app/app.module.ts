@@ -35,13 +35,14 @@ import { NewsFormModalComponent } from './components/newsformmodal/newsformmodal
 import { SearcherComponent } from './components/searcher/searcher.component';
 import { SearchResultComponent } from './components/searchresult/searchresult.component';
 import { UserPageComponent } from './components/userpage/userpage.component';
+import { UserCardComponent } from "./components/usercard/usercard.component";
 
 import { BaseService} from './services/base.service';
 import { CurrentUserService } from "./services/currentuser.service"; 
 import { TagService } from "./services/tag.service";
 import { AccountService } from "./services/account.service";
 import { ProjectService } from "./services/project.service";
-import { MessageSenderService } from "./services/messagesender.service"
+import { MessageSenderService } from "./services/messagesender.service";
 
 const appRoutes: Routes = [
     { path: '', component: HomePageComponent },
@@ -92,7 +93,8 @@ const appRoutes: Routes = [
         NewsFormModalComponent,
         SearcherComponent,
         SearchResultComponent,
-        UserPageComponent
+        UserPageComponent,
+        UserCardComponent
     ],
     providers: [
         BaseService,

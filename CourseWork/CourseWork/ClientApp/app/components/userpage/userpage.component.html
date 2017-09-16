@@ -1,2 +1,6 @@
 ﻿<h2>My page</h2>
+<div class="col s12 m7">
+    <h3 class="header"></h3>
+    <usercard [displayableInfo]="displayableInfo"></usercard>
+</div>
 <userprojectspage [projects]="projects" *ngIf="isReadyCurrentUser && isConfirmedUser"></userprojectspage>
