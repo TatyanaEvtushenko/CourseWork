@@ -34,6 +34,7 @@ import { BaseProjectItemComponent } from './components/baseprojectitem/baseproje
 import { NewsFormModalComponent } from './components/newsformmodal/newsformmodal.component';
 import { SearcherComponent } from './components/searcher/searcher.component';
 import { SearchResultComponent } from './components/searchresult/searchresult.component';
+import { UserPageComponent } from './components/userpage/userpage.component';
 
 import { BaseService} from './services/base.service';
 import { CurrentUserService } from "./services/currentuser.service"; 
@@ -44,7 +45,7 @@ import { MessageSenderService } from "./services/messagesender.service"
 
 const appRoutes: Routes = [
     { path: '', component: HomePageComponent },
-    { path: 'UserProjectsPage', component: UserProjectsPageComponent },
+    { path: 'UserPage', component: UserPageComponent },
     { path: 'AdminPage', component: AdminPageComponent },
     { path: 'ProjectEditorPage', component: NewProjectPageComponent },
     { path: 'SearchResult', component: SearchResultComponent },
@@ -90,7 +91,8 @@ const appRoutes: Routes = [
         ProjectItemComponent,
         NewsFormModalComponent,
         SearcherComponent,
-        SearchResultComponent
+        SearchResultComponent,
+        UserPageComponent
     ],
     providers: [
         BaseService,
