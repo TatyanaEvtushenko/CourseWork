@@ -13,6 +13,7 @@ import { MessageSenderService } from '../../services/messagesender.service';
 export class UserPageComponent extends MessageSubscriber {
     projects: any[] = [];
     displayableInfo: any;
+    about: string = "";
 
     constructor(private title: Title, protected currentUserService: CurrentUserService, protected accountService: AccountService, protected messageSenderService: MessageSenderService, private projectService: ProjectService) {
         super(currentUserService, accountService, messageSenderService);
@@ -37,7 +38,7 @@ export class UserPageComponent extends MessageSubscriber {
         );
         this.accountService.getCurrentUserDisplayableInfo().subscribe((data) => {
             this.displayableInfo = data;
-            console.log(this.displayableInfo);
+            this.about = this.displayableInfo.about as string;
         });
     }
 }

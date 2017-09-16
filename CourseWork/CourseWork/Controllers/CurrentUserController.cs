@@ -23,5 +23,13 @@ namespace CourseWork.Controllers
         {
             return await _userManager.GetCurrentUserInfo();
         }
+
+        [HttpPost]
+        [Route("api/CurrentUser/Edit")]
+        [Authorize]
+        public void Edit([FromBody] string newAbout)
+        {
+            _userManager.Edit(newAbout);
+        }
     }
 }

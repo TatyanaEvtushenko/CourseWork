@@ -69,4 +69,8 @@ export class AccountService extends BaseService{
         var params = { 'userNames': userNames };
         return this.requestGetWithParams("api/Account/GetDisplayableInfo", params);
     }
+
+    editAccount(newAbout: string) {
+        return this.requestPost("api/CurrentUser/Edit", newAbout);
+    }
 }

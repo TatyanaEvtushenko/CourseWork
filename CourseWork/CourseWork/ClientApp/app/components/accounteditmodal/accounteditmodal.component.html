@@ -1,0 +1,9 @@
+﻿<div id="accountEditModal" class="modal edit-modal">
+    <div class="modal-content center container">
+        <h4>Edit your account description.</h4>
+        <markdowneditor [fieldName]="'About'" (onChanged)="about = $event" [text]="about"></markdowneditor>
+        <div class="col m6 input-field right-align">
+            <button class="btn btn-large" (click)="onSubmit()">Apply</button>
+        </div>
+    </div>
+</div>

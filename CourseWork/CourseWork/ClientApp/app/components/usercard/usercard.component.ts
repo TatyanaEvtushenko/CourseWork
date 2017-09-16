@@ -1,4 +1,5 @@
 ﻿import { Component, Input, Output, EventEmitter } from '@angular/core';
+declare var $: any;
 
 @Component({
     selector: 'usercard',
@@ -7,9 +8,8 @@
 
 export class UserCardComponent {
     @Input() displayableInfo: any;
-    @Output() onClickEdit = new EventEmitter<string>();
 
-    openEdit() {
-        this.onClickEdit.emit('');
+    openAccountEdit() {
+        $('#accountEditModal').modal("open");
     }
 }

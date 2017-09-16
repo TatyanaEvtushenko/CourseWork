@@ -36,6 +36,7 @@ import { SearcherComponent } from './components/searcher/searcher.component';
 import { SearchResultComponent } from './components/searchresult/searchresult.component';
 import { UserPageComponent } from './components/userpage/userpage.component';
 import { UserCardComponent } from "./components/usercard/usercard.component";
+import { AccountEditModalComponent } from "./components/accounteditmodal/accounteditmodal.component";
 
 import { BaseService} from './services/base.service';
 import { CurrentUserService } from "./services/currentuser.service"; 
@@ -94,7 +95,8 @@ const appRoutes: Routes = [
         SearcherComponent,
         SearchResultComponent,
         UserPageComponent,
-        UserCardComponent
+        UserCardComponent,
+        AccountEditModalComponent
     ],
     providers: [
         BaseService,

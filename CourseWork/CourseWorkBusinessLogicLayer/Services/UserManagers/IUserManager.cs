@@ -9,5 +9,7 @@ namespace CourseWork.BusinessLogicLayer.Services.UserManagers
         Task<CurrentUserViewModel> GetCurrentUserInfo();
 
         IEnumerable<string> GetEmails(IEnumerable<string> userNames);
+
+        void Edit(string newAbout);
     }
 }

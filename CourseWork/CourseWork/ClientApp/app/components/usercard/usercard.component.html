@@ -1,7 +1,6 @@
 ﻿<div class="card horizontal">
     <div class="card-image">
-        <img *ngIf="displayableInfo.avatar != null" src="{{displayableInfo.avatar}}">
-        <img *ngIf="displayableInfo.avatar == null" src="http://res.cloudinary.com/duoun8bcf/image/upload/v1505560636/anonymous_ox6a5r.png"/>
+        <img src="{{displayableInfo.avatar}}">
     </div>
     <div class="card-stacked">
         <div class="card-content">
@@ -13,7 +12,8 @@
             </ul>
         </div>
         <div class="card-action">
-            <a href="#">This is a link</a>
+            <a href="#accountEditModal" (click)="openAccountEdit()" class="modal-trigger">Edit account</a>
+            <a href="#" class="modal-trigger">Change avatar</a>
         </div>
     </div>
 </div>

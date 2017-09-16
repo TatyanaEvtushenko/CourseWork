@@ -17,6 +17,10 @@
     overflow-y: auto;
  }
 
+.edit-modal {
+    width: 45%;
+}
+
 .news-modal {
     width: 38%;
 }

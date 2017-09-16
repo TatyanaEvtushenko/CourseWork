@@ -1,6 +1,12 @@
-﻿<h2>My page</h2>
-<div class="col s12 m7">
-    <h3 class="header"></h3>
-    <usercard [displayableInfo]="displayableInfo"></usercard>
+﻿<errorpage *ngIf="isReadyCurrentUser && !isUser"></errorpage>
+
+<div *ngIf="isReadyCurrentUser && isUser">
+    <h2>My page</h2>
+    <div class="col s12 m7">
+        <usercard [displayableInfo]="displayableInfo"></usercard>
+    </div>
+    
+    <accounteditmodal *ngIf="isUser" [about]="about"></accounteditmodal>
+    
+    <userprojectspage [projects]="projects" *ngIf="isReadyCurrentUser && isConfirmedUser"></userprojectspage>
 </div>
-<userprojectspage [projects]="projects" *ngIf="isReadyCurrentUser && isConfirmedUser"></userprojectspage>

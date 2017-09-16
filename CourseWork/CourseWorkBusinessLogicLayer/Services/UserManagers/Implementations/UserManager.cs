@@ -41,5 +41,13 @@ namespace CourseWork.BusinessLogicLayer.Services.UserManagers.Implementations
         {
             return _applicationUserRepository.GetWhere(user => userNames.Contains(user.UserName)).Select(user => user.Email);
         }
+
+        public void Edit(string newAbout)
+        {
+            var user = _contextAccessor.HttpContext.User.Identity;
+            var currentUser = _userInfoRepository.GetWhere(item => item.UserName.Equals(user.Name)).Single();
+            currentUser.About = newAbout;
+            _userInfoRepository.UpdateRange(currentUser);
+        }
     }
 }

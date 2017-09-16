@@ -9,7 +9,7 @@ declare var $: any;
 export class MarkdownEditorComponent implements AfterViewInit {
     @Input() fieldName: string;
     @Output() onChanged = new EventEmitter<string>();
-    text = "";
+    @Input() text = "";
 
     ngAfterViewInit() {
         $('#markdownPreview').modal();
