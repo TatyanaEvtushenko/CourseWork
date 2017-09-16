@@ -1,22 +1,7 @@
 ﻿<div class="card small">
-    <div class="card-image">
-        <img src="{{project.imageUrl}}">
-        <div class="card-title">
-            {{project.name}}<br/>
-            <rating class="project-item-rating" [(ngModel)]="project.raiting" [readonly]="true" [titles]="['one', 'two', 'three', 'four', 'five']"></rating>
-        </div>
-    </div>
-    <div class="card-content row">
-        <div class="col m6">
-            <p>{{project.paidAmount}}$</p>
-        </div>
-        <div class="col m6 right-align">
-            <p *ngIf="project.status == projectStatus.Active">Active</p>
-            <p *ngIf="project.status == projectStatus.Failed" class="red-text">Failed</p>
-            <p *ngIf="project.status == projectStatus.Financed" class="green-text">Financed</p>
-        </div>
-    </div>
+    <baseprojectitem [project]="project"></baseprojectitem>
     <div class="card-action right-align">
         <a (click)="openNews()" href="#newsModal" class="news-open modal-trigger">Create news</a>
+        <i class="material-icons right activator">more_vert</i>
     </div>
 </div>

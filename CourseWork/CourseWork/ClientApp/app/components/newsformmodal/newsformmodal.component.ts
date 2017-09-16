@@ -34,7 +34,11 @@ export class NewsFormModalComponent implements AfterViewInit {
     private addNews() {
         if (this.isNews) {
             this.projectService.addNews(this.newsForm).subscribe(
-                (data) => this.getResponse(data),
+                (data) => {
+                    this.getResponse(data);
+                    this.projectService.notifySubscribers('Update: ' + this.newsForm.subject, this.projectId).subscribe(
+                        (data: void) => {});
+                },
                 (error) => this.isWrongRequest = true
             );
         }

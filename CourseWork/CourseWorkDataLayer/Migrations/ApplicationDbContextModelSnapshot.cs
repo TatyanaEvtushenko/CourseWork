@@ -72,7 +72,8 @@ namespace CourseWork.DataLayer.Data.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ProjectId");
+                    b.Property<string>("ProjectId")
+                        .IsRequired();
 
                     b.Property<string>("Text");
 
@@ -81,6 +82,8 @@ namespace CourseWork.DataLayer.Data.Migrations
                     b.Property<string>("UserName");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
 
                     b.ToTable("Comments");
                 });
@@ -98,9 +101,12 @@ namespace CourseWork.DataLayer.Data.Migrations
 
                     b.Property<decimal>("NecessaryPaymentAmount");
 
-                    b.Property<string>("ProjectId");
+                    b.Property<string>("ProjectId")
+                        .IsRequired();
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
 
                     b.ToTable("FinancialPurposes");
                 });
@@ -126,7 +132,8 @@ namespace CourseWork.DataLayer.Data.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ProjectId");
+                    b.Property<string>("ProjectId")
+                        .IsRequired();
 
                     b.Property<string>("Subject");
 
@@ -137,6 +144,8 @@ namespace CourseWork.DataLayer.Data.Migrations
                     b.Property<int>("Type");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
 
                     b.ToTable("News");
                 });
@@ -178,7 +187,8 @@ namespace CourseWork.DataLayer.Data.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<string>("OwnerUserName");
+                    b.Property<string>("OwnerUserName")
+                        .IsRequired();
 
                     b.Property<decimal>("PaidAmount");
 
@@ -188,6 +198,8 @@ namespace CourseWork.DataLayer.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("OwnerUserName");
+
                     b.ToTable("Projects");
                 });
 
@@ -196,11 +208,14 @@ namespace CourseWork.DataLayer.Data.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ProjectId");
+                    b.Property<string>("ProjectId")
+                        .IsRequired();
 
                     b.Property<string>("UserName");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
 
                     b.ToTable("ProjectSubscribers");
                 });
@@ -228,9 +243,12 @@ namespace CourseWork.DataLayer.Data.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<string>("ProjectId");
+                    b.Property<string>("ProjectId")
+                        .IsRequired();
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
 
                     b.ToTable("Tags");
                 });
@@ -370,6 +388,54 @@ namespace CourseWork.DataLayer.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.Comment", b =>
+                {
+                    b.HasOne("CourseWork.DataLayer.Models.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.FinancialPurpose", b =>
+                {
+                    b.HasOne("CourseWork.DataLayer.Models.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.News", b =>
+                {
+                    b.HasOne("CourseWork.DataLayer.Models.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.Project", b =>
+                {
+                    b.HasOne("CourseWork.DataLayer.Models.UserInfo", "UserInfo")
+                        .WithMany()
+                        .HasForeignKey("OwnerUserName")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.ProjectSubscriber", b =>
+                {
+                    b.HasOne("CourseWork.DataLayer.Models.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.Tag", b =>
+                {
+                    b.HasOne("CourseWork.DataLayer.Models.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>

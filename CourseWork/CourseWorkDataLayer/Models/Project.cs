@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using CourseWork.DataLayer.Enums;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CourseWork.DataLayer.Models
 {
@@ -30,5 +32,9 @@ namespace CourseWork.DataLayer.Models
         public decimal PaidAmount { get; set; }
 
         public double Raiting { get; set; }
+
+        [ForeignKey("OwnerUserName")]
+        [Required]
+        public UserInfo UserInfo  { get; set; }
     }
 }

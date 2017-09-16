@@ -30,7 +30,10 @@ import { ImageLoaderComponent } from './components/imageloader/imageloader.compo
 import { FinancialPurposeComponent } from './components/financialpurpose/financialpurpose.component';
 import { FinancialPurposeModalComponent } from './components/financialpurposemodal/financialpurposemodal.component';
 import { ProjectItemComponent } from './components/projectitem/projectitem.component';
+import { BaseProjectItemComponent } from './components/baseprojectitem/baseprojectitem.component';
 import { NewsFormModalComponent } from './components/newsformmodal/newsformmodal.component';
+import { SearcherComponent } from './components/searcher/searcher.component';
+import { SearchResultComponent } from './components/searchresult/searchresult.component';
 
 import { BaseService} from './services/base.service';
 import { CurrentUserService } from "./services/currentuser.service"; 
@@ -44,6 +47,7 @@ const appRoutes: Routes = [
     { path: 'UserProjectsPage', component: UserProjectsPageComponent },
     { path: 'AdminPage', component: AdminPageComponent },
     { path: 'ProjectEditorPage', component: NewProjectPageComponent },
+    { path: 'SearchResult', component: SearchResultComponent },
     { path: '**', component: ErrorPageComponent }
 ];
 
@@ -82,8 +86,11 @@ const appRoutes: Routes = [
         FloatingButtonComponent,
         FinancialPurposeComponent,
         FinancialPurposeModalComponent,
+        BaseProjectItemComponent,
         ProjectItemComponent,
-        NewsFormModalComponent
+        NewsFormModalComponent,
+        SearcherComponent,
+        SearchResultComponent
     ],
     providers: [
         BaseService,

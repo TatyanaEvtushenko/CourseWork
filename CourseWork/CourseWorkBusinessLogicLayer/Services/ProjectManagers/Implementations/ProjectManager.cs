@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CourseWork.BusinessLogicLayer.ElasticSearch;
+using CourseWork.BusinessLogicLayer.ElasticSearch.Documents;
 using CourseWork.BusinessLogicLayer.Services.FinancialPurposeManagers;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
 using CourseWork.BusinessLogicLayer.Services.PaymentManagers;
+using CourseWork.BusinessLogicLayer.Services.SearchManagers;
 using CourseWork.BusinessLogicLayer.Services.TagServices;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
+using Elasticsearch.Net;
 using Microsoft.AspNetCore.Http;
+using Nest;
 
 namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
 {
@@ -23,12 +28,13 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         private readonly IMapper<ProjectItemViewModel, Project> _projectMapper;
         private readonly IMapper<ProjectFormViewModel, Project> _projectFormMapper;
         private readonly IHttpContextAccessor _contextAccessor;
+        private readonly ISearchManager _searchManager;
 
         public ProjectManager(Repository<Project> projectRepository,
             IMapper<ProjectItemViewModel, Project> projectMapper,
             IMapper<ProjectFormViewModel, Project> projectFormMapper, ITagService tagService,
             IFinancialPurposeManager financialPurposeManager,
-            IHttpContextAccessor contextAccessor, IPaymentManager paymentManager, Repository<Raiting> raitingRepository)
+            IHttpContextAccessor contextAccessor, IPaymentManager paymentManager, Repository<Raiting> raitingRepository, ISearchManager searchManager)
         {
             _projectRepository = projectRepository;
             _projectMapper = projectMapper;
@@ -38,13 +44,15 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             _contextAccessor = contextAccessor;
             _paymentManager = paymentManager;
             _raitingRepository = raitingRepository;
+            _searchManager = searchManager;
         }
 
         public bool AddProject(ProjectFormViewModel projectForm)
         {
             var project = GetPreparedProject(projectForm);
             return _projectRepository.AddRange(project) & _tagService.AddTagsInProject(projectForm.Tags, project.Id) &
-                   _financialPurposeManager.AddFinancialPurposes(projectForm.FinancialPurposes, project.Id);
+                   _financialPurposeManager.AddFinancialPurposes(projectForm.FinancialPurposes, project.Id) & 
+                   _searchManager.AddProjectToIndex(project);
         }
 
         public IEnumerable<ProjectItemViewModel> GetUserProjects()
@@ -84,7 +92,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             var raitings = _raitingRepository.GetAll();
             foreach (var project in projects)
             {
-                var projectRaitings = raitings.Where(raiting => raiting.ProjectId == project.Id);
+                var projectRaitings = raitings.Where(raiting => raiting.ProjectId == project.Id).ToList();
                 project.Raiting = !projectRaitings.Any() ? 0 : projectRaitings.Average(raiting => raiting.RaitingResult);
             }
         }
