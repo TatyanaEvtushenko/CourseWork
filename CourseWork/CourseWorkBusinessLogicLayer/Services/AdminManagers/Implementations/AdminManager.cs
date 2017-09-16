@@ -18,9 +18,6 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
         private readonly Repository<Project> _projectRepository;
 	    private readonly Repository<Raiting> _raitingRepository;
 	    private readonly Repository<Comment> _commentRepository;
-        private readonly Repository<Tag> _tagRepository;
-        private readonly Repository<FinancialPurpose> _financialPurposeRepository;
-        private readonly Repository<News> _newsRepository;
         private readonly IMapper<UserListItemViewModel, UserInfo> _mapperList;
         private readonly IMapper<UserConfirmationViewModel, UserInfo> _mapperInfo;
         private readonly IAccountManager _accountManager;
@@ -37,9 +34,6 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
 	        _commentRepository = commentRepository;
 	        _raitingRepository = raitingRepository;
             _searchManager = searchManager;
-            _tagRepository = tagRepository;
-            _financialPurposeRepository = financialPurposeRepository;
-            _newsRepository = newsRepository;
         }
 
         public UserListItemViewModel[] GetAllUsers()
@@ -95,8 +89,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
             return (!withCommentsAndRaitings ||
 				(_raitingRepository.RemoveWhere(n => usersToDeleteSet.Contains(n.UserName)) &&
 				_commentRepository.RemoveWhere(n => usersToDeleteSet.Contains(n.UserName)))) &&
-                 _searchManager.RemoveProjectsFromIndex(projectsToRemove.ToArray()) &&
-                _projectRepository.RemoveRange(projectsToRemove.Select(p => p.Id).ToArray()) && 
+                 _searchManager.RemoveProjectsFromIndex(projectsToRemove.ToArray()) && 
                 _userInfoRepository.RemoveRange(usersToDelete) &&
                 _applicationUserRepository.RemoveWhere(n => usersToDeleteSet.Contains(n.UserName));
         }
