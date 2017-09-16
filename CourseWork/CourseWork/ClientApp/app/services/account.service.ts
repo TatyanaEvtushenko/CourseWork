@@ -73,4 +73,8 @@ export class AccountService extends BaseService{
     editAccount(newAbout: string) {
         return this.requestPost("api/CurrentUser/Edit", newAbout);
     }
+
+    changeAvatar(newAvatarB64: string) {
+        return this.requestPost("api/CurrentUser/ChangeAvatar", newAvatarB64);
+    }
 }

@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using CourseWork.BusinessLogicLayer.Services.PhotoManagers;
 using CourseWork.BusinessLogicLayer.Services.UserManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.CurrentUserViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -30,6 +31,14 @@ namespace CourseWork.Controllers
         public void Edit([FromBody] string newAbout)
         {
             _userManager.Edit(newAbout);
+        }
+
+        [HttpPost]
+        [Route("api/CurrentUser/ChangeAvatar")]
+        [Authorize]
+        public void ChangeAvatar([FromBody] string newAvatarB64)
+        {
+            _userManager.ChangeAvatar(newAvatarB64);
         }
     }
 }

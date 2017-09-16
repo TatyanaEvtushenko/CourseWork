@@ -12,4 +12,8 @@ export class UserCardComponent {
     openAccountEdit() {
         $('#accountEditModal').modal("open");
     }
+
+    openAvatarChange() {
+        $("#avatarChangeModal").modal("open");
+    }
 }

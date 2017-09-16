@@ -13,7 +13,7 @@ import { MessageSenderService } from '../../services/messagesender.service';
 export class UserPageComponent extends MessageSubscriber {
     projects: any[] = [];
     displayableInfo: any;
-    about: string = "";
+    about: string = "about";
 
     constructor(private title: Title, protected currentUserService: CurrentUserService, protected accountService: AccountService, protected messageSenderService: MessageSenderService, private projectService: ProjectService) {
         super(currentUserService, accountService, messageSenderService);

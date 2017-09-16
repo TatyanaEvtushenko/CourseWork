@@ -7,6 +7,7 @@
     </div>
     
     <accounteditmodal *ngIf="isUser" [about]="about"></accounteditmodal>
+    <avatarchangemodal *ngIf="isUser"></avatarchangemodal>
     
     <userprojectspage [projects]="projects" *ngIf="isReadyCurrentUser && isConfirmedUser"></userprojectspage>
 </div>

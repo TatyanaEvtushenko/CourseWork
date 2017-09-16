@@ -11,5 +11,7 @@ namespace CourseWork.BusinessLogicLayer.Services.UserManagers
         IEnumerable<string> GetEmails(IEnumerable<string> userNames);
 
         void Edit(string newAbout);
+
+        void ChangeAvatar(string newAvatarB64);
     }
 }
