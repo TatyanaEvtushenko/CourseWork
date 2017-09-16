@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CourseWork.BusinessLogicLayer.Services.ConverterExtensions;
 using CourseWork.BusinessLogicLayer.Services.MessageSenders;
+using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Enums.Configurations;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
+using CourseWork.DataLayer.Repositories.Implementations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -75,6 +78,11 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
         {
             var user = await _userManager.FindByNameAsync(userName);
             await RemoveRole(user, role);
+        }
+
+        public DisplayableInfoViewModel GetDisplayableInfo(string userName)
+        {
+            return ((UserInfoRepository) _userInfoRepository).GetDisplayableInfo(userName).ConvertTo<DisplayableInfoViewModel>();
         }
 
         private async Task<bool> TryLogin(ApplicationUser user, string password)

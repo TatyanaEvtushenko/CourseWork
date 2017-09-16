@@ -6,12 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using CourseWork.DataLayer.Data;
 using CourseWork.DataLayer.Enums;
 
-namespace CourseWork.DataLayer.Data.Migrations
+namespace CourseWork.DataLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170916093916_AddUserAvatar")]
+    partial class AddUserAvatar
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -257,8 +258,6 @@ namespace CourseWork.DataLayer.Data.Migrations
                 {
                     b.Property<string>("UserName")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<string>("About");
 
                     b.Property<string>("Avatar");
 

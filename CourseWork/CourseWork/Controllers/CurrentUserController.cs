@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
 using CourseWork.BusinessLogicLayer.Services.UserManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.CurrentUserViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CourseWork.Controllers

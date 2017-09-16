@@ -9,6 +9,7 @@ using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
 using CourseWork.BusinessLogicLayer.Services.ConverterExtensions;
+using CourseWork.DataLayer.Repositories.Implementations;
 
 namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
 {
@@ -40,7 +41,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
         public UserListItemViewModel[] GetAllUsers()
         {
             //return _userInfoRepository.GetAll().Select(n => _mapperList.ConvertFrom(n)).ToArray();
-            return _userInfoRepository.GetUserListItemViewModels(item => true).Select(item => item.ConvertTo<UserListItemViewModel>()).ToArray();
+            return ((UserInfoRepository)_userInfoRepository).GetUserListItemViewModels(item => true).Select(item => item.ConvertTo<UserListItemViewModel>()).ToArray();
         }
 
         public UserListItemViewModel[] GetFilteredUsers(FilterRequestViewModel model)
@@ -49,7 +50,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
             //           (model.Requested && item.Status == UserStatus.AwaitingConfirmation) ||
             //           (model.Unconfirmed && item.Status == UserStatus.WithoutConfirmation)
             //).Select(n => _mapperList.ConvertFrom(n)).ToArray();
-            return _userInfoRepository.GetUserListItemViewModels(item => (model.Confirmed && item.Status == UserStatus.Confirmed) ||
+            return ((UserInfoRepository)_userInfoRepository).GetUserListItemViewModels(item => (model.Confirmed && item.Status == UserStatus.Confirmed) ||
                        (model.Requested && item.Status == UserStatus.AwaitingConfirmation) ||
                        (model.Unconfirmed && item.Status == UserStatus.WithoutConfirmation))
                        .Select(item => item.ConvertTo<UserListItemViewModel>()).ToArray();
@@ -75,7 +76,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
 
         public UserListItemViewModel[] SortByField(string fieldName, bool ascending)
         {
-            return _userInfoRepository.SortByField(fieldName, ascending).Select(n => _mapperList.ConvertFrom(n)).ToArray();
+            return ((UserInfoRepository)_userInfoRepository).SortByField(fieldName, ascending).Select(n => _mapperList.ConvertFrom(n)).ToArray();
         }
 
         public bool BlockUnblock(string[] usersToBlock)

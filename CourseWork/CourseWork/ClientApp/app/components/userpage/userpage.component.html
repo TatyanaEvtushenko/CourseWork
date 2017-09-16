@@ -1,2 +1,2 @@
 ﻿<h2>My page</h2>
-<userprojectspage [projects]="projects"></userprojectspage>
+<userprojectspage [projects]="projects" *ngIf="isReadyCurrentUser && isConfirmedUser"></userprojectspage>

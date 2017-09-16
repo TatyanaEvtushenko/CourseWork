@@ -19,9 +19,9 @@ namespace CourseWork.DataLayer.Repositories.Implementations
 
         protected override string GetIdentificator(UserInfo item) => item.UserName;
 
-        public override List<Object> GetUserListItemViewModels(Func<UserInfo, bool> whereExpression)
+        public List<Object> GetUserListItemViewModels(Func<UserInfo, bool> whereExpression)
         {
-            var query = from userInfo in DbContext.UserInfos
+            var query = from userInfo in Table
                 join project in DbContext.Projects on userInfo.UserName equals project.OwnerUserName into userProjects
                 where whereExpression.Invoke(userInfo)
                 select (Object) new
@@ -38,7 +38,23 @@ namespace CourseWork.DataLayer.Repositories.Implementations
             return query.ToList();
         }
 
-        public override UserInfo[] SortByField(string fieldName, bool ascending)
+        public Object GetDisplayableInfo(string userName)
+        {
+            var query = from userInfo in Table
+                join project in DbContext.Projects on userInfo.UserName equals project.OwnerUserName into userProjects
+                where userInfo.UserName.Equals(userName)
+                select (Object) new
+                {
+                    UserName = userInfo.UserName,
+                    RegistrationTime = userInfo.RegistrationTime,
+                    Avatar = userInfo.Avatar,
+                    About = userInfo.About,
+                    ProjectNumber = userProjects.Count()
+                };
+            return query.SingleOrDefault();
+        }
+
+        public UserInfo[] SortByField(string fieldName, bool ascending)
         {
             return ascending ? SortByFieldAscending(fieldName) : SortByFieldDescending(fieldName);
         }

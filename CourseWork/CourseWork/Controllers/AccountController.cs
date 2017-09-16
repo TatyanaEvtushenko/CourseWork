@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using CourseWork.BusinessLogicLayer.Services.AccountManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.AccountViewModels;
+using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -48,6 +49,14 @@ namespace CourseWork.Controllers
             if (await _accountManager.ConfirmRegistration(confirmation.UserId, confirmation.Code))
                 return RedirectToAction("Index", "Home");
             return BadRequest();
+        }
+
+        [HttpGet]
+        [Route("api/Account/GetDisplayableInfo")]
+        [AllowAnonymous]
+        public DisplayableInfoViewModel GetDisplayableInfo([FromQuery] string userName)
+        {
+            return _accountManager.GetDisplayableInfo(userName);
         }
     }
 }
