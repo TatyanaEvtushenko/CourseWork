@@ -3,6 +3,7 @@ import { BaseService} from './base.service';
 import {RegisterForm} from '../viewmodels/registerform';
 import { LoginForm } from '../viewmodels/loginform';
 import { ConfirmationForm } from '../viewmodels/confirmationForm';
+import { AccountEditForm } from "../viewmodels/accounteditform";
 
 @Injectable()
 export class AccountService extends BaseService{
@@ -58,5 +59,22 @@ export class AccountService extends BaseService{
     delete(usersToDelete: string[], withCommentsAndRaitings: boolean) {
         var params = { 'usersToDelete': usersToDelete, 'withCommentsAndRaitings': withCommentsAndRaitings };
         return this.requestGetWithParams("api/Admin/Delete", params);
+    }
+
+    getCurrentUserDisplayableInfo() {
+        return this.requestGet("api/Account/GetCurrentUserDisplayableInfo");
+    }
+
+    getDisplayableInfo(userNames: string[]) {
+        var params = { 'userNames': userNames };
+        return this.requestGetWithParams("api/Account/GetDisplayableInfo", params);
+    }
+
+    editAccount(newInfo: AccountEditForm) {
+        return this.requestPost("api/CurrentUser/Edit", newInfo);
+    }
+
+    changeAvatar(newAvatarB64: string) {
+        return this.requestPost("api/CurrentUser/ChangeAvatar", newAvatarB64);
     }
 }

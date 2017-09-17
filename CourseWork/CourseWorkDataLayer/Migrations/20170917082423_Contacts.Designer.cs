@@ -6,12 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using CourseWork.DataLayer.Data;
 using CourseWork.DataLayer.Enums;
 
-namespace CourseWork.DataLayer.Data.Migrations
+namespace CourseWork.DataLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170917082423_Contacts")]
+    partial class Contacts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -64,8 +65,6 @@ namespace CourseWork.DataLayer.Data.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex");
 
-                    b.HasIndex("UserName");
-
                     b.ToTable("AspNetUsers");
                 });
 
@@ -96,6 +95,8 @@ namespace CourseWork.DataLayer.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Description");
+
+                    b.Property<bool>("IsReached");
 
                     b.Property<string>("Name");
 
@@ -190,7 +191,9 @@ namespace CourseWork.DataLayer.Data.Migrations
                     b.Property<string>("OwnerUserName")
                         .IsRequired();
 
-                    b.Property<double>("Rating");
+                    b.Property<decimal>("PaidAmount");
+
+                    b.Property<double>("Raiting");
 
                     b.Property<int>("Status");
 
@@ -203,39 +206,48 @@ namespace CourseWork.DataLayer.Data.Migrations
 
             modelBuilder.Entity("CourseWork.DataLayer.Models.ProjectSubscriber", b =>
                 {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ProjectId")
+                        .IsRequired();
+
                     b.Property<string>("UserName");
 
-                    b.Property<string>("ProjectId");
+                    b.HasKey("Id");
 
-                    b.HasKey("UserName", "ProjectId");
-
-                    b.HasAlternateKey("ProjectId", "UserName");
+                    b.HasIndex("ProjectId");
 
                     b.ToTable("ProjectSubscribers");
                 });
 
-            modelBuilder.Entity("CourseWork.DataLayer.Models.Rating", b =>
+            modelBuilder.Entity("CourseWork.DataLayer.Models.Raiting", b =>
                 {
-                    b.Property<string>("UserName");
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("ProjectId");
 
-                    b.Property<int>("RatingResult");
+                    b.Property<int>("RaitingResult");
 
-                    b.HasKey("UserName", "ProjectId");
+                    b.Property<string>("UserName");
 
-                    b.HasAlternateKey("ProjectId", "UserName");
+                    b.HasKey("Id");
 
-                    b.ToTable("Ratings");
+                    b.ToTable("Raitings");
                 });
 
             modelBuilder.Entity("CourseWork.DataLayer.Models.Tag", b =>
                 {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
                     b.Property<string>("Name");
 
-                    b.Property<string>("ProjectId");
+                    b.Property<string>("ProjectId")
+                        .IsRequired();
 
-                    b.HasKey("Name", "ProjectId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ProjectId");
 
@@ -257,17 +269,13 @@ namespace CourseWork.DataLayer.Data.Migrations
 
                     b.Property<bool>("IsBlocked");
 
-                    b.Property<string>("LastAccountNumber");
-
                     b.Property<DateTime>("LastLoginTime");
 
                     b.Property<string>("Name");
 
                     b.Property<string>("PassportScan");
 
-                    //b.Property<int>("ProjectNumber");
-
-                    b.Property<double>("Rating");
+                    b.Property<int>("Raiting");
 
                     b.Property<DateTime>("RegistrationTime");
 

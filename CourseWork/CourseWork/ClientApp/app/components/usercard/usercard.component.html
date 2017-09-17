@@ -1,0 +1,20 @@
+﻿<div class="card horizontal">
+    <div class="card-image">
+        <img src="{{displayableInfo.avatar}}">
+    </div>
+    <div class="card-stacked">
+        <div class="card-content">
+            <ul>
+                <li>Username: {{displayableInfo.userName}}</li>
+                <li>Registered: {{displayableInfo.registrationTime}}</li>
+                <li>Projects created: {{displayableInfo.projectNumber}}</li>
+                <li>About: {{displayableInfo.about}}</li>
+                <li>Contacts: {{displayableInfo.contacts}}</li>
+            </ul>
+        </div>
+        <div class="card-action">
+            <a href="#accountEditModal" (click)="openAccountEdit()" class="modal-trigger">Edit account</a>
+            <a href="#avatarChangeModal" (click)="openAvatarChange()" class="modal-trigger">Change avatar</a>
+        </div>
+    </div>
+</div>

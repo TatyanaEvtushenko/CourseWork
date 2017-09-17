@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using CourseWork.BusinessLogicLayer.ElasticSearch;
 using CourseWork.BusinessLogicLayer.ElasticSearch.Documents;
@@ -52,7 +53,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             Repository<Payment> paymentRepository,
             ITagService tagService,
             IFinancialPurposeManager financialPurposeManager,
-            IHttpContextAccessor contextAccessor, ISearchManager searchManager)
+            IHttpContextAccessor contextAccessor, IPaymentManager paymentManager, Repository<Raiting> raitingRepository, ISearchManager searchManager, Repository<ProjectSubscriber> projectSubscriberRepository)
         {
             _projectRepository = projectRepository;
             _projectItemMapper = projectItemMapper;
@@ -71,6 +72,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             _contextAccessor = contextAccessor;
             _raitingRepository = raitingRepository;
             _searchManager = searchManager;
+            _projectSubscriberRepository = projectSubscriberRepository;
         }
 
         public void ChangeProjectStatus(Project project, IEnumerable<Payment> payments, IEnumerable<FinancialPurpose> purposes)
@@ -135,6 +137,13 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             var userProjectIds = userProjects.Select(project => project.Id);
             var userProjectPayments = _paymentRepository.GetWhere(payment => userProjectIds.Contains(payment.ProjectId));
             return userProjects.Select(project => GetPreparedProjectItem(project, null, userProjectPayments));
+        }
+
+        public IEnumerable<ProjectItemViewModel> GetUserSubscribedProjects()
+        {
+            var userName = _contextAccessor.HttpContext.User.Identity.Name;
+            return _projectSubscriberRepository.GetWhereEager(item => item.Project, item => userName.Equals(item.UserName))
+                .Select(item => _projectMapper.ConvertFrom(item.Project));
         }
 
         public IEnumerable<ProjectItemViewModel> GetLastCreatedProjects()

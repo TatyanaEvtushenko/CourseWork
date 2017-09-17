@@ -27,6 +27,12 @@ namespace CourseWork.DataLayer.Models
 
         public string Description { get; set; }
 
+        public string Avatar { get; set; }
+
+        public string About { get; set; }
+
+        public string Contacts { get; set; }
+
         public string LastAccountNumber { get; set; }
     }
 }

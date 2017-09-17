@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using CourseWork.DataLayer.Data;
 using CourseWork.DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
@@ -81,6 +82,11 @@ namespace CourseWork.DataLayer.Repositories
         public virtual UserInfo[] SortByField(string fieldName, bool ascending)
         {
             return null;
+        }
+
+        public List<T> GetWhereEager<TProperty>(Expression<Func<T, TProperty>> includeStatement, Func<T, bool> whereExpression)
+        {
+            return Table.Include(includeStatement).AsEnumerable().Where(whereExpression).ToList();
         }
 
         private bool SaveActionResult(Action action)

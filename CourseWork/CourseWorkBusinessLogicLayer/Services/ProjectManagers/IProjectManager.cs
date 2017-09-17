@@ -24,5 +24,8 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers
 
         void ChangeProjectStatus(Project project, IEnumerable<Payment> payments,
             IEnumerable<FinancialPurpose> purposes);
+        IEnumerable<ProjectItemViewModel> GetUserSubscribedProjects();
+
+        string GetProjectName(string projectId);
     }
 }
