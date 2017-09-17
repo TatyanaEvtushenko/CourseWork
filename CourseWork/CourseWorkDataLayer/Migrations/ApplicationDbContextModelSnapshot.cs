@@ -205,14 +205,11 @@ namespace CourseWork.DataLayer.Data.Migrations
                 {
                     b.Property<string>("UserName");
 
-                    b.Property<string>("ProjectId")
-                        .IsRequired();
+                    b.Property<string>("ProjectId");
 
                     b.HasKey("UserName", "ProjectId");
 
                     b.HasAlternateKey("ProjectId", "UserName");
-
-                    b.HasIndex("ProjectId");
 
                     b.ToTable("ProjectSubscribers");
                 });
@@ -236,8 +233,7 @@ namespace CourseWork.DataLayer.Data.Migrations
                 {
                     b.Property<string>("Name");
 
-                    b.Property<string>("ProjectId")
-                        .IsRequired();
+                    b.Property<string>("ProjectId");
 
                     b.HasKey("Name", "ProjectId");
 

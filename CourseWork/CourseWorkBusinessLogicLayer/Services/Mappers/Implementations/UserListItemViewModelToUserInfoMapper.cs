@@ -18,7 +18,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
                 Username = item.UserName,
                 LastLoginTime = item.LastLoginTime.ToString(),
                 RegistrationTime = item.RegistrationTime.ToString(),
-                ProjectNumber = item.ProjectNumber.ToString(),
+                ProjectNumber = 0.ToString(), // WILL BE CORRECTED IN NEXT MERGE!!!
                 Raiting = item.Rating.ToString(),
                 Status = EnumConfiguration.StatusDisplayNames[item.Status],
                 StatusCode = (int)item.Status,

@@ -29,7 +29,7 @@ namespace CourseWork.DataLayer.Models
 
         public decimal MaxPayment { get; set; }
 
-        public double Raiting { get; set; }
+        public double Rating { get; set; }
 
         [ForeignKey("OwnerUserName")]
         [Required]

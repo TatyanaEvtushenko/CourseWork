@@ -12,6 +12,6 @@ namespace CourseWork.DataLayer.Repositories.Implementations
 
 	    protected override DbSet<Message> Table => DbContext.Messages;
 
-		protected override string GetIdentificator(Message item) => item.Id;
+		public override object GetIdentificator(Message item) => item.Id;
     }
 }
