@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
+using CourseWork.DataLayer.Models;
 
 namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers
 {
@@ -11,10 +12,18 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers
 
         bool AddProject(ProjectFormViewModel projectForm);
 
-        void UpdateExistedProjects();
-
         IEnumerable<ProjectItemViewModel> GetUserProjects();
+        
+        ProjectViewModel GetProject(string projectId);
 
+        void ChangeRating(RatingViewModel ratingForm);
+
+        ProjectEditorFormViewModel GetProjectEditorForm(string projectId);
+
+        bool UpdateProject(ProjectFormViewModel projectForm);
+
+        void ChangeProjectStatus(Project project, IEnumerable<Payment> payments,
+            IEnumerable<FinancialPurpose> purposes);
         IEnumerable<ProjectItemViewModel> GetUserSubscribedProjects();
 
         string GetProjectName(string projectId);

@@ -18,6 +18,7 @@
     "@angular/platform-browser-dynamic": "~4.2.0",
     "@angular/router": "~4.2.0",
     "@types/jquery": "^3.2.12",
+    "angular-froala-wysiwyg": "^2.6.6",
     "angular-star-rating": "^3.0.8",
     "angular-tag-cloud-module": "^1.4.0",
     "angular2-flash-messages": "^1.0.8",

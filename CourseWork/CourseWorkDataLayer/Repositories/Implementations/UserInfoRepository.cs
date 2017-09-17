@@ -19,7 +19,7 @@ namespace CourseWork.DataLayer.Repositories.Implementations
 
         protected override DbSet<UserInfo> Table => DbContext.UserInfos;
 
-        protected override string GetIdentificator(UserInfo item) => item.UserName;
+        public override object GetIdentificator(UserInfo item) => item.UserName;
 
         public List<Object> GetUserListItemViewModels(Func<UserInfo, bool> whereExpression)
         {

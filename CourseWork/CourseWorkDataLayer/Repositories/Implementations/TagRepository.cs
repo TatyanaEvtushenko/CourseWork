@@ -12,6 +12,6 @@ namespace CourseWork.DataLayer.Repositories.Implementations
 
         protected override DbSet<Tag> Table => DbContext.Tags;
 
-        protected override string GetIdentificator(Tag item) => item.Id;
+        public override object GetIdentificator(Tag item) => new{item.Name, item.ProjectId};
     }
 }

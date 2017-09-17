@@ -8,11 +8,11 @@ declare var $: any;
 
 export class MarkdownEditorComponent implements AfterViewInit {
     @Input() fieldName: string;
-    @Output() onChanged = new EventEmitter<string>();
     @Input() text = "";
+    @Output() onChanged = new EventEmitter<string>();
 
     ngAfterViewInit() {
-        $('#markdownPreview').modal();
+        $("#markdownPreview").modal();
     }
 
     change() {

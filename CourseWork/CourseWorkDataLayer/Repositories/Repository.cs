@@ -12,23 +12,21 @@ namespace CourseWork.DataLayer.Repositories
     {
         protected readonly ApplicationDbContext DbContext;
 
-        protected abstract DbSet<T> Table { get; }
-
-        protected abstract string GetIdentificator(T item);
-
         protected Repository(ApplicationDbContext dbContext)
         {
             DbContext = dbContext;
         }
 
-        public string GetNewId() => Guid.NewGuid().ToString();
+        public abstract object GetIdentificator(T item);
+
+        protected abstract DbSet<T> Table { get; }
 
         public bool AddRange(params T[] items)
         {
             return SaveActionResult(() => Table.AddRange(items));
         }
 
-        public bool RemoveRange(params string[] identificators)
+        public bool RemoveRange(params object[] identificators)
         {
             var items = Table.Where(item => identificators.Contains(GetIdentificator(item)));
             return SaveActionResult(() => Table.RemoveRange(items));
@@ -36,8 +34,8 @@ namespace CourseWork.DataLayer.Repositories
 
         public bool RemoveWhere(Func<T, bool> whereExpression)
         {
-            var identificators = GetWhere(whereExpression).Select(GetIdentificator).ToArray();
-            return RemoveRange(identificators);
+            var items = Table.Where(whereExpression);
+            return SaveActionResult(() => Table.RemoveRange(items));
         }
 
         public bool UpdateRange(params T[] items)
@@ -61,7 +59,7 @@ namespace CourseWork.DataLayer.Repositories
             return Table.ToList();
         }
 
-        public T Get(string id)
+        public T Get(object id)
         {
             return Table.Find(id);
         }
@@ -69,6 +67,21 @@ namespace CourseWork.DataLayer.Repositories
         public List<T> GetWhere(Func<T, bool> whereExpression)
         {
             return Table.Where(whereExpression).ToList();
+        }
+
+        public T FirstOrDefault(Func<T, bool> whereExpression)
+        {
+            return Table.FirstOrDefault(whereExpression);
+        }
+
+        public int Count(Func<T, bool> whereExpression)
+        {
+            return Table.Count(whereExpression);
+        }
+
+        public virtual UserInfo[] SortByField(string fieldName, bool ascending)
+        {
+            return null;
         }
 
         public List<T> GetWhereEager<TProperty>(Expression<Func<T, TProperty>> includeStatement, Func<T, bool> whereExpression)

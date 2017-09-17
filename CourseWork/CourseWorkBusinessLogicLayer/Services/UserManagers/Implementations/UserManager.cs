@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using CourseWork.BusinessLogicLayer.Services.PhotoManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.AccountViewModels;
@@ -13,6 +14,10 @@ namespace CourseWork.BusinessLogicLayer.Services.UserManagers.Implementations
 {
     public class UserManager : IUserManager
     {
+        public IIdentity CurrentUserIdentity => _contextAccessor.HttpContext.User.Identity;
+
+        public string CurrentUserName => _contextAccessor.HttpContext.User.Identity.Name;
+
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly UserManager<ApplicationUser> _userManager;
 	    private readonly Repository<UserInfo> _userInfoRepository;
@@ -32,13 +37,18 @@ namespace CourseWork.BusinessLogicLayer.Services.UserManagers.Implementations
 
         public async Task<CurrentUserViewModel> GetCurrentUserInfo()
         {
-            var user = _contextAccessor.HttpContext.User.Identity;
+            var user = CurrentUserIdentity;
             return !user.IsAuthenticated ? null : new CurrentUserViewModel
             { 
                 UserName = user.Name,
                 Role = (await _userManager.GetRolesAsync(await _userManager.FindByNameAsync(user.Name))).ElementAt(0),
 				IsBlocked = _userInfoRepository.Get(user.Name).IsBlocked
             };
+        }
+
+        public UserInfo GetCurrentUserUserInfo()
+        {
+            return _userInfoRepository.Get(CurrentUserName);
         }
 
         public IEnumerable<string> GetEmails(IEnumerable<string> userNames)

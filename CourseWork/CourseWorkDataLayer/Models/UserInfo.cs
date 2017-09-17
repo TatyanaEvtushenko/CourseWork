@@ -17,7 +17,7 @@ namespace CourseWork.DataLayer.Models
 
         public DateTime LastLoginTime { get; set; }
 
-        public int Raiting { get; set; }
+        public double Rating { get; set; }
 
         public string Name { get; set; }
 
@@ -32,5 +32,7 @@ namespace CourseWork.DataLayer.Models
         public string About { get; set; }
 
         public string Contacts { get; set; }
+
+        public string LastAccountNumber { get; set; }
     }
 }

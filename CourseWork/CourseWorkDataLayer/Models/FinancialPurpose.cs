@@ -16,8 +16,6 @@ namespace CourseWork.DataLayer.Models
 
         public decimal NecessaryPaymentAmount { get; set; }
 
-        public bool IsReached { get; set; }
-
         [ForeignKey("ProjectId")]
         [Required]
         public Project Project { get; set; }

@@ -15,13 +15,11 @@ export class AdminConfirmationPopupComponent implements AfterViewInit {
 
     constructor(private accountService: AccountService) { }
 
-	ngAfterViewInit() {
-		if (this.username != null) {
-			this.accountService.getPersonalInfo(this.username).subscribe(userData => {
-				this.userData = userData;
-			});
-			$('#adminConfirmationModal').modal();	
-		}
+    ngAfterViewInit() {
+        this.accountService.getPersonalInfo(this.username).subscribe(userData => {
+            this.userData = userData;
+        });
+        $('#adminConfirmationModal').modal();
     }
 
     accept() {
