@@ -31,12 +31,22 @@ export class ProjectService extends BaseService {
         return this.requestGet("api/Project/GetUserProjects");
     }
 
+    getProjects(username: string) {
+        var params = { 'username': username }
+        return this.requestGetWithParams("api/Project/GetProjects", params);
+    }
+
     getProject(id: string) {
         return this.requestGet(`api/Project/GetProject/${id}`);
     }
 
     getUserSubscribedProjects() {
         return this.requestGet("api/Project/GetUserSubscribedProjects");
+    }
+
+    getSubscribedProjects(username: string) {
+        var params = { 'username': username }
+        return this.requestGetWithParams("api/Project/GetSubscribedProjects", params);
     }
 
     notifySubscribers(message: string, projectId: string) {

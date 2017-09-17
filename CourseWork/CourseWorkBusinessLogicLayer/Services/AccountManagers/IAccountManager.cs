@@ -21,6 +21,6 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers
 
         DisplayableInfoViewModel[] GetDisplayableInfo(string[] userNames);
 
-        DisplayableInfoViewModel GetCurrentUserDisplayableInfo();
+        DisplayableInfoViewModel GetUserDisplayableInfo(string username);
     }
 }

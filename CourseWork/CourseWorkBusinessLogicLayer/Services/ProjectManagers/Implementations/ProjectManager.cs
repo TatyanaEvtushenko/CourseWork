@@ -134,16 +134,25 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
 
         public IEnumerable<ProjectItemViewModel> GetUserProjects()
         {
-            var userProjects = _projectRepository.GetWhere(project => project.OwnerUserName == _userManager.CurrentUserName);
+            return GetProjects(_userManager.CurrentUserName);
+        }
+
+        public IEnumerable<ProjectItemViewModel> GetUserSubscribedProjects()
+        {
+            return GetSubscribedProjects(_userManager.CurrentUserName);
+        }
+
+        public IEnumerable<ProjectItemViewModel> GetProjects(string username)
+        {
+            var userProjects = _projectRepository.GetWhere(project => project.OwnerUserName == username);
             var userProjectIds = userProjects.Select(project => project.Id);
             var userProjectPayments = _paymentRepository.GetWhere(payment => userProjectIds.Contains(payment.ProjectId));
             return userProjects.Select(project => GetPreparedProjectItem(project, null, userProjectPayments));
         }
 
-        public IEnumerable<ProjectItemViewModel> GetUserSubscribedProjects()
+        public IEnumerable<ProjectItemViewModel> GetSubscribedProjects(string username)
         {
-            var userName = _contextAccessor.HttpContext.User.Identity.Name;
-            return _projectSubscriberRepository.GetWhereEager(item => item.Project, item => userName.Equals(item.UserName))
+            return _projectSubscriberRepository.GetWhereEager(item => item.Project, item => username.Equals(item.UserName))
                 .Select(item => _projectItemMapper.ConvertFrom(item.Project));
         }
 

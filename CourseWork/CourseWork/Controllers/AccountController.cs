@@ -52,11 +52,11 @@ namespace CourseWork.Controllers
         }
 
         [HttpGet]
-        [Route("api/Account/GetCurrentUserDisplayableInfo")]
+        [Route("api/Account/GetUserDisplayableInfo")]
         [Authorize]
-        public DisplayableInfoViewModel GetCurrentUserDisplayableInfo()
+        public DisplayableInfoViewModel GetUserDisplayableInfo([FromQuery] string username)
         {
-            return _accountManager.GetCurrentUserDisplayableInfo();
+            return _accountManager.GetUserDisplayableInfo(username);
         }
 
         [HttpGet]

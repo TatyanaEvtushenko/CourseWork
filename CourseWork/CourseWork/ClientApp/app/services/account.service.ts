@@ -61,8 +61,9 @@ export class AccountService extends BaseService{
         return this.requestGetWithParams("api/Admin/Delete", params);
     }
 
-    getCurrentUserDisplayableInfo() {
-        return this.requestGet("api/Account/GetCurrentUserDisplayableInfo");
+    getUserDisplayableInfo(username: string) {
+        var params = { 'username': username };
+        return this.requestGetWithParams("api/Account/GetUserDisplayableInfo", params);
     }
 
     getDisplayableInfo(userNames: string[]) {

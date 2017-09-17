@@ -1,4 +1,4 @@
-﻿import { Injectable } from '@angular/core';
+﻿import { Injectable, EventEmitter } from '@angular/core';
 import { CurrentUserService } from '../services/currentuser.service';
 import { AccountService } from "../services/account.service";
 
@@ -11,6 +11,7 @@ export class StorageService {
     isAdmin = false;
     isConfirmedUser = false;
     isJustUser = false;
+    isReady = new EventEmitter<void>();
 
     constructor(protected currentUserService: CurrentUserService, protected accountService: AccountService) {
         this.getCurrentUser();
@@ -42,6 +43,7 @@ export class StorageService {
             this.updateBlockedStatus(user.isBlocked);
         }
         this.isReadyCurrentUser = true;
+        this.isReady.emit();
     }
 
     private updateRoles() {

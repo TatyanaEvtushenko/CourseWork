@@ -92,9 +92,9 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
                 item.ConvertTo<DisplayableInfoViewModel>()).ToArray();
         }
 
-        public DisplayableInfoViewModel GetCurrentUserDisplayableInfo()
+        public DisplayableInfoViewModel GetUserDisplayableInfo(string username)
         {
-            return GetDisplayableInfo(new[] {_contextAccessor.HttpContext.User.Identity.Name}).SingleOrDefault();
+            return GetDisplayableInfo(new[] {username}).SingleOrDefault();
         }
 
         private async Task<bool> TryLogin(ApplicationUser user, string password)

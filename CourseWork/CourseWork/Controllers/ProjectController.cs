@@ -35,6 +35,14 @@ namespace CourseWork.Controllers
         }
 
         [HttpGet]
+        [Route("api/Project/GetProjects")]
+        [Authorize]
+        public IEnumerable<ProjectItemViewModel> GetProjects([FromQuery] string username)
+        {
+            return _projectManager.GetProjects(username);
+        }
+
+        [HttpGet]
         [AllowAnonymous]
         [Route("api/Project/GetProject/{id}")]
         public ProjectViewModel GetProject(string id)
@@ -71,6 +79,14 @@ namespace CourseWork.Controllers
         public ProjectItemViewModel[] GetUserSubscribedProjects()
         {
             return _projectManager.GetUserSubscribedProjects().ToArray();
+        }
+
+        [HttpGet]
+        [Route("api/Project/GetSubscribedProjects")]
+        [Authorize]
+        public ProjectItemViewModel[] GetUserSubscribedProjects([FromQuery] string username)
+        {
+            return _projectManager.GetSubscribedProjects(username).ToArray();
         }
     }
 }
