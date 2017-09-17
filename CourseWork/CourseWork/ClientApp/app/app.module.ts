@@ -61,7 +61,6 @@ const appRoutes: Routes = [
     { path: 'NewProjectPage', component: NewProjectPageComponent },
     { path: 'ProjectEditorPage/:id', component: ProjectEditorPageComponent },
     { path: 'ProjectPage/:id', component: ProjectPageComponent },
-    { path: '**', component: ErrorPageComponent },
     { path: 'ProjectEditorPage', component: NewProjectPageComponent },
     { path: 'SearchResult', component: SearchResultComponent },
     { path: '**', component: ErrorPageComponent }
@@ -113,7 +112,7 @@ const appRoutes: Routes = [
         ProjectEditorPageComponent,
         NewsComponent,
         CommentsComponent,
-        PaymentModalComponent
+        PaymentModalComponent,
         NewsFormModalComponent,
         SearcherComponent,
         SearchResultComponent
@@ -126,7 +125,7 @@ const appRoutes: Routes = [
         ProjectService,
         StorageService,
         SortingService,
-        TimeService
+        TimeService,
 		ProjectService,
 		MessageSenderService
     ],

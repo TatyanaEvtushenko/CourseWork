@@ -2,7 +2,7 @@
 import { Title } from '@angular/platform-browser';
 import { AccountService } from "../../services/account.service";
 import { CurrentUserService } from '../../services/currentuser.service';
-import { MessageSubscriber } from '../message.subscriber';
+//import { MessageSubscriber } from '../message.subscriber';
 import { MessageSenderService } from "../../services/messagesender.service";
 import { ProjectService } from '../../services/project.service';
 import { StorageService } from '../../services/storage.service';
@@ -12,7 +12,7 @@ import { SortingService } from '../../services/sorting.service';
     selector: 'userprojectspage',
     templateUrl: './userprojectspage.component.html'
 })
-export class UserProjectsPageComponent extends MessageSubscriber {
+export class UserProjectsPageComponent {
     projects: any[] = [];
     selectedProjectId: string = null;
 

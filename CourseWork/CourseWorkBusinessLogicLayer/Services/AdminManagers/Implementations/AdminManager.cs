@@ -23,7 +23,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
         private readonly IAccountManager _accountManager;
         private readonly ISearchManager _searchManager;
 
-        public AdminManager(IMapper<UserListItemViewModel, UserInfo> mapperList, Repository<UserInfo> userInfoRepository, IMapper<UserConfirmationViewModel, UserInfo> mapperInfo, IAccountManager accountManager, Repository<ApplicationUser> applicationUserRepository, Repository<Project> projectRepository, Repository<Comment> commentRepository, Repository<Raiting> raitingRepository, ISearchManager searchManager, Repository<Tag> tagRepository, Repository<FinancialPurpose> financialPurposeRepository, Repository<News> newsRepository)
+        public AdminManager(IMapper<UserListItemViewModel, UserInfo> mapperList, Repository<UserInfo> userInfoRepository, IMapper<UserConfirmationViewModel, UserInfo> mapperInfo, IAccountManager accountManager, Repository<ApplicationUser> applicationUserRepository, Repository<Project> projectRepository, Repository<Comment> commentRepository, Repository<Rating> raitingRepository, ISearchManager searchManager, Repository<Tag> tagRepository, Repository<FinancialPurpose> financialPurposeRepository, Repository<News> newsRepository)
         {
             _mapperList = mapperList;
             _userInfoRepository = userInfoRepository;

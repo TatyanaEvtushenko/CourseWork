@@ -30,7 +30,7 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
         private readonly ISearchManager _searchManager;
 
         public NewsManager(Repository<News> newsRepository, IMapper<NewsFormViewModel, News> newsMapper,
-            IEmailSender emailSender, IProjectManager projectManager, IPaymentManager paymentManager,
+            IEmailSender emailSender, Repository<Project> projectRepository, IPaymentManager paymentManager,
             IProjectSubscriberManager projectSubscriberManager, IUserManager userManager, ISearchManager searchManager)
         {
             _newsRepository = newsRepository;

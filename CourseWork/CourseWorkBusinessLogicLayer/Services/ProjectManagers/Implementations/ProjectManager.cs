@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CourseWork.BusinessLogicLayer.ElasticSearch;
 using CourseWork.BusinessLogicLayer.ElasticSearch.Documents;
-using CourseWork.BusinessLogicLayer.Services.FinancialPurposeManagers;
+using CourseWork.BusinessLogicLayer.Services.FinancialPurposesManagers;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
 using CourseWork.BusinessLogicLayer.Services.PaymentManagers;
 using CourseWork.BusinessLogicLayer.Services.PhotoManagers;
@@ -49,11 +49,10 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             IMapper<FinancialPurposeViewModel, FinancialPurpose> financialPurposeMapper,
             Repository<FinancialPurpose> financialPurposeRepository, IPhotoManager photoManager,
             IMapper<RatingViewModel, Rating> ratingMapper, IPaymentManager paymentManager,
-            Repository<Payment> paymentRepository)
-            IMapper<ProjectItemViewModel, Project> projectMapper,
-            IMapper<ProjectFormViewModel, Project> projectFormMapper, ITagService tagService,
+            Repository<Payment> paymentRepository,
+            ITagService tagService,
             IFinancialPurposeManager financialPurposeManager,
-            IHttpContextAccessor contextAccessor, IPaymentManager paymentManager, Repository<Raiting> raitingRepository, ISearchManager searchManager)
+            IHttpContextAccessor contextAccessor, ISearchManager searchManager)
         {
             _projectRepository = projectRepository;
             _projectItemMapper = projectItemMapper;
@@ -69,6 +68,9 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             _ratingMapper = ratingMapper;
             _paymentManager = paymentManager;
             _paymentRepository = paymentRepository;
+            _contextAccessor = contextAccessor;
+            _raitingRepository = raitingRepository;
+            _searchManager = searchManager;
         }
 
         public void ChangeProjectStatus(Project project, IEnumerable<Payment> payments, IEnumerable<FinancialPurpose> purposes)
@@ -81,8 +83,6 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             {
                 project.Status = project.FundRaisingEnd < DateTime.UtcNow.Date ? ProjectStatus.Failed : ProjectStatus.Active;
             }
-            _raitingRepository = raitingRepository;
-            _searchManager = searchManager;
         }
 
         public bool AddProject(ProjectFormViewModel projectForm)
@@ -91,7 +91,8 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             var purposes = GetPurposesOfProjectForm(projectForm.FinancialPurposes, project.Id);
             ChangeProjectStatus(project, null, purposes);
             return _projectRepository.AddRange(project) && _financialPurposeRepository.AddRange(purposes.ToArray()) &&
-                   AddTagsInProject(projectForm.Tags, project.Id);
+                   AddTagsInProject(projectForm.Tags, project.Id) &&
+                   _searchManager.AddProjectToIndex(project);
         }
 
         public void ChangeRating(RatingViewModel ratingForm)
@@ -126,10 +127,6 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             var project = GetUpdatedProject(projectForm, purposesForAdding);
             return _projectRepository.UpdateRange(project) && UpdateFinancialPurposes(project.Id, purposesForAdding) &&
                    UpdateTagsInProject(projectForm.Id, projectForm.Tags);
-            var project = GetPreparedProject(projectForm);
-            return _projectRepository.AddRange(project) & _tagService.AddTagsInProject(projectForm.Tags, project.Id) &
-                   _financialPurposeManager.AddFinancialPurposes(projectForm.FinancialPurposes, project.Id) & 
-                   _searchManager.AddProjectToIndex(project);
         }
 
         public IEnumerable<ProjectItemViewModel> GetUserProjects()
@@ -195,12 +192,12 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             project.MaxPayment = projectForm.MaxPaymentAmount;
             project.MinPayment = projectForm.MinPaymentAmount;
             project.Name = projectForm.Name;
-            var raitings = _raitingRepository.GetAll();
-            foreach (var project in projects)
-            {
-                var projectRaitings = raitings.Where(raiting => raiting.ProjectId == project.Id).ToList();
-                project.Raiting = !projectRaitings.Any() ? 0 : projectRaitings.Average(raiting => raiting.RaitingResult);
-            }
+            //var raitings = _raitingRepository.GetAll();
+            ////foreach (var project in projects)
+            ////{
+            ////    var projectRaitings = raitings.Where(raiting => raiting.ProjectId == project.Id).ToList();
+            ////    project.Raiting = !projectRaitings.Any() ? 0 : projectRaitings.Average(raiting => raiting.RaitingResult);
+            ////}
         }
 
         private bool UpdateTagsInProject(string projectId, IEnumerable<string> newTags)

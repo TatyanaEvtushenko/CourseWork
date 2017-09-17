@@ -2,7 +2,7 @@
 import { Title } from '@angular/platform-browser';
 import { AccountService } from "../../services/account.service";
 import { CurrentUserService } from '../../services/currentuser.service';
-import { MessageSubscriber } from '../message.subscriber';
+//import { MessageSubscriber } from '../message.subscriber';
 import { MessageSenderService } from "../../services/messagesender.service";
 import { ProjectService } from '../../services/project.service';
 import { ActivatedRoute, Router } from "@angular/router";
@@ -11,13 +11,13 @@ import { ActivatedRoute, Router } from "@angular/router";
     selector: 'searchresult',
     templateUrl: './searchresult.component.html'
 })
-export class SearchResultComponent extends MessageSubscriber {
+export class SearchResultComponent {
     projects: any[] = [];
 
     constructor(private title: Title, private route: ActivatedRoute, private router: Router,
       protected currentUserService: CurrentUserService, protected accountService: AccountService,
       protected messageSenderService: MessageSenderService, private projectService: ProjectService) {
-        super(currentUserService, accountService, messageSenderService);
+        //super(currentUserService, accountService, messageSenderService);
         title.setTitle("My projects");
     }
 

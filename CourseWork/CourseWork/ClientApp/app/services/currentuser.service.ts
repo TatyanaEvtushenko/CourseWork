@@ -5,9 +5,7 @@ import { BaseService } from './base.service';
 export class CurrentUserService extends BaseService {
 
     getCurrentUser() {
-        this.getCurrentUserFromServer().subscribe((data) => {
-            this.changeServiceState(data);
-        });
+        return this.requestGet("api/CurrentUser/GetCurrentUserInfo");
 	}
 
 	updateMessages() {
@@ -19,9 +17,9 @@ export class CurrentUserService extends BaseService {
 		return this.requestGetWithParams("api/Message/MarkAsRead", params);
 	}
 
-    private changeServiceState(user: CurrentUser) {
-        this.isReady.emit(user);
-    }
+    //private changeServiceState(user: CurrentUser) {
+    //    this.isReady.emit(user);
+    //}
 
     private getCurrentUserFromServer() {
         return this.requestGet("api/CurrentUser/GetCurrentUserInfo");

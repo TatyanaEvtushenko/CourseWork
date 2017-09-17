@@ -5,7 +5,7 @@ import { AccountService } from "../../services/account.service";
 import { StorageService } from '../../services/storage.service';
 import { UserInfo } from '../../viewmodels/userinfo';
 import { UserStatus } from "../../enums/userstatus";
-import { MessageSubscriber } from '../message.subscriber';
+//import { MessageSubscriber } from '../message.subscriber';
 import { MessageSenderService } from "../../services/messagesender.service";
 import { SentMessage } from "../../viewmodels/sentmessage";
 declare var $: any;
@@ -25,11 +25,8 @@ export class AdminPageComponent {
     selectedIndex: number = null;
     sortOrderAscending = { "Status": true, "LastLoginTime": true };
 
-    constructor(private title: Title, public storage: StorageService, private accountService: AccountService){
-        title.setTitle("Admin page");
-	constructor(private title: Title, private route: ActivatedRoute, private router: Router,
-		protected currentUserService: CurrentUserService, protected accountService: AccountService, protected messageSenderService: MessageSenderService) {
-        super(currentUserService, accountService, messageSenderService);
+    constructor(private title: Title, public storage: StorageService, private accountService: AccountService,
+        private route: ActivatedRoute, private router: Router, protected messageSenderService: MessageSenderService) {
 		title.setTitle("Admin page");
     }
 
