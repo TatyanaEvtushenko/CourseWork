@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using CourseWork.BusinessLogicLayer.Services.PhotoManagers;
+using CourseWork.BusinessLogicLayer.ViewModels.AccountViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.CurrentUserViewModels;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
@@ -45,11 +46,12 @@ namespace CourseWork.BusinessLogicLayer.Services.UserManagers.Implementations
             return _applicationUserRepository.GetWhere(user => userNames.Contains(user.UserName)).Select(user => user.Email);
         }
 
-        public void Edit(string newAbout)
+        public void Edit(AccountEditViewModel newInfo)
         {
             var user = _contextAccessor.HttpContext.User.Identity;
             var currentUser = _userInfoRepository.GetWhere(item => item.UserName.Equals(user.Name)).Single();
-            currentUser.About = newAbout;
+            currentUser.About = newInfo.About;
+            currentUser.Contacts = newInfo.Contacts;
             _userInfoRepository.UpdateRange(currentUser);
         }
 

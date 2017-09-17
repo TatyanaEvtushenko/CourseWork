@@ -3,7 +3,7 @@ import { BaseService} from './base.service';
 import {RegisterForm} from '../viewmodels/registerform';
 import { LoginForm } from '../viewmodels/loginform';
 import { ConfirmationForm } from '../viewmodels/confirmationForm';
-import { UserInfo } from "../viewmodels/userinfo";
+import { AccountEditForm } from "../viewmodels/accounteditform";
 
 @Injectable()
 export class AccountService extends BaseService{
@@ -70,8 +70,8 @@ export class AccountService extends BaseService{
         return this.requestGetWithParams("api/Account/GetDisplayableInfo", params);
     }
 
-    editAccount(newAbout: string) {
-        return this.requestPost("api/CurrentUser/Edit", newAbout);
+    editAccount(newInfo: AccountEditForm) {
+        return this.requestPost("api/CurrentUser/Edit", newInfo);
     }
 
     changeAvatar(newAvatarB64: string) {

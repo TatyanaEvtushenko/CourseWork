@@ -5,6 +5,7 @@ using System.Linq;
 using CourseWork.DataLayer.Data;
 using CourseWork.DataLayer.Dictionaries;
 using CourseWork.DataLayer.Enums.Configurations;
+using CourseWork.DataLayer.Migrations;
 using CourseWork.DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -51,7 +52,8 @@ namespace CourseWork.DataLayer.Repositories.Implementations
                     RegistrationTime = userInfo.RegistrationTime,
                     Avatar = userInfo.Avatar,
                     About = userInfo.About,
-                    ProjectNumber = userProjects.Count()
+                    ProjectNumber = userProjects.Count(),
+                    Contacts = userInfo.Contacts
                 };
             return query.ToArray();
         }

@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using CourseWork.BusinessLogicLayer.Services.PhotoManagers;
 using CourseWork.BusinessLogicLayer.Services.UserManagers;
+using CourseWork.BusinessLogicLayer.ViewModels.AccountViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.CurrentUserViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -28,9 +29,9 @@ namespace CourseWork.Controllers
         [HttpPost]
         [Route("api/CurrentUser/Edit")]
         [Authorize]
-        public void Edit([FromBody] string newAbout)
+        public void Edit([FromBody] AccountEditViewModel newInfo)
         {
-            _userManager.Edit(newAbout);
+            _userManager.Edit(newInfo);
         }
 
         [HttpPost]

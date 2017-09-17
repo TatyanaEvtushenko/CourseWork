@@ -5,7 +5,7 @@
     <div class="col s12 m7">
         <usercard [displayableInfo]="displayableInfo"></usercard>
     </div>
-    <accounteditmodal *ngIf="isReadyCurrentUser && isUser" [about]="about"></accounteditmodal>
+    <accounteditmodal *ngIf="isReadyCurrentUser && isUser" [about]="accountEditForm.about" [contacts]="accountEditForm.contacts"></accounteditmodal>
     <avatarchangemodal *ngIf="isReadyCurrentUser && isUser"></avatarchangemodal>
     <userprojectspage [projects]="projects" *ngIf="isReadyCurrentUser && isConfirmedUser"></userprojectspage>
     

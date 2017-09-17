@@ -4,4 +4,5 @@
     registrationTime: string;
     avatar: string;
     projectNumber: number;
+    contacts: string;
 }
