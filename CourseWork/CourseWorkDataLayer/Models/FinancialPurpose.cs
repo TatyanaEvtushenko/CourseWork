@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CourseWork.DataLayer.Models
 {
@@ -14,5 +15,11 @@ namespace CourseWork.DataLayer.Models
         public string Description { get; set; }
 
         public decimal NecessaryPaymentAmount { get; set; }
+
+        public bool IsReached { get; set; }
+
+        [ForeignKey("ProjectId")]
+        [Required]
+        public Project Project { get; set; }
     }
 }

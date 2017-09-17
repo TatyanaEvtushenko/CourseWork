@@ -61,9 +61,8 @@
 			        <label for="checkbox-{{user.username}}"></label>
 		        </div>
 	        </td>
-	        <td *ngIf="index == selectedIndex && user.statusCode == userStatus.AwaitingConfirmation">
-		        <adminconfirmationpopup [username]="user.username" (emitter)="changeStatus($event)"></adminconfirmationpopup>
-	        </td>
+	        <adminconfirmationpopup *ngIf="index == selectedIndex && user.statusCode == userStatus.AwaitingConfirmation"
+									[username]="user.username" (emitter)="changeStatus($event)"></adminconfirmationpopup>
         </tr>
         </tbody>
     </table>

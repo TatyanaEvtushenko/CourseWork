@@ -43,9 +43,11 @@ namespace CourseWork.Controllers
         [HttpGet]
         [Route("api/Account/ConfirmRegistration")]
         [AllowAnonymous]
-        public async Task<bool> ConfirmRegistration([FromQuery] ConfirmationRegistrationViewModel confirmation)
+        public async Task<IActionResult> ConfirmRegistration([FromQuery] ConfirmationRegistrationViewModel confirmation)
         {
-            return await _accountManager.ConfirmRegistration(confirmation.UserId, confirmation.Code);
+            if (await _accountManager.ConfirmRegistration(confirmation.UserId, confirmation.Code))
+                return RedirectToAction("Index", "Home");
+            return BadRequest();
         }
     }
 }

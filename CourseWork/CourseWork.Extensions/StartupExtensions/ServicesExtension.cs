@@ -8,6 +8,8 @@ using CourseWork.BusinessLogicLayer.Services.CommentManagers;
 using CourseWork.BusinessLogicLayer.Services.CommentManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.FinancialPurposesManagers;
 using CourseWork.BusinessLogicLayer.Services.FinancialPurposesManagers.Implementations;
+using CourseWork.BusinessLogicLayer.Services.MessageManagers;
+using CourseWork.BusinessLogicLayer.Services.MessageManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.MessageSenders;
 using CourseWork.BusinessLogicLayer.Services.MessageSenders.Implementations;
 using CourseWork.BusinessLogicLayer.Services.NewsManagers;
@@ -21,6 +23,8 @@ using CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManagers;
 using CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.Scedulers;
+using CourseWork.BusinessLogicLayer.Services.SearchManagers;
+using CourseWork.BusinessLogicLayer.Services.SearchManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.TagServices;
 using CourseWork.BusinessLogicLayer.Services.TagServices.Implementations;
 using CourseWork.BusinessLogicLayer.Services.UserManagers;
@@ -47,6 +51,8 @@ namespace CourseWork.Extensions.StartupExtensions
             services.AddScoped<IScheduler, BusinessLogicLayer.Services.Scedulers.Implementations.Scheduler>();
             services.AddScoped<ICommentManager, CommentManager>();
             services.AddScoped<IFinancialPurposeManager, FinancialPurposeManager>();
+	        services.AddScoped<IMessageManager, MessageManager>();
+            services.AddScoped<ISearchManager, SearchManager>();
         }
     }
 }

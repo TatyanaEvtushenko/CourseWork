@@ -1,10 +1,15 @@
 ﻿import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from "../../services/account.service";
 import { StorageService } from '../../services/storage.service';
 import { UserInfo } from '../../viewmodels/userinfo';
 import { UserStatus } from "../../enums/userstatus";
+import { MessageSubscriber } from '../message.subscriber';
+import { MessageSenderService } from "../../services/messagesender.service";
+import { SentMessage } from "../../viewmodels/sentmessage";
 declare var $: any;
+declare var Materialize: any;
 
 @Component({
     selector: 'adminpage',
@@ -22,14 +27,23 @@ export class AdminPageComponent {
 
     constructor(private title: Title, public storage: StorageService, private accountService: AccountService){
         title.setTitle("Admin page");
+	constructor(private title: Title, private route: ActivatedRoute, private router: Router,
+		protected currentUserService: CurrentUserService, protected accountService: AccountService, protected messageSenderService: MessageSenderService) {
+        super(currentUserService, accountService, messageSenderService);
+		title.setTitle("Admin page");
     }
 
-    ngOnInit() {
-        this.accountService.getUserList().subscribe(userInfos => {
-            this.isCheckedAtIndex = new Array<boolean>(userInfos.length);
-            this.userInfos = userInfos;
-        });
-    }
+	ngOnInit() {
+		this.route.queryParams.subscribe(params => {
+			this.filters.confirmed = !(params["confirmed"] == 'false');
+			this.filters.unconfirmed = !(params["unconfirmed"] == 'false');
+			this.filters.requested = !(params["requested"] == 'false');
+			this.accountService.getFilteredUserList(this.filters).subscribe(userInfos => {
+				this.isCheckedAtIndex = new Array<boolean>(userInfos.length);
+				this.userInfos = userInfos;
+			});
+		});
+	}
 
     filter() {
         this.accountService.getFilteredUserList(this.filters).subscribe(userInfos => {
@@ -45,11 +59,12 @@ export class AdminPageComponent {
     changeStatus(accept: boolean) {
         if (accept) {
             this.userInfos[this.selectedIndex].statusCode = UserStatus.Confirmed;
-            this.userInfos[this.selectedIndex].status = "Confirmed"; 
+			this.userInfos[this.selectedIndex].status = "Confirmed"; 
         } else {
             this.userInfos[this.selectedIndex].statusCode = UserStatus.WithoutConfirmation;
             this.userInfos[this.selectedIndex].status = "Without confirmation";
-        }
+		}
+	    this.sendConfirmationMessage(this.userInfos[this.selectedIndex].username, this.generateResponseMessage(accept));
     }
 
     sortByField(fieldName: string) {
@@ -93,5 +108,14 @@ export class AdminPageComponent {
                 result.push(item.username);
         });
         return result;
-    }
+	}
+
+	private sendConfirmationMessage(username: string, message: string) {
+		this.messageSenderService.sendMessage([{ recipientUserName: username, text: message }]).
+			subscribe((data: void) => { });
+	}
+
+	private generateResponseMessage(accept: boolean) {
+		return accept ? 'Your account confirmation request has been approved.' : 'Your account confirmation request has been declined.';
+	}
 }

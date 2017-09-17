@@ -35,6 +35,10 @@ export class ProjectService extends BaseService {
         return this.requestGet(`api/Project/GetProject/${id}`);
     }
 
+    notifySubscribers(message: string, projectId: string) {
+        return this.requestPost("api/Message/NotifySubscribers", { text: message, id: projectId });
+    }
+
     addNews(newsForm: NewsForm) {
         return this.requestPost("api/News/AddNews", newsForm);
     }
@@ -71,5 +75,10 @@ export class ProjectService extends BaseService {
 
     addPayment(paymentForm: PaymentForm) {
         return this.requestPost("api/Payment/AddPayment", paymentForm);
+    }
+
+    search(queryString: string) {
+        var params = { query: queryString };
+        return this.requestGetWithParams("api/Search/Search", params);
     }
 }

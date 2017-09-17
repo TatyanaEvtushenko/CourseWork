@@ -68,6 +68,24 @@
     font-size: inherit;
 }
 
+/*.material-icons .search-icons {
+    
+}*/
+
+#search-form {
+    height: 32px;
+    margin-top: 16px;
+    opacity: 0.5;
+}
+
+#search {
+    border-radius: 10px;
+}
+
+.material-icons .search-icons .md-dark {
+    color: rgba(0, 0, 0, 0.54);
+}
+
 body {
     /*padding-top: 50px;*/
     padding-bottom: 20px;

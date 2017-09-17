@@ -1,0 +1,19 @@
+﻿<div class="card-image">
+    <a href="/ProjectPage/{{project.id}}">
+        <img src="{{project.imageUrl}}">
+        <div class="card-title">
+            {{project.name}}<br />
+            <rating class="project-item-rating" [(ngModel)]="project.raiting" [readonly]="true" [titles]="['one', 'two', 'three', 'four', 'five']"></rating>
+        </div>
+    </a>
+</div>
+<div class="card-content row">
+    <div class="col m6">
+        <p>{{project.paidAmount}}$</p>
+    </div>
+    <div class="col m6 right-align">
+        <p *ngIf="project.status == projectStatus.Active">Active</p>
+        <p *ngIf="project.status == projectStatus.Failed" class="red-text">Failed</p>
+        <p *ngIf="project.status == projectStatus.Financed" class="green-text">Financed</p>
+    </div>
+</div>

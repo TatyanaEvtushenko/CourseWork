@@ -15,7 +15,7 @@ export class ConfirmationModalComponent implements AfterViewInit {
     constructor(private accountService: AccountService) { }
 
     ngAfterViewInit() {
-        $('#confirmationModal').modal();
+        $('#confirmationModal').modal(); //
     }
 
     onChange(event: any) {

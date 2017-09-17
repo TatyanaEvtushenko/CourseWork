@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CourseWork.DataLayer.Models
 {
@@ -9,5 +10,9 @@ namespace CourseWork.DataLayer.Models
 
         [Key]
         public string ProjectId { get; set; }
+
+        [ForeignKey("ProjectId")]
+        [Required]
+        public Project Project { get; set; }
     }
 }

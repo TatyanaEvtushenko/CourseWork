@@ -32,6 +32,7 @@ import { ImageLoaderComponent } from './components/imageloader/imageloader.compo
 import { FinancialPurposesComponent } from './components/financialpurposes/financialpurposes.component';
 import { FinancialPurposeModalComponent } from './components/financialpurposemodal/financialpurposemodal.component';
 import { ProjectItemComponent } from './components/projectitem/projectitem.component';
+import { BaseProjectItemComponent } from './components/baseprojectitem/baseprojectitem.component';
 import { NewsFormModalComponent } from './components/newsformmodal/newsformmodal.component';
 import { ProjectPageComponent } from './components/projectpage/projectpage.component';
 import { ProjectStatusComponent } from './components/projectstatus/projectstatus.component';
@@ -40,6 +41,8 @@ import { ProjectEditorPageComponent } from './components/projecteditorpage/proje
 import { NewsComponent } from './components/news/news.component';
 import { CommentsComponent } from './components/comments/comments.component';
 import { PaymentModalComponent } from './components/paymentmodal/paymentmodal.component';
+import { SearcherComponent } from './components/searcher/searcher.component';
+import { SearchResultComponent } from './components/searchresult/searchresult.component';
 
 import { BaseService} from './services/base.service';
 import { CurrentUserService } from "./services/currentuser.service"; 
@@ -49,6 +52,7 @@ import { ProjectService } from "./services/project.service";
 import { StorageService } from "./services/storage.service";
 import { SortingService } from "./services/sorting.service";
 import { TimeService } from "./services/time.service";
+import { MessageSenderService } from "./services/messagesender.service"
 
 const appRoutes: Routes = [
     { path: '', component: HomePageComponent },
@@ -58,6 +62,9 @@ const appRoutes: Routes = [
     { path: 'ProjectEditorPage/:id', component: ProjectEditorPageComponent },
     { path: 'ProjectPage/:id', component: ProjectPageComponent },
     { path: '**', component: ErrorPageComponent },
+    { path: 'ProjectEditorPage', component: NewProjectPageComponent },
+    { path: 'SearchResult', component: SearchResultComponent },
+    { path: '**', component: ErrorPageComponent }
 ];
 
 @NgModule({
@@ -97,6 +104,7 @@ const appRoutes: Routes = [
         FloatingButtonComponent,
         FinancialPurposesComponent,
         FinancialPurposeModalComponent,
+        BaseProjectItemComponent,
         ProjectItemComponent,
         NewsFormModalComponent,
         ProjectPageComponent,
@@ -106,6 +114,9 @@ const appRoutes: Routes = [
         NewsComponent,
         CommentsComponent,
         PaymentModalComponent
+        NewsFormModalComponent,
+        SearcherComponent,
+        SearchResultComponent
     ],
     providers: [
         BaseService,
@@ -116,6 +127,8 @@ const appRoutes: Routes = [
         StorageService,
         SortingService,
         TimeService
+		ProjectService,
+		MessageSenderService
     ],
     bootstrap: [
         AppComponent
