@@ -5,6 +5,7 @@ import { CurrentUserService } from '../../services/currentuser.service';
 import { MessageSubscriber } from '../message.subscriber';
 import { ProjectService } from '../../services/project.service';
 import { MessageSenderService } from '../../services/messagesender.service';
+import { DisplayableInfo } from "../../viewmodels/displayableinfo";
 
 @Component({
     selector: 'userpage',
@@ -12,7 +13,7 @@ import { MessageSenderService } from '../../services/messagesender.service';
 })
 export class UserPageComponent extends MessageSubscriber {
     projects: any[] = [];
-    displayableInfo: any;
+    displayableInfo: DisplayableInfo = { about: "", projectNumber: 0, avatar: "", userName: "", registrationTime: "" };
     about: string = "about";
 
     constructor(private title: Title, protected currentUserService: CurrentUserService, protected accountService: AccountService, protected messageSenderService: MessageSenderService, private projectService: ProjectService) {
@@ -38,7 +39,8 @@ export class UserPageComponent extends MessageSubscriber {
         );
         this.accountService.getCurrentUserDisplayableInfo().subscribe((data) => {
             this.displayableInfo = data;
-            this.about = this.displayableInfo.about as string;
+            this.displayableInfo.about = this.displayableInfo.about != null ? this.displayableInfo.about as string : "";
+            this.about = this.displayableInfo.about;
         });
     }
 }

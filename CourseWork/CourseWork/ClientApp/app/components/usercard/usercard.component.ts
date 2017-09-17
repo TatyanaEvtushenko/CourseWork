@@ -1,4 +1,5 @@
-﻿import { Component, Input, Output, EventEmitter } from '@angular/core';
+﻿import { Component, Input } from '@angular/core';
+import { DisplayableInfo } from "../../viewmodels/displayableinfo";
 declare var $: any;
 
 @Component({
@@ -7,7 +8,7 @@ declare var $: any;
 })
 
 export class UserCardComponent {
-    @Input() displayableInfo: any;
+    @Input() displayableInfo: DisplayableInfo;
 
     openAccountEdit() {
         $('#accountEditModal').modal("open");
