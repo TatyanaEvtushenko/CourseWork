@@ -12,6 +12,6 @@ namespace CourseWork.DataLayer.Repositories.Implementations
 
         protected override DbSet<FinancialPurpose> Table => DbContext.FinancialPurposes;
 
-        protected override string GetIdentificator(FinancialPurpose item) => item.Id;
+        public override object GetIdentificator(FinancialPurpose item) => item.Id;
     }
 }

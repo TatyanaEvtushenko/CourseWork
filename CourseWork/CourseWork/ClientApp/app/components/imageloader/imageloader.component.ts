@@ -7,6 +7,7 @@ declare var $: any;
 })
 export class ImageLoaderComponent {
     @Input() fieldName: string;
+    @Output() emitter = new EventEmitter<string>(); 
     imageString = "";
 
     toBase64(file: any) {
@@ -21,6 +22,4 @@ export class ImageLoaderComponent {
     onChange(event: any) {
         this.toBase64(event.srcElement.files[0]);
     }
-
-    @Output() emitter = new EventEmitter<string>(); 
 } 

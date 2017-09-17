@@ -12,6 +12,6 @@ namespace CourseWork.DataLayer.Repositories.Implementations
 
         protected override DbSet<ProjectSubscriber> Table => DbContext.ProjectSubscribers;
 
-        protected override string GetIdentificator(ProjectSubscriber item) => item.Id;
+        public override object GetIdentificator(ProjectSubscriber item) => new {item.UserName, item.ProjectId};
     }
 }

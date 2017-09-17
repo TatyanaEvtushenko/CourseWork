@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using CourseWork.BusinessLogicLayer.ElasticSearch;
 using CourseWork.BusinessLogicLayer.ElasticSearch.Documents;
-using CourseWork.BusinessLogicLayer.Services.FinancialPurposeManagers;
+using CourseWork.BusinessLogicLayer.Services.FinancialPurposesManagers;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
 using CourseWork.BusinessLogicLayer.Services.PaymentManagers;
+using CourseWork.BusinessLogicLayer.Services.PhotoManagers;
+using CourseWork.BusinessLogicLayer.Services.UserManagers;
+using CourseWork.BusinessLogicLayer.ViewModels.FinancialPurposeViewModels;
 using CourseWork.BusinessLogicLayer.Services.SearchManagers;
 using CourseWork.BusinessLogicLayer.Services.TagServices;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
@@ -21,120 +24,217 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
     public class ProjectManager : IProjectManager
     {
         private readonly Repository<Project> _projectRepository;
-        private readonly Repository<Raiting> _raitingRepository;
-        private readonly ITagService _tagService;
-        private readonly IFinancialPurposeManager _financialPurposeManager;
+        private readonly Repository<Rating> _raitingRepository;
+        private readonly Repository<Tag> _tagRepository;
+        private readonly Repository<FinancialPurpose> _financialPurposeRepository;
+        private readonly Repository<Payment> _paymentRepository;
+        private readonly IUserManager _userManager;
+        private readonly IPhotoManager _photoManager;
         private readonly IPaymentManager _paymentManager;
-        private readonly IMapper<ProjectItemViewModel, Project> _projectMapper;
+        private readonly IMapper<ProjectItemViewModel, Project> _projectItemMapper;
         private readonly IMapper<ProjectFormViewModel, Project> _projectFormMapper;
+        private readonly IMapper<ProjectViewModel, Project> _projectMapper;
+        private readonly IMapper<ProjectEditorFormViewModel, Project> _projectEditorFormMapper;
+        private readonly IMapper<FinancialPurposeViewModel, FinancialPurpose> _financialPurposeMapper;
+        private readonly IMapper<RatingViewModel, Rating> _ratingMapper;
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly ISearchManager _searchManager;
 
         public ProjectManager(Repository<Project> projectRepository,
-            IMapper<ProjectItemViewModel, Project> projectMapper,
-            IMapper<ProjectFormViewModel, Project> projectFormMapper, ITagService tagService,
+            IMapper<ProjectItemViewModel, Project> projectItemMapper,
+            IMapper<ProjectFormViewModel, Project> projectFormMapper,
+            Repository<Rating> raitingRepository,
+            IMapper<ProjectViewModel, Project> projectMapper, IUserManager userManager,
+            IMapper<ProjectEditorFormViewModel, Project> projectEditorFormMapper, Repository<Tag> tagRepository,
+            IMapper<FinancialPurposeViewModel, FinancialPurpose> financialPurposeMapper,
+            Repository<FinancialPurpose> financialPurposeRepository, IPhotoManager photoManager,
+            IMapper<RatingViewModel, Rating> ratingMapper, IPaymentManager paymentManager,
+            Repository<Payment> paymentRepository,
+            ITagService tagService,
             IFinancialPurposeManager financialPurposeManager,
-            IHttpContextAccessor contextAccessor, IPaymentManager paymentManager, Repository<Raiting> raitingRepository, ISearchManager searchManager)
+            IHttpContextAccessor contextAccessor, ISearchManager searchManager)
         {
             _projectRepository = projectRepository;
-            _projectMapper = projectMapper;
+            _projectItemMapper = projectItemMapper;
             _projectFormMapper = projectFormMapper;
-            _tagService = tagService;
-            _financialPurposeManager = financialPurposeManager;
-            _contextAccessor = contextAccessor;
+            _raitingRepository = raitingRepository;
+            _projectMapper = projectMapper;
+            _userManager = userManager;
+            _projectEditorFormMapper = projectEditorFormMapper;
+            _tagRepository = tagRepository;
+            _financialPurposeMapper = financialPurposeMapper;
+            _financialPurposeRepository = financialPurposeRepository;
+            _photoManager = photoManager;
+            _ratingMapper = ratingMapper;
             _paymentManager = paymentManager;
+            _paymentRepository = paymentRepository;
+            _contextAccessor = contextAccessor;
             _raitingRepository = raitingRepository;
             _searchManager = searchManager;
         }
 
-        public bool AddProject(ProjectFormViewModel projectForm)
+        public void ChangeProjectStatus(Project project, IEnumerable<Payment> payments, IEnumerable<FinancialPurpose> purposes)
         {
-            var project = GetPreparedProject(projectForm);
-            return _projectRepository.AddRange(project) & _tagService.AddTagsInProject(projectForm.Tags, project.Id) &
-                   _financialPurposeManager.AddFinancialPurposes(projectForm.FinancialPurposes, project.Id) & 
-                   _searchManager.AddProjectToIndex(project);
-        }
-
-        public IEnumerable<ProjectItemViewModel> GetUserProjects()
-        {
-            var userName = _contextAccessor.HttpContext.User.Identity.Name;
-            return _projectRepository.GetWhere(project => project.OwnerUserName == userName)
-                .Select(project => _projectMapper.ConvertFrom(project));
-        }
-
-        public IEnumerable<ProjectItemViewModel> GetLastCreatedProjects()
-        {
-            return _projectRepository.GetAll().OrderByDescending(project => project.CreatingTime).Take(10)
-                .Select(project => _projectMapper.ConvertFrom(project));
-        }
-
-        public IEnumerable<ProjectItemViewModel> GetFinancedProjects()
-        {
-            return _projectRepository.GetWhere(project => project.Status == ProjectStatus.Financed)
-                .Select(project => _projectMapper.ConvertFrom(project));
-        }
-
-        public string GetProjectName(string projectId)
-        {
-            return _projectRepository.Get(projectId).Name;
-        }
-
-        public void UpdateExistedProjects()
-        {
-            var projects = _projectRepository.GetAll();
-            UpdateProjectRaiting(projects);
-            UpdateProjectStatus(projects);
-            _projectRepository.UpdateRange(projects.ToArray());
-        }
-
-        private void UpdateProjectRaiting(IEnumerable<Project> projects)
-        {
-            var raitings = _raitingRepository.GetAll();
-            foreach (var project in projects)
-            {
-                var projectRaitings = raitings.Where(raiting => raiting.ProjectId == project.Id).ToList();
-                project.Raiting = !projectRaitings.Any() ? 0 : projectRaitings.Average(raiting => raiting.RaitingResult);
-            }
-        }
-
-        private void UpdateProjectStatus(IEnumerable<Project> projects)
-        {
-            var activeProjects = projects.Where(project => project.Status == ProjectStatus.Active);
-            foreach (var project in activeProjects)
-            {
-                ChangeProjectStatus(project);
-            }
-        }
-
-        private void ChangeProjectStatus(Project project)
-        {
-            if (IsFinancialProject(project))
+            if (IsFinancialProject(project, payments, purposes))
             {
                 project.Status = ProjectStatus.Financed;
             }
             else
             {
-                if (project.FundRaisingEnd < DateTime.Today)
-                {
-                    project.Status = ProjectStatus.Failed;
-                }
+                project.Status = project.FundRaisingEnd < DateTime.UtcNow.Date ? ProjectStatus.Failed : ProjectStatus.Active;
             }
         }
 
-        private bool IsFinancialProject(Project project)
-        {
-            return project.FundRaisingEnd <= _paymentManager.GetTimeLastPayment(project.Id) 
-                && project.PaidAmount >= _financialPurposeManager.GetMinFinancialPurposeBudget(project.Id);
-        }
-
-        private Project GetPreparedProject(ProjectFormViewModel projectForm)
+        public bool AddProject(ProjectFormViewModel projectForm)
         {
             var project = _projectFormMapper.ConvertTo(projectForm);
-            project.CreatingTime = DateTime.Today;
-            project.OwnerUserName = _contextAccessor.HttpContext.User.Identity.Name;
-            project.Status = ProjectStatus.Active;
-            project.Id = _projectRepository.GetNewId();
+            var purposes = GetPurposesOfProjectForm(projectForm.FinancialPurposes, project.Id);
+            ChangeProjectStatus(project, null, purposes);
+            return _projectRepository.AddRange(project) && _financialPurposeRepository.AddRange(purposes.ToArray()) &&
+                   AddTagsInProject(projectForm.Tags, project.Id) &&
+                   _searchManager.AddProjectToIndex(project);
+        }
+
+        public void ChangeRating(RatingViewModel ratingForm)
+        {
+            var ratingModel = _raitingRepository.FirstOrDefault(
+                    rating => rating.ProjectId == ratingForm.ProjectId && rating.UserName == _userManager.CurrentUserName);
+            if (ratingModel == null)
+            {
+                AddRating(ratingForm, _userManager.CurrentUserName);
+            }
+            else
+            {
+                UpdateRating(ratingForm.RatingValue, ratingModel);
+            }
+        }
+
+        public ProjectViewModel GetProject(string projectId)
+        {
+            var project = _projectRepository.Get(projectId);
+            return _projectMapper.ConvertFrom(project);
+        }
+
+        public ProjectEditorFormViewModel GetProjectEditorForm(string projectId)
+        {
+            var projectModel = _projectRepository.FirstOrDefault(project => project.Id == projectId);
+            return projectModel == null ? new ProjectEditorFormViewModel() : _projectEditorFormMapper.ConvertFrom(projectModel);
+        }
+
+        public bool UpdateProject(ProjectFormViewModel projectForm)
+        {
+            var purposesForAdding = GetPurposesOfProjectForm(projectForm.FinancialPurposes, projectForm.Id).ToArray();
+            var project = GetUpdatedProject(projectForm, purposesForAdding);
+            return _projectRepository.UpdateRange(project) && UpdateFinancialPurposes(project.Id, purposesForAdding) &&
+                   UpdateTagsInProject(projectForm.Id, projectForm.Tags);
+        }
+
+        public IEnumerable<ProjectItemViewModel> GetUserProjects()
+        {
+            var userProjects = _projectRepository.GetWhere(project => project.OwnerUserName == _userManager.CurrentUserName);
+            var userProjectIds = userProjects.Select(project => project.Id);
+            var userProjectPayments = _paymentRepository.GetWhere(payment => userProjectIds.Contains(payment.ProjectId));
+            return userProjects.Select(project => GetPreparedProjectItem(project, null, userProjectPayments));
+        }
+
+        public IEnumerable<ProjectItemViewModel> GetLastCreatedProjects()
+        {
+            return _projectRepository.GetAll().OrderByDescending(project => project.CreatingTime).Take(10)
+                .Select(project => _projectItemMapper.ConvertFrom(project));
+        }
+
+        public IEnumerable<ProjectItemViewModel> GetFinancedProjects()
+        {
+            return _projectRepository.GetWhere(project => project.Status == ProjectStatus.Financed)
+                .Select(project => _projectItemMapper.ConvertFrom(project));
+        }
+
+        private bool IsFinancialProject(Project project, IEnumerable<Payment> payments, IEnumerable<FinancialPurpose> purposes)
+        {
+            var projectPayments = payments?.Where(payment => payment.ProjectId == project.Id && payment.Time <= project.FundRaisingEnd);
+            var minFinancialPurposeBudget = purposes.Where(purpose => purpose.ProjectId == project.Id)
+                .Min(purpose => purpose.NecessaryPaymentAmount);
+            return _paymentManager.GetProjectPaidAmount(project.Id, projectPayments) >= minFinancialPurposeBudget;
+        }
+
+        private bool AddTagsInProject(IEnumerable<string> tagsToAdding, string projectId)
+        {
+            if (tagsToAdding == null)
+            {
+                return true;
+            }
+            var tags = tagsToAdding.Select(tag => new Tag { Name = tag, ProjectId = projectId });
+            return _tagRepository.AddRange(tags.ToArray());
+        }
+
+        private Project GetUpdatedProject(ProjectFormViewModel projectForm, IEnumerable<FinancialPurpose> purposes)
+        {
+            var project = _projectRepository.Get(projectForm.Id);
+            ConvertProjectFormToProject(project, projectForm);
+            var projectPayments = _paymentManager.GetProjectPayments(projectForm.Id);
+            ChangeProjectStatus(project, projectPayments, purposes);
             return project;
+        }
+
+        private ProjectItemViewModel GetPreparedProjectItem(Project project, IEnumerable<ProjectSubscriber> subscribers, IEnumerable<Payment> payments)
+        {
+            var projectViewModel = _projectItemMapper.ConvertFrom(project);
+            projectViewModel.IsSubscriber = subscribers?.FirstOrDefault(subscriber => subscriber.ProjectId == project.Id) != null;
+            projectViewModel.PaidAmount = _paymentManager.GetProjectPaidAmount(project.Id, payments);
+            return projectViewModel;
+        }
+
+        private void ConvertProjectFormToProject(Project project, ProjectFormViewModel projectForm)
+        {
+            project.Description = projectForm.Description;
+            project.FundRaisingEnd = Convert.ToDateTime(projectForm.FundRaisingEnd);
+            project.ImageUrl = _photoManager.LoadImage(projectForm.ImageBase64);
+            project.MaxPayment = projectForm.MaxPaymentAmount;
+            project.MinPayment = projectForm.MinPaymentAmount;
+            project.Name = projectForm.Name;
+            //var raitings = _raitingRepository.GetAll();
+            ////foreach (var project in projects)
+            ////{
+            ////    var projectRaitings = raitings.Where(raiting => raiting.ProjectId == project.Id).ToList();
+            ////    project.Raiting = !projectRaitings.Any() ? 0 : projectRaitings.Average(raiting => raiting.RaitingResult);
+            ////}
+        }
+
+        private bool UpdateTagsInProject(string projectId, IEnumerable<string> newTags)
+        {
+            var successedRemoving = _tagRepository.RemoveWhere(tag => !newTags.Contains(tag.Name) && tag.ProjectId == projectId);
+            var oldTags = _tagRepository.GetWhere(tag => tag.ProjectId == projectId).Select(tag => tag.Name); 
+            var tagsForAdding = newTags.Where(tag => !oldTags.Contains(tag));
+            var successedAdding = AddTagsInProject(tagsForAdding, projectId);
+            return successedRemoving && successedAdding;
+        }
+
+        private bool UpdateFinancialPurposes(string projectId, FinancialPurpose[] purposesForAdding)
+        {
+            return _financialPurposeRepository.RemoveWhere(purpose => purpose.ProjectId == projectId) &
+                   _financialPurposeRepository.AddRange(purposesForAdding);
+        }
+
+        private IEnumerable<FinancialPurpose> GetPurposesOfProjectForm(IEnumerable<FinancialPurposeViewModel> financialPurposes, string projectId)
+        {
+            return financialPurposes.Select(purpose =>
+            {
+                var purposeToAdding = _financialPurposeMapper.ConvertTo(purpose);
+                purposeToAdding.ProjectId = projectId;
+                return purposeToAdding;
+            });
+        }
+
+        private void AddRating(RatingViewModel ratingViewModel, string userName)
+        {
+            var ratingModel = _ratingMapper.ConvertTo(ratingViewModel);
+            _raitingRepository.AddRange(ratingModel);
+        }
+
+        private void UpdateRating(int rating, Rating ratingModel)
+        {
+            ratingModel.RatingResult = rating;
+            _raitingRepository.UpdateRange(ratingModel);
         }
     }
 }

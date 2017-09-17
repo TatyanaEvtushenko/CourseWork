@@ -1,15 +1,10 @@
 ﻿import { Component } from '@angular/core';
-import { CurrentUserSubscriber } from '../currentuser.subscriber';
-import { AccountService } from "../../services/account.service";
-import { CurrentUserService } from '../../services/currentuser.service';
+import { StorageService } from '../../services/storage.service';
 
 @Component({
     selector: 'floatingbutton',
     templateUrl: './floatingbutton.component.html',
 })
-export class FloatingButtonComponent extends CurrentUserSubscriber {
-
-    constructor(protected currentUserService: CurrentUserService, protected accountService: AccountService) {
-        super(currentUserService, accountService);
-    }
+export class FloatingButtonComponent {
+    constructor(public storage: StorageService) { }
 }

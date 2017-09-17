@@ -12,6 +12,6 @@ namespace CourseWork.DataLayer.Repositories.Implementations
 
 	    protected override DbSet<Comment> Table => DbContext.Comments;
 
-	    protected override string GetIdentificator(Comment item) => item.Id;
+        public override object GetIdentificator(Comment item) => item.Id;
 	}
 }

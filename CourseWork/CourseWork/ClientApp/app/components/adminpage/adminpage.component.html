@@ -1,7 +1,8 @@
 ﻿<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-<div *ngIf="isAdmin">
+<div *ngIf="storage.isReadyCurrentUser && storage.isAdmin">
 	<div class="fixed-action-btn">
-		<button class="waves-effect waves-light btn" [disabled]="selectedIndex == null || userInfos[selectedIndex].statusCode != userStatus.AwaitingConfirmation" (click)="clickConfirm()">View confirmation request</button>
+	    <button class="waves-effect waves-light btn" [disabled]="selectedIndex == null || userInfos[selectedIndex].statusCode != userStatus.AwaitingConfirmation" 
+                (click)="clickConfirm()">View confirmation request</button>
 	</div>
 
     <h2>Admin page</h2>
@@ -66,4 +67,4 @@
         </tbody>
     </table>
 </div>
-<errorpage *ngIf="!isAdmin"></errorpage>
+<errorpage *ngIf="storage.isReadyCurrentUser && !storage.isAdmin"></errorpage>

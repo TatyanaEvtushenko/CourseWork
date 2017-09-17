@@ -1,4 +1,26 @@
-﻿.news-open {
+﻿.user-min-info img {
+    width: 50px;
+}
+
+.btn-icon.btn {
+    width: 40px;
+    padding: inherit;
+}
+
+.project .card {
+    margin-top: 0;
+    overflow: hidden;
+}
+
+.project .card-image img{
+    margin:-15% 0 -15% 0;
+}
+
+.project .card-title {
+    margin-bottom: 15%;
+}
+
+.news-open {
     margin-right: 0 !important;
 }
 

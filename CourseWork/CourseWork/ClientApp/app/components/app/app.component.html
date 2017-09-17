@@ -26,15 +26,11 @@
     </footer>
 </div>
     
-<div *ngIf="!(isReadyCurrentUser && isUser)">
+<div *ngIf="storage.isReadyCurrentUser && !storage.isUser">
     <registermodal></registermodal>
     <loginmodal></loginmodal>
 </div>
 
-<div *ngIf="isJustUser">
+<div *ngIf="storage.isReadyCurrentUser && storage.isJustUser">
     <confirmationmodal></confirmationmodal>
-</div>
-
-<div *ngIf="isAdmin">
-    <adminconfirmationpopup></adminconfirmationpopup>
 </div>

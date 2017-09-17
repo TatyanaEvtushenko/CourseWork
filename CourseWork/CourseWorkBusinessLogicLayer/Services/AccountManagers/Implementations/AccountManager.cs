@@ -117,7 +117,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
                 UserName = userName,
                 IsBlocked = false,
                 ProjectNumber = 0,
-                Raiting = 0,
+                Rating = 0,
                 Status = UserStatus.WithoutConfirmation,
                 LastLoginTime = DateTime.Now,
                 RegistrationTime = DateTime.Now

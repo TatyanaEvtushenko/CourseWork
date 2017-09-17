@@ -23,6 +23,10 @@ namespace CourseWork.BusinessLogicLayer.Services.PhotoManagers.Implementations
 
         public string LoadImage(string imageEncoded)
         {
+            if (Uri.IsWellFormedUriString(imageEncoded, UriKind.Absolute))
+            {
+                return imageEncoded;
+            }
             var savedImagePath = SaveFile(imageEncoded);
             var imageUrl = Upload(savedImagePath);
             return imageUrl;

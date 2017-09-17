@@ -45,7 +45,7 @@ module.exports = {
             }
         ]
     },
-
+    
     plugins: [
         // Workaround for angular/angular#11580
         new webpack.ContextReplacementPlugin(
@@ -61,6 +61,6 @@ module.exports = {
 
         new HtmlWebpackPlugin({
             template: 'ClientApp/dist/index.html'
-        })
+        }),
     ]
 };

@@ -16,14 +16,14 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
         private readonly Repository<UserInfo> _userInfoRepository;
         private readonly Repository<ApplicationUser> _applicationUserRepository;
         private readonly Repository<Project> _projectRepository;
-	    private readonly Repository<Raiting> _raitingRepository;
+	    private readonly Repository<Rating> _raitingRepository;
 	    private readonly Repository<Comment> _commentRepository;
         private readonly IMapper<UserListItemViewModel, UserInfo> _mapperList;
         private readonly IMapper<UserConfirmationViewModel, UserInfo> _mapperInfo;
         private readonly IAccountManager _accountManager;
         private readonly ISearchManager _searchManager;
 
-        public AdminManager(IMapper<UserListItemViewModel, UserInfo> mapperList, Repository<UserInfo> userInfoRepository, IMapper<UserConfirmationViewModel, UserInfo> mapperInfo, IAccountManager accountManager, Repository<ApplicationUser> applicationUserRepository, Repository<Project> projectRepository, Repository<Comment> commentRepository, Repository<Raiting> raitingRepository, ISearchManager searchManager, Repository<Tag> tagRepository, Repository<FinancialPurpose> financialPurposeRepository, Repository<News> newsRepository)
+        public AdminManager(IMapper<UserListItemViewModel, UserInfo> mapperList, Repository<UserInfo> userInfoRepository, IMapper<UserConfirmationViewModel, UserInfo> mapperInfo, IAccountManager accountManager, Repository<ApplicationUser> applicationUserRepository, Repository<Project> projectRepository, Repository<Comment> commentRepository, Repository<Rating> raitingRepository, ISearchManager searchManager, Repository<Tag> tagRepository, Repository<FinancialPurpose> financialPurposeRepository, Repository<News> newsRepository)
         {
             _mapperList = mapperList;
             _userInfoRepository = userInfoRepository;
@@ -51,7 +51,8 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
 
         public UserConfirmationViewModel GetPersonalInfo(string userName)
         {
-            return _mapperInfo.ConvertFrom(_userInfoRepository.Get(userName));
+            var userInfo = _userInfoRepository.Get( userName);
+            return _mapperInfo.ConvertFrom(userInfo);
         }
 
         public async Task<bool> RespondToConfirmation(string userName, bool accept)

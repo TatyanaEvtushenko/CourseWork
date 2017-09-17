@@ -19,7 +19,7 @@ export class BaseService {
     }
 
     protected requestGetWithParams(path: string, params: any) {
-        let requestOptions = new RequestOptions();
+        const requestOptions = new RequestOptions();
         requestOptions.search = params;
         return this.http.get(path, requestOptions).map(this.getData).catch(this.throwError);
     }

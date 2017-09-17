@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CourseWork.BusinessLogicLayer.ViewModels.FinancialPurposeViewModels;
 
 namespace CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels
 {
     public class ProjectFormViewModel
     {
+        public string Id { get; set; }
+
         public string Name { get; set; }
 
         public string FundRaisingEnd { get; set; }

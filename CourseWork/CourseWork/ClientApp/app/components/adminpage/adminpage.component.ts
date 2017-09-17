@@ -2,10 +2,10 @@
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from "../../services/account.service";
-import { CurrentUserService } from '../../services/currentuser.service';
+import { StorageService } from '../../services/storage.service';
 import { UserInfo } from '../../viewmodels/userinfo';
 import { UserStatus } from "../../enums/userstatus";
-import { MessageSubscriber } from '../message.subscriber';
+//import { MessageSubscriber } from '../message.subscriber';
 import { MessageSenderService } from "../../services/messagesender.service";
 import { SentMessage } from "../../viewmodels/sentmessage";
 declare var $: any;
@@ -16,7 +16,7 @@ declare var Materialize: any;
     templateUrl: './adminpage.component.html'
 })
 
-export class AdminPageComponent extends MessageSubscriber {
+export class AdminPageComponent {
     userInfos: UserInfo[] = [];
 	isCheckedAtIndex: boolean[] = [];
 	deleteWithCommentsAndRaitings = false;
@@ -25,9 +25,8 @@ export class AdminPageComponent extends MessageSubscriber {
     selectedIndex: number = null;
     sortOrderAscending = { "Status": true, "LastLoginTime": true };
 
-	constructor(private title: Title, private route: ActivatedRoute, private router: Router,
-		protected currentUserService: CurrentUserService, protected accountService: AccountService, protected messageSenderService: MessageSenderService) {
-        super(currentUserService, accountService, messageSenderService);
+    constructor(private title: Title, public storage: StorageService, private accountService: AccountService,
+        private route: ActivatedRoute, private router: Router, protected messageSenderService: MessageSenderService) {
 		title.setTitle("Admin page");
     }
 

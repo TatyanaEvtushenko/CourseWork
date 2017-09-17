@@ -1,4 +1,5 @@
-﻿using CourseWork.BusinessLogicLayer.ViewModels.NewsViewModels;
+﻿using System;
+using CourseWork.BusinessLogicLayer.ViewModels.NewsViewModels;
 using CourseWork.DataLayer.Models;
 
 namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
@@ -11,7 +12,9 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
             {
                 ProjectId = item.ProjectId,
                 Subject = item.Subject,
-                Text = item.Text
+                Text = item.Text,
+                Time = DateTime.Now,
+                Id = Guid.NewGuid().ToString()
             };
         }
 

@@ -1,20 +1,20 @@
-﻿using CourseWork.BusinessLogicLayer.Services.ProjectManagers;
+﻿using CourseWork.BusinessLogicLayer.Services.Scedulers;
 using FluentScheduler;
 
 namespace CourseWork.Extensions.Scheduler
 {
     public class SchedulerJob : IJob
     {
-        private readonly IProjectManager _projectManager;
+        private readonly IScheduler _scheduler;
 
-        public SchedulerJob(IProjectManager projectManager)
+        public SchedulerJob(IScheduler scheduler)
         {
-            _projectManager = projectManager;
+            _scheduler = scheduler;
         }
 
         public void Execute()
         {
-            _projectManager.UpdateExistedProjects();
+            _scheduler.UpdateData();
         }
     }
 }

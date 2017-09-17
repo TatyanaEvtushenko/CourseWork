@@ -12,13 +12,20 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
             {
                 Description = item.Description,
                 Name = item.Name,
-                NecessaryPaymentAmount = item.Budget
+                NecessaryPaymentAmount = item.Budget,
+                Id = item.Id ?? Guid.NewGuid().ToString()
             };
         }
 
         public FinancialPurposeViewModel ConvertFrom(FinancialPurpose item)
         {
-            throw new NotImplementedException();
+            return new FinancialPurposeViewModel
+            {
+                Description = item.Description,
+                Name = item.Name,
+                Budget = item.NecessaryPaymentAmount,
+                Id = item.Id,
+            };
         }
     }
 }
