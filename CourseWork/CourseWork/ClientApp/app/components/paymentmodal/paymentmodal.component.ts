@@ -20,14 +20,21 @@ export class PaymentModalComponent implements AfterViewInit {
             ready: (modal: any, trigger: any) => this.getPaymentInfo(),
             complete: this.paymentForm = this.paymentInfo = {}
         });
-        console.log("ready");
     }
 
     onSubmit() {
-        this.projectService.addPayment(this.paymentForm).subscribe(
-            data => this.getResponse(data),
-            error => this.isWrongRequest = true
-        );
+        if (this.isReadyFormToSent()) {
+            this.projectService.addPayment(this.paymentForm).subscribe(
+                data => this.getResponse(data),
+                error => this.isWrongRequest = true
+            );
+        }
+    }
+
+    private isReadyFormToSent() {
+        return this.paymentForm.paidAmount != null && this.paymentForm.paidAmount !== "" &&
+            this.paymentForm.accountNumber != null && this.paymentForm.accountNumber !== "" &&
+            this.paymentForm.paidAmount >= this.paymentInfo.minPaymentAmount && this.paymentForm.paidAmount <= this.paymentInfo.maxPaymentAmount;
     }
 
     private getPaymentInfo() {
@@ -39,14 +46,13 @@ export class PaymentModalComponent implements AfterViewInit {
         this.paymentInfo = data;
         this.paymentForm.accountNumber = data.keptAccountNumber;
         this.paymentForm.projectId = this.projectId;
-        console.log(this.paymentInfo);
     }
 
     private getResponse(data: any) {
         this.isWrongRequest = !data;
         if (!this.isWrongRequest) {
-            location.reload();
             Materialize.toast('Payment is carried out successfully.', 4000);
+            location.reload();
         }
     }
 }

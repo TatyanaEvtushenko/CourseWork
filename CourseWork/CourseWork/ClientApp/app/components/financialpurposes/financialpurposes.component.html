@@ -1,7 +1,7 @@
 ﻿<ul id="project-financialPurposes" class="collection">
-    <li *ngFor="let financialPurpose of financialPurposes" class="collection-item">
-        <div class="row" [class.grey]="financialPurpose.isReached" [class.lighten-2]="financialPurpose.isReached" 
-             [class.grey-text]="financialPurpose.isReached">
+    <li *ngFor="let financialPurpose of financialPurposes" class="collection-item" 
+        [class.grey]="financialPurpose.isReached" [class.lighten-2]="financialPurpose.isReached" [class.grey-text]="financialPurpose.isReached">
+        <div class="row">
             <div class="col m11">
                 <span class="title">{{financialPurpose.name}}
                     <span class="secondary-content right-align">{{financialPurpose.budget}}$</span>

@@ -1,4 +1,4 @@
-﻿<div class="input-field">
+﻿<div class="input-field" *ngIf="storage.isReadyCurrentUser && storage.isUser">
     <input id="newComment" [(ngModel)]="commentText" (keyup.enter)="add()"/>
     <label for="newComment">
         <i class="material-icons" (click)="add()">mode_edit</i> New comment
@@ -13,7 +13,7 @@
             <div class="col m3 right-align">
                 {{timeService.getFormatDate(comment.time)}}
             </div>
-            <div class="col m1 right-align" *ngIf="storage.isReadyCurrentUser && (comment.user.userName == storage.currentUser.UserName || projectOwnerUserName == storage.currentUser.userName || storage.isAdmin)">
+            <div class="col m1 right-align" *ngIf="storage.isReadyCurrentUser && storage.isUser && (comment.user.userName == storage.currentUser.userName || projectOwnerUserName == storage.currentUser.userName || storage.isAdmin)">
                 <i class="material-icons" (click)="delete(comment)">close</i>
             </div>
         </div>

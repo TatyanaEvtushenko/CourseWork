@@ -5,17 +5,12 @@ export class TimeService {
 
     getFormatDate(notConvertDate: any) {
         const date = new Date(notConvertDate);
-        const hours = this.toTwoDigits(date.getHours());
-        const minutes = this.toTwoDigits(date.getMinutes());
-        const seconds = this.toTwoDigits(date.getSeconds());
-        return `${this.getFormatOnlyDate(notConvertDate)} ${hours}:${minutes}:${seconds}`;
+        return `${this.convertDateToDate(date)} ${this.convertDateToTime(date)}`;
     }
 
     getFormatOnlyDate(notConvertDate: any) {
         const date = new Date(notConvertDate);
-        const month = this.toTwoDigits(date.getMonth() + 1);
-        const day = this.toTwoDigits(date.getDay() + 1);
-        return `${date.getFullYear()}-${month}-${day}`;
+        return this.convertDateToDate(date);
     }
 
     getNowTime() {
@@ -24,6 +19,19 @@ export class TimeService {
 
     isNotPast(date: any) {
         return new Date(date) >= new Date(Date.now());
+    }
+
+    private convertDateToDate(date: Date) {
+        const monthes = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const month = monthes[date.getMonth()];
+        const day = date.getDate() + 1;
+        return `${day} ${month} ${date.getFullYear()}`;
+    }
+
+    private convertDateToTime(date: Date) {
+        const hours = this.toTwoDigits(date.getHours());
+        const minutes = this.toTwoDigits(date.getMinutes());
+        return `${hours}:${minutes}`;
     }
 
     private toTwoDigits(number: any) {

@@ -15,12 +15,12 @@ export class SortingService {
 
     sortByBudget(a: any, b: any) {
         if (a.budget > b.budget) {
-            return -1;
+            return 1;
         }
         if (a.budget === b.budget) {
             return 0;
         }
-        return 1;
+        return -1;
     }
 
     sortByProjectStatus(a: any, b: any) {

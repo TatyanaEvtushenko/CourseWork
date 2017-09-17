@@ -15,13 +15,13 @@
             <h5>Project status: <projectstatus [status]="project.status"></projectstatus></h5>
         </div>
         <div class="col m3">
-            <h5>Payed amount: {{project.paidAmount}}$</h5>
+            <h5 class="center-align">Payed amount: {{project.paidAmount}}$</h5>
         </div>
         <div class="col m3">
-            <h5>Count of payments: {{project.countOfPayments}}</h5>
+            <h5 class="center-align">Count of payments: {{project.countOfPayments}}</h5>
         </div>
         <div class="col m3">
-            <h5>Project end time: {{timeService.getFormatOnlyDate(project.fundRaisingEnd)}}</h5>
+            <h5 class="right-align">End time: {{timeService.getFormatOnlyDate(project.fundRaisingEnd)}}</h5>
         </div>
     </div>
     
@@ -30,15 +30,15 @@
             <usermininfo [user]="project.owner"></usermininfo>
         </div>
         <div class="col m6 right-align" *ngIf="storage.isReadyCurrentUser && project != null && storage.isUser">
-            <div *ngIf="project.owner.userName != storage.currentUser.userName">
+            <ng-container *ngIf="project.owner.userName != storage.currentUser.userName">
                 <button *ngIf="!project.isSubscriber" class="btn" (click)="subscribe()">Subscribe</button>
                 <button *ngIf="project.isSubscriber" class="btn" (click)="unsubscribe()">Unsubscribe</button>
-            </div>
-            <div *ngIf="timeService.isNotPast(project.fundRaisingEnd)">
+            </ng-container>
+            <ng-container *ngIf="timeService.isNotPast(project.fundRaisingEnd)">
                 <button class="btn modal-trigger" href="#paymentModal">Pay</button>
                 <paymentmodal [projectId]="project.id"></paymentmodal>
-            </div>
-            <div *ngIf="storage.isAdmin || project.owner.userName == storage.currentUser.userName">
+            </ng-container>
+            <ng-container *ngIf="storage.isAdmin || project.owner.userName == storage.currentUser.userName">
                 <button class="btn btn-icon modal-trigger" href="#newsModal">
                     <i class="material-icons">library_books</i>
                 </button>
@@ -46,7 +46,7 @@
                     <i class="material-icons">edit</i>
                 </a>
                 <newsformmodal [projectId]="project.id" (onAdded)="addNews($event)"></newsformmodal>
-            </div>
+            </ng-container>
         </div>
     </div>
 
@@ -67,7 +67,7 @@
     <div class="row" *ngIf="project.news.length > 0">
         <div class="col m12">
             <h5 class="center-align">News</h5>
-            <news [someNews]="project.news" [canChange]="storage.isReadyCurrentUser && (project.owner.userName == storage.currentUser.userName || storage.isAdmin)"></news>
+            <news [someNews]="project.news" [canChange]="storage.isReadyCurrentUser && storage.isUser && (project.owner.userName == storage.currentUser.userName || storage.isAdmin)"></news>
         </div>
     </div>
 
