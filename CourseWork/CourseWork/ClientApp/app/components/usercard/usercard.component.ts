@@ -9,6 +9,7 @@ declare var $: any;
 
 export class UserCardComponent {
     @Input() displayableInfo: DisplayableInfo;
+    @Input() isCardOfCurrentUser: boolean;
 
     openAccountEdit() {
         $('#accountEditModal').modal("open");

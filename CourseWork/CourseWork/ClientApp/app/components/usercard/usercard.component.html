@@ -12,7 +12,7 @@
                 <li>Contacts: {{displayableInfo.contacts}}</li>
             </ul>
         </div>
-        <div class="card-action">
+        <div class="card-action" *ngIf="isCardOfCurrentUser">
             <a href="#accountEditModal" (click)="openAccountEdit()" class="modal-trigger"><i class="material-icons">edit</i></a>
             <a href="#avatarChangeModal" (click)="openAvatarChange()" class="modal-trigger"><i class="material-icons">photo_camera</i></a>
         </div>

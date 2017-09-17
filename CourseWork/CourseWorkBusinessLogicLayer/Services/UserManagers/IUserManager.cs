@@ -21,6 +21,6 @@ namespace CourseWork.BusinessLogicLayer.Services.UserManagers
 
         void Edit(AccountEditViewModel newAbout);
 
-        void ChangeAvatar(string newAvatarB64);
+        string ChangeAvatar(string newAvatarB64);
     }
 }

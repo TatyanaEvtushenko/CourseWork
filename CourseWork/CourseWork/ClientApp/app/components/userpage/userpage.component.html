@@ -1,14 +1,18 @@
 ﻿<errorpage *ngIf="storage.isReadyCurrentUser && !storage.isUser"></errorpage>
 
 <div *ngIf="storage.isReadyCurrentUser && storage.isUser">
-    <h2>My page</h2>
+    <h2 *ngIf="currentUserName === ownerUserName">My page</h2>
+    <h2 *ngIf="currentUserName !== ownerUserName">{{ownerUserName}}'s page</h2>
     <div class="col s12 m7">
-        <usercard [displayableInfo]="displayableInfo"></usercard>
+        <usercard [displayableInfo]="displayableInfo" [isCardOfCurrentUser]="currentUserName === ownerUserName"></usercard>
     </div>
-    <accounteditmodal *ngIf="storage.isReadyCurrentUser && storage.isUser" [about]="accountEditForm.about" [contacts]="accountEditForm.contacts"></accounteditmodal>
-    <avatarchangemodal *ngIf="storage.isReadyCurrentUser && storage.isUser"></avatarchangemodal>
-    <div *ngIf="storage.isReadyCurrentUser && storage.isConfirmedUser">
-        <h3>My projects</h3>
+    <accounteditmodal *ngIf="storage.isReadyCurrentUser && storage.isUser"
+                      [about]="accountEditForm.about" [contacts]="accountEditForm.contacts" (onConfirm)="updateAccount($event)"></accounteditmodal>
+    <avatarchangemodal *ngIf="storage.isReadyCurrentUser && storage.isUser" (onConfirm)="updateAvatar($event)"></avatarchangemodal>
+    <div>
+        <h3 *ngIf="currentUserName === ownerUserName">My projects</h3>
+        <a href="#confirmationModal" class="modal-trigger" *ngIf="currentUserName === ownerUserName && storage.isJustUser">Confirm your account now to create projects.</a>
+        <h3 *ngIf="currentUserName !== ownerUserName">{{ownerUserName}}'s projects</h3>
         <div class="row">
             <div class="col m4" *ngFor="let project of userProjects">
                 <projectitem [project]="project" (onClickNews)="openNewsModal($event)" (onClickPay)="openPayment($event)"
@@ -16,8 +20,9 @@
             </div>
         </div>
     </div>
-    <div *ngIf="storage.isReadyCurrentUser && storage.isUser">
-        <h3>My subscriptions</h3>
+    <div>
+        <h3 *ngIf="currentUserName === ownerUserName">My subscriptions</h3>
+        <h3 *ngIf="currentUserName !== ownerUserName">{{ownerUserName}}'s subscriptions</h3>
         <div class="row">
             <div class="col m4" *ngFor="let project of userSubscribedProjects">
                 <projectitem [project]="project" (onClickNews)="openNewsModal($event)" (onClickPay)="openPayment($event)"

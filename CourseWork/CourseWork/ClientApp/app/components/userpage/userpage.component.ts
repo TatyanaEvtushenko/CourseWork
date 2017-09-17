@@ -88,4 +88,13 @@ export class UserPageComponent {
     unsubscribe(projectId: string) {
         this.projectService.unsubscribe(projectId).subscribe();
     }
+
+    updateAccount(editForm: AccountEditForm) {
+        this.displayableInfo.about = editForm.about;
+        this.displayableInfo.contacts = editForm.contacts;
+    }
+
+    updateAvatar(newAvatar: string) {
+        this.displayableInfo.avatar = newAvatar;
+    }
 }

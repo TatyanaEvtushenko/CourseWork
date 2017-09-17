@@ -65,13 +65,14 @@ namespace CourseWork.BusinessLogicLayer.Services.UserManagers.Implementations
             _userInfoRepository.UpdateRange(currentUser);
         }
 
-        public void ChangeAvatar(string newAvatarB64)
+        public string ChangeAvatar(string newAvatarB64)
         {
             var user = _contextAccessor.HttpContext.User.Identity;
             var currentUser = _userInfoRepository.GetWhere(item => item.UserName.Equals(user.Name)).Single();
             var newAvatar = _photoManager.LoadImage(newAvatarB64);
             currentUser.Avatar = newAvatar;
             _userInfoRepository.UpdateRange(currentUser);
+            return newAvatar;
         }
     }
 }

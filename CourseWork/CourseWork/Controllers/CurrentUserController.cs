@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CourseWork.BusinessLogicLayer.Services.PhotoManagers;
 using CourseWork.BusinessLogicLayer.Services.UserManagers;
@@ -37,9 +39,9 @@ namespace CourseWork.Controllers
         [HttpPost]
         [Route("api/CurrentUser/ChangeAvatar")]
         [Authorize]
-        public void ChangeAvatar([FromBody] string newAvatarB64)
+        public KeyValuePair<string, string> ChangeAvatar([FromBody] string newAvatarB64)
         {
-            _userManager.ChangeAvatar(newAvatarB64);
+            return new KeyValuePair<string, string>("", _userManager.ChangeAvatar(newAvatarB64));
         }
     }
 }
