@@ -2,6 +2,7 @@
 import { BaseService } from './base.service';
 import { NewProjectForm } from "../viewmodels/newprojectform";
 import { NewsForm } from '../viewmodels/newsform';
+import { PaymentForm } from '../viewmodels/paymentform';
 
 @Injectable()
 export class ProjectService extends BaseService {
@@ -62,5 +63,13 @@ export class ProjectService extends BaseService {
 
     removeComment(commentId: string) {
         return this.requestPost("api/Comment/RemoveComment", commentId);
+    }
+
+    getPaymentInfoForForm(projectId: string) {
+        return this.requestGet(`api/Payment/GetPaymentInfoForForm/${projectId}`);
+    }
+
+    addPayment(paymentForm: PaymentForm) {
+        return this.requestPost("api/Payment/AddPayment", paymentForm);
     }
 }

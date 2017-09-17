@@ -29,6 +29,7 @@ namespace CourseWork.Extensions.StartupExtensions
             services.AddScoped<IMapper<RatingViewModel, Rating>, RatingViewModelToRatingMapper>();
             services.AddScoped<IMapper<UserSmallViewModel, UserInfo>, UserSmallViewModelToUserInfoMapper>();
             services.AddScoped<IMapper<PaymentFormViewModel, Payment>, PaymentFormViewModelToPaymentMapper>();
+            services.AddScoped<IMapper<PaymentForFormViewModel, Project>, PaymentForFormViewModelToProjectMapper>();
         }
     }
 }

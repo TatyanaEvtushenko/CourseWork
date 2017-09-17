@@ -26,7 +26,8 @@
             <a href="/ProjectEditorPage/{{project.id}}" class="right"><i class="material-icons">edit</i></a>
             <a (click)="openNews()" href="#newsModal" class="modal-trigger right"><i class="material-icons">library_books</i></a>
         </ng-container>
-        <a *ngIf="storage.isReadyCurrentUser && storage.isUser && project.projectEntTime <= timeService.GetNowTime()">
+        <a *ngIf="storage.isReadyCurrentUser && storage.isUser && timeService.isNotPast(project.projectEndTime)" 
+           class="modal-trigger" (click)="openPayment()" href="#paymentModal">
             <i class="material-icons right">payment</i>
         </a>
     </div>

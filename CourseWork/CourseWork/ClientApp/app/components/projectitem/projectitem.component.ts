@@ -12,11 +12,16 @@ export class ProjectItemComponent {
     @Output() onClickNews = new EventEmitter<string>();
     @Output() onClickSubscribe = new EventEmitter<string>();
     @Output() onClickUnsubscribe = new EventEmitter<string>();
+    @Output() onClickPay = new EventEmitter<string>();
 
     constructor(public storage: StorageService, public timeService: TimeService) { }
 
     openNews() {
         this.onClickNews.emit(this.project.id);
+    }
+
+    openPayment() {
+        this.onClickPay.emit(this.project.id);
     }
 
     subscribe() {

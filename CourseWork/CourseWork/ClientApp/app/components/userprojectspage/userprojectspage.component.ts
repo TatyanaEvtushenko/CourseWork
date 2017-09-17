@@ -28,6 +28,10 @@ export class UserProjectsPageComponent {
         );
     }
 
+    openPayment(event: any) {
+        this.selectedProjectId = event;
+    }
+
     openNewsModal(event: any) {
         this.selectedProjectId = event;
     }

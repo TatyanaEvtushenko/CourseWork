@@ -7,5 +7,7 @@
         public decimal MaxPaymentAmount { get; set; }
 
         public string KeptAccountNumber { get; set; }
+
+        public string ProjectName { get; set; }
     }
 }

@@ -16,9 +16,9 @@ namespace CourseWork.Controllers
             _paymentManager = paymentManager;
         }
 
-        [HttpPost]
-        [Route("api/Payment/GetPaymentInfoForForm")]
-        public PaymentForFormViewModel GetPaymentInfoForForm([FromBody]string projectId)
+        [HttpGet]
+        [Route("api/Payment/GetPaymentInfoForForm/{projectId}")]
+        public PaymentForFormViewModel GetPaymentInfoForForm(string projectId)
         {
             return _paymentManager.GetPaymentInfoForForm(projectId);
         }

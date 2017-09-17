@@ -5,16 +5,25 @@ export class TimeService {
 
     getFormatDate(notConvertDate: any) {
         const date = new Date(notConvertDate);
-        const month = this.toTwoDigits(date.getMonth() + 1);
-        const day = this.toTwoDigits(date.getDay() + 1);
         const hours = this.toTwoDigits(date.getHours());
         const minutes = this.toTwoDigits(date.getMinutes());
         const seconds = this.toTwoDigits(date.getSeconds());
-        return `${date.getFullYear()}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        return `${this.getFormatOnlyDate(notConvertDate)} ${hours}:${minutes}:${seconds}`;
+    }
+
+    getFormatOnlyDate(notConvertDate: any) {
+        const date = new Date(notConvertDate);
+        const month = this.toTwoDigits(date.getMonth() + 1);
+        const day = this.toTwoDigits(date.getDay() + 1);
+        return `${date.getFullYear()}-${month}-${day}`;
     }
 
     getNowTime() {
-        return new Date(Date.now);
+        return new Date(Date.now());
+    }
+
+    isNotPast(date: any) {
+        return new Date(date) >= new Date(Date.now());
     }
 
     private toTwoDigits(number: any) {

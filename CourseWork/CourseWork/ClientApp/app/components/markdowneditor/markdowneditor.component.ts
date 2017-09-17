@@ -12,7 +12,7 @@ export class MarkdownEditorComponent implements AfterViewInit {
     @Output() onChanged = new EventEmitter<string>();
 
     ngAfterViewInit() {
-        $('#markdownPreview').modal();
+        $("#markdownPreview").modal();
     }
 
     change() {

@@ -14,17 +14,20 @@ namespace CourseWork.BusinessLogicLayer.Services.PaymentManagers.Implementations
         private readonly Repository<Project> _projectRepository;
         private readonly Repository<UserInfo> _userInfoRepository;
         private readonly IMapper<PaymentFormViewModel, Payment> _paymentMapper;
+        private readonly IMapper<PaymentForFormViewModel, Project> _paymentForFormMapper;
         private readonly IUserManager _userManager;
 
         public PaymentManager(Repository<Payment> paymentRepository,
             IMapper<PaymentFormViewModel, Payment> paymentMapper, Repository<Project> projectRepository,
-            Repository<UserInfo> userInfoRepository, IUserManager userManager)
+            Repository<UserInfo> userInfoRepository, IUserManager userManager,
+            IMapper<PaymentForFormViewModel, Project> paymentForFormMapper)
         {
             _paymentRepository = paymentRepository;
             _paymentMapper = paymentMapper;
             _projectRepository = projectRepository;
             _userInfoRepository = userInfoRepository;
             _userManager = userManager;
+            _paymentForFormMapper = paymentForFormMapper;
         }
 
         public decimal GetProjectPaidAmount(string projectId, IEnumerable<Payment> payments)
@@ -49,12 +52,9 @@ namespace CourseWork.BusinessLogicLayer.Services.PaymentManagers.Implementations
         public PaymentForFormViewModel GetPaymentInfoForForm(string projectId)
         {
             var project = _projectRepository.Get(projectId);
-            return new PaymentForFormViewModel
-            {
-                KeptAccountNumber = _userManager.GetCurrentUserUserInfo().LastAccountNumber,
-                MinPaymentAmount = project.MinPayment,
-                MaxPaymentAmount = project.MaxPayment
-            };
+            var paymentForForm = _paymentForFormMapper.ConvertFrom(project);
+            paymentForForm.KeptAccountNumber = _userManager.GetCurrentUserUserInfo().LastAccountNumber;
+            return paymentForForm;
         }
 
         private void UpdateAccountNumber(PaymentFormViewModel paymentForm)

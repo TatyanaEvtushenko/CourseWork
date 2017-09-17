@@ -1,79 +1,52 @@
-﻿import { Component, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
-import { NewsForm } from '../../viewmodels/newsform';
+﻿import { Component, AfterViewInit, Input} from '@angular/core';
 import { ProjectService } from "../../services/project.service";
 declare var $: any;
 declare var Materialize: any;
 
 @Component({
-    selector: 'newsformmodal',
-    templateUrl: './newsformmodal.component.html'
+    selector: 'paymentmodal',
+    templateUrl: './paymentmodal.component.html'
 })
-export class NewsFormModalComponent implements AfterViewInit {
+export class PaymentModalComponent implements AfterViewInit {
     @Input() projectId: string;
-    newsForm = new NewsForm();
+    paymentForm: any = {};
+    paymentInfo: any = {};
     isWrongRequest = false;
-    isNews = true;
-    isMailingToSubscribers = false;
-    isMailingToPayers = false;
-    isSent = false;
-    @Output() onAdded = new EventEmitter<any>();
 
     constructor(private projectService: ProjectService) { }
 
     ngAfterViewInit() {
-        $('#newsModal').modal();
+        $('#paymentModal').modal({
+            ready: (modal: any, trigger: any) => this.getPaymentInfo(),
+            complete: this.paymentForm = this.paymentInfo = {}
+        });
+        console.log("ready");
     }
 
     onSubmit() {
-        this.isSent = false;
-        this.newsForm.projectId = this.projectId;
-        this.addNews();
-        this.addMailingToSubscribers();
-        this.addMailingToPayers();
+        this.projectService.addPayment(this.paymentForm).subscribe(
+            data => this.getResponse(data),
+            error => this.isWrongRequest = true
+        );
     }
 
-    private addNews() {
-        if (this.isNews) {
-            this.projectService.addNews(this.newsForm).subscribe(
-                (data) => this.getNewsResponse(data),
-                (error) => this.isWrongRequest = true
-            );
-        }
+    private getPaymentInfo() {
+        this.projectService.getPaymentInfoForForm(this.projectId).subscribe(
+            data => this.prepareData(data));
     }
 
-    private getNewsResponse(data: any) {
-        this.getResponse(data);
-        if (data) {
-            this.onAdded.emit(this.newsForm);
-        }
-    }
-
-    private addMailingToSubscribers() {
-        if (this.isMailingToSubscribers) {
-            this.projectService.addMailingToSubscribers(this.newsForm).subscribe(
-                (data) => this.getResponse(data),
-                (error) => this.isWrongRequest = true
-            );
-        }
-    }
-
-    private addMailingToPayers() {
-        if (this.isMailingToPayers) {
-            this.projectService.addMailingToPayers(this.newsForm).subscribe(
-                (data) => this.getResponse(data),
-                (error) => this.isWrongRequest = true
-            );
-        }
+    private prepareData(data: any) {
+        this.paymentInfo = data;
+        this.paymentForm.accountNumber = data.keptAccountNumber;
+        this.paymentForm.projectId = this.projectId;
+        console.log(this.paymentInfo);
     }
 
     private getResponse(data: any) {
-        if (!this.isSent) {
-            this.isSent = true;
-            this.isWrongRequest = !data;
-            if (!this.isWrongRequest) {
-                $('#newsModal').modal("close");
-                Materialize.toast('News is sent.', 4000);
-            }
+        this.isWrongRequest = !data;
+        if (!this.isWrongRequest) {
+            location.reload();
+            Materialize.toast('Payment is carried out successfully.', 4000);
         }
     }
 }

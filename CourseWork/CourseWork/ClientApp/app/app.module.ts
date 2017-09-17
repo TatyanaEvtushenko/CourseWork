@@ -39,6 +39,7 @@ import { UserMinInfoComponent } from './components/usermininfo/usermininfo.compo
 import { ProjectEditorPageComponent } from './components/projecteditorpage/projecteditorpage.component';
 import { NewsComponent } from './components/news/news.component';
 import { CommentsComponent } from './components/comments/comments.component';
+import { PaymentModalComponent } from './components/paymentmodal/paymentmodal.component';
 
 import { BaseService} from './services/base.service';
 import { CurrentUserService } from "./services/currentuser.service"; 
@@ -103,7 +104,8 @@ const appRoutes: Routes = [
         UserMinInfoComponent,
         ProjectEditorPageComponent,
         NewsComponent,
-        CommentsComponent
+        CommentsComponent,
+        PaymentModalComponent
     ],
     providers: [
         BaseService,
