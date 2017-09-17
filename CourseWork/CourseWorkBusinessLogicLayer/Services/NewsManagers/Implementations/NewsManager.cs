@@ -64,7 +64,8 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
 
         public bool RemoveNews(string newsId)
         {
-            return _newsRepository.RemoveRange(newsId);
+            var news = _newsRepository.Get(newsId);
+            return _newsRepository.RemoveRange(newsId) && _searchManager.RemoveNewsFromIndex(news);
         }
 
         private bool AddNewsToRepository(NewsFormViewModel newsForm, NewsType type)

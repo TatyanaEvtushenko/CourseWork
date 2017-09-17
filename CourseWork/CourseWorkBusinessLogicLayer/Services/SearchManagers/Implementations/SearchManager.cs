@@ -61,11 +61,53 @@ namespace CourseWork.BusinessLogicLayer.Services.SearchManagers.Implementations
             return updateResponse.Result == Result.Updated;
         }
 
+        public bool RemoveNewsFromIndex(News news)
+        {
+            var searchResponse = _client.Search<ProjectSearchNote>(s =>
+                s.Type("projectSearchNote").Query(q => q.Term(t => t.Field("id").Value(news.ProjectId))));
+            var doc = searchResponse.Hits.Select(n => n.Source).Single();
+            var updatedNewsSubjects = doc.NewsSubject;
+            var updatedNewsTexts = doc.NewsText;
+            updatedNewsSubjects.RemoveAt(updatedNewsSubjects.IndexOf(news.Subject));
+            updatedNewsTexts.RemoveAt(updatedNewsTexts.IndexOf(news.Text));
+            var updateResponse = _client.Update<ProjectSearchNote, Object>(news.ProjectId, d => d.Type("projectSearchNote")
+                .Doc(new { NewsSubject = updatedNewsSubjects, NewsText = updatedNewsTexts }).Refresh(Refresh.True));
+            return updateResponse.Result != Result.Updated;
+        }
+
         public bool RemoveProjectsFromIndex(Project[] projects)
         {
             var projectDocuments = projects.Select(p => _projectSearchMapper.ConvertFrom(p));
             var response = _client.DeleteMany(projectDocuments);
             return !response.Errors;
+        }
+
+        public bool AddCommentToIndex(Comment comment)
+        {
+            var searchResponse = _client.Search<ProjectSearchNote>(s =>
+                s.Type("projectSearchNote").Query(q => q.Term(t => t.Field("id").Value(comment.ProjectId))));
+            var doc = searchResponse.Hits.Select(n => n.Source).Single();
+            var updatedCommentTexts = doc.Comment;
+            updatedCommentTexts.Add(comment.Text);
+            var updateResponse = _client.Update<ProjectSearchNote, Object>(comment.ProjectId, d => d.Type("projectSearchNote")
+                .Doc(new { Comment = updatedCommentTexts }).Refresh(Refresh.True));
+            return updateResponse.Result == Result.Updated;
+        }
+
+        public bool RemoveCommentsFromIndex(Comment[] comments)
+        {
+            foreach (var comment in comments)
+            {
+                var searchResponse = _client.Search<ProjectSearchNote>(s =>
+                    s.Type("projectSearchNote").Query(q => q.Term(t => t.Field("id").Value(comment.ProjectId))));
+                var doc = searchResponse.Hits.Select(n => n.Source).Single();
+                var updatedCommentTexts = doc.Comment;
+                updatedCommentTexts.RemoveAt(updatedCommentTexts.IndexOf(comment.Text));
+                var updateResponse = _client.Update<ProjectSearchNote, Object>(comment.ProjectId, d => d.Type("projectSearchNote")
+                    .Doc(new { Comment = updatedCommentTexts }).Refresh(Refresh.True));
+                if (updateResponse.Result != Result.Updated) return false;
+            }
+            return true;
         }
     }
 }

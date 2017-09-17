@@ -2,19 +2,23 @@
     <div class="card-image">
         <img src="{{displayableInfo.avatar}}">
     </div>
-    <div class="card-stacked">
-        <div class="card-content">
-            <ul>
-                <li>Username: {{displayableInfo.userName}}</li>
-                <li>Registered: {{displayableInfo.registrationTime}}</li>
-                <li>Projects created: {{displayableInfo.projectNumber}}</li>
-                <li>About: {{displayableInfo.about}}</li>
-                <li>Contacts: {{displayableInfo.contacts}}</li>
-            </ul>
+    <div class="card-content row">
+        <div class="card-title">
+            {{displayableInfo.userName}}<br />
         </div>
-        <div class="card-action" *ngIf="isCardOfCurrentUser">
-            <a href="#accountEditModal" (click)="openAccountEdit()" class="modal-trigger"><i class="material-icons">edit</i></a>
-            <a href="#avatarChangeModal" (click)="openAvatarChange()" class="modal-trigger"><i class="material-icons">photo_camera</i></a>
-        </div>
+        <ul>
+            <li>Registered: {{displayableInfo.registrationTime}}</li>
+            <li>Projects created: {{displayableInfo.projectNumber}}</li>
+            <li>Contacts: {{displayableInfo.contacts}}</li>
+        </ul>
+    </div>
+    <div class="card-reveal">
+        <span class="card-title grey-text text-darken-4">About<i class="material-icons right">close</i></span>
+        <markdown>{{displayableInfo.about}}</markdown>
+    </div>
+    <div class="card-action">
+        <a><i class="material-icons right activator">more_vert</i></a>
+        <a *ngIf="isCardOfCurrentUser" href="#accountEditModal" (click)="openAccountEdit()" class="modal-trigger"><i class="material-icons">edit</i></a>
+        <a *ngIf="isCardOfCurrentUser" href="#avatarChangeModal" (click)="openAvatarChange()" class="modal-trigger"><i class="material-icons">photo_camera</i></a>
     </div>
 </div>

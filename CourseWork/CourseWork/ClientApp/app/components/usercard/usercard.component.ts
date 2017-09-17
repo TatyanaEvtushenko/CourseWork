@@ -8,7 +8,7 @@ declare var $: any;
 })
 
 export class UserCardComponent {
-    @Input() displayableInfo: DisplayableInfo;
+    @Input() displayableInfo: any;
     @Input() isCardOfCurrentUser: boolean;
 
     openAccountEdit() {

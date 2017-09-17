@@ -40,16 +40,11 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
 
         public UserListItemViewModel[] GetAllUsers()
         {
-            //return _userInfoRepository.GetAll().Select(n => _mapperList.ConvertFrom(n)).ToArray();
             return ((UserInfoRepository)_userInfoRepository).GetUserListItemViewModels(item => true).Select(item => item.ConvertTo<UserListItemViewModel>()).ToArray();
         }
 
         public UserListItemViewModel[] GetFilteredUsers(FilterRequestViewModel model)
         {
-            //return _userInfoRepository.GetWhere(item => (model.Confirmed && item.Status == UserStatus.Confirmed) ||
-            //           (model.Requested && item.Status == UserStatus.AwaitingConfirmation) ||
-            //           (model.Unconfirmed && item.Status == UserStatus.WithoutConfirmation)
-            //).Select(n => _mapperList.ConvertFrom(n)).ToArray();
             return ((UserInfoRepository)_userInfoRepository).GetUserListItemViewModels(item => (model.Confirmed && item.Status == UserStatus.Confirmed) ||
                        (model.Requested && item.Status == UserStatus.AwaitingConfirmation) ||
                        (model.Unconfirmed && item.Status == UserStatus.WithoutConfirmation))
@@ -94,9 +89,13 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
         {
 	        var usersToDeleteSet = usersToDelete.ToImmutableHashSet();
             var projectsToRemove = _projectRepository.GetWhere(n => usersToDeleteSet.Contains(n.OwnerUserName));
+            Comment[] commentsToRemove = null;
+            if (withCommentsAndRaitings)
+                commentsToRemove = _commentRepository.GetWhere(item => usersToDelete.Contains(item.UserName)).ToArray();
             return (!withCommentsAndRaitings ||
 				(_raitingRepository.RemoveWhere(n => usersToDeleteSet.Contains(n.UserName)) &&
-				_commentRepository.RemoveWhere(n => usersToDeleteSet.Contains(n.UserName)))) &&
+				_commentRepository.RemoveWhere(n => usersToDeleteSet.Contains(n.UserName)) &&
+                _searchManager.RemoveCommentsFromIndex(commentsToRemove))) &&
                  _searchManager.RemoveProjectsFromIndex(projectsToRemove.ToArray()) && 
                 _userInfoRepository.RemoveRange(usersToDelete) &&
                 _applicationUserRepository.RemoveWhere(n => usersToDeleteSet.Contains(n.UserName));

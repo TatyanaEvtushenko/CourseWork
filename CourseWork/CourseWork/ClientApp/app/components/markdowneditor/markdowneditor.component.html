@@ -2,7 +2,7 @@
     <div class="col m11">
         <div class="input-field markdown-editor">
             <textarea id="markdownText" class="materialize-textarea" [(ngModel)]="text" (ngModelChange)="change()"></textarea> 
-            <label for="markdownText">{{fieldName}}</label>
+            <label [attr.class]="text !== '' && text != null ? 'active' : ''" for="markdownText">{{fieldName}}</label>
         </div>
     </div>
     <div class="col m1">
