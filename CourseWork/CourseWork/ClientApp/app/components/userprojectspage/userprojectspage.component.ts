@@ -12,7 +12,7 @@ import { SortingService } from '../../services/sorting.service';
     selector: 'userprojectspage',
     templateUrl: './userprojectspage.component.html'
 })
-export class UserProjectsPageComponent extends CurrentUserSubscriber {
+export class UserProjectsPageComponent {
     @Input() projects: any[] = [];
     selectedProjectId: string = null;
 

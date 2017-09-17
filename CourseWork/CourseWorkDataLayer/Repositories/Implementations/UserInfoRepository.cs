@@ -32,7 +32,7 @@ namespace CourseWork.DataLayer.Repositories.Implementations
                     LastLoginTime = userInfo.LastLoginTime.ToString(),
                     RegistrationTime = userInfo.RegistrationTime.ToString(),
                     ProjectNumber = userProjects.Count(),
-                    Raiting = userInfo.Raiting.ToString(),
+                    Raiting = userInfo.Rating.ToString(),
                     Status = EnumConfiguration.StatusDisplayNames[userInfo.Status],
                     StatusCode = (int)userInfo.Status,
                     IsBlocked = userInfo.IsBlocked

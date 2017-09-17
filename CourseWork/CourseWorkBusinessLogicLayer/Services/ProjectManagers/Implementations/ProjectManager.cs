@@ -40,6 +40,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         private readonly IMapper<RatingViewModel, Rating> _ratingMapper;
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly ISearchManager _searchManager;
+        private readonly Repository<ProjectSubscriber> _projectSubscriberRepository;
 
         public ProjectManager(Repository<Project> projectRepository,
             IMapper<ProjectItemViewModel, Project> projectItemMapper,
@@ -53,7 +54,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             Repository<Payment> paymentRepository,
             ITagService tagService,
             IFinancialPurposeManager financialPurposeManager,
-            IHttpContextAccessor contextAccessor, IPaymentManager paymentManager, Repository<Raiting> raitingRepository, ISearchManager searchManager, Repository<ProjectSubscriber> projectSubscriberRepository)
+            IHttpContextAccessor contextAccessor, ISearchManager searchManager, Repository<ProjectSubscriber> projectSubscriberRepository, Repository<ProjectSubscriber> projectSubscribeRepository)
         {
             _projectRepository = projectRepository;
             _projectItemMapper = projectItemMapper;
@@ -72,7 +73,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             _contextAccessor = contextAccessor;
             _raitingRepository = raitingRepository;
             _searchManager = searchManager;
-            _projectSubscriberRepository = projectSubscriberRepository;
+            _projectSubscriberRepository = projectSubscribeRepository;
         }
 
         public void ChangeProjectStatus(Project project, IEnumerable<Payment> payments, IEnumerable<FinancialPurpose> purposes)
@@ -143,7 +144,12 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         {
             var userName = _contextAccessor.HttpContext.User.Identity.Name;
             return _projectSubscriberRepository.GetWhereEager(item => item.Project, item => userName.Equals(item.UserName))
-                .Select(item => _projectMapper.ConvertFrom(item.Project));
+                .Select(item => _projectItemMapper.ConvertFrom(item.Project));
+        }
+
+        public string GetProjectName(string projectId)
+        {
+            throw new NotImplementedException();
         }
 
         public IEnumerable<ProjectItemViewModel> GetLastCreatedProjects()

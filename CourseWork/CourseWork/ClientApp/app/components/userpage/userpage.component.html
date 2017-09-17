@@ -1,13 +1,13 @@
-﻿<errorpage *ngIf="isReadyCurrentUser && !isUser"></errorpage>
+﻿<errorpage *ngIf="storage.isReadyCurrentUser && !storage.isUser"></errorpage>
 
-<div *ngIf="isReadyCurrentUser && isUser">
+<div *ngIf="storage.isReadyCurrentUser && storage.isUser">
     <h2>My page</h2>
     <div class="col s12 m7">
         <usercard [displayableInfo]="displayableInfo"></usercard>
     </div>
-    <accounteditmodal *ngIf="isReadyCurrentUser && isUser" [about]="accountEditForm.about" [contacts]="accountEditForm.contacts"></accounteditmodal>
-    <avatarchangemodal *ngIf="isReadyCurrentUser && isUser"></avatarchangemodal>
-    <userprojectspage [projects]="projects" *ngIf="isReadyCurrentUser && isConfirmedUser"></userprojectspage>
+    <accounteditmodal *ngIf="storage.isReadyCurrentUser && storage.isUser" [about]="accountEditForm.about" [contacts]="accountEditForm.contacts"></accounteditmodal>
+    <avatarchangemodal *ngIf="storage.isReadyCurrentUser && storage.isUser"></avatarchangemodal>
+    <userprojectspage [projects]="projects" *ngIf="storage.isReadyCurrentUser && storage.isConfirmedUser"></userprojectspage>
     
     <h3>My subscriptions</h3>
     <usersubscriptions></usersubscriptions>

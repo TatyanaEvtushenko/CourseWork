@@ -2,23 +2,25 @@
 import { Title } from '@angular/platform-browser';
 import { AccountService } from "../../services/account.service";
 import { CurrentUserService } from '../../services/currentuser.service';
-import { MessageSubscriber } from '../message.subscriber';
+//import { MessageSubscriber } from '../message.subscriber';
 import { ProjectService } from '../../services/project.service';
 import { MessageSenderService } from '../../services/messagesender.service';
 import { DisplayableInfo } from "../../viewmodels/displayableinfo";
 import { AccountEditForm } from "../../viewmodels/accounteditform";
+import { StorageService } from '../../services/storage.service';
 
 @Component({
     selector: 'userpage',
     templateUrl: './userpage.component.html'
 })
-export class UserPageComponent extends MessageSubscriber {
+export class UserPageComponent {
     projects: any[] = [];
     displayableInfo: DisplayableInfo = { userName: "", about: "", projectNumber: 0, avatar: "", contacts: "", registrationTime: "" };
     accountEditForm: AccountEditForm = { about: "about", contacts: "contacts" };
 
-    constructor(private title: Title, protected currentUserService: CurrentUserService, protected accountService: AccountService, protected messageSenderService: MessageSenderService, private projectService: ProjectService) {
-        super(currentUserService, accountService, messageSenderService);
+    constructor(private title: Title, protected currentUserService: CurrentUserService, protected accountService: AccountService,
+        protected messageSenderService: MessageSenderService, private projectService: ProjectService, private storage: StorageService) {
+        //super(currentUserService, accountService, messageSenderService);
         title.setTitle("My page");
     }
 
