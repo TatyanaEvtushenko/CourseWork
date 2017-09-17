@@ -16,6 +16,10 @@
             <p><projectstatus [status]="project.status"></projectstatus></p>
         </div>
     </div>
+    <div class="card-reveal">
+        <span class="card-title grey-text text-darken-4">Description<i class="material-icons right">close</i></span>
+        <markdown>{{project.description}}</markdown>
+    </div>
     <div class="card-action">
         <ng-container *ngIf="storage.isReadyCurrentUser && storage.currentUser.userName != project.ownerUserName">
             <button *ngIf="!project.isSubscriber" (click)="subscribe()" class="btn left">Subscribe</button>
@@ -30,9 +34,5 @@
            class="modal-trigger" (click)="openPayment()" href="#paymentModal">
             <i class="material-icons right">payment</i>
         </a>
-    </div>
-    <div class="card-reveal">
-        <span class="card-title grey-text text-darken-4">Description<i class="material-icons right">close</i></span>
-        <markdown>{{project.description}}</markdown>
     </div>
 </div>

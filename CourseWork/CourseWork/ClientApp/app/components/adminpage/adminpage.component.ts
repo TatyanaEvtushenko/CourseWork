@@ -2,7 +2,7 @@
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from "../../services/account.service";
-import { StorageService } from '../../services/storage.service';
+import { MessageSubscriberService } from '../../services/messagesubscriber.service';
 import { UserInfo } from '../../viewmodels/userinfo';
 import { UserStatus } from "../../enums/userstatus";
 //import { MessageSubscriber } from '../message.subscriber';
@@ -25,7 +25,7 @@ export class AdminPageComponent {
     selectedIndex: number = null;
     sortOrderAscending = { "Status": true, "LastLoginTime": true };
 
-    constructor(private title: Title, public storage: StorageService, private accountService: AccountService,
+    constructor(private title: Title, public storage: MessageSubscriberService, private accountService: AccountService,
         private route: ActivatedRoute, private router: Router, protected messageSenderService: MessageSenderService) {
 		title.setTitle("Admin page");
     }

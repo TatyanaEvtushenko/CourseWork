@@ -2,7 +2,7 @@
 import { Title } from '@angular/platform-browser';
 import { ProjectService } from '../../services/project.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { StorageService } from '../../services/storage.service';
+import { MessageSubscriberService } from '../../services/messagesubscriber.service';
 import { TimeService } from '../../services/time.service';
 
 @Component({
@@ -12,7 +12,7 @@ import { TimeService } from '../../services/time.service';
 export class ProjectPageComponent {
     project: any = null;
 
-    constructor(public storage: StorageService,
+    constructor(public storage: MessageSubscriberService,
         public timeService: TimeService,
         private route: ActivatedRoute,
         private title: Title,

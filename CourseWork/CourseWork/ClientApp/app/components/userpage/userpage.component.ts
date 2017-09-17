@@ -7,7 +7,7 @@ import { ProjectService } from '../../services/project.service';
 import { MessageSenderService } from '../../services/messagesender.service';
 import { DisplayableInfo } from "../../viewmodels/displayableinfo";
 import { AccountEditForm } from "../../viewmodels/accounteditform";
-import { StorageService } from '../../services/storage.service';
+import { MessageSubscriberService } from '../../services/messagesubscriber.service';
 
 @Component({
     selector: 'userpage',
@@ -19,7 +19,7 @@ export class UserPageComponent {
     accountEditForm: AccountEditForm = { about: "about", contacts: "contacts" };
 
     constructor(private title: Title, protected currentUserService: CurrentUserService, protected accountService: AccountService,
-        protected messageSenderService: MessageSenderService, private projectService: ProjectService, private storage: StorageService) {
+        protected messageSenderService: MessageSenderService, private projectService: ProjectService, private storage: MessageSubscriberService) {
         //super(currentUserService, accountService, messageSenderService);
         title.setTitle("My page");
     }

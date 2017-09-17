@@ -2,6 +2,7 @@
 import { CurrentUserService } from '../services/currentuser.service';
 import { AccountService } from "../services/account.service";
 
+
 @Injectable()
 export class StorageService {
     currentUser: any = null;
@@ -11,7 +12,7 @@ export class StorageService {
     isConfirmedUser = false;
     isJustUser = false;
 
-    constructor(private currentUserService: CurrentUserService, private accountService: AccountService) {
+    constructor(protected currentUserService: CurrentUserService, protected accountService: AccountService) {
         this.getCurrentUser();
         this.subscribeForEvents();
     }

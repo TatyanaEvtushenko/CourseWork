@@ -58,6 +58,7 @@ import { StorageService } from "./services/storage.service";
 import { SortingService } from "./services/sorting.service";
 import { TimeService } from "./services/time.service";
 import { MessageSenderService } from "./services/messagesender.service"
+import { MessageSubscriberService } from "./services/messagesubscriber.service";
 
 const appRoutes: Routes = [
     { path: '', component: HomePageComponent },
@@ -137,7 +138,8 @@ const appRoutes: Routes = [
         SortingService,
         TimeService,
 		ProjectService,
-		MessageSenderService
+        MessageSenderService,
+        MessageSubscriberService
     ],
     bootstrap: [
         AppComponent
