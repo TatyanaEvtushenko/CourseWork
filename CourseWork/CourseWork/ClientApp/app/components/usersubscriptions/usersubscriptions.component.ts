@@ -11,6 +11,7 @@ import { StorageService } from '../../services/storage.service'
 })
 export class UserSubscriptionsComponent {
     projects: any[] = [];
+    selectedProjectId: string = null;
 
     constructor(protected currentUserService: CurrentUserService,
         protected accountService: AccountService, private projectService: ProjectService, private storage: StorageService) {
@@ -20,5 +21,21 @@ export class UserSubscriptionsComponent {
         this.projectService.getUserSubscribedProjects().subscribe((data) => {
             this.projects = data;
         });
+    }
+
+    openPayment(event: any) {
+        this.selectedProjectId = event;
+    }
+
+    openNewsModal(event: any) {
+        this.selectedProjectId = event;
+    }
+
+    subscribe(projectId: string) {
+        this.projectService.subscribe(projectId).subscribe();
+    }
+
+    unsubscribe(projectId: string) {
+        this.projectService.unsubscribe(projectId).subscribe();
     }
 }

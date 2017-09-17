@@ -34,7 +34,7 @@ export class NewProjectPageComponent{
             (data) => {
                 this.isWrongRequest = !data;
                 if (!this.isWrongRequest) {
-                    window.location.href = "/UserProjectsPage";
+                    window.location.href = "/UserPage";
                 }
             },
             (error) => this.isWrongRequest = true

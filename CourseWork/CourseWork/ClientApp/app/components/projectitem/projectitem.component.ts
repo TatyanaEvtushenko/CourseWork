@@ -17,10 +17,12 @@ export class ProjectItemComponent {
     constructor(public storage: StorageService, public timeService: TimeService) { }
 
     openNews() {
+        console.log('Hi ' + JSON.stringify(this.project));
         this.onClickNews.emit(this.project.id);
     }
 
     openPayment() {
+        console.log('Hi ' + JSON.stringify(this.project));
         this.onClickPay.emit(this.project.id);
     }
 

@@ -7,8 +7,24 @@
     </div>
     <accounteditmodal *ngIf="storage.isReadyCurrentUser && storage.isUser" [about]="accountEditForm.about" [contacts]="accountEditForm.contacts"></accounteditmodal>
     <avatarchangemodal *ngIf="storage.isReadyCurrentUser && storage.isUser"></avatarchangemodal>
-    <userprojectspage [projects]="projects" *ngIf="storage.isReadyCurrentUser && storage.isConfirmedUser"></userprojectspage>
-    
-    <h3>My subscriptions</h3>
-    <usersubscriptions></usersubscriptions>
+    <div *ngIf="storage.isReadyCurrentUser && storage.isConfirmedUser">
+        <h3>My projects</h3>
+        <div class="row">
+            <div class="col m4" *ngFor="let project of userProjects">
+                <projectitem [project]="project" (onClickNews)="openNewsModal($event)" (onClickPay)="openPayment($event)"
+                             (onClickSubscribe)="subscribe($event)" (onClickUnsubscribe)="unsubscribe($event)"></projectitem>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="storage.isReadyCurrentUser && storage.isUser">
+        <h3>My subscriptions</h3>
+        <div class="row">
+            <div class="col m4" *ngFor="let project of userSubscribedProjects">
+                <projectitem [project]="project" (onClickNews)="openNewsModal($event)" (onClickPay)="openPayment($event)"
+                             (onClickSubscribe)="subscribe($event)" (onClickUnsubscribe)="unsubscribe($event)"></projectitem>
+            </div>
+        </div>
+    </div>
+    <newsformmodal [projectId]="selectedProjectId"></newsformmodal>
+    <paymentmodal [projectId]="selectedProjectId"></paymentmodal>
 </div>

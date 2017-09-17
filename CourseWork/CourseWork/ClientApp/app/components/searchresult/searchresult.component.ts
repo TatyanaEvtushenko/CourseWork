@@ -13,6 +13,7 @@ import { MessageSubscriberService } from '../../services/messagesubscriber.servi
 })
 export class SearchResultComponent {
     projects: any[] = [];
+    selectedProjectId: string = null;
 
     constructor(private title: Title, private route: ActivatedRoute, private router: Router,
       protected accountService: AccountService, protected messageSenderService: MessageSenderService, private projectService: ProjectService, private storage: MessageSubscriberService) {
@@ -25,5 +26,21 @@ export class SearchResultComponent {
                 this.projects = result;
             });
         });
+    }
+
+    openPayment(event: any) {
+        this.selectedProjectId = event;
+    }
+
+    openNewsModal(event: any) {
+        this.selectedProjectId = event;
+    }
+
+    subscribe(projectId: string) {
+        this.projectService.subscribe(projectId).subscribe();
+    }
+
+    unsubscribe(projectId: string) {
+        this.projectService.unsubscribe(projectId).subscribe();
     }
 }
