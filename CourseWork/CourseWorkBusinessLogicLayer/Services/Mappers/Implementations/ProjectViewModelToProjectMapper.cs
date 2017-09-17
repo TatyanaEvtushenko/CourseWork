@@ -90,8 +90,6 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
 
         private void ConvertFromPayment(ProjectViewModel viewModel, Project model)
         {
-            viewModel.MaxPaymentAmount = model.MaxPayment;
-            viewModel.MinPaymentAmount = model.MinPayment;
             var projectPayments = _paymentRepository.GetWhere(payment => payment.ProjectId == model.Id);
             viewModel.PaidAmount = _paymentManager.GetProjectPaidAmount(model.Id, projectPayments);
             viewModel.CountOfPayments = projectPayments.Count;

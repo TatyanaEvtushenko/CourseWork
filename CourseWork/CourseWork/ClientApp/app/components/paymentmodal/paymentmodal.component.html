@@ -1,0 +1,33 @@
+﻿<div id="newsModal" class="modal news-modal">
+    <div class="modal-content center container">
+        <h4>Create a news</h4>
+
+        <div class="row">
+            <div class="input-field col m11">
+                <input id="news-subject" #subject="ngModel" class="validate" required [(ngModel)]="newsForm.subject" type="text" />
+                <label for="news-subject">Subject</label>
+            </div>
+        </div>
+
+        <markdowneditor [fieldName]="'News text'" [text]="newsForm.text" (onChanged)="newsForm.text = $event"></markdowneditor>
+
+        <div class="row">
+            <div class="col m6 input-field right-align">
+                <button [disabled]="subject.invalid || newsForm.text == null || newsForm.text == '' || !(isNews || isMailingToSubscribers || isMailingToPayers)"
+                        class="btn btn-large" (click)="onSubmit()">
+                    Create
+                </button>
+            </div>
+            <div class="col m6 left-align">
+                <input type="checkbox" id="news" [(ngModel)]="isNews" />
+                <label for="news">Just a news</label>
+                <input type="checkbox" id="mailing-subscribers" [(ngModel)]="isMailingToSubscribers" />
+                <label for="mailing-subscribers">Mailing to subscribers</label>
+                <input type="checkbox" id="mailing-payers" [(ngModel)]="isMailingToPayers" />
+                <label for="mailing-payers">Mailing to payers</label>
+            </div>
+        </div>
+
+        <errortext *ngIf="isWrongRequest" [text]="'Invalid data'"></errortext>
+    </div>
+</div>

@@ -21,7 +21,8 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
                 Status = item.Status,
                 Rating = item.Rating,
                 Description = item.Description,
-                OwnerUserName = item.OwnerUserName
+                OwnerUserName = item.OwnerUserName,
+                ProjectEndTime = item.FundRaisingEnd
             };
         }
     }

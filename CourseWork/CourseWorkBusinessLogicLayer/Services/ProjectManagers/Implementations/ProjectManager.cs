@@ -18,7 +18,6 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         private readonly Repository<Project> _projectRepository;
         private readonly Repository<Rating> _raitingRepository;
         private readonly Repository<Tag> _tagRepository;
-        private readonly Repository<ProjectSubscriber> _subscriberRepository;
         private readonly Repository<FinancialPurpose> _financialPurposeRepository;
         private readonly Repository<Payment> _paymentRepository;
         private readonly IUserManager _userManager;
@@ -36,7 +35,11 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             IMapper<ProjectFormViewModel, Project> projectFormMapper,
             Repository<Rating> raitingRepository,
             IMapper<ProjectViewModel, Project> projectMapper, IUserManager userManager,
-            IMapper<ProjectEditorFormViewModel, Project> projectEditorFormMapper, Repository<Tag> tagRepository, IMapper<FinancialPurposeViewModel, FinancialPurpose> financialPurposeMapper, Repository<FinancialPurpose> financialPurposeRepository, IPhotoManager photoManager, IMapper<RatingViewModel, Rating> ratingMapper, Repository<ProjectSubscriber> subscriberRepository, IPaymentManager paymentManager, Repository<Payment> paymentRepository)
+            IMapper<ProjectEditorFormViewModel, Project> projectEditorFormMapper, Repository<Tag> tagRepository,
+            IMapper<FinancialPurposeViewModel, FinancialPurpose> financialPurposeMapper,
+            Repository<FinancialPurpose> financialPurposeRepository, IPhotoManager photoManager,
+            IMapper<RatingViewModel, Rating> ratingMapper, IPaymentManager paymentManager,
+            Repository<Payment> paymentRepository)
         {
             _projectRepository = projectRepository;
             _projectItemMapper = projectItemMapper;
@@ -50,7 +53,6 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             _financialPurposeRepository = financialPurposeRepository;
             _photoManager = photoManager;
             _ratingMapper = ratingMapper;
-            _subscriberRepository = subscriberRepository;
             _paymentManager = paymentManager;
             _paymentRepository = paymentRepository;
         }

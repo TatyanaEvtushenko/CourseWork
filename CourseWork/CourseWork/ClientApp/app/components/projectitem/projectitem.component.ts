@@ -1,5 +1,6 @@
 ﻿import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { StorageService } from '../../services/storage.service';
+import { TimeService } from '../../services/time.service';
 
 @Component({
     selector: 'projectitem',
@@ -12,7 +13,7 @@ export class ProjectItemComponent {
     @Output() onClickSubscribe = new EventEmitter<string>();
     @Output() onClickUnsubscribe = new EventEmitter<string>();
 
-    constructor(public storage: StorageService) { }
+    constructor(public storage: StorageService, public timeService: TimeService) { }
 
     openNews() {
         this.onClickNews.emit(this.project.id);

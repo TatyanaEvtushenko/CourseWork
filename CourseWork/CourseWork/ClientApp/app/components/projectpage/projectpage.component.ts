@@ -3,6 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { ProjectService } from '../../services/project.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { StorageService } from '../../services/storage.service';
+import { TimeService } from '../../services/time.service';
 
 @Component({
     selector: 'projectpage',
@@ -12,6 +13,7 @@ export class ProjectPageComponent {
     project: any = null;
 
     constructor(public storage: StorageService,
+        public timeService: TimeService,
         private route: ActivatedRoute,
         private title: Title,
         private projectService: ProjectService) {
@@ -27,7 +29,7 @@ export class ProjectPageComponent {
     }
 
     addNews(news: any) {
-        news.time = new Date(Date.now());
+        news.time = this.timeService.getNowTime();
         this.project.news = [news].concat(this.project.news);
     }
 

@@ -13,6 +13,10 @@ export class TimeService {
         return `${date.getFullYear()}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     }
 
+    getNowTime() {
+        return new Date(Date.now);
+    }
+
     private toTwoDigits(number: any) {
         const strNumber = number.toString();
         if (strNumber.length <= 1) {

@@ -42,6 +42,11 @@ namespace CourseWork.BusinessLogicLayer.Services.UserManagers.Implementations
             };
         }
 
+        public UserInfo GetCurrentUserUserInfo()
+        {
+            return _userInfoRepository.Get(CurrentUserName);
+        }
+
         public IEnumerable<string> GetEmails(IEnumerable<string> userNames)
         {
             return _applicationUserRepository.GetWhere(user => userNames.Contains(user.UserName)).Select(user => user.Email);

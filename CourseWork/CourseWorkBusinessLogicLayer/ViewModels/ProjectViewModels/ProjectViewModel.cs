@@ -30,10 +30,6 @@ namespace CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels
         
         public DateTime FundRaisingEnd { get; set; }
 
-        public decimal MinPaymentAmount { get; set; }
-
-        public decimal MaxPaymentAmount { get; set; }
-
         public IEnumerable<CommentViewModel> Comments { get; set; }
 
         public IEnumerable<NewsViewModel> News { get; set; }

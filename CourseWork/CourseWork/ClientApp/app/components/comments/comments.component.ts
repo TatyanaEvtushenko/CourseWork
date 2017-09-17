@@ -49,7 +49,7 @@ export class CommentsComponent {
         const comment = {
             text: text,
             id: id,
-            time: new Date(Date.now()),
+            time: this.timeService.getNowTime(),
             user: { userName: this.storage.currentUser.userName }
         };
         this.comments.push(comment);
