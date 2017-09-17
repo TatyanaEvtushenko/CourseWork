@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using CourseWork.BusinessLogicLayer.Services.ProjectManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -31,6 +32,14 @@ namespace CourseWork.Controllers
         public IEnumerable<ProjectItemViewModel> GetUserProjects()
         {
             return _projectManager.GetUserProjects();
+        }
+
+        [HttpGet]
+        [Route("api/Project/GetUserSubscribedProjects")]
+        [Authorize]
+        public ProjectItemViewModel[] GetUserSubscribedProjects()
+        {
+            return _projectManager.GetUserSubscribedProjects().ToArray();
         }
     }
 }

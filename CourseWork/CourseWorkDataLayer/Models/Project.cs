@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using CourseWork.DataLayer.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -31,6 +32,8 @@ namespace CourseWork.DataLayer.Models
         public decimal PaidAmount { get; set; }
 
         public double Raiting { get; set; }
+
+        public ICollection<ProjectSubscriber> Subscribers { get; set; }
 
         [ForeignKey("OwnerUserName")]
         [Required]

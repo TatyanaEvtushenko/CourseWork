@@ -14,6 +14,10 @@ export class ProjectService extends BaseService {
         return this.requestGet("api/Project/GetUserProjects");
     }
 
+    getUserSubscribedProjects() {
+        return this.requestGet("api/Project/GetUserSubscribedProjects");
+    }
+
     notifySubscribers(message: string, projectId: string) {
         return this.requestPost("api/Message/NotifySubscribers", { text: message, id: projectId });
     }

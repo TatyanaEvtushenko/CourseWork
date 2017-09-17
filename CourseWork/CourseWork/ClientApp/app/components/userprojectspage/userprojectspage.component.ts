@@ -15,7 +15,7 @@ export class UserProjectsPageComponent extends CurrentUserSubscriber {
 
 	constructor(private title: Title, protected currentUserService: CurrentUserService, protected accountService: AccountService, private projectService: ProjectService) {
         super(currentUserService, accountService);
-        title.setTitle("My projects");
+        //title.setTitle("My projects");
     }
 
     openNewsModal(event: any) {

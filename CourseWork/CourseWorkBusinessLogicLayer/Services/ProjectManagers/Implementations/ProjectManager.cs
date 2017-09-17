@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using CourseWork.BusinessLogicLayer.ElasticSearch;
 using CourseWork.BusinessLogicLayer.ElasticSearch.Documents;
@@ -22,6 +23,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
     {
         private readonly Repository<Project> _projectRepository;
         private readonly Repository<Raiting> _raitingRepository;
+        private readonly Repository<ProjectSubscriber> _projectSubscriberRepository;
         private readonly ITagService _tagService;
         private readonly IFinancialPurposeManager _financialPurposeManager;
         private readonly IPaymentManager _paymentManager;
@@ -34,7 +36,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             IMapper<ProjectItemViewModel, Project> projectMapper,
             IMapper<ProjectFormViewModel, Project> projectFormMapper, ITagService tagService,
             IFinancialPurposeManager financialPurposeManager,
-            IHttpContextAccessor contextAccessor, IPaymentManager paymentManager, Repository<Raiting> raitingRepository, ISearchManager searchManager)
+            IHttpContextAccessor contextAccessor, IPaymentManager paymentManager, Repository<Raiting> raitingRepository, ISearchManager searchManager, Repository<ProjectSubscriber> projectSubscriberRepository)
         {
             _projectRepository = projectRepository;
             _projectMapper = projectMapper;
@@ -45,6 +47,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             _paymentManager = paymentManager;
             _raitingRepository = raitingRepository;
             _searchManager = searchManager;
+            _projectSubscriberRepository = projectSubscriberRepository;
         }
 
         public bool AddProject(ProjectFormViewModel projectForm)
@@ -60,6 +63,13 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             var userName = _contextAccessor.HttpContext.User.Identity.Name;
             return _projectRepository.GetWhere(project => project.OwnerUserName == userName)
                 .Select(project => _projectMapper.ConvertFrom(project));
+        }
+
+        public IEnumerable<ProjectItemViewModel> GetUserSubscribedProjects()
+        {
+            var userName = _contextAccessor.HttpContext.User.Identity.Name;
+            return _projectSubscriberRepository.GetWhereEager(item => item.Project, item => userName.Equals(item.UserName))
+                .Select(item => _projectMapper.ConvertFrom(item.Project));
         }
 
         public IEnumerable<ProjectItemViewModel> GetLastCreatedProjects()
