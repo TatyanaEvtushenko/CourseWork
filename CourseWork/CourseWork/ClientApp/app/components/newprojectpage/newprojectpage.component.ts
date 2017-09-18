@@ -19,6 +19,7 @@ export class NewProjectPageComponent{
                 private projectService: ProjectService) {
         title.setTitle("New project");
         this.projectForm.financialPurposes = [];
+        this.projectForm.tags = [];
     }
 
     getTodayDate() {
