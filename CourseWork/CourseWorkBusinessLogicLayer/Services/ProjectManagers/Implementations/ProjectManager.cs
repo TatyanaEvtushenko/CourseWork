@@ -129,6 +129,8 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         {
             var purposesForAdding = GetPurposesOfProjectForm(projectForm.FinancialPurposes, projectForm.Id).ToArray();
             var project = GetUpdatedProject(projectForm, purposesForAdding);
+            _searchManager.SetFinancialPurposes(project.Id, purposesForAdding);
+            _searchManager.SetTags(project.Id, projectForm.Tags.ToArray());
             return _projectRepository.UpdateRange(project) && UpdateFinancialPurposes(project.Id, purposesForAdding) &&
                    UpdateTagsInProject(projectForm.Id, projectForm.Tags);
         }

@@ -19,5 +19,9 @@ namespace CourseWork.BusinessLogicLayer.Services.SearchManagers
         bool AddCommentToIndex(Comment comment);
 
         bool RemoveCommentsFromIndex(Comment[] comments);
+
+        void SetFinancialPurposes(string projectId, FinancialPurpose[] purposes);
+
+        void SetTags(string projectId, string[] tags);
     }
 }

@@ -21,20 +21,16 @@ namespace CourseWork.BusinessLogicLayer.Services.SearchManagers.Implementations
         private readonly ElasticClient _client;
         private readonly IMapper<ProjectItemViewModel, Project> _mapper;
         private readonly Repository<Project> _projectRepository;
-        private readonly Repository<ProjectSubscriber> _projectSubscriberRepository;
-        private readonly Repository<Payment> _paymentRepository;
         private readonly IUserManager _userManager;
         private readonly IMapper<ProjectSearchNote, Project> _projectSearchMapper;
         private readonly IPaymentManager _paymentManager;
 
-        public SearchManager(SearchClient searchClient, IMapper<ProjectItemViewModel, Project> mapper, Repository<Project> projectRepository, IMapper<ProjectSearchNote, Project> projectSearchMapper, Repository<ProjectSubscriber> projectSubscriberRepository, IUserManager userManager, Repository<Payment> paymentRepository, IPaymentManager paymentManager)
+        public SearchManager(SearchClient searchClient, IMapper<ProjectItemViewModel, Project> mapper, Repository<Project> projectRepository, IMapper<ProjectSearchNote, Project> projectSearchMapper, IUserManager userManager, IPaymentManager paymentManager)
         {
             _mapper = mapper;
             _projectRepository = projectRepository;
             _projectSearchMapper = projectSearchMapper;
-            _projectSubscriberRepository = projectSubscriberRepository;
             _userManager = userManager;
-            _paymentRepository = paymentRepository;
             _paymentManager = paymentManager;
             searchClient.CreateNewElasticClient();
             _client = searchClient.Client;
@@ -90,7 +86,7 @@ namespace CourseWork.BusinessLogicLayer.Services.SearchManagers.Implementations
             updatedNewsTexts.RemoveAt(updatedNewsTexts.IndexOf(news.Text));
             var updateResponse = _client.Update<ProjectSearchNote, Object>(news.ProjectId, d => d.Type("projectSearchNote")
                 .Doc(new { NewsSubject = updatedNewsSubjects, NewsText = updatedNewsTexts }).Refresh(Refresh.True));
-            return updateResponse.Result != Result.Updated;
+            return updateResponse.Result == Result.Updated;
         }
 
         public bool RemoveProjectsFromIndex(Project[] projects)
@@ -126,6 +122,19 @@ namespace CourseWork.BusinessLogicLayer.Services.SearchManagers.Implementations
                 if (updateResponse.Result != Result.Updated) return false;
             }
             return true;
+        }
+
+        public void SetFinancialPurposes(string projectId, FinancialPurpose[] purposes)
+        {
+            _client.Update<ProjectSearchNote, Object>(projectId, d => d.Type("projectSearchNote")
+                .Doc(new { FinancialPurposeName = purposes.Select(p => p.Name).ToList(), FinancialPurposeDescription = purposes.Select(p => p.Description).ToList() })
+                .Refresh(Refresh.True));
+        }
+
+        public void SetTags(string projectId, string[] tags)
+        {
+            _client.Update<ProjectSearchNote, Object>(projectId, d => d.Type("projectSearchNote")
+                .Doc(new { Tag = tags.ToList() }).Refresh(Refresh.True));
         }
     }
 }

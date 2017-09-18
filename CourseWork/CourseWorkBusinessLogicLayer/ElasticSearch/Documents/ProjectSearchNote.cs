@@ -27,7 +27,7 @@ namespace CourseWork.BusinessLogicLayer.ElasticSearch.Documents
         [Text(Name = "comment", Index = true)]
         public List<string> Comment { get; set; }
 
-        [Text(Name = "financialPurpose", Index = true)]
+        [Text(Name = "financialPurposeName", Index = true)]
         public List<string> FinancialPurposeName { get; set; }
 
         [Text(Name = "financialPurposeDescription", Index = true)]
