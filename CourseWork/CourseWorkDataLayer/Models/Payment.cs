@@ -1,4 +1,7 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace CourseWork.DataLayer.Models
 {
@@ -13,5 +16,9 @@ namespace CourseWork.DataLayer.Models
         public DateTime Time { get; set; }
 
         public decimal PaidAmount { get; set; }
+
+        [ForeignKey("ProjectId")]
+        [Required]
+        public Project Project { get; set; }
     }
 }

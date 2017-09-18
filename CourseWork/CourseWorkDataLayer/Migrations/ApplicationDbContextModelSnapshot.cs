@@ -157,13 +157,16 @@ namespace CourseWork.DataLayer.Data.Migrations
 
                     b.Property<decimal>("PaidAmount");
 
-                    b.Property<string>("ProjectId");
+                    b.Property<string>("ProjectId")
+                        .IsRequired();
 
                     b.Property<DateTime>("Time");
 
                     b.Property<string>("UserName");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
 
                     b.ToTable("Payments");
                 });
@@ -247,6 +250,12 @@ namespace CourseWork.DataLayer.Data.Migrations
                     b.Property<string>("UserName")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("About");
+
+                    b.Property<string>("Avatar");
+
+                    b.Property<string>("Contacts");
+
                     b.Property<string>("Description");
 
                     b.Property<bool>("IsBlocked");
@@ -258,8 +267,6 @@ namespace CourseWork.DataLayer.Data.Migrations
                     b.Property<string>("Name");
 
                     b.Property<string>("PassportScan");
-
-                    b.Property<int>("ProjectNumber");
 
                     b.Property<double>("Rating");
 
@@ -405,6 +412,14 @@ namespace CourseWork.DataLayer.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("CourseWork.DataLayer.Models.Payment", b =>
+                {
+                    b.HasOne("CourseWork.DataLayer.Models.Project", "Project")
+                        .WithMany("Payments")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("CourseWork.DataLayer.Models.Project", b =>
                 {
                     b.HasOne("CourseWork.DataLayer.Models.UserInfo", "UserInfo")
@@ -416,7 +431,7 @@ namespace CourseWork.DataLayer.Data.Migrations
             modelBuilder.Entity("CourseWork.DataLayer.Models.ProjectSubscriber", b =>
                 {
                     b.HasOne("CourseWork.DataLayer.Models.Project", "Project")
-                        .WithMany()
+                        .WithMany("Subscribers")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

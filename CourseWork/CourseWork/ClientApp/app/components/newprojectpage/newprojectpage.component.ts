@@ -2,7 +2,7 @@
 import { NewProjectForm } from '../../viewmodels/newprojectform';
 import { Title } from '@angular/platform-browser';
 import { ProjectService } from '../../services/project.service';
-import { StorageService } from '../../services/storage.service';
+import { MessageSubscriberService } from '../../services/messagesubscriber.service';
 declare var $: any;
 
 @Component({
@@ -14,7 +14,7 @@ export class NewProjectPageComponent{
     projectForm = new NewProjectForm();
     isWrongRequest = false;
 
-    constructor(public storage: StorageService,
+    constructor(public storage: MessageSubscriberService,
                 private title: Title, 
                 private projectService: ProjectService) {
         title.setTitle("New project");
@@ -34,7 +34,7 @@ export class NewProjectPageComponent{
             (data) => {
                 this.isWrongRequest = !data;
                 if (!this.isWrongRequest) {
-                    window.location.href = "/UserProjectsPage";
+                    window.location.href = "/UserPage";
                 }
             },
             (error) => this.isWrongRequest = true

@@ -2,8 +2,8 @@
     <a href="/ProjectPage/{{project.id}}">
         <img src="{{project.imageUrl}}">
         <div class="card-title">
-            {{project.name}}<br />
-            <rating class="project-item-rating" [(ngModel)]="project.raiting" [readonly]="true" [titles]="['one', 'two', 'three', 'four', 'five']"></rating>
+            {{project.name}}<br/>
+            <rating class="project-item-rating" [(ngModel)]="project.rating" [readonly]="true" [titles]="['one', 'two', 'three', 'four', 'five']"></rating>
         </div>
     </a>
 </div>
@@ -12,8 +12,10 @@
         <p>{{project.paidAmount}}$</p>
     </div>
     <div class="col m6 right-align">
-        <p *ngIf="project.status == projectStatus.Active">Active</p>
-        <p *ngIf="project.status == projectStatus.Failed" class="red-text">Failed</p>
-        <p *ngIf="project.status == projectStatus.Financed" class="green-text">Financed</p>
+        <p><projectstatus [status]="project.status"></projectstatus></p>
     </div>
+</div>
+<div class="card-reveal">
+    <span class="card-title grey-text text-darken-4">Description<i class="material-icons right">close</i></span>
+    <markdown>{{project.description}}</markdown>
 </div>

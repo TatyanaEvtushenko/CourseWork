@@ -5,6 +5,8 @@ using System.Linq;
 using CourseWork.BusinessLogicLayer.ElasticSearch;
 using CourseWork.BusinessLogicLayer.ElasticSearch.Documents;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
+using CourseWork.BusinessLogicLayer.Services.PaymentManagers;
+using CourseWork.BusinessLogicLayer.Services.UserManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.NewsViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using CourseWork.DataLayer.Models;
@@ -19,13 +21,21 @@ namespace CourseWork.BusinessLogicLayer.Services.SearchManagers.Implementations
         private readonly ElasticClient _client;
         private readonly IMapper<ProjectItemViewModel, Project> _mapper;
         private readonly Repository<Project> _projectRepository;
+        private readonly Repository<ProjectSubscriber> _projectSubscriberRepository;
+        private readonly Repository<Payment> _paymentRepository;
+        private readonly IUserManager _userManager;
         private readonly IMapper<ProjectSearchNote, Project> _projectSearchMapper;
+        private readonly IPaymentManager _paymentManager;
 
-        public SearchManager(SearchClient searchClient, IMapper<ProjectItemViewModel, Project> mapper, Repository<Project> projectRepository, IMapper<ProjectSearchNote, Project> projectSearchMapper)
+        public SearchManager(SearchClient searchClient, IMapper<ProjectItemViewModel, Project> mapper, Repository<Project> projectRepository, IMapper<ProjectSearchNote, Project> projectSearchMapper, Repository<ProjectSubscriber> projectSubscriberRepository, IUserManager userManager, Repository<Payment> paymentRepository, IPaymentManager paymentManager)
         {
             _mapper = mapper;
             _projectRepository = projectRepository;
             _projectSearchMapper = projectSearchMapper;
+            _projectSubscriberRepository = projectSubscriberRepository;
+            _userManager = userManager;
+            _paymentRepository = paymentRepository;
+            _paymentManager = paymentManager;
             searchClient.CreateNewElasticClient();
             _client = searchClient.Client;
         }
@@ -37,7 +47,15 @@ namespace CourseWork.BusinessLogicLayer.Services.SearchManagers.Implementations
                     .Field(p => p.FinancialPurposeName).Field(p => p.NewsSubject).Field(p => p.NewsText).Field(p => p.Tag))
                     .Query(query).Operator(Operator.Or))));
             var projectIds = response.Hits.Select(n => n.Source.Id).ToImmutableHashSet();
-            return _projectRepository.GetWhere(n => projectIds.Contains(n.Id)).Select(n => _mapper.ConvertFrom(n));
+            return _projectRepository
+                .GetWhereEager<IEnumerable<Object>>(item => projectIds.Contains(item.Id), item => item.Subscribers, item => item.Payments)
+                .Select(item =>
+            {
+                var viewModel = _mapper.ConvertFrom(item);
+                viewModel.IsSubscriber = item.Subscribers?.FirstOrDefault(s => s.UserName == _userManager.CurrentUserName) != null;
+                viewModel.PaidAmount = _paymentManager.GetProjectPaidAmount(item.Id, item.Payments);
+                return viewModel;
+            });
         }
 
         public bool AddProjectToIndex(Project project)
@@ -61,11 +79,53 @@ namespace CourseWork.BusinessLogicLayer.Services.SearchManagers.Implementations
             return updateResponse.Result == Result.Updated;
         }
 
+        public bool RemoveNewsFromIndex(News news)
+        {
+            var searchResponse = _client.Search<ProjectSearchNote>(s =>
+                s.Type("projectSearchNote").Query(q => q.Term(t => t.Field("id").Value(news.ProjectId))));
+            var doc = searchResponse.Hits.Select(n => n.Source).Single();
+            var updatedNewsSubjects = doc.NewsSubject;
+            var updatedNewsTexts = doc.NewsText;
+            updatedNewsSubjects.RemoveAt(updatedNewsSubjects.IndexOf(news.Subject));
+            updatedNewsTexts.RemoveAt(updatedNewsTexts.IndexOf(news.Text));
+            var updateResponse = _client.Update<ProjectSearchNote, Object>(news.ProjectId, d => d.Type("projectSearchNote")
+                .Doc(new { NewsSubject = updatedNewsSubjects, NewsText = updatedNewsTexts }).Refresh(Refresh.True));
+            return updateResponse.Result != Result.Updated;
+        }
+
         public bool RemoveProjectsFromIndex(Project[] projects)
         {
             var projectDocuments = projects.Select(p => _projectSearchMapper.ConvertFrom(p));
             var response = _client.DeleteMany(projectDocuments);
             return !response.Errors;
+        }
+
+        public bool AddCommentToIndex(Comment comment)
+        {
+            var searchResponse = _client.Search<ProjectSearchNote>(s =>
+                s.Type("projectSearchNote").Query(q => q.Term(t => t.Field("id").Value(comment.ProjectId))));
+            var doc = searchResponse.Hits.Select(n => n.Source).Single();
+            var updatedCommentTexts = doc.Comment;
+            updatedCommentTexts.Add(comment.Text);
+            var updateResponse = _client.Update<ProjectSearchNote, Object>(comment.ProjectId, d => d.Type("projectSearchNote")
+                .Doc(new { Comment = updatedCommentTexts }).Refresh(Refresh.True));
+            return updateResponse.Result == Result.Updated;
+        }
+
+        public bool RemoveCommentsFromIndex(Comment[] comments)
+        {
+            foreach (var comment in comments)
+            {
+                var searchResponse = _client.Search<ProjectSearchNote>(s =>
+                    s.Type("projectSearchNote").Query(q => q.Term(t => t.Field("id").Value(comment.ProjectId))));
+                var doc = searchResponse.Hits.Select(n => n.Source).Single();
+                var updatedCommentTexts = doc.Comment;
+                updatedCommentTexts.RemoveAt(updatedCommentTexts.IndexOf(comment.Text));
+                var updateResponse = _client.Update<ProjectSearchNote, Object>(comment.ProjectId, d => d.Type("projectSearchNote")
+                    .Doc(new { Comment = updatedCommentTexts }).Refresh(Refresh.True));
+                if (updateResponse.Result != Result.Updated) return false;
+            }
+            return true;
         }
     }
 }

@@ -1,14 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using CourseWork.BusinessLogicLayer.Options;
+using CourseWork.BusinessLogicLayer.Services.ConverterExtensions;
 using CourseWork.BusinessLogicLayer.Services.MessageSenders;
+using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Enums.Configurations;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
+using CourseWork.DataLayer.Repositories.Implementations;
+using Hangfire.Dashboard.Resources;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
 {
@@ -19,19 +26,21 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
         private readonly IEmailSender _emailSender;
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly Repository<UserInfo> _userInfoRepository;
+        private readonly CloudinaryOptions _options;
 
         public AccountManager(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender, 
             IHttpContextAccessor contextAccessor,
-            Repository<UserInfo> userInfoRepository)
+            Repository<UserInfo> userInfoRepository, IOptions<CloudinaryOptions> options)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _contextAccessor = contextAccessor;
             _userInfoRepository = userInfoRepository;
+            _options = options.Value;
         }
 
         public async Task<bool> Register(string userName, string email, string password)
@@ -77,6 +86,17 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
             await RemoveRole(user, role);
         }
 
+        public DisplayableInfoViewModel[] GetDisplayableInfo(string[] userNames)
+        {
+            return ((UserInfoRepository) _userInfoRepository).GetDisplayableInfo(userNames).Select(item => 
+                item.ConvertTo<DisplayableInfoViewModel>()).ToArray();
+        }
+
+        public DisplayableInfoViewModel GetUserDisplayableInfo(string username)
+        {
+            return GetDisplayableInfo(new[] {username}).SingleOrDefault();
+        }
+
         private async Task<bool> TryLogin(ApplicationUser user, string password)
         {
             var result = await _signInManager.PasswordSignInAsync(user.UserName, password, true, false);
@@ -110,7 +130,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
             return result.Succeeded;
         }
 
-        private static UserInfo CreateBasicUserInfo(string userName)
+        private UserInfo CreateBasicUserInfo(string userName)
         {
             return new UserInfo
             {
@@ -119,7 +139,8 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
                 Rating = 0,
                 Status = UserStatus.WithoutConfirmation,
                 LastLoginTime = DateTime.Now,
-                RegistrationTime = DateTime.Now
+                RegistrationTime = DateTime.Now,
+                Avatar = _options.DefaultUserAvatar
             };
         }
 

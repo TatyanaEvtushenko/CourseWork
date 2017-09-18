@@ -1,14 +1,11 @@
-﻿<div>
-    <h2>Results of search.</h2>
+﻿<div *ngIf="storage.isReadyCurrentUser">
+    <h2>Search result</h2>
     <div class="row">
         <div class="col m4" *ngFor="let project of projects">
-            <div class="card small">
-                <baseprojectitem [project]="project"></baseprojectitem>
-                <div class="card-reveal">
-                    <span class="card-title grey-text text-darken-4">Description<i class="material-icons right">close</i></span>
-                    <markdown>{{project.description}}</markdown>
-                </div>
-            </div>
+            <projectitem [project]="project" (onClickNews)="openNewsModal($event)" (onClickPay)="openPayment($event)"
+                         (onClickSubscribe)="subscribe($event)" (onClickUnsubscribe)="unsubscribe($event)"></projectitem>
         </div>
     </div>
+    <newsformmodal [projectId]="selectedProjectId"></newsformmodal>
+    <paymentmodal [projectId]="selectedProjectId"></paymentmodal>
 </div>

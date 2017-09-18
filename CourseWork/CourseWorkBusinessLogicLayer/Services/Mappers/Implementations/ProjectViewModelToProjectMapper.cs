@@ -73,7 +73,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
         private void ConvertFromCurrentUser(ProjectViewModel viewModel, Project model, string userName)
         {
             viewModel.IsSubscriber = _projectSubscriberRepository.FirstOrDefault(
-                    subscriber => subscriber.UserName == userName && subscriber.ProjectId == model.Id) != null;
+                    subscriber => subscriber.UserName.Equals(userName) && subscriber.ProjectId.Equals(model.Id)) != null;
             ConvertFromRating(viewModel, model, userName);
         }
 

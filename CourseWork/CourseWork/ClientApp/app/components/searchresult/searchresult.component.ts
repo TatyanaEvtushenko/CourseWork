@@ -1,11 +1,11 @@
 ﻿import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { AccountService } from "../../services/account.service";
-import { CurrentUserService } from '../../services/currentuser.service';
-//import { MessageSubscriber } from '../message.subscriber';
+import { StorageService } from "../../services/storage.service";
 import { MessageSenderService } from "../../services/messagesender.service";
 import { ProjectService } from '../../services/project.service';
 import { ActivatedRoute, Router } from "@angular/router";
+import { MessageSubscriberService } from '../../services/messagesubscriber.service';
 
 @Component({
     selector: 'searchresult',
@@ -13,12 +13,11 @@ import { ActivatedRoute, Router } from "@angular/router";
 })
 export class SearchResultComponent {
     projects: any[] = [];
+    selectedProjectId: string = null;
 
     constructor(private title: Title, private route: ActivatedRoute, private router: Router,
-      protected currentUserService: CurrentUserService, protected accountService: AccountService,
-      protected messageSenderService: MessageSenderService, private projectService: ProjectService) {
-        //super(currentUserService, accountService, messageSenderService);
-        title.setTitle("My projects");
+      protected accountService: AccountService, protected messageSenderService: MessageSenderService, private projectService: ProjectService, private storage: MessageSubscriberService) {
+        title.setTitle("Search results");
     }
 
     ngOnInit() {
@@ -27,5 +26,21 @@ export class SearchResultComponent {
                 this.projects = result;
             });
         });
+    }
+
+    openPayment(event: any) {
+        this.selectedProjectId = event;
+    }
+
+    openNewsModal(event: any) {
+        this.selectedProjectId = event;
+    }
+
+    subscribe(projectId: string) {
+        this.projectService.subscribe(projectId).subscribe();
+    }
+
+    unsubscribe(projectId: string) {
+        this.projectService.unsubscribe(projectId).subscribe();
     }
 }

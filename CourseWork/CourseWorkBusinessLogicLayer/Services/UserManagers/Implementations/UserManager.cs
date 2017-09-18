@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Security.Principal;
 using System.Threading.Tasks;
+using CourseWork.BusinessLogicLayer.Services.PhotoManagers;
+using CourseWork.BusinessLogicLayer.ViewModels.AccountViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.CurrentUserViewModels;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
@@ -20,14 +22,16 @@ namespace CourseWork.BusinessLogicLayer.Services.UserManagers.Implementations
         private readonly UserManager<ApplicationUser> _userManager;
 	    private readonly Repository<UserInfo> _userInfoRepository;
         private readonly Repository<ApplicationUser> _applicationUserRepository;
+        private readonly IPhotoManager _photoManager;
 
         public UserManager(IHttpContextAccessor contextAccessor, UserManager<ApplicationUser> userManager,
             Repository<UserInfo> userInfoRepository,
-            Repository<ApplicationUser> applicationUserRepository)
+            Repository<ApplicationUser> applicationUserRepository, IPhotoManager photoManager)
         {
             _contextAccessor = contextAccessor;
             _userManager = userManager;
             _applicationUserRepository = applicationUserRepository;
+            _photoManager = photoManager;
             _userInfoRepository = userInfoRepository;
         }
 
@@ -50,6 +54,25 @@ namespace CourseWork.BusinessLogicLayer.Services.UserManagers.Implementations
         public IEnumerable<string> GetEmails(IEnumerable<string> userNames)
         {
             return _applicationUserRepository.GetWhere(user => userNames.Contains(user.UserName)).Select(user => user.Email);
+        }
+
+        public void Edit(AccountEditViewModel newInfo)
+        {
+            var user = _contextAccessor.HttpContext.User.Identity;
+            var currentUser = _userInfoRepository.GetWhere(item => item.UserName.Equals(user.Name)).Single();
+            currentUser.About = newInfo.About;
+            currentUser.Contacts = newInfo.Contacts;
+            _userInfoRepository.UpdateRange(currentUser);
+        }
+
+        public string ChangeAvatar(string newAvatarB64)
+        {
+            var user = _contextAccessor.HttpContext.User.Identity;
+            var currentUser = _userInfoRepository.GetWhere(item => item.UserName.Equals(user.Name)).Single();
+            var newAvatar = _photoManager.LoadImage(newAvatarB64);
+            currentUser.Avatar = newAvatar;
+            _userInfoRepository.UpdateRange(currentUser);
+            return newAvatar;
         }
     }
 }

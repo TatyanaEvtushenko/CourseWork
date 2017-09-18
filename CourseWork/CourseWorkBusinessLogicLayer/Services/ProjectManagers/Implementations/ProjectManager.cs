@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using CourseWork.BusinessLogicLayer.ElasticSearch;
 using CourseWork.BusinessLogicLayer.ElasticSearch.Documents;
@@ -39,6 +41,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         private readonly IMapper<RatingViewModel, Rating> _ratingMapper;
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly ISearchManager _searchManager;
+        private readonly Repository<ProjectSubscriber> _projectSubscriberRepository;
 
         public ProjectManager(Repository<Project> projectRepository,
             IMapper<ProjectItemViewModel, Project> projectItemMapper,
@@ -52,7 +55,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             Repository<Payment> paymentRepository,
             ITagService tagService,
             IFinancialPurposeManager financialPurposeManager,
-            IHttpContextAccessor contextAccessor, ISearchManager searchManager)
+            IHttpContextAccessor contextAccessor, ISearchManager searchManager, Repository<ProjectSubscriber> projectSubscriberRepository, Repository<ProjectSubscriber> projectSubscribeRepository)
         {
             _projectRepository = projectRepository;
             _projectItemMapper = projectItemMapper;
@@ -71,6 +74,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             _contextAccessor = contextAccessor;
             _raitingRepository = raitingRepository;
             _searchManager = searchManager;
+            _projectSubscriberRepository = projectSubscribeRepository;
         }
 
         public void ChangeProjectStatus(Project project, IEnumerable<Payment> payments, IEnumerable<FinancialPurpose> purposes)
@@ -131,10 +135,35 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
 
         public IEnumerable<ProjectItemViewModel> GetUserProjects()
         {
-            var userProjects = _projectRepository.GetWhere(project => project.OwnerUserName == _userManager.CurrentUserName);
-            var userProjectIds = userProjects.Select(project => project.Id);
-            var userProjectPayments = _paymentRepository.GetWhere(payment => userProjectIds.Contains(payment.ProjectId));
-            return userProjects.Select(project => GetPreparedProjectItem(project, null, userProjectPayments));
+            return GetProjects(_userManager.CurrentUserName);
+        }
+
+        public IEnumerable<ProjectItemViewModel> GetUserSubscribedProjects()
+        {
+            return GetSubscribedProjects(_userManager.CurrentUserName);
+        }
+
+        public IEnumerable<ProjectItemViewModel> GetProjects(string username)
+        {
+            return _projectRepository
+                .GetWhereEager<IEnumerable<Object>>(project => project.OwnerUserName == username, project => project.Subscribers,
+                    project => project.Payments)
+                .Select(item => GetPreparedProjectItem(item, item.Subscribers, item.Payments));
+        }
+
+        public IEnumerable<ProjectItemViewModel> GetSubscribedProjects(string username)
+        {
+            var subscriptionIds = _projectSubscriberRepository.GetWhere(item => item.UserName.Equals(username))
+                .Select(item => item.ProjectId).ToImmutableHashSet();
+            return _projectRepository.GetWhereEager<IEnumerable<Object>>(item
+                        => subscriptionIds.Contains(item.Id),
+                    item => item.Subscribers, item => item.Payments)
+                .Select(item => GetPreparedProjectItem(item, item.Subscribers, item.Payments));
+        }
+
+        public string GetProjectName(string projectId)
+        {
+            throw new NotImplementedException();
         }
 
         public IEnumerable<ProjectItemViewModel> GetLastCreatedProjects()
@@ -179,7 +208,8 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         private ProjectItemViewModel GetPreparedProjectItem(Project project, IEnumerable<ProjectSubscriber> subscribers, IEnumerable<Payment> payments)
         {
             var projectViewModel = _projectItemMapper.ConvertFrom(project);
-            projectViewModel.IsSubscriber = subscribers?.FirstOrDefault(subscriber => subscriber.ProjectId == project.Id) != null;
+            projectViewModel.IsSubscriber = subscribers?
+                .FirstOrDefault(subscriber => subscriber.UserName == _userManager.CurrentUserName) != null;
             projectViewModel.PaidAmount = _paymentManager.GetProjectPaidAmount(project.Id, payments);
             return projectViewModel;
         }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Security.Principal;
 using System.Threading.Tasks;
+using CourseWork.BusinessLogicLayer.ViewModels.AccountViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.CurrentUserViewModels;
 using CourseWork.DataLayer.Models;
 
@@ -17,5 +18,9 @@ namespace CourseWork.BusinessLogicLayer.Services.UserManagers
         IEnumerable<string> GetEmails(IEnumerable<string> userNames);
 
         UserInfo GetCurrentUserUserInfo();
+
+        void Edit(AccountEditViewModel newAbout);
+
+        string ChangeAvatar(string newAvatarB64);
     }
 }
