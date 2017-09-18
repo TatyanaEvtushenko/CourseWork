@@ -5,6 +5,8 @@ using System.Linq;
 using CourseWork.BusinessLogicLayer.ElasticSearch;
 using CourseWork.BusinessLogicLayer.ElasticSearch.Documents;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
+using CourseWork.BusinessLogicLayer.Services.PaymentManagers;
+using CourseWork.BusinessLogicLayer.Services.UserManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.NewsViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using CourseWork.DataLayer.Models;
@@ -19,13 +21,21 @@ namespace CourseWork.BusinessLogicLayer.Services.SearchManagers.Implementations
         private readonly ElasticClient _client;
         private readonly IMapper<ProjectItemViewModel, Project> _mapper;
         private readonly Repository<Project> _projectRepository;
+        private readonly Repository<ProjectSubscriber> _projectSubscriberRepository;
+        private readonly Repository<Payment> _paymentRepository;
+        private readonly IUserManager _userManager;
         private readonly IMapper<ProjectSearchNote, Project> _projectSearchMapper;
+        private readonly IPaymentManager _paymentManager;
 
-        public SearchManager(SearchClient searchClient, IMapper<ProjectItemViewModel, Project> mapper, Repository<Project> projectRepository, IMapper<ProjectSearchNote, Project> projectSearchMapper)
+        public SearchManager(SearchClient searchClient, IMapper<ProjectItemViewModel, Project> mapper, Repository<Project> projectRepository, IMapper<ProjectSearchNote, Project> projectSearchMapper, Repository<ProjectSubscriber> projectSubscriberRepository, IUserManager userManager, Repository<Payment> paymentRepository, IPaymentManager paymentManager)
         {
             _mapper = mapper;
             _projectRepository = projectRepository;
             _projectSearchMapper = projectSearchMapper;
+            _projectSubscriberRepository = projectSubscriberRepository;
+            _userManager = userManager;
+            _paymentRepository = paymentRepository;
+            _paymentManager = paymentManager;
             searchClient.CreateNewElasticClient();
             _client = searchClient.Client;
         }
@@ -37,7 +47,15 @@ namespace CourseWork.BusinessLogicLayer.Services.SearchManagers.Implementations
                     .Field(p => p.FinancialPurposeName).Field(p => p.NewsSubject).Field(p => p.NewsText).Field(p => p.Tag))
                     .Query(query).Operator(Operator.Or))));
             var projectIds = response.Hits.Select(n => n.Source.Id).ToImmutableHashSet();
-            return _projectRepository.GetWhere(n => projectIds.Contains(n.Id)).Select(n => _mapper.ConvertFrom(n));
+            return _projectRepository
+                .GetWhereEager<IEnumerable<Object>>(item => projectIds.Contains(item.Id), item => item.Subscribers, item => item.Payments)
+                .Select(item =>
+            {
+                var viewModel = _mapper.ConvertFrom(item);
+                viewModel.IsSubscriber = item.Subscribers?.FirstOrDefault(s => s.UserName == _userManager.CurrentUserName) != null;
+                viewModel.PaidAmount = _paymentManager.GetProjectPaidAmount(item.Id, item.Payments);
+                return viewModel;
+            });
         }
 
         public bool AddProjectToIndex(Project project)

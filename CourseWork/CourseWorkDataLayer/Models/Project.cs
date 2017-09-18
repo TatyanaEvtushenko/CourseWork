@@ -31,7 +31,9 @@ namespace CourseWork.DataLayer.Models
 
         public double Rating { get; set; }
 
-        public ICollection<ProjectSubscriber> Subscribers { get; set; }
+        public IEnumerable<ProjectSubscriber> Subscribers { get; set; }
+
+        public IEnumerable<Payment> Payments { get; set; }
 
         [ForeignKey("OwnerUserName")]
         [Required]

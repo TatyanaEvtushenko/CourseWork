@@ -84,9 +84,14 @@ namespace CourseWork.DataLayer.Repositories
             return null;
         }
 
-        public List<T> GetWhereEager<TProperty>(Expression<Func<T, TProperty>> includeStatement, Func<T, bool> whereExpression)
+        public List<T> GetWhereEager<TProperty>(Func<T, bool> whereExpression, params Expression<Func<T, TProperty>>[] includeStatements)
         {
-            return Table.Include(includeStatement).AsEnumerable().Where(whereExpression).ToList();
+            IQueryable<T> query = Table;
+            foreach (var includeStatement in includeStatements)
+            {
+                query = query.Include(includeStatement);
+            }
+            return query.AsEnumerable().Where(whereExpression).ToList();
         }
 
         private bool SaveActionResult(Action action)

@@ -157,13 +157,16 @@ namespace CourseWork.DataLayer.Data.Migrations
 
                     b.Property<decimal>("PaidAmount");
 
-                    b.Property<string>("ProjectId");
+                    b.Property<string>("ProjectId")
+                        .IsRequired();
 
                     b.Property<DateTime>("Time");
 
                     b.Property<string>("UserName");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
 
                     b.ToTable("Payments");
                 });
@@ -264,8 +267,6 @@ namespace CourseWork.DataLayer.Data.Migrations
                     b.Property<string>("Name");
 
                     b.Property<string>("PassportScan");
-
-                    //b.Property<int>("ProjectNumber");
 
                     b.Property<double>("Rating");
 
@@ -407,6 +408,14 @@ namespace CourseWork.DataLayer.Data.Migrations
                 {
                     b.HasOne("CourseWork.DataLayer.Models.Project", "Project")
                         .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.Payment", b =>
+                {
+                    b.HasOne("CourseWork.DataLayer.Models.Project", "Project")
+                        .WithMany("Payments")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

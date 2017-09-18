@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -144,16 +145,20 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
 
         public IEnumerable<ProjectItemViewModel> GetProjects(string username)
         {
-            var userProjects = _projectRepository.GetWhere(project => project.OwnerUserName == username);
-            var userProjectIds = userProjects.Select(project => project.Id);
-            var userProjectPayments = _paymentRepository.GetWhere(payment => userProjectIds.Contains(payment.ProjectId));
-            return userProjects.Select(project => GetPreparedProjectItem(project, null, userProjectPayments));
+            return _projectRepository
+                .GetWhereEager<IEnumerable<Object>>(project => project.OwnerUserName == username, project => project.Subscribers,
+                    project => project.Payments)
+                .Select(item => GetPreparedProjectItem(item, item.Subscribers, item.Payments));
         }
 
         public IEnumerable<ProjectItemViewModel> GetSubscribedProjects(string username)
         {
-            return _projectSubscriberRepository.GetWhereEager(item => item.Project, item => username.Equals(item.UserName))
-                .Select(item => _projectItemMapper.ConvertFrom(item.Project));
+            var subscriptionIds = _projectSubscriberRepository.GetWhere(item => item.UserName.Equals(username))
+                .Select(item => item.ProjectId).ToImmutableHashSet();
+            return _projectRepository.GetWhereEager<IEnumerable<Object>>(item
+                        => subscriptionIds.Contains(item.Id),
+                    item => item.Subscribers, item => item.Payments)
+                .Select(item => GetPreparedProjectItem(item, item.Subscribers, item.Payments));
         }
 
         public string GetProjectName(string projectId)
@@ -203,7 +208,8 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         private ProjectItemViewModel GetPreparedProjectItem(Project project, IEnumerable<ProjectSubscriber> subscribers, IEnumerable<Payment> payments)
         {
             var projectViewModel = _projectItemMapper.ConvertFrom(project);
-            projectViewModel.IsSubscriber = subscribers?.FirstOrDefault(subscriber => subscriber.ProjectId == project.Id) != null;
+            projectViewModel.IsSubscriber = subscribers?
+                .FirstOrDefault(subscriber => subscriber.UserName == _userManager.CurrentUserName) != null;
             projectViewModel.PaidAmount = _paymentManager.GetProjectPaidAmount(project.Id, payments);
             return projectViewModel;
         }
