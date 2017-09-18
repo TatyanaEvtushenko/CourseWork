@@ -18,8 +18,8 @@
     </div>
     <div class="card-action">
         <ng-container *ngIf="storage.isReadyCurrentUser && storage.currentUser.userName != project.ownerUserName">
-            <button *ngIf="!project.isSubscriber" (click)="subscribe()" class="btn left">Subscribe</button>
-            <button *ngIf="project.isSubscriber" (click)="unsubscribe()" class="btn left">Unsubscribe</button>
+            <button *ngIf="!project.isSubscriber" (click)="subscribe()" class="btn left-align">Subscribe</button>
+            <button *ngIf="project.isSubscriber" (click)="unsubscribe()" class="btn left-align">Unsubscribe</button>
         </ng-container>
         <a><i class="material-icons right activator">more_vert</i></a>
         <ng-container *ngIf="storage.isReadyCurrentUser && (storage.currentUser.userName == project.ownerUserName || storage.isAdmin)">
