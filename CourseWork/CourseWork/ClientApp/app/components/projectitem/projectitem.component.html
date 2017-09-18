@@ -21,12 +21,12 @@
         <markdown>{{project.description}}</markdown>
     </div>
     <div class="card-action">
-        <ng-container *ngIf="storage.isReadyCurrentUser && storage.currentUser.userName != project.ownerUserName">
+        <ng-container *ngIf="storage.isReadyCurrentUser && storage.isUser && storage.currentUser.userName != project.ownerUserName">
             <button *ngIf="!project.isSubscriber" (click)="subscribe()" class="btn left">Subscribe</button>
             <button *ngIf="project.isSubscriber" (click)="unsubscribe()" class="btn left">Unsubscribe</button>
         </ng-container>
         <a><i class="material-icons right activator">more_vert</i></a>
-        <ng-container *ngIf="storage.isReadyCurrentUser && (storage.currentUser.userName == project.ownerUserName || storage.isAdmin)">
+        <ng-container *ngIf="storage.isReadyCurrentUser && (storage.isUser && storage.currentUser.userName == project.ownerUserName || storage.isAdmin)">
             <a href="/ProjectEditorPage/{{project.id}}" class="right"><i class="material-icons">edit</i></a>
             <a (click)="openNews()" href="#newsModal" class="modal-trigger right"><i class="material-icons">library_books</i></a>
         </ng-container>
