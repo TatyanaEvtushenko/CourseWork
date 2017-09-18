@@ -28,10 +28,7 @@ export class CommentsComponent {
     add() {
         if (this.commentText != null && this.commentText !== "") {
             this.projectService.addComment(this.projectId, this.commentText).subscribe(
-                data => { console.log(data);
-                    this.addComments(data, this.commentText);
-                },
-            error => console.log(error)
+                data => this.addComments(data)
             );
         }
     }
@@ -44,14 +41,8 @@ export class CommentsComponent {
         this.projectService.removeComment(comment.id).subscribe();
     }
 
-    private addComments(id: any, text: string) {
-        console.log(id);
-        const comment = {
-            text: text,
-            id: id,
-            time: this.timeService.getNowTime(),
-            user: { userName: this.storage.currentUser.userName }
-        };
-        this.comments.push(comment);
+    private addComments(data: any) {
+        data.user = { userName: this.storage.currentUser.userName }
+        this.comments.push(data);
     }
 }
