@@ -19,9 +19,10 @@ export class UserPageComponent {
     currentUserName: string = null;
     userProjects: any[] = [];
     userSubscribedProjects: any[] = [];
-    displayableInfo: DisplayableInfo = { userName: "", about: "", projectNumber: 0, avatar: "", contacts: "", registrationTime: "" };
-    accountEditForm: AccountEditForm = { about: "about", contacts: "contacts" };
+    displayableInfo: DisplayableInfo = null;
+    accountEditForm: AccountEditForm = null;
     selectedProjectId: string = null;
+    isInitialized = false;
 
     constructor(private title: Title, protected currentUserService: CurrentUserService, protected accountService: AccountService,
         protected messageSenderService: MessageSenderService, private projectService: ProjectService, private storage: MessageSubscriberService,
@@ -59,11 +60,12 @@ export class UserPageComponent {
     }
 
     private getDisplayableInfo() {
-        this.accountService.getUserDisplayableInfo(this.ownerUserName).subscribe((data) => {
+        this.accountService.getUserDisplayableInfo(this.ownerUserName).subscribe((data: DisplayableInfo) => {
             this.displayableInfo = data;
-            this.displayableInfo.about = this.displayableInfo.about || "";
-            this.displayableInfo.contacts = this.displayableInfo.contacts || "";
+            this.displayableInfo.about = data.about || "";
+            this.displayableInfo.contacts = data.contacts || "";
             this.accountEditForm = { about: this.displayableInfo.about, contacts: this.displayableInfo.contacts };
+            this.isInitialized = true;
         });
     }
 

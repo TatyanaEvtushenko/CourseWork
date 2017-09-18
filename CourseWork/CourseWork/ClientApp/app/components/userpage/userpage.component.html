@@ -1,13 +1,14 @@
 ﻿<errorpage *ngIf="storage.isReadyCurrentUser && !storage.isUser"></errorpage>
 
-<div *ngIf="storage.isReadyCurrentUser && storage.isUser">
+<div *ngIf="storage.isReadyCurrentUser && storage.isUser && isInitialized">
     <h2 *ngIf="currentUserName === ownerUserName">My page</h2>
     <h2 *ngIf="currentUserName !== ownerUserName">{{ownerUserName}}'s page</h2>
     <div class="col s12 m7">
-        <usercard [displayableInfo]="displayableInfo" [isCardOfCurrentUser]="currentUserName === ownerUserName"></usercard>
+        <usercard [displayableInfo]="displayableInfo" [isCardOfCurrentUser]="currentUserName === ownerUserName"
+                  (onAccountEdit)="updateAccout($event)"></usercard>
     </div>
-    <accounteditmodal *ngIf="storage.isReadyCurrentUser && storage.isUser"
-                      [about]="accountEditForm.about" [contacts]="accountEditForm.contacts" (onConfirm)="updateAccount($event)"></accounteditmodal>
+    <accounteditmodal [about]="accountEditForm.about" [contacts]="accountEditForm.contacts"
+                      (onConfirm)="updateAccount($event)"></accounteditmodal>
     <avatarchangemodal *ngIf="storage.isReadyCurrentUser && storage.isUser" (onConfirm)="updateAvatar($event)"></avatarchangemodal>
     <div>
         <h3 *ngIf="currentUserName === ownerUserName">My projects</h3>
