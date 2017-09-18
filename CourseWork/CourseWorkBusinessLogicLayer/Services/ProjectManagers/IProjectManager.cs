@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CourseWork.BusinessLogicLayer.ViewModels.PaymentViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using CourseWork.DataLayer.Models;
 
@@ -24,5 +25,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers
 
         void ChangeProjectStatus(Project project, IEnumerable<Payment> payments,
             IEnumerable<FinancialPurpose> purposes);
+
+        bool AddPayment(PaymentFormViewModel paymentForm);
     }
 }

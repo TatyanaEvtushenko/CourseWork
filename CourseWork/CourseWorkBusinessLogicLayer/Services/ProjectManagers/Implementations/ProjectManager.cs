@@ -6,6 +6,7 @@ using CourseWork.BusinessLogicLayer.Services.PaymentManagers;
 using CourseWork.BusinessLogicLayer.Services.PhotoManagers;
 using CourseWork.BusinessLogicLayer.Services.UserManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.FinancialPurposeViewModels;
+using CourseWork.BusinessLogicLayer.ViewModels.PaymentViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
@@ -20,6 +21,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         private readonly Repository<Tag> _tagRepository;
         private readonly Repository<FinancialPurpose> _financialPurposeRepository;
         private readonly Repository<Payment> _paymentRepository;
+        private readonly Repository<UserInfo> _userInfoRepository;
         private readonly IUserManager _userManager;
         private readonly IPhotoManager _photoManager;
         private readonly IPaymentManager _paymentManager;
@@ -29,6 +31,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         private readonly IMapper<ProjectEditorFormViewModel, Project> _projectEditorFormMapper;
         private readonly IMapper<FinancialPurposeViewModel, FinancialPurpose> _financialPurposeMapper;
         private readonly IMapper<RatingViewModel, Rating> _ratingMapper;
+        private readonly IMapper<PaymentFormViewModel, Payment> _paymentMapper;
 
         public ProjectManager(Repository<Project> projectRepository,
             IMapper<ProjectItemViewModel, Project> projectItemMapper,
@@ -39,7 +42,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             IMapper<FinancialPurposeViewModel, FinancialPurpose> financialPurposeMapper,
             Repository<FinancialPurpose> financialPurposeRepository, IPhotoManager photoManager,
             IMapper<RatingViewModel, Rating> ratingMapper, IPaymentManager paymentManager,
-            Repository<Payment> paymentRepository)
+            Repository<Payment> paymentRepository, Repository<UserInfo> userInfoRepository, IMapper<PaymentFormViewModel, Payment> paymentMapper)
         {
             _projectRepository = projectRepository;
             _projectItemMapper = projectItemMapper;
@@ -55,9 +58,12 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             _ratingMapper = ratingMapper;
             _paymentManager = paymentManager;
             _paymentRepository = paymentRepository;
+            _userInfoRepository = userInfoRepository;
+            _paymentMapper = paymentMapper;
         }
 
-        public void ChangeProjectStatus(Project project, IEnumerable<Payment> payments, IEnumerable<FinancialPurpose> purposes)
+        public void ChangeProjectStatus(Project project, IEnumerable<Payment> payments,
+            IEnumerable<FinancialPurpose> purposes)
         {
             if (IsFinancialProject(project, payments, purposes))
             {
@@ -65,7 +71,9 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             }
             else
             {
-                project.Status = project.FundRaisingEnd < DateTime.UtcNow.Date ? ProjectStatus.Failed : ProjectStatus.Active;
+                project.Status = project.FundRaisingEnd < DateTime.UtcNow.Date
+                    ? ProjectStatus.Failed
+                    : ProjectStatus.Active;
             }
         }
 
@@ -81,7 +89,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         public void ChangeRating(RatingViewModel ratingForm)
         {
             var ratingModel = _raitingRepository.FirstOrDefault(
-                    rating => rating.ProjectId == ratingForm.ProjectId && rating.UserName == _userManager.CurrentUserName);
+                rating => rating.ProjectId == ratingForm.ProjectId && rating.UserName == _userManager.CurrentUserName);
             if (ratingModel == null)
             {
                 AddRating(ratingForm, _userManager.CurrentUserName);
@@ -101,7 +109,9 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         public ProjectEditorFormViewModel GetProjectEditorForm(string projectId)
         {
             var projectModel = _projectRepository.FirstOrDefault(project => project.Id == projectId);
-            return projectModel == null ? new ProjectEditorFormViewModel() : _projectEditorFormMapper.ConvertFrom(projectModel);
+            return projectModel == null
+                ? new ProjectEditorFormViewModel()
+                : _projectEditorFormMapper.ConvertFrom(projectModel);
         }
 
         public bool UpdateProject(ProjectFormViewModel projectForm)
@@ -114,9 +124,11 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
 
         public IEnumerable<ProjectItemViewModel> GetUserProjects()
         {
-            var userProjects = _projectRepository.GetWhere(project => project.OwnerUserName == _userManager.CurrentUserName);
+            var userProjects =
+                _projectRepository.GetWhere(project => project.OwnerUserName == _userManager.CurrentUserName);
             var userProjectIds = userProjects.Select(project => project.Id);
-            var userProjectPayments = _paymentRepository.GetWhere(payment => userProjectIds.Contains(payment.ProjectId));
+            var userProjectPayments =
+                _paymentRepository.GetWhere(payment => userProjectIds.Contains(payment.ProjectId));
             return userProjects.Select(project => GetPreparedProjectItem(project, null, userProjectPayments));
         }
 
@@ -132,9 +144,36 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
                 .Select(project => _projectItemMapper.ConvertFrom(project));
         }
 
-        private bool IsFinancialProject(Project project, IEnumerable<Payment> payments, IEnumerable<FinancialPurpose> purposes)
+        public bool AddPayment(PaymentFormViewModel paymentForm)
         {
-            var projectPayments = payments?.Where(payment => payment.ProjectId == project.Id && payment.Time <= project.FundRaisingEnd);
+            UpdateAccountNumber(paymentForm.AccountNumber);
+            var payment = _paymentMapper.ConvertTo(paymentForm);
+            var result = _paymentRepository.AddRange(payment);
+            ChangeProjectStatus(paymentForm.ProjectId);
+            return result;
+        }
+
+        private void ChangeProjectStatus(string projectId)
+        {
+            var project = _projectRepository.Get(projectId);
+            var projectPayments = _paymentManager.GetProjectPayments(projectId);
+            var projectPurposes = _financialPurposeRepository.GetWhere(purpose => purpose.ProjectId == projectId);
+            ChangeProjectStatus(project, projectPayments, projectPurposes);
+            _projectRepository.UpdateRange(project);
+        }
+
+        private void UpdateAccountNumber(string accountNumber)
+        {
+            var userInfo = _userManager.GetCurrentUserUserInfo();
+            userInfo.LastAccountNumber = accountNumber;
+            _userInfoRepository.UpdateRange(userInfo);
+        }
+
+        private bool IsFinancialProject(Project project, IEnumerable<Payment> payments,
+            IEnumerable<FinancialPurpose> purposes)
+        {
+            var projectPayments =
+                payments?.Where(payment => payment.ProjectId == project.Id && payment.Time <= project.FundRaisingEnd);
             var minFinancialPurposeBudget = purposes.Where(purpose => purpose.ProjectId == project.Id)
                 .Min(purpose => purpose.NecessaryPaymentAmount);
             return _paymentManager.GetProjectPaidAmount(project.Id, projectPayments) >= minFinancialPurposeBudget;
@@ -146,7 +185,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             {
                 return true;
             }
-            var tags = tagsToAdding.Select(tag => new Tag { Name = tag, ProjectId = projectId });
+            var tags = tagsToAdding.Select(tag => new Tag {Name = tag, ProjectId = projectId});
             return _tagRepository.AddRange(tags.ToArray());
         }
 
@@ -159,10 +198,12 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             return project;
         }
 
-        private ProjectItemViewModel GetPreparedProjectItem(Project project, IEnumerable<ProjectSubscriber> subscribers, IEnumerable<Payment> payments)
+        private ProjectItemViewModel GetPreparedProjectItem(Project project, IEnumerable<ProjectSubscriber> subscribers,
+            IEnumerable<Payment> payments)
         {
             var projectViewModel = _projectItemMapper.ConvertFrom(project);
-            projectViewModel.IsSubscriber = subscribers?.FirstOrDefault(subscriber => subscriber.ProjectId == project.Id) != null;
+            projectViewModel.IsSubscriber =
+                subscribers?.FirstOrDefault(subscriber => subscriber.ProjectId == project.Id) != null;
             projectViewModel.PaidAmount = _paymentManager.GetProjectPaidAmount(project.Id, payments);
             return projectViewModel;
         }
@@ -179,8 +220,9 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
 
         private bool UpdateTagsInProject(string projectId, IEnumerable<string> newTags)
         {
-            var successedRemoving = _tagRepository.RemoveWhere(tag => !newTags.Contains(tag.Name) && tag.ProjectId == projectId);
-            var oldTags = _tagRepository.GetWhere(tag => tag.ProjectId == projectId).Select(tag => tag.Name); 
+            var successedRemoving =
+                _tagRepository.RemoveWhere(tag => !newTags.Contains(tag.Name) && tag.ProjectId == projectId);
+            var oldTags = _tagRepository.GetWhere(tag => tag.ProjectId == projectId).Select(tag => tag.Name);
             var tagsForAdding = newTags.Where(tag => !oldTags.Contains(tag));
             var successedAdding = AddTagsInProject(tagsForAdding, projectId);
             return successedRemoving && successedAdding;
@@ -192,7 +234,8 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
                    _financialPurposeRepository.AddRange(purposesForAdding);
         }
 
-        private IEnumerable<FinancialPurpose> GetPurposesOfProjectForm(IEnumerable<FinancialPurposeViewModel> financialPurposes, string projectId)
+        private IEnumerable<FinancialPurpose> GetPurposesOfProjectForm(
+            IEnumerable<FinancialPurposeViewModel> financialPurposes, string projectId)
         {
             return financialPurposes.Select(purpose =>
             {
