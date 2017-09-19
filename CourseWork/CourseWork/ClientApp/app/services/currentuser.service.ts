@@ -1,22 +1,27 @@
 ﻿import { Injectable } from '@angular/core';
-import { BaseService} from './base.service';
+import { BaseService } from './base.service';
 
 @Injectable()
-export class CurrentUserService extends BaseService{
+export class CurrentUserService extends BaseService {
 
-    getCurrentUserInfo() {
+    getCurrentUser() {
         return this.requestGet("api/CurrentUser/GetCurrentUserInfo");
-    }
+	}
 
-    isAdmin() {
-        return this.requestGet("api/Account/IsAdmin");
-    }
+	updateMessages() {
+		return this.requestGet("api/Message/GetUnreadMessages");
+	}
 
-    isConfirmedUser() {
-        return this.requestGet("api/Account/IsConfirmedUser");
-    }
+	markAsRead(messages: string[]) {
+		var params = { 'id': messages };
+		return this.requestGetWithParams("api/Message/MarkAsRead", params);
+	}
 
-    isUser() {
-        return this.requestGet("api/Account/IsUser");
+    //private changeServiceState(user: CurrentUser) {
+    //    this.isReady.emit(user);
+    //}
+
+    private getCurrentUserFromServer() {
+        return this.requestGet("api/CurrentUser/GetCurrentUserInfo");
     }
 }

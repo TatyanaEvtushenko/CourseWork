@@ -11,30 +11,25 @@
             <label for="register-email">Email</label>
         </div>
         <div class="input-field">
-            <input id="register-password" #password="ngModel" class="validate" required maxlength="20" type="password" 
+            <input id="register-password" #password="ngModel" class="validate" required data-length="20" type="password" 
                    [(ngModel)]="registerForm.password" (ngModelChange)="onPasswordChange()"/>
             <label for="register-password">Password</label>
         </div>
         <div class="input-field">
-            <input id="register-confirmPassword" #passwordConfirmation="ngModel" class="validate" required maxlength="20" type="password"
+            <input id="register-confirmPassword" #passwordConfirmation="ngModel" class="validate" required data-length="20" type="password"
                    [(ngModel)]="registerForm.passwordConfirmation" (ngModelChange)="onPasswordConfirmationChange()"/>
             <label for="register-confirmPassword">Password confirmation</label>
         </div>
         <div class="input-field">
             <button [disabled]="email.invalid || !isValidPassword || !isValidPasswordConfirmation" class="btn"  (click)="onSubmit()">Register</button>
         </div>
+        
+        <errortext *ngIf="isWrongRequest" [text]="'Such username or email is already registered'"></errortext>
+        <errortext [hidden]="password.untouched && password.pristine|| isValidPassword" 
+                   [text]="'● The password must be at least 6 and at max 20 characters long'"></errortext>
+        <errortext [hidden]="passwordConfirmation.untouched && passwordConfirmation.pristine || isValidPasswordConfirmation"
+                   [text]="'● The password and confirmation password do not match'"></errortext>
 
-        <div class="red-text input-field row">
-            <div [hidden]="password.untouched && password.pristine|| isValidPassword">
-                ● The password must be at least 6 and at max 20 characters long
-            </div>
-            <div [hidden]="passwordConfirmation.untouched && passwordConfirmation.pristine || isValidPasswordConfirmation">
-                ● The password and confirmation password do not match
-            </div>
-            <div *ngIf="isWrongRequest">
-                Such username or email is already registered
-            </div>
-        </div>
     </div>
 </div>
           

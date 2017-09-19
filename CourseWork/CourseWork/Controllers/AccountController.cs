@@ -1,12 +1,14 @@
 using System.Threading.Tasks;
 using CourseWork.BusinessLogicLayer.Services.AccountManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.AccountViewModels;
+using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CourseWork.Controllers
 {
     [Produces("application/json")]
+    [Authorize]
     public class AccountController : Controller
     {
         private readonly IAccountManager _accountManager;
@@ -34,7 +36,6 @@ namespace CourseWork.Controllers
 
         [HttpGet]
         [Route("api/Account/LogOut")]
-        [Authorize]
         public async Task LogOut()
         {
             await _accountManager.Logout();
@@ -43,30 +44,27 @@ namespace CourseWork.Controllers
         [HttpGet]
         [Route("api/Account/ConfirmRegistration")]
         [AllowAnonymous]
-        public async Task<bool> ConfirmRegistration([FromQuery] ConfirmationRegistrationViewModel confirmation)
+        public async Task<IActionResult> ConfirmRegistration([FromQuery] ConfirmationRegistrationViewModel confirmation)
         {
-            return await _accountManager.ConfirmRegistration(confirmation.UserId, confirmation.Code);
+            if (await _accountManager.ConfirmRegistration(confirmation.UserId, confirmation.Code))
+                return RedirectToAction("Index", "Home");
+            return BadRequest();
         }
 
         [HttpGet]
-        [Route("api/Account/IsAdmin")]
-        public async Task<bool> IsAdmin()
+        [Route("api/Account/GetUserDisplayableInfo")]
+        [Authorize]
+        public DisplayableInfoViewModel GetUserDisplayableInfo([FromQuery] string username)
         {
-            return await _accountManager.IsAdmin();
+            return _accountManager.GetUserDisplayableInfo(username);
         }
 
         [HttpGet]
-        [Route("api/Account/IsConfirmedUser")]
-        public async Task<bool> IsConfirmedUser()
+        [Route("api/Account/GetDisplayableInfo")]
+        [AllowAnonymous]
+        public DisplayableInfoViewModel[] GetDisplayableInfo([FromQuery] string[] userNames)
         {
-            return await _accountManager.IsConfirmedUser();
-        }
-
-        [HttpGet]
-        [Route("api/Account/IsUser")]
-        public async Task<bool> IsUser()
-        {
-            return await _accountManager.IsUser();
+            return _accountManager.GetDisplayableInfo(userNames);
         }
     }
 }

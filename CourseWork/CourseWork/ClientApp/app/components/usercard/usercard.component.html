@@ -1,0 +1,24 @@
+﻿<div class="card horizontal">
+    <div class="card-image">
+        <img src="{{displayableInfo.avatar}}">
+    </div>
+    <div class="card-content row">
+        <div class="card-title">
+            {{displayableInfo.userName}}<br />
+        </div>
+        <ul>
+            <li>Registered: {{displayableInfo.registrationTime}}</li>
+            <li>Projects created: {{displayableInfo.projectNumber}}</li>
+            <li>Contacts: {{displayableInfo.contacts}}</li>
+        </ul>
+    </div>
+    <div class="card-reveal">
+        <span class="card-title grey-text text-darken-4">About<i class="material-icons right">close</i></span>
+        <markdown>{{displayableInfo.about}}</markdown>
+    </div>
+    <div class="card-action">
+        <a><i class="material-icons right activator">more_vert</i></a>
+        <a *ngIf="isCardOfCurrentUser" href="#accountEditModal" (click)="openAccountEdit()" class="modal-trigger"><i class="material-icons">edit</i></a>
+        <a *ngIf="isCardOfCurrentUser" href="#avatarChangeModal" (click)="openAvatarChange()" class="modal-trigger"><i class="material-icons">photo_camera</i></a>
+    </div>
+</div>

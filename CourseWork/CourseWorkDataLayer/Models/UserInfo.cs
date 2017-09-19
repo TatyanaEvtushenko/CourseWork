@@ -1,11 +1,13 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using CourseWork.DataLayer.Enums;
 
 namespace CourseWork.DataLayer.Models
 {
     public class UserInfo
     {
-        public string UserId { get; set; }
+        [Key]
+        public string UserName { get; set; }
 
         public UserStatus Status { get; set; }
 
@@ -15,9 +17,7 @@ namespace CourseWork.DataLayer.Models
 
         public DateTime LastLoginTime { get; set; }
 
-        public int ProjectNumber { get; set; }
-
-        public int Raiting { get; set; }
+        public double Rating { get; set; }
 
         public string Name { get; set; }
 
@@ -26,5 +26,13 @@ namespace CourseWork.DataLayer.Models
         public string PassportScan { get; set; }
 
         public string Description { get; set; }
+
+        public string Avatar { get; set; }
+
+        public string About { get; set; }
+
+        public string Contacts { get; set; }
+
+        public string LastAccountNumber { get; set; }
     }
 }

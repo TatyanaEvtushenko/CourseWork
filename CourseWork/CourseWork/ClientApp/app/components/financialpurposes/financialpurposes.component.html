@@ -1,0 +1,19 @@
+﻿<ul id="project-financialPurposes" materialize="collapsible" class="collapsible popout" data-collapsible="accordion">
+    <li *ngFor="let financialPurpose of financialPurposes">
+        <div class="collapsible-header" [class.grey]="financialPurpose.isReached" [class.lighten-2]="financialPurpose.isReached">
+            <div class="col m8">
+                <h6>{{financialPurpose.name}}</h6>
+            </div>
+            <div class="col m3 right-align secondary-content">
+                <h6>${{financialPurpose.budget}}</h6>
+            </div>
+            <div class="col m1 right-align">
+                <i *ngIf="canChange" class="material-icons right" (click)="delete(financialPurpose)">close</i>
+            </div>
+        </div>
+        <div class="collapsible-body">
+            <p *ngIf="financialPurpose.description != null">${{financialPurpose.description}}</p>
+            <p *ngIf="financialPurpose.description == null">No description</p>
+        </div>
+    </li>
+</ul>

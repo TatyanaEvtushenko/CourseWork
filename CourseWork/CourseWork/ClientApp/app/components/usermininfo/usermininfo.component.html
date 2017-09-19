@@ -1,0 +1,9 @@
+﻿<div class="user-min-info row">
+    <div class="col m2">
+        <img class="circle responsive-img" src="/images/default-user.png">
+    </div>
+    <div class="col m11">
+        <h6 *ngIf="user != null">{{user.userName}}</h6>
+        <h6 *ngIf="user == null"><i>Deleted user</i></h6>
+    </div>
+</div>

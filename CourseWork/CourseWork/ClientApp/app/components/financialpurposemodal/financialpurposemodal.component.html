@@ -1,0 +1,27 @@
+﻿<div id="financialPurposeModal" class="modal register-modal">
+    <div class="modal-content center">
+        <h4>Add a new financial purpose</h4>
+
+        <div class="input-field">
+            <input id="financialPurpose-name" #name="ngModel" class="validate" required 
+                   [(ngModel)]="financialPurpose.name" type="text" (keyup.enter)="onSubmit()"/>
+            <label for="financialPurpose-name">Name</label>
+        </div>
+
+        <div class="input-field">
+            <input id="financialPurpose-budget" #budget="ngModel" class="validate" required 
+                   [(ngModel)]="financialPurpose.budget" type="number" data-length="12" (keyup.enter)="onSubmit()"/>
+            <label for="financialPurpose-budget">Budget $</label>
+        </div>
+
+        <div class="input-field">
+            <textarea id="financialPurpose-description" class="materialize-textarea" 
+                      [(ngModel)]="financialPurpose.description"></textarea>
+            <label for="financialPurpose-description">Description</label>
+        </div>
+        
+        <div class="input-field">
+            <button [disabled]="budget.invalid || name.invalid" class="btn" (click)="onSubmit()">Add</button>
+        </div>
+    </div>
+</div>

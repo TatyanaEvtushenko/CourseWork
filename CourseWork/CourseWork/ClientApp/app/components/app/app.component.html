@@ -1,25 +1,36 @@
 ﻿<nav role="navigation">
     <div class="nav-wrapper container">
-        <a id="logo-container" href="/" class="brand-logo">Logo</a>
         <a data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul class="left hide-on-med-and-down">
+            <li><a id="logo-container" href="/" class="brand-logo">Logo</a></li>
+        </ul>
         <ul class="right hide-on-med-and-down">
-            <pagelinks [currentUser]="currentUser" [roles]="roleNames"></pagelinks>
+            <li><searcher></searcher></li>
+            <pagelinks></pagelinks>
         </ul>
         <ul class="side-nav" id="mobile-demo">
-            <pagelinks [currentUser]="currentUser" [roles]="roleNames"></pagelinks>
+            <li><searcher></searcher></li>
+            <pagelinks></pagelinks>
         </ul>
     </div>
 </nav>
 
 <div class="container body-content">
-    <router-outlet></router-outlet>
-    
-    <div *ngIf="currentUser == null">
-        <registermodal></registermodal>
-        <loginmodal></loginmodal>
-    </div>
+	<router-outlet></router-outlet>
+</div>
+<floatingbutton></floatingbutton>
 
+<div class="container body-content">
     <footer class="footer-copyright">
         <p>&copy; 2017 - CourseWork</p>
     </footer>
+</div>
+    
+<div *ngIf="storage.isReadyCurrentUser && !storage.isUser">
+    <registermodal></registermodal>
+    <loginmodal></loginmodal>
+</div>
+
+<div *ngIf="storage.isReadyCurrentUser && storage.isJustUser">
+    <confirmationmodal></confirmationmodal>
 </div>

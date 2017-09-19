@@ -1,4 +1,7 @@
 ﻿using System.Threading.Tasks;
+using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
+using CourseWork.DataLayer.Enums;
+using CourseWork.DataLayer.Models;
 
 namespace CourseWork.BusinessLogicLayer.Services.AccountManagers
 {
@@ -12,10 +15,12 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers
 
         Task Logout();
 
-        Task<bool> IsAdmin();
+        Task AddRole(string userName, UserRole role);
 
-        Task<bool> IsConfirmedUser();
+        Task RemoveRole(string userName, UserRole role);
 
-        Task<bool> IsUser();
+        DisplayableInfoViewModel[] GetDisplayableInfo(string[] userNames);
+
+        DisplayableInfoViewModel GetUserDisplayableInfo(string username);
     }
 }

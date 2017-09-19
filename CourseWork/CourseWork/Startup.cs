@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using CourseWork.BusinessLogicLayer.ElasticSearch;
+using CourseWork.BusinessLogicLayer.Options;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using CourseWork.DataLayer.Data;
 using CourseWork.DataLayer.Models;
 using CourseWork.Extensions.StartupExtensions;
+using Nest;
 
 namespace CourseWork
 {
@@ -22,7 +25,6 @@ namespace CourseWork
 
             if (env.IsDevelopment())
             {
-                // For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
                 builder.AddUserSecrets<Startup>();
             }
 
@@ -34,20 +36,28 @@ namespace CourseWork
         
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+            //services.AddHangfire(x => x.UseSqlServerStorage(connectionString));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
             services.AddMvc();
-            services.AddSingleton(provider => Configuration);
+
+            services.Configure<MailOptions>(options => Configuration.GetSection("MailOptions").Bind(options));
+            services.Configure<CloudinaryOptions>(options => 
+                Configuration.GetSection("CloudinaryOptions").Bind(options));
+            services.Configure<ElasticSearchOptions>(options =>
+                Configuration.GetSection("ElasticSearchOptions").Bind(options));
+            services.AddSingleton<SearchClient>();
 
             services.AddRepositories();
             services.AddServices();
             services.AddMappers();
             services.CreateDatabaseRoles().Wait();
+            services.RunScheduler();
         }
         
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -68,6 +78,7 @@ namespace CourseWork
 
             app.UseStaticFiles();
             app.UseIdentity();
+            //app.UseHangfireServer();
 
             app.UseMvc(routes =>
             {

@@ -5,7 +5,7 @@ import { Response} from '@angular/http';
 
 @Injectable()
 export class BaseService {
-    constructor(private http: Http) {}
+    constructor(protected http: Http) {}
 
     protected  requestPost(path: string, argument: any) {
         const body = JSON.stringify(argument);
@@ -16,6 +16,12 @@ export class BaseService {
 
     protected requestGet(path: string) {
         return this.http.get(path).map(this.getData).catch(this.throwError);
+    }
+
+    protected requestGetWithParams(path: string, params: any) {
+        const requestOptions = new RequestOptions();
+        requestOptions.search = params;
+        return this.http.get(path, requestOptions).map(this.getData).catch(this.throwError);
     }
 
     private getData(response: Response) {

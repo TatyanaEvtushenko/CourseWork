@@ -15,10 +15,14 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
         {
             return new ProjectItemViewModel
             {
-                CreatingTime = item.CreatingTime,
                 Id = item.Id,
                 Name = item.Name,
-                PaidAmount = item.PaidAmount
+                ImageUrl = item.ImageUrl,
+                Status = item.Status,
+                Rating = item.Rating,
+                Description = item.Description,
+                OwnerUserName = item.OwnerUserName,
+                ProjectEndTime = item.FundRaisingEnd
             };
         }
     }
