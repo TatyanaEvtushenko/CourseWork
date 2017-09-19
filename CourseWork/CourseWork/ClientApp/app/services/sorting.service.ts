@@ -4,33 +4,25 @@
 export class SortingService {
 
     sortByTime(a: any, b: any) {
-        if (a.time > b.time) {
-            return 1;
-        }
-        if (a.time === b.time) {
-            return 0;
-        }
-        return -1;
+        return this.sort(a.time, b.time, false);
     }
 
     sortByBudget(a: any, b: any) {
-        if (a.budget > b.budget) {
-            return 1;
-        }
-        if (a.budget === b.budget) {
-            return 0;
-        }
-        return -1;
+        return this.sort(a.budget, b.budget, false);
     }
 
     sortByProjectStatus(a: any, b: any) {
-        if (a.status > b.status) {
-            return 1;
+        return this.sort(a.status, b.status, false);
+    }
+
+    private sort(firstItem: any, secondItem: any, isDescending: boolean) {
+        if (firstItem > secondItem) {
+            return isDescending ? -1 : 1;
         }
-        if (a.status === b.status) {
+        if (firstItem === secondItem) {
             return 0;
         } else {
-            return -1;
+            return isDescending ? 1 : -1;
         }
     }
 }

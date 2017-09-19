@@ -18,7 +18,8 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
                 Subject = item.Subject,
                 Text = item.Text,
                 Time = item.Time,
-                Id = item.Id
+                Id = item.Id,
+                ProjectName = item.Project?.Name
             };
         }
     }

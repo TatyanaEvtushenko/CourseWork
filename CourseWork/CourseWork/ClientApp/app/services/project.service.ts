@@ -7,6 +7,10 @@ import { PaymentForm } from '../viewmodels/paymentform';
 @Injectable()
 export class ProjectService extends BaseService {
 
+    getLastNews() {
+        return this.requestGet("api/News/GetLastNews");
+    }
+
     addProject(projectForm: NewProjectForm) {
         return this.requestPost("api/Project/AddProject", projectForm);
     }

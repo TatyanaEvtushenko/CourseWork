@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CourseWork.BusinessLogicLayer.ElasticSearch;
-using CourseWork.BusinessLogicLayer.ElasticSearch.Documents;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
 using CourseWork.BusinessLogicLayer.Services.MessageSenders;
 using CourseWork.BusinessLogicLayer.Services.PaymentManagers;
@@ -13,8 +12,6 @@ using CourseWork.BusinessLogicLayer.ViewModels.NewsViewModels;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
-using Elasticsearch.Net;
-using Nest;
 
 namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
 {
@@ -23,6 +20,7 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
         private readonly Repository<News> _newsRepository;
         private readonly Repository<Project> _projectRepository;
         private readonly IMapper<NewsFormViewModel, News> _newsMapper;
+        private readonly IMapper<NewsViewModel, News> _newsViewMapper;
         private readonly IEmailSender _emailSender;
         private readonly IPaymentManager _paymentManager;
         private readonly IProjectSubscriberManager _projectSubscriberManager;
@@ -31,7 +29,7 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
 
         public NewsManager(Repository<News> newsRepository, IMapper<NewsFormViewModel, News> newsMapper,
             IEmailSender emailSender, Repository<Project> projectRepository, IPaymentManager paymentManager,
-            IProjectSubscriberManager projectSubscriberManager, IUserManager userManager, ISearchManager searchManager)
+            IProjectSubscriberManager projectSubscriberManager, IUserManager userManager, ISearchManager searchManager, IMapper<NewsViewModel, News> newsViewMapper)
         {
             _newsRepository = newsRepository;
             _newsMapper = newsMapper;
@@ -41,6 +39,14 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
             _userManager = userManager;
             _projectRepository = projectRepository;
             _searchManager = searchManager;
+            _newsViewMapper = newsViewMapper;
+        }
+
+        public IEnumerable<NewsViewModel> GetLastNews()
+        {
+            return _newsRepository.GetWhereEager(news => news.Time.AddDays(2) >= DateTime.UtcNow,
+                news => news.Project)
+                .Select(news => _newsViewMapper.ConvertFrom(news));
         }
 
         public bool AddNews(NewsFormViewModel newsForm)
