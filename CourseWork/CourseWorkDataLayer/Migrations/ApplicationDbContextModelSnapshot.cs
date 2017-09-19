@@ -162,11 +162,14 @@ namespace CourseWork.DataLayer.Migrations
 
                     b.Property<DateTime>("Time");
 
-                    b.Property<string>("UserName");
+                    b.Property<string>("UserName")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProjectId");
+
+                    b.HasIndex("UserName");
 
                     b.ToTable("Payments");
                 });
@@ -417,6 +420,11 @@ namespace CourseWork.DataLayer.Migrations
                     b.HasOne("CourseWork.DataLayer.Models.Project", "Project")
                         .WithMany("Payments")
                         .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("CourseWork.DataLayer.Models.UserInfo", "UserInfo")
+                        .WithMany()
+                        .HasForeignKey("UserName")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

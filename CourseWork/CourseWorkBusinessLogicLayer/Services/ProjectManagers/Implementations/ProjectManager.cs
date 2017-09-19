@@ -147,14 +147,14 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
 
         public IEnumerable<ProjectItemViewModel> GetProjects(string username)
         {
-            return _projectRepository.GetWhereEager<IEnumerable<Object>>(project => project.OwnerUserName == username,
+            return _projectRepository.GetWhereEager(project => project.OwnerUserName == username,
                     project => project.Subscribers, project => project.Payments)
                 .Select(item => GetPreparedProjectItem(item, item.Subscribers, item.Payments));
         }
 
         public IEnumerable<ProjectItemViewModel> GetSubscribedProjects(string username)
         {
-            return _projectRepository.GetWhereEager<IEnumerable<Object>>(
+            return _projectRepository.GetWhereEager(
                     project => project.Subscribers.Where(subscriber => subscriber.UserName == username)
                         .Select(subscriber => subscriber.ProjectId).Contains(project.Id),
                     project => project.Subscribers,

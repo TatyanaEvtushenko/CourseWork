@@ -11,5 +11,7 @@ namespace CourseWork.BusinessLogicLayer.Services.PaymentManagers
         IEnumerable<Payment> GetProjectPayments(string projectId);
 
         PaymentForFormViewModel GetPaymentInfoForForm(string projectId);
+
+        IEnumerable<PaymentViewModel> GetBigPayments();
     }
 }

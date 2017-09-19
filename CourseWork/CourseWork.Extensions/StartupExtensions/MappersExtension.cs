@@ -37,6 +37,7 @@ namespace CourseWork.Extensions.StartupExtensions
 	        services.AddScoped<IMapper<MessageViewModel, Message>, MessageViewModelToMessageMapper>();
 	        services.AddScoped<IMapper<ClientMessageViewModel, Message>, ClientMessageViewModelToMessageMapper>();
             services.AddScoped<IMapper<ProjectSearchNote, Project>, ProjectSearchNoteToProjectMapper>();
+            services.AddScoped<IMapper<PaymentViewModel, Payment>, PaymentViewModelToPaymentMapper>();
         }
     }
 }

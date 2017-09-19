@@ -13,16 +13,25 @@ namespace CourseWork.BusinessLogicLayer.Services.PaymentManagers.Implementations
         private readonly Repository<Payment> _paymentRepository;
         private readonly Repository<Project> _projectRepository;
         private readonly IMapper<PaymentForFormViewModel, Project> _paymentForFormMapper;
+        private readonly IMapper<PaymentViewModel, Payment> _paymentMapper;
         private readonly IUserManager _userManager;
 
         public PaymentManager(Repository<Payment> paymentRepository, Repository<Project> projectRepository,
             IUserManager userManager,
-            IMapper<PaymentForFormViewModel, Project> paymentForFormMapper)
+            IMapper<PaymentForFormViewModel, Project> paymentForFormMapper, IMapper<PaymentViewModel, Payment> paymentMapper)
         {
             _paymentRepository = paymentRepository;
             _projectRepository = projectRepository;
             _userManager = userManager;
             _paymentForFormMapper = paymentForFormMapper;
+            _paymentMapper = paymentMapper;
+        }
+
+        public IEnumerable<PaymentViewModel> GetBigPayments()
+        {
+            return _paymentRepository.GetOrdered(payment => payment.PaidAmount, 10, true, 
+                payment => payment.Project, payment => payment.UserInfo)
+                .Select(payment => _paymentMapper.ConvertFrom(payment));
         }
 
         public decimal GetProjectPaidAmount(string projectId, IEnumerable<Payment> payments)

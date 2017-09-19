@@ -85,14 +85,26 @@ namespace CourseWork.DataLayer.Repositories
             return Table.Count(whereExpression);
         }
 
-        public List<T> GetWhereEager<TProperty>(Func<T, bool> whereExpression, params Expression<Func<T, TProperty>>[] includeStatements)
+        public List<T> GetWhereEager(Func<T, bool> whereExpression, params Expression<Func<T, object>>[] includeStatements)
         {
-            IQueryable<T> query = Table;
+            return GetEager(includeStatements).Where(whereExpression).ToList();
+        }
+
+        public List<T> GetOrdered<TKey>(Func<T, TKey> orderExpression, int count, bool isDescending, params Expression<Func<T, object>>[] includeStatements)
+        {
+            var items = GetEager(includeStatements);
+            items = isDescending ? items.OrderByDescending(orderExpression) : items.OrderBy(orderExpression);
+            return items.Take(count).ToList();
+        }
+
+        private IEnumerable<T> GetEager(params Expression<Func<T, object>>[] includeStatements)
+        {
+            var query = (IQueryable<T>)Table;
             foreach (var includeStatement in includeStatements)
             {
                 query = query.Include(includeStatement);
             }
-            return query.Where(whereExpression).ToList();
+            return query;
         }
 
         private bool SaveActionResult(Action action)
