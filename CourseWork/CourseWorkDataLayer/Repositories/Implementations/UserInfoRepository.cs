@@ -21,24 +21,6 @@ namespace CourseWork.DataLayer.Repositories.Implementations
 
         public override object GetIdentificator(UserInfo item) => item.UserName;
 
-        public Object[] GetDisplayableInfo(string[] userNames)
-        {
-            var userNamesSet = userNames.ToImmutableHashSet();
-            var query = from userInfo in Table
-                join project in DbContext.Projects on userInfo.UserName equals project.OwnerUserName into userProjects
-                where userNamesSet.Contains(userInfo.UserName)
-                select (Object) new
-                {
-                    UserName = userInfo.UserName,
-                    RegistrationTime = userInfo.RegistrationTime,
-                    Avatar = userInfo.Avatar,
-                    About = userInfo.About,
-                    ProjectNumber = userProjects.Count(),
-                    Contacts = userInfo.Contacts
-                };
-            return query.ToArray();
-        }
-
         public UserInfo[] SortByField(string fieldName, bool ascending, Func<UserInfo, bool> filterRequest)
         {
             return ascending ? SortByFieldAscending(fieldName, filterRequest) : SortByFieldDescending(fieldName, filterRequest);

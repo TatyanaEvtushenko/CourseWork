@@ -53,11 +53,6 @@ namespace CourseWork.Controllers
         [Route("api/Admin/SortByField")]
         public UserListItemViewModel[] SortByField([FromQuery] string fieldName, [FromQuery] bool ascending, [FromQuery] FilterRequestViewModel filters)
         {
-            System.Diagnostics.Debug.WriteLine("Hello " + fieldName);
-            System.Diagnostics.Debug.WriteLine("Hello " + ascending);
-            System.Diagnostics.Debug.WriteLine("Hello " + filters.Confirmed);
-            System.Diagnostics.Debug.WriteLine("Hello " + filters.Requested);
-            System.Diagnostics.Debug.WriteLine("Hello " +filters.Unconfirmed);
             return _adminManager.SortByField(fieldName, ascending, filters);
         }
 
