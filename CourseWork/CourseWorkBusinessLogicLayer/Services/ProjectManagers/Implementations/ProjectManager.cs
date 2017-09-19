@@ -29,7 +29,6 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         private readonly Repository<Rating> _raitingRepository;
         private readonly Repository<Tag> _tagRepository;
         private readonly Repository<FinancialPurpose> _financialPurposeRepository;
-        private readonly Repository<Payment> _paymentRepository;
         private readonly IUserManager _userManager;
         private readonly IPhotoManager _photoManager;
         private readonly IPaymentManager _paymentManager;
@@ -39,7 +38,6 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         private readonly IMapper<ProjectEditorFormViewModel, Project> _projectEditorFormMapper;
         private readonly IMapper<FinancialPurposeViewModel, FinancialPurpose> _financialPurposeMapper;
         private readonly IMapper<RatingViewModel, Rating> _ratingMapper;
-        private readonly IHttpContextAccessor _contextAccessor;
         private readonly ISearchManager _searchManager;
         private readonly Repository<ProjectSubscriber> _projectSubscriberRepository;
 
@@ -52,10 +50,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             IMapper<FinancialPurposeViewModel, FinancialPurpose> financialPurposeMapper,
             Repository<FinancialPurpose> financialPurposeRepository, IPhotoManager photoManager,
             IMapper<RatingViewModel, Rating> ratingMapper, IPaymentManager paymentManager,
-            Repository<Payment> paymentRepository,
-            ITagService tagService,
-            IFinancialPurposeManager financialPurposeManager,
-            IHttpContextAccessor contextAccessor, ISearchManager searchManager, Repository<ProjectSubscriber> projectSubscriberRepository, Repository<ProjectSubscriber> projectSubscribeRepository)
+            ISearchManager searchManager, Repository<ProjectSubscriber> projectSubscribeRepository)
         {
             _projectRepository = projectRepository;
             _projectItemMapper = projectItemMapper;
@@ -70,8 +65,6 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             _photoManager = photoManager;
             _ratingMapper = ratingMapper;
             _paymentManager = paymentManager;
-            _paymentRepository = paymentRepository;
-            _contextAccessor = contextAccessor;
             _raitingRepository = raitingRepository;
             _searchManager = searchManager;
             _projectSubscriberRepository = projectSubscribeRepository;
@@ -163,11 +156,6 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
                 .Select(item => GetPreparedProjectItem(item, item.Subscribers, item.Payments));
         }
 
-        public string GetProjectName(string projectId)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<ProjectItemViewModel> GetLastCreatedProjects()
         {
             return _projectRepository.GetAll().OrderByDescending(project => project.CreatingTime).Take(10)
@@ -224,12 +212,6 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             project.MaxPayment = projectForm.MaxPaymentAmount;
             project.MinPayment = projectForm.MinPaymentAmount;
             project.Name = projectForm.Name;
-            //var raitings = _raitingRepository.GetAll();
-            ////foreach (var project in projects)
-            ////{
-            ////    var projectRaitings = raitings.Where(raiting => raiting.ProjectId == project.Id).ToList();
-            ////    project.Raiting = !projectRaitings.Any() ? 0 : projectRaitings.Average(raiting => raiting.RaitingResult);
-            ////}
         }
 
         private bool UpdateTagsInProject(string projectId, IEnumerable<string> newTags)

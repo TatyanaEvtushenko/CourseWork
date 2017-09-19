@@ -79,11 +79,6 @@ namespace CourseWork.DataLayer.Repositories
             return Table.Count(whereExpression);
         }
 
-        public virtual UserInfo[] SortByField(string fieldName, bool ascending)
-        {
-            return null;
-        }
-
         public List<T> GetWhereEager<TProperty>(Func<T, bool> whereExpression, params Expression<Func<T, TProperty>>[] includeStatements)
         {
             IQueryable<T> query = Table;
@@ -91,7 +86,7 @@ namespace CourseWork.DataLayer.Repositories
             {
                 query = query.Include(includeStatement);
             }
-            return query.AsEnumerable().Where(whereExpression).ToList();
+            return query.Where(whereExpression).ToList();
         }
 
         private bool SaveActionResult(Action action)

@@ -30,7 +30,5 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers
         IEnumerable<ProjectItemViewModel> GetUserSubscribedProjects();
 
         IEnumerable<ProjectItemViewModel> GetSubscribedProjects(string username);
-
-        string GetProjectName(string projectId);
     }
 }

@@ -46,8 +46,9 @@ export class AccountService extends BaseService{
         return this.requestGetWithParams("api/Admin/RespondToConfirmation", params);
     }
 
-    sortByField(fieldName: string, ascending: boolean) {
-        let params = { 'fieldName': fieldName, 'ascending': ascending }
+    sortByField(fieldName: string, ascending: boolean, filters: any) {
+        let params = { 'fieldName': fieldName, 'ascending': ascending, 'confirmed': filters['confirmed'], 'unconfirmed': filters['unconfirmed'], 'requested': filters['requested'] }
+        console.log(JSON.stringify(params));
         return this.requestGetWithParams("api/Admin/SortByField", params);
     }
 

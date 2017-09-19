@@ -1,4 +1,5 @@
-﻿using System.Collections.Immutable;
+﻿using System;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using CourseWork.BusinessLogicLayer.Services.AccountManagers;
@@ -40,15 +41,20 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
 
         public UserListItemViewModel[] GetAllUsers()
         {
-            return ((UserInfoRepository)_userInfoRepository).GetUserListItemViewModels(item => true).Select(item => item.ConvertTo<UserListItemViewModel>()).ToArray();
+            return _userInfoRepository.GetWhereEager(item => true, item => item.Projects).Select(item => _mapperList.ConvertFrom(item)).ToArray();
         }
 
         public UserListItemViewModel[] GetFilteredUsers(FilterRequestViewModel model)
         {
-            return ((UserInfoRepository)_userInfoRepository).GetUserListItemViewModels(item => (model.Confirmed && item.Status == UserStatus.Confirmed) ||
-                       (model.Requested && item.Status == UserStatus.AwaitingConfirmation) ||
-                       (model.Unconfirmed && item.Status == UserStatus.WithoutConfirmation))
-                       .Select(item => item.ConvertTo<UserListItemViewModel>()).ToArray();
+            return _userInfoRepository.GetWhereEager(GetFilterRequest(model), item => item.Projects)
+                       .Select(item => _mapperList.ConvertFrom(item)).ToArray();
+        }
+
+        private Func<UserInfo, bool> GetFilterRequest(FilterRequestViewModel model)
+        {
+            return item => (model.Confirmed && item.Status == UserStatus.Confirmed) ||
+                           (model.Requested && item.Status == UserStatus.AwaitingConfirmation) ||
+                           (model.Unconfirmed && item.Status == UserStatus.WithoutConfirmation);
         }
 
         public UserConfirmationViewModel GetPersonalInfo(string userName)
@@ -70,9 +76,10 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
             return result;
         }
 
-        public UserListItemViewModel[] SortByField(string fieldName, bool ascending)
+        public UserListItemViewModel[] SortByField(string fieldName, bool ascending, FilterRequestViewModel filters)
         {
-            return ((UserInfoRepository)_userInfoRepository).SortByField(fieldName, ascending).Select(n => _mapperList.ConvertFrom(n)).ToArray();
+            var filterRequest = GetFilterRequest(filters);
+            return ((UserInfoRepository)_userInfoRepository).SortByField(fieldName, ascending, filterRequest).Select(n => _mapperList.ConvertFrom(n)).ToArray();
         }
 
         public bool BlockUnblock(string[] usersToBlock)
