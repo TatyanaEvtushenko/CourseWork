@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using CourseWork.DataLayer.Enums;
 
@@ -34,5 +35,7 @@ namespace CourseWork.DataLayer.Models
         public string Contacts { get; set; }
 
         public string LastAccountNumber { get; set; }
+
+        public IEnumerable<Project> Projects { get; set; }
     }
 }
