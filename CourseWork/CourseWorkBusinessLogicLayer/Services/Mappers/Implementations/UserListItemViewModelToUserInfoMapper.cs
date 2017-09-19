@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
+﻿using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
 using CourseWork.DataLayer.Enums.Configurations;
 using CourseWork.DataLayer.Models;
-using CourseWork.DataLayer.Repositories;
-using CourseWork.DataLayer.Repositories.Implementations;
-using Microsoft.AspNetCore.Identity;
 
 namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
 {
@@ -23,7 +19,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
                 LastLoginTime = item.LastLoginTime.ToString(),
                 RegistrationTime = item.RegistrationTime.ToString(),
                 ProjectNumber = item.ProjectNumber.ToString(),
-                Raiting = item.Raiting.ToString(),
+                Raiting = item.Rating.ToString(),
                 Status = EnumConfiguration.StatusDisplayNames[item.Status],
                 StatusCode = (int)item.Status,
                 IsBlocked = item.IsBlocked

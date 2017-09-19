@@ -12,6 +12,6 @@ namespace CourseWork.DataLayer.Repositories.Implementations
 
         protected override DbSet<Payment> Table => DbContext.Payments;
 
-        protected override string GetIdentificator(Payment item) => item.Id;
+        public override object GetIdentificator(Payment item) => item.Id;
     }
 }

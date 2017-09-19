@@ -1,10 +1,9 @@
 ﻿import { Component } from '@angular/core';
 import { NewProjectForm } from '../../viewmodels/newprojectform';
 import { Title } from '@angular/platform-browser';
-import { AccountService } from "../../services/account.service";
-import { CurrentUserService } from '../../services/currentuser.service';
 import { ProjectService } from '../../services/project.service';
-import { CurrentUserSubscriber } from '../currentuser.subscriber';
+import { StorageService } from '../../services/storage.service';
+import { SortingService } from '../../services/sorting.service';
 declare var $: any;
 
 @Component({
@@ -12,15 +11,14 @@ declare var $: any;
     templateUrl: './newprojectpage.component.html',
 })
 
-export class NewProjectPageComponent extends CurrentUserSubscriber {
+export class NewProjectPageComponent{
     projectForm = new NewProjectForm();
     isWrongRequest = false;
 
-    constructor(private title: Title, 
-                private projectService: ProjectService,
-                protected currentUserService: CurrentUserService, 
-                protected accountService: AccountService) {
-        super(currentUserService, accountService);
+    constructor(public storage: StorageService,
+                private sortingService: SortingService,
+                private title: Title, 
+                private projectService: ProjectService) {
         title.setTitle("New project");
         this.projectForm.financialPurposes = [];
     }
@@ -31,18 +29,17 @@ export class NewProjectPageComponent extends CurrentUserSubscriber {
 
     addFinancialPurpose(purpose: any) {
         this.projectForm.financialPurposes.push(purpose);
-    }
-
-    deleteFinancialPurpose(purpose: any) {
-        const index = this.projectForm.financialPurposes.indexOf(purpose);
-        if (index >= 0) {
-            this.projectForm.financialPurposes.splice(index, 1);
-        }
+        this.projectForm.financialPurposes.sort(this.sortingService.sortByBudget);
     }
 
     onSubmit() {
         this.projectService.addProject(this.projectForm).subscribe(
-            (data) => this.isWrongRequest = !data,
+            (data) => {
+                this.isWrongRequest = !data;
+                if (!this.isWrongRequest) {
+                    window.location.href = "/UserProjectsPage";
+                }
+            },
             (error) => this.isWrongRequest = true
         );
     }

@@ -10,5 +10,7 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers
         Task<bool> AddMailingToSubscribers(NewsFormViewModel newsForm);
 
         Task<bool> AddMailingToPayers(NewsFormViewModel newsForm);
+
+        bool RemoveNews(string newsId);
     }
 }

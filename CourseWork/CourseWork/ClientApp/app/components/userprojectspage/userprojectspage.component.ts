@@ -1,6 +1,8 @@
 ﻿import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ProjectService } from '../../services/project.service';
+import { StorageService } from '../../services/storage.service';
+import { SortingService } from '../../services/sorting.service';
 
 @Component({
     selector: 'userprojectspage',
@@ -10,29 +12,35 @@ export class UserProjectsPageComponent {
     projects: any[] = [];
     selectedProjectId: string = null;
 
-    constructor(private title: Title, protected projectService: ProjectService) {
+    constructor(public storage: StorageService,
+        private title: Title,
+        private sortingService: SortingService,
+        private projectService: ProjectService) {
         title.setTitle("My projects");
     }
 
     ngOnInit() {
         this.projectService.getUserProjects().subscribe(
             (data) => {
+                data.sort(this.sortingService.sortByProjectStatus);
                 this.projects = data;
-                this.projects.sort((a, b) => {
-                    if (a.status > b.status) {
-                        return 1;
-                    }
-                    if (a.status === b.status) {
-                        return 0;
-                    } else {
-                        return -1;
-                    }
-                });
             }
         );
     }
 
+    openPayment(event: any) {
+        this.selectedProjectId = event;
+    }
+
     openNewsModal(event: any) {
         this.selectedProjectId = event;
+    }
+
+    subscribe(projectId: string) {
+        this.projectService.subscribe(projectId).subscribe();
+    }
+
+    unsubscribe(projectId: string) {
+        this.projectService.unsubscribe(projectId).subscribe();
     }
 }

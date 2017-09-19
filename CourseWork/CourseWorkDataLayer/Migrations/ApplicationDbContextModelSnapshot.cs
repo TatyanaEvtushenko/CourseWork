@@ -64,6 +64,8 @@ namespace CourseWork.DataLayer.Data.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex");
 
+                    b.HasIndex("UserName");
+
                     b.ToTable("AspNetUsers");
                 });
 
@@ -91,8 +93,6 @@ namespace CourseWork.DataLayer.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Description");
-
-                    b.Property<bool>("IsReached");
 
                     b.Property<string>("Name");
 
@@ -180,9 +180,7 @@ namespace CourseWork.DataLayer.Data.Migrations
 
                     b.Property<string>("OwnerUserName");
 
-                    b.Property<decimal>("PaidAmount");
-
-                    b.Property<double>("Raiting");
+                    b.Property<double>("Rating");
 
                     b.Property<int>("Status");
 
@@ -193,44 +191,39 @@ namespace CourseWork.DataLayer.Data.Migrations
 
             modelBuilder.Entity("CourseWork.DataLayer.Models.ProjectSubscriber", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<string>("UserName");
 
                     b.Property<string>("ProjectId");
 
-                    b.Property<string>("UserName");
+                    b.HasKey("UserName", "ProjectId");
 
-                    b.HasKey("Id");
+                    b.HasAlternateKey("ProjectId", "UserName");
 
                     b.ToTable("ProjectSubscribers");
                 });
 
-            modelBuilder.Entity("CourseWork.DataLayer.Models.Raiting", b =>
+            modelBuilder.Entity("CourseWork.DataLayer.Models.Rating", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<string>("UserName");
 
                     b.Property<string>("ProjectId");
 
-                    b.Property<int>("RaitingResult");
+                    b.Property<int>("RatingResult");
 
-                    b.Property<string>("UserName");
+                    b.HasKey("UserName", "ProjectId");
 
-                    b.HasKey("Id");
+                    b.HasAlternateKey("ProjectId", "UserName");
 
-                    b.ToTable("Raitings");
+                    b.ToTable("Ratings");
                 });
 
             modelBuilder.Entity("CourseWork.DataLayer.Models.Tag", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
                     b.Property<string>("Name");
 
                     b.Property<string>("ProjectId");
 
-                    b.HasKey("Id");
+                    b.HasKey("Name", "ProjectId");
 
                     b.ToTable("Tags");
                 });
@@ -244,6 +237,8 @@ namespace CourseWork.DataLayer.Data.Migrations
 
                     b.Property<bool>("IsBlocked");
 
+                    b.Property<string>("LastAccountNumber");
+
                     b.Property<DateTime>("LastLoginTime");
 
                     b.Property<string>("Name");
@@ -252,7 +247,7 @@ namespace CourseWork.DataLayer.Data.Migrations
 
                     b.Property<int>("ProjectNumber");
 
-                    b.Property<int>("Raiting");
+                    b.Property<double>("Rating");
 
                     b.Property<DateTime>("RegistrationTime");
 

@@ -1,6 +1,7 @@
 ﻿import {FinancialPurpose} from "./financialpurpose";
 
 export class NewProjectForm{
+    id: string;
     name: string;
     fundRaisingEnd: Date;
     description = "";

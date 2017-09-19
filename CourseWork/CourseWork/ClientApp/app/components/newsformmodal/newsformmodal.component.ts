@@ -1,4 +1,4 @@
-﻿import { Component, AfterViewInit, Input } from '@angular/core';
+﻿import { Component, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
 import { NewsForm } from '../../viewmodels/newsform';
 import { ProjectService } from "../../services/project.service";
 declare var $: any;
@@ -16,6 +16,7 @@ export class NewsFormModalComponent implements AfterViewInit {
     isMailingToSubscribers = false;
     isMailingToPayers = false;
     isSent = false;
+    @Output() onAdded = new EventEmitter<any>();
 
     constructor(private projectService: ProjectService) { }
 
@@ -34,9 +35,16 @@ export class NewsFormModalComponent implements AfterViewInit {
     private addNews() {
         if (this.isNews) {
             this.projectService.addNews(this.newsForm).subscribe(
-                (data) => this.getResponse(data),
+                (data) => this.getNewsResponse(data),
                 (error) => this.isWrongRequest = true
             );
+        }
+    }
+
+    private getNewsResponse(data: any) {
+        this.getResponse(data);
+        if (data) {
+            this.onAdded.emit(this.newsForm);
         }
     }
 

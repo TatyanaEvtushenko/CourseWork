@@ -18,9 +18,11 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
                 Id = item.Id,
                 Name = item.Name,
                 ImageUrl = item.ImageUrl,
-                PaidAmount = item.PaidAmount,
                 Status = item.Status,
-                Raiting = item.Raiting
+                Rating = item.Rating,
+                Description = item.Description,
+                OwnerUserName = item.OwnerUserName,
+                ProjectEndTime = item.FundRaisingEnd
             };
         }
     }

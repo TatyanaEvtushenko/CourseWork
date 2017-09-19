@@ -14,7 +14,5 @@ namespace CourseWork.DataLayer.Models
         public string Description { get; set; }
 
         public decimal NecessaryPaymentAmount { get; set; }
-
-        public bool IsReached { get; set; }
     }
 }

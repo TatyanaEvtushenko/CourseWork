@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
 using CourseWork.BusinessLogicLayer.Services.MessageSenders;
 using CourseWork.BusinessLogicLayer.Services.PaymentManagers;
-using CourseWork.BusinessLogicLayer.Services.ProjectManagers;
 using CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManagers;
 using CourseWork.BusinessLogicLayer.Services.UserManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.NewsViewModels;
@@ -18,24 +16,25 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
     public class NewsManager : INewsManager
     {
         private readonly Repository<News> _newsRepository;
+        private readonly Repository<Project> _projectRepository;
         private readonly IMapper<NewsFormViewModel, News> _newsMapper;
         private readonly IEmailSender _emailSender;
-        private readonly IProjectManager _projectManager;
         private readonly IPaymentManager _paymentManager;
         private readonly IProjectSubscriberManager _projectSubscriberManager;
         private readonly IUserManager _userManager;
 
         public NewsManager(Repository<News> newsRepository, IMapper<NewsFormViewModel, News> newsMapper,
-            IEmailSender emailSender, IProjectManager projectManager, IPaymentManager paymentManager,
-            IProjectSubscriberManager projectSubscriberManager, IUserManager userManager)
+            IEmailSender emailSender, IPaymentManager paymentManager,
+            IProjectSubscriberManager projectSubscriberManager, IUserManager userManager,
+            Repository<Project> projectRepository)
         {
             _newsRepository = newsRepository;
             _newsMapper = newsMapper;
             _emailSender = emailSender;
-            _projectManager = projectManager;
             _paymentManager = paymentManager;
             _projectSubscriberManager = projectSubscriberManager;
             _userManager = userManager;
+            _projectRepository = projectRepository;
         }
 
         public bool AddNews(NewsFormViewModel newsForm)
@@ -45,18 +44,21 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
 
         public async Task<bool> AddMailingToSubscribers(NewsFormViewModel newsForm)
         {
-            var recipientUserNames = _projectSubscriberManager.GetSubscribers(newsForm.ProjectId)
-                .Select(subscriber => subscriber.UserName);
+            var recipientUserNames = _projectSubscriberManager.GetSubscribers(newsForm.ProjectId).Select(subscriber => subscriber.UserName);
             await SendMailing(newsForm, recipientUserNames);
             return AddNewsToRepository(newsForm, NewsType.MailingToSubscribers);
         }
 
         public async Task<bool> AddMailingToPayers(NewsFormViewModel newsForm)
         {
-            var recipientUserNames = _paymentManager.GetProjectPayments(newsForm.ProjectId)
-                .Select(payment => payment.UserName);
+            var recipientUserNames = _paymentManager.GetProjectPayments(newsForm.ProjectId).Select(payment => payment.UserName);
             await SendMailing(newsForm, recipientUserNames);
             return AddNewsToRepository(newsForm, NewsType.MailingToPayers);
+        }
+
+        public bool RemoveNews(string newsId)
+        {
+            return _newsRepository.RemoveRange(newsId);
         }
 
         private bool AddNewsToRepository(NewsFormViewModel newsForm, NewsType type)
@@ -78,15 +80,13 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
 
         private string GetSubjectForLetter(NewsFormViewModel newsForm)
         {
-            var projectName = _projectManager.GetProjectName(newsForm.ProjectId);
+            var projectName = _projectRepository.Get(newsForm.ProjectId).Name;
             return $"From \"{projectName}\" project: {newsForm.Subject}";
         }
 
         private News GetPreparedNews(NewsFormViewModel newsForm, NewsType type)
         {
             var news = _newsMapper.ConvertTo(newsForm);
-            news.Id = _newsRepository.GetNewId();
-            news.Time = DateTime.Now;
             news.Type = type;
             return news;
         }

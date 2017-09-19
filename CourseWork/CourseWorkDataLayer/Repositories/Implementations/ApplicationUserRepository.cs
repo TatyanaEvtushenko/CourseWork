@@ -12,6 +12,6 @@ namespace CourseWork.DataLayer.Repositories.Implementations
 
         protected override DbSet<ApplicationUser> Table => DbContext.Users;
 
-        protected override string GetIdentificator(ApplicationUser item) => item.Id;
+        public override object GetIdentificator(ApplicationUser item) => item.Id;
     }
 }

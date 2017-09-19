@@ -1,8 +1,7 @@
 ﻿import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { AccountService } from "../../services/account.service";
-import { CurrentUserService } from '../../services/currentuser.service';
-import { CurrentUserSubscriber } from '../currentuser.subscriber';
+import { StorageService } from '../../services/storage.service';
 import { UserInfo } from '../../viewmodels/userinfo';
 import { UserStatus } from "../../enums/userstatus";
 declare var $: any;
@@ -12,7 +11,7 @@ declare var $: any;
     templateUrl: './adminpage.component.html'
 })
 
-export class AdminPageComponent extends CurrentUserSubscriber {
+export class AdminPageComponent {
     userInfos: UserInfo[] = [];
 	isCheckedAtIndex: boolean[] = [];
 	deleteWithCommentsAndRaitings = false;
@@ -21,8 +20,7 @@ export class AdminPageComponent extends CurrentUserSubscriber {
     selectedIndex: number = null;
     sortOrderAscending = { "Status": true, "LastLoginTime": true };
 
-    constructor(private title: Title, protected currentUserService: CurrentUserService, protected accountService: AccountService) {
-        super(currentUserService, accountService);
+    constructor(private title: Title, public storage: StorageService, private accountService: AccountService){
         title.setTitle("Admin page");
     }
 

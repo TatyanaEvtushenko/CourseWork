@@ -8,7 +8,7 @@ namespace CourseWork.DataLayer.Repositories.Implementations
     {
         protected override DbSet<News> Table => DbContext.News;
 
-        protected override string GetIdentificator(News item) => item.Id;
+        public override object GetIdentificator(News item) => item.Id;
 
         public NewsRepository(ApplicationDbContext dbContext) : base(dbContext) { }
     }
