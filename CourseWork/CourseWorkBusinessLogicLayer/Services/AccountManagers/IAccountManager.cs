@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
 
@@ -17,5 +18,9 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers
         Task AddRole(string userName, UserRole role);
 
         Task RemoveRole(string userName, UserRole role);
+
+        DisplayableInfoViewModel[] GetDisplayableInfo(string[] userNames);
+
+        DisplayableInfoViewModel GetUserDisplayableInfo(string username);
     }
 }

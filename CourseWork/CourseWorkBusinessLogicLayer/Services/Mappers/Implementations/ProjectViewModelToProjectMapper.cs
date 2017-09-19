@@ -73,7 +73,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
         private void ConvertFromCurrentUser(ProjectViewModel viewModel, Project model, string userName)
         {
             viewModel.IsSubscriber = _projectSubscriberRepository.FirstOrDefault(
-                    subscriber => subscriber.UserName == userName && subscriber.ProjectId == model.Id) != null;
+                    subscriber => subscriber.UserName.Equals(userName) && subscriber.ProjectId.Equals(model.Id)) != null;
             ConvertFromRating(viewModel, model, userName);
         }
 
@@ -128,7 +128,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
         {
             var commentViewModel = _commentMapper.ConvertFrom(commentModel);
             var userInfo = commentatorsInfo.FirstOrDefault(info => info.UserName == commentModel.UserName);
-            commentViewModel.User = _userInfoMapper.ConvertFrom(userInfo);
+            commentViewModel.User = userInfo != null ? _userInfoMapper.ConvertFrom(userInfo) : null;
             return commentViewModel;
         }
     }

@@ -1,4 +1,5 @@
-﻿using CourseWork.BusinessLogicLayer.Options;
+﻿using CourseWork.BusinessLogicLayer.ElasticSearch;
+using CourseWork.BusinessLogicLayer.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using CourseWork.DataLayer.Data;
 using CourseWork.DataLayer.Models;
 using CourseWork.Extensions.StartupExtensions;
+using Nest;
 
 namespace CourseWork
 {
@@ -47,6 +49,9 @@ namespace CourseWork
             services.Configure<MailOptions>(options => Configuration.GetSection("MailOptions").Bind(options));
             services.Configure<CloudinaryOptions>(options => 
                 Configuration.GetSection("CloudinaryOptions").Bind(options));
+            services.Configure<ElasticSearchOptions>(options =>
+                Configuration.GetSection("ElasticSearchOptions").Bind(options));
+            services.AddSingleton<SearchClient>();
 
             services.AddRepositories();
             services.AddServices();

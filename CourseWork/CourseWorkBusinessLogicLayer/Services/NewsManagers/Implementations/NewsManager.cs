@@ -1,15 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CourseWork.BusinessLogicLayer.ElasticSearch;
+using CourseWork.BusinessLogicLayer.ElasticSearch.Documents;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
 using CourseWork.BusinessLogicLayer.Services.MessageSenders;
 using CourseWork.BusinessLogicLayer.Services.PaymentManagers;
 using CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManagers;
+using CourseWork.BusinessLogicLayer.Services.SearchManagers;
 using CourseWork.BusinessLogicLayer.Services.UserManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.NewsViewModels;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
+using Elasticsearch.Net;
+using Nest;
 
 namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
 {
@@ -22,11 +27,11 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
         private readonly IPaymentManager _paymentManager;
         private readonly IProjectSubscriberManager _projectSubscriberManager;
         private readonly IUserManager _userManager;
+        private readonly ISearchManager _searchManager;
 
         public NewsManager(Repository<News> newsRepository, IMapper<NewsFormViewModel, News> newsMapper,
-            IEmailSender emailSender, IPaymentManager paymentManager,
-            IProjectSubscriberManager projectSubscriberManager, IUserManager userManager,
-            Repository<Project> projectRepository)
+            IEmailSender emailSender, Repository<Project> projectRepository, IPaymentManager paymentManager,
+            IProjectSubscriberManager projectSubscriberManager, IUserManager userManager, ISearchManager searchManager)
         {
             _newsRepository = newsRepository;
             _newsMapper = newsMapper;
@@ -35,6 +40,7 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
             _projectSubscriberManager = projectSubscriberManager;
             _userManager = userManager;
             _projectRepository = projectRepository;
+            _searchManager = searchManager;
         }
 
         public bool AddNews(NewsFormViewModel newsForm)
@@ -58,13 +64,14 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
 
         public bool RemoveNews(string newsId)
         {
-            return _newsRepository.RemoveRange(newsId);
+            var news = _newsRepository.Get(newsId);
+            return _newsRepository.RemoveRange(newsId) && _searchManager.RemoveNewsFromIndex(news);
         }
 
         private bool AddNewsToRepository(NewsFormViewModel newsForm, NewsType type)
         {
             var news = GetPreparedNews(newsForm, type);
-            return _newsRepository.AddRange(news);
+            return _newsRepository.AddRange(news) && _searchManager.AddNewsToIndex(news);
         }
 
         private async Task SendMailing(NewsFormViewModel newsForm, IEnumerable<string> recipientUserNames)

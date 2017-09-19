@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels
+﻿namespace CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels
 {
     public class UserListItemViewModel
     {

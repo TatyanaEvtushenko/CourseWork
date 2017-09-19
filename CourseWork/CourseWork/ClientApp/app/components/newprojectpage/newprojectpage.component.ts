@@ -4,6 +4,7 @@ import { Title } from '@angular/platform-browser';
 import { ProjectService } from '../../services/project.service';
 import { StorageService } from '../../services/storage.service';
 import { SortingService } from '../../services/sorting.service';
+import { MessageSubscriberService } from '../../services/messagesubscriber.service';
 declare var $: any;
 
 @Component({
@@ -17,10 +18,12 @@ export class NewProjectPageComponent{
 
     constructor(public storage: StorageService,
                 private sortingService: SortingService,
+    constructor(public storage: MessageSubscriberService,
                 private title: Title, 
                 private projectService: ProjectService) {
         title.setTitle("New project");
         this.projectForm.financialPurposes = [];
+        this.projectForm.tags = [];
     }
 
     getTodayDate() {
@@ -37,7 +40,7 @@ export class NewProjectPageComponent{
             (data) => {
                 this.isWrongRequest = !data;
                 if (!this.isWrongRequest) {
-                    window.location.href = "/UserProjectsPage";
+                    window.location.href = "/UserPage";
                 }
             },
             (error) => this.isWrongRequest = true

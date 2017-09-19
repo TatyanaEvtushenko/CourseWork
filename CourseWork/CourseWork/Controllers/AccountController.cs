@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using CourseWork.BusinessLogicLayer.Services.AccountManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.AccountViewModels;
+using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,9 +44,27 @@ namespace CourseWork.Controllers
         [HttpGet]
         [Route("api/Account/ConfirmRegistration")]
         [AllowAnonymous]
-        public async Task<bool> ConfirmRegistration([FromQuery] ConfirmationRegistrationViewModel confirmation)
+        public async Task<IActionResult> ConfirmRegistration([FromQuery] ConfirmationRegistrationViewModel confirmation)
         {
-            return await _accountManager.ConfirmRegistration(confirmation.UserId, confirmation.Code);
+            if (await _accountManager.ConfirmRegistration(confirmation.UserId, confirmation.Code))
+                return RedirectToAction("Index", "Home");
+            return BadRequest();
+        }
+
+        [HttpGet]
+        [Route("api/Account/GetUserDisplayableInfo")]
+        [Authorize]
+        public DisplayableInfoViewModel GetUserDisplayableInfo([FromQuery] string username)
+        {
+            return _accountManager.GetUserDisplayableInfo(username);
+        }
+
+        [HttpGet]
+        [Route("api/Account/GetDisplayableInfo")]
+        [AllowAnonymous]
+        public DisplayableInfoViewModel[] GetDisplayableInfo([FromQuery] string[] userNames)
+        {
+            return _accountManager.GetDisplayableInfo(userNames);
         }
     }
 }

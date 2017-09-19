@@ -1,4 +1,4 @@
-﻿<li><a *ngIf="storage.isReadyCurrentUser && storage.isConfirmedUser" href="/UserProjectsPage">My projects</a></li>
+﻿<li><a *ngIf="storage.isReadyCurrentUser && storage.isUser" href="/UserPage">My page</a></li>
 <li><a *ngIf="storage.isReadyCurrentUser && storage.isAdmin" href="/AdminPage">Admin page</a></li>
 
 <ng-container *ngIf="storage.isReadyCurrentUser && storage.isUser">

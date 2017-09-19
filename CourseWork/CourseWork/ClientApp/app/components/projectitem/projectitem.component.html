@@ -16,13 +16,17 @@
             <p><projectstatus [status]="project.status"></projectstatus></p>
         </div>
     </div>
+    <div class="card-reveal">
+        <span class="card-title grey-text text-darken-4">Description<i class="material-icons right">close</i></span>
+        <markdown>{{project.description}}</markdown>
+    </div>
     <div class="card-action">
-        <ng-container *ngIf="storage.isReadyCurrentUser && storage.currentUser.userName != project.ownerUserName">
-            <button *ngIf="!project.isSubscriber" (click)="subscribe()" class="btn left-align">Subscribe</button>
-            <button *ngIf="project.isSubscriber" (click)="unsubscribe()" class="btn left-align">Unsubscribe</button>
+        <ng-container *ngIf="storage.isReadyCurrentUser && storage.isUser && storage.currentUser.userName != project.ownerUserName">
+            <button *ngIf="!project.isSubscriber" (click)="subscribe()" class="btn left">Subscribe</button>
+            <button *ngIf="project.isSubscriber" (click)="unsubscribe()" class="btn left">Unsubscribe</button>
         </ng-container>
         <a><i class="material-icons right activator">more_vert</i></a>
-        <ng-container *ngIf="storage.isReadyCurrentUser && (storage.currentUser.userName == project.ownerUserName || storage.isAdmin)">
+        <ng-container *ngIf="storage.isReadyCurrentUser && (storage.isUser && storage.currentUser.userName == project.ownerUserName || storage.isAdmin)">
             <a href="/ProjectEditorPage/{{project.id}}" class="right"><i class="material-icons">edit</i></a>
             <a (click)="openNews()" href="#newsModal" class="modal-trigger right"><i class="material-icons">library_books</i></a>
         </ng-container>
@@ -30,9 +34,5 @@
            class="modal-trigger" (click)="openPayment()" href="#paymentModal">
             <i class="material-icons right">payment</i>
         </a>
-    </div>
-    <div class="card-reveal">
-        <span class="card-title grey-text text-darken-4">Description<i class="material-icons right">close</i></span>
-        <markdown>{{project.description}}</markdown>
     </div>
 </div>

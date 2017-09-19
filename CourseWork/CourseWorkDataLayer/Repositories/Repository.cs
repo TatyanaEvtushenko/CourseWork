@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using CourseWork.DataLayer.Data;
-using CourseWork.DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace CourseWork.DataLayer.Repositories
@@ -60,7 +60,14 @@ namespace CourseWork.DataLayer.Repositories
 
         public T Get(object id)
         {
-            return Table.Find(id);
+            try
+            {
+                return Table.Find(id);
+            }
+            catch (Exception exception)
+            {
+                return null;
+            }
         }
 
         public List<T> GetWhere(Func<T, bool> whereExpression)
@@ -78,9 +85,14 @@ namespace CourseWork.DataLayer.Repositories
             return Table.Count(whereExpression);
         }
 
-        public virtual UserInfo[] SortByField(string fieldName, bool ascending)
+        public List<T> GetWhereEager<TProperty>(Func<T, bool> whereExpression, params Expression<Func<T, TProperty>>[] includeStatements)
         {
-            return null;
+            IQueryable<T> query = Table;
+            foreach (var includeStatement in includeStatements)
+            {
+                query = query.Include(includeStatement);
+            }
+            return query.Where(whereExpression).ToList();
         }
 
         private bool SaveActionResult(Action action)
@@ -91,7 +103,7 @@ namespace CourseWork.DataLayer.Repositories
                 DbContext.SaveChanges();
                 return true;
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 return false;
             }

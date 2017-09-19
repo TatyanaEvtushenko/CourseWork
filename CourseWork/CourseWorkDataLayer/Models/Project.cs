@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using CourseWork.DataLayer.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CourseWork.DataLayer.Models
 {
@@ -28,5 +30,13 @@ namespace CourseWork.DataLayer.Models
         public decimal MaxPayment { get; set; }
 
         public double Rating { get; set; }
+
+        public IEnumerable<ProjectSubscriber> Subscribers { get; set; }
+
+        public IEnumerable<Payment> Payments { get; set; }
+
+        [ForeignKey("OwnerUserName")]
+        [Required]
+        public UserInfo UserInfo  { get; set; }
     }
 }

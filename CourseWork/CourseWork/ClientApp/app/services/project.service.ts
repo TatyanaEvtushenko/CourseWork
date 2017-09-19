@@ -31,8 +31,26 @@ export class ProjectService extends BaseService {
         return this.requestGet("api/Project/GetUserProjects");
     }
 
+    getProjects(username: string) {
+        var params = { 'username': username }
+        return this.requestGetWithParams("api/Project/GetProjects", params);
+    }
+
     getProject(id: string) {
         return this.requestGet(`api/Project/GetProject/${id}`);
+    }
+
+    getUserSubscribedProjects() {
+        return this.requestGet("api/Project/GetUserSubscribedProjects");
+    }
+
+    getSubscribedProjects(username: string) {
+        var params = { 'username': username }
+        return this.requestGetWithParams("api/Project/GetSubscribedProjects", params);
+    }
+
+    notifySubscribers(message: string, projectId: string) {
+        return this.requestPost("api/Message/NotifySubscribers", { text: message, id: projectId });
     }
 
     addNews(newsForm: NewsForm) {
@@ -71,5 +89,10 @@ export class ProjectService extends BaseService {
 
     addPayment(paymentForm: PaymentForm) {
         return this.requestPost("api/Payment/AddPayment", paymentForm);
+    }
+
+    search(queryString: string) {
+        var params = { query: queryString };
+        return this.requestGetWithParams("api/Search/Search", params);
     }
 }

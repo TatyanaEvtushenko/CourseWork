@@ -32,6 +32,7 @@ import { ImageLoaderComponent } from './components/imageloader/imageloader.compo
 import { FinancialPurposesComponent } from './components/financialpurposes/financialpurposes.component';
 import { FinancialPurposeModalComponent } from './components/financialpurposemodal/financialpurposemodal.component';
 import { ProjectItemComponent } from './components/projectitem/projectitem.component';
+import { BaseProjectItemComponent } from './components/baseprojectitem/baseprojectitem.component';
 import { NewsFormModalComponent } from './components/newsformmodal/newsformmodal.component';
 import { ProjectPageComponent } from './components/projectpage/projectpage.component';
 import { ProjectStatusComponent } from './components/projectstatus/projectstatus.component';
@@ -40,6 +41,13 @@ import { ProjectEditorPageComponent } from './components/projecteditorpage/proje
 import { NewsComponent } from './components/news/news.component';
 import { CommentsComponent } from './components/comments/comments.component';
 import { PaymentModalComponent } from './components/paymentmodal/paymentmodal.component';
+import { SearcherComponent } from './components/searcher/searcher.component';
+import { SearchResultComponent } from './components/searchresult/searchresult.component';
+import { UserPageComponent } from './components/userpage/userpage.component';
+import { UserCardComponent } from "./components/usercard/usercard.component";
+import { AccountEditModalComponent } from "./components/accounteditmodal/accounteditmodal.component";
+import { AvatarChangeModalComponent } from "./components/avatarchangemodal/avatarchangemodal.component";
+import { UserSubscriptionsComponent } from "./components/usersubscriptions/usersubscriptions.component";
 
 import { BaseService} from './services/base.service';
 import { CurrentUserService } from "./services/currentuser.service"; 
@@ -49,15 +57,19 @@ import { ProjectService } from "./services/project.service";
 import { StorageService } from "./services/storage.service";
 import { SortingService } from "./services/sorting.service";
 import { TimeService } from "./services/time.service";
+import { MessageSenderService } from "./services/messagesender.service"
+import { MessageSubscriberService } from "./services/messagesubscriber.service";
 
 const appRoutes: Routes = [
     { path: '', component: HomePageComponent },
-    { path: 'UserProjectsPage', component: UserProjectsPageComponent },
+    { path: 'UserPage', component: UserPageComponent },
     { path: 'AdminPage', component: AdminPageComponent },
     { path: 'NewProjectPage', component: NewProjectPageComponent },
     { path: 'ProjectEditorPage/:id', component: ProjectEditorPageComponent },
     { path: 'ProjectPage/:id', component: ProjectPageComponent },
-    { path: '**', component: ErrorPageComponent },
+    { path: 'ProjectEditorPage', component: NewProjectPageComponent },
+    { path: 'SearchResult', component: SearchResultComponent },
+    { path: '**', component: ErrorPageComponent }
 ];
 
 @NgModule({
@@ -97,6 +109,7 @@ const appRoutes: Routes = [
         FloatingButtonComponent,
         FinancialPurposesComponent,
         FinancialPurposeModalComponent,
+        BaseProjectItemComponent,
         ProjectItemComponent,
         NewsFormModalComponent,
         ProjectPageComponent,
@@ -105,7 +118,15 @@ const appRoutes: Routes = [
         ProjectEditorPageComponent,
         NewsComponent,
         CommentsComponent,
-        PaymentModalComponent
+        PaymentModalComponent,
+        NewsFormModalComponent,
+        SearcherComponent,
+        SearchResultComponent,
+        UserPageComponent,
+        UserCardComponent,
+        AccountEditModalComponent,
+        AvatarChangeModalComponent,
+        UserSubscriptionsComponent
     ],
     providers: [
         BaseService,
@@ -115,7 +136,10 @@ const appRoutes: Routes = [
         ProjectService,
         StorageService,
         SortingService,
-        TimeService
+        TimeService,
+		ProjectService,
+        MessageSenderService,
+        MessageSubscriberService
     ],
     bootstrap: [
         AppComponent

@@ -1,0 +1,9 @@
+﻿<div id="avatarChangeModal" class="modal edit-modal">
+    <div class="modal-content center container">
+        <h4>Change your avatar.</h4>
+        <imageloader [fieldName]="Avatar" (emitter)="avatarB64 = $event"></imageloader>
+        <div class="col m6 input-field right-align">
+            <button [disabled]="avatarB64 == null" class="btn btn-large" (click)="onSubmit()">Apply</button>
+        </div>
+    </div>
+</div>

@@ -16,7 +16,7 @@ export class TagSearcherComponent {
     ngOnInit() {
         this.tagService.getTags().subscribe((data) => {
             this.autocompleteInit = {
-                autocompleteOptions: { data: this.convertToAutocompeteData(data) },
+                autocompleteOptions: { data: this.convertToAutocompleteData(data) },
                 data: this.addExistedTags()
             }
         });
@@ -43,7 +43,7 @@ export class TagSearcherComponent {
         return existedTags;
     }
 
-    private convertToAutocompeteData(data: string[]) {
+    private convertToAutocompleteData(data: string[]) {
         const autocompleteData: any = [];
         for (let tag of data) {
             autocompleteData[tag] = null;

@@ -1,4 +1,4 @@
-﻿import { Component } from '@angular/core';
+﻿import { Component, Input } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ProjectService } from '../../services/project.service';
 import { StorageService } from '../../services/storage.service';
@@ -9,7 +9,7 @@ import { SortingService } from '../../services/sorting.service';
     templateUrl: './userprojectspage.component.html'
 })
 export class UserProjectsPageComponent {
-    projects: any[] = [];
+    @Input() projects: any[] = [];
     selectedProjectId: string = null;
 
     constructor(public storage: StorageService,
@@ -26,21 +26,5 @@ export class UserProjectsPageComponent {
                 this.projects = data;
             }
         );
-    }
-
-    openPayment(event: any) {
-        this.selectedProjectId = event;
-    }
-
-    openNewsModal(event: any) {
-        this.selectedProjectId = event;
-    }
-
-    subscribe(projectId: string) {
-        this.projectService.subscribe(projectId).subscribe();
-    }
-
-    unsubscribe(projectId: string) {
-        this.projectService.unsubscribe(projectId).subscribe();
     }
 }
