@@ -1,10 +1,22 @@
-﻿.user-min-info img {
-    width: 50px;
+﻿.comments input {
+    max-width: 50%;
+}
+.comments .text {
+    word-break: break-all;
+ }
+
+.user-min-info img {
+    min-width: 40px;
+    max-width: 50px;
 }
 
 .btn-icon.btn {
     width: 40px;
     padding: inherit;
+}
+
+.project .tabs {
+    overflow: hidden;
 }
 
 .project .card {
@@ -13,11 +25,12 @@
 }
 
 .project .card-image img{
-    margin:-15% 0 -15% 0;
+    height: 700px;
+    margin:-13% 0 -13% 0;
 }
 
 .project .card-title {
-    margin-bottom: 15%;
+    margin-bottom: 13%;
 }
 
 .news-open {

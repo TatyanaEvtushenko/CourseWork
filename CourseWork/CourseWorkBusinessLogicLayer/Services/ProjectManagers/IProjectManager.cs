@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CourseWork.BusinessLogicLayer.ViewModels.PaymentViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using CourseWork.DataLayer.Models;
 
@@ -30,5 +31,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers
         IEnumerable<ProjectItemViewModel> GetUserSubscribedProjects();
 
         IEnumerable<ProjectItemViewModel> GetSubscribedProjects(string username);
+
+        bool AddPayment(PaymentFormViewModel paymentForm);
     }
 }

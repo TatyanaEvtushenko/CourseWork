@@ -11,19 +11,23 @@ namespace CourseWork.BusinessLogicLayer.Services.CommentManagers.Implementations
         private readonly Repository<Comment> _commentRepository;
         private readonly IMapper<CommentFormViewModel, Comment> _commentMapper;
         private readonly ISearchManager _searchManager;
+        private readonly IMapper<CommentViewModel, Comment> _commentViewMapper;
 
-        public CommentManager(Repository<Comment> commentRepository, IMapper<CommentFormViewModel, Comment> commentMapper, ISearchManager searchManager)
+        public CommentManager(Repository<Comment> commentRepository,
+            IMapper<CommentFormViewModel, Comment> commentMapper, ISearchManager searchManager,
+            IMapper<CommentViewModel, Comment> commentViewMapper)
         {
             _commentRepository = commentRepository;
             _commentMapper = commentMapper;
             _searchManager = searchManager;
+            _commentViewMapper = commentViewMapper;
         }
 
-        public string AddComment(CommentFormViewModel commentForm)
+        public CommentViewModel AddComment(CommentFormViewModel commentForm)
         {
             var comment = _commentMapper.ConvertTo(commentForm);
             var result = _commentRepository.AddRange(comment) && _searchManager.AddCommentToIndex(comment);
-            return result ? comment.Id : null;
+            return _commentViewMapper.ConvertFrom(comment);
         }
 
         public bool RemoveComment(string commentId)

@@ -36,6 +36,7 @@ export class ProjectEditorPageComponent {
 
     addFinancialPurpose(purpose: any) {
         this.project.financialPurposes.push(purpose);
+        this.project.financialPurposes.sort(this.sortingService.sortByBudget);
     }
 
     onSubmit() {
