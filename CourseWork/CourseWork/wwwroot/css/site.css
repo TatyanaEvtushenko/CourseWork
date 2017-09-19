@@ -1,4 +1,70 @@
-﻿.register-modal {
+﻿.comments input {
+    max-width: 50%;
+}
+.comments .text {
+    word-break: break-all;
+ }
+
+.user-min-info img {
+    min-width: 40px;
+    max-width: 50px;
+}
+
+.btn-icon.btn {
+    width: 40px;
+    padding: inherit;
+}
+
+.project .tabs {
+    overflow: hidden;
+}
+
+.project .card {
+    margin-top: 0;
+    overflow: hidden;
+}
+
+.project .card-image img{
+    height: 700px;
+    margin:-13% 0 -13% 0;
+}
+
+.project .card-title {
+    margin-bottom: 13%;
+}
+
+.news-open {
+    margin-right: 0 !important;
+}
+
+.project-item-rating {
+    font-size: 12px;
+}
+
+.btn-floating.btn-large{
+    position: fixed;
+    right: 4%;
+    bottom: 5%;
+}
+
+.markdown-editor {
+    max-height: 250px;
+    overflow-y: auto;
+ }
+
+.edit-modal {
+    width: 45%;
+}
+
+.news-modal {
+    width: 38%;
+}
+
+.news-modal button {
+    top: 20%
+}
+
+.register-modal {
     width: 30%;
 }
 
@@ -19,6 +85,24 @@
     font-size: inherit;
 }
 
+/*.material-icons .search-icons {
+    
+}*/
+
+#search-form {
+    height: 32px;
+    margin-top: 16px;
+    opacity: 0.5;
+}
+
+#search {
+    border-radius: 10px;
+}
+
+.material-icons .search-icons .md-dark {
+    color: rgba(0, 0, 0, 0.54);
+}
+
 body {
     /*padding-top: 50px;*/
     padding-bottom: 20px;
@@ -33,8 +117,8 @@ body {
 
 /* Set widths on the form inputs since otherwise they're 100% wide */
 /*input,*/
-select,
-textarea {
+select
+/*textarea*/ {
     max-width: 280px;
 }
 

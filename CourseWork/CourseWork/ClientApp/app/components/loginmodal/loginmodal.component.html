@@ -3,12 +3,12 @@
         <h4>Log in</h4>
 
         <div class="input-field">
-            <input id="login-email"  #email="ngModel" class="validate" required email [(ngModel)]="loginForm.email" type="email"/>
+            <input id="login-email"  #email="ngModel" class="validate" required email [(ngModel)]="loginForm.email" type="email" (keyup.enter)="onSubmit()"/>
             <label for="login-email">Email</label>
         </div>
         <div class="input-field">
-            <input id="login-password" #password="ngModel" class="validate" required maxlength="20" type="password" 
-                   [(ngModel)]="loginForm.password"/>
+            <input id="login-password" #password="ngModel" class="validate" required data-length="20" type="password" 
+                   [(ngModel)]="loginForm.password" (keyup.enter)="onSubmit()"/>
             <label for="login-password">Password</label>
         </div>
 
@@ -24,11 +24,7 @@
                 <a>Forgot your password?</a>
             </div>
         </div>
-
-        <div class="red-text input-field row">
-            <div *ngIf="isWrongRequest">
-                Invalid login or password
-            </div>
-        </div>
+        
+        <errortext *ngIf="isWrongRequest" [text]="'Invalid login or password'"></errortext>
     </div>
 </div>

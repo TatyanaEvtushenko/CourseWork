@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using CourseWork.DataLayer.Data;
+using CourseWork.DataLayer.Enums;
 
 namespace CourseWork.DataLayer.Migrations
 {
@@ -63,7 +64,221 @@ namespace CourseWork.DataLayer.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex");
 
+                    b.HasIndex("UserName");
+
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.Comment", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ProjectId")
+                        .IsRequired();
+
+                    b.Property<string>("Text");
+
+                    b.Property<DateTime>("Time");
+
+                    b.Property<string>("UserName");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.FinancialPurpose", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name");
+
+                    b.Property<decimal>("NecessaryPaymentAmount");
+
+                    b.Property<string>("ProjectId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("FinancialPurposes");
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.Message", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("IsSeen");
+
+                    b.Property<string>("RecipientUserName");
+
+                    b.Property<string>("Text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.News", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ProjectId")
+                        .IsRequired();
+
+                    b.Property<string>("Subject");
+
+                    b.Property<string>("Text");
+
+                    b.Property<DateTime>("Time");
+
+                    b.Property<int>("Type");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("News");
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.Payment", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<decimal>("PaidAmount");
+
+                    b.Property<string>("ProjectId")
+                        .IsRequired();
+
+                    b.Property<DateTime>("Time");
+
+                    b.Property<string>("UserName");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("Payments");
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.Project", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatingTime");
+
+                    b.Property<string>("Description");
+
+                    b.Property<DateTime>("FundRaisingEnd");
+
+                    b.Property<string>("ImageUrl");
+
+                    b.Property<decimal>("MaxPayment");
+
+                    b.Property<decimal>("MinPayment");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("OwnerUserName")
+                        .IsRequired();
+
+                    b.Property<double>("Rating");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OwnerUserName");
+
+                    b.ToTable("Projects");
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.ProjectSubscriber", b =>
+                {
+                    b.Property<string>("UserName");
+
+                    b.Property<string>("ProjectId");
+
+                    b.HasKey("UserName", "ProjectId");
+
+                    b.HasAlternateKey("ProjectId", "UserName");
+
+                    b.ToTable("ProjectSubscribers");
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.Rating", b =>
+                {
+                    b.Property<string>("UserName");
+
+                    b.Property<string>("ProjectId");
+
+                    b.Property<int>("RatingResult");
+
+                    b.HasKey("UserName", "ProjectId");
+
+                    b.HasAlternateKey("ProjectId", "UserName");
+
+                    b.ToTable("Ratings");
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.Tag", b =>
+                {
+                    b.Property<string>("Name");
+
+                    b.Property<string>("ProjectId");
+
+                    b.HasKey("Name", "ProjectId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("Tags");
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.UserInfo", b =>
+                {
+                    b.Property<string>("UserName")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("About");
+
+                    b.Property<string>("Avatar");
+
+                    b.Property<string>("Contacts");
+
+                    b.Property<string>("Description");
+
+                    b.Property<bool>("IsBlocked");
+
+                    b.Property<string>("LastAccountNumber");
+
+                    b.Property<DateTime>("LastLoginTime");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("PassportScan");
+
+                    b.Property<double>("Rating");
+
+                    b.Property<DateTime>("RegistrationTime");
+
+                    b.Property<int>("Status");
+
+                    b.Property<string>("Surname");
+
+                    b.HasKey("UserName");
+
+                    b.ToTable("UserInfos");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
@@ -171,6 +386,62 @@ namespace CourseWork.DataLayer.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.Comment", b =>
+                {
+                    b.HasOne("CourseWork.DataLayer.Models.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.FinancialPurpose", b =>
+                {
+                    b.HasOne("CourseWork.DataLayer.Models.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.News", b =>
+                {
+                    b.HasOne("CourseWork.DataLayer.Models.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.Payment", b =>
+                {
+                    b.HasOne("CourseWork.DataLayer.Models.Project", "Project")
+                        .WithMany("Payments")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.Project", b =>
+                {
+                    b.HasOne("CourseWork.DataLayer.Models.UserInfo", "UserInfo")
+                        .WithMany()
+                        .HasForeignKey("OwnerUserName")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.ProjectSubscriber", b =>
+                {
+                    b.HasOne("CourseWork.DataLayer.Models.Project", "Project")
+                        .WithMany("Subscribers")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.Tag", b =>
+                {
+                    b.HasOne("CourseWork.DataLayer.Models.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>

@@ -7,4 +7,8 @@ export class TagService extends BaseService{
     getTagCloud() {
         return this.requestGet("api/Tag/GetTagCloud");
     }
+
+    getTags() {
+        return this.requestGet("api/Tag/GetTagToAdding");
+    }
 }

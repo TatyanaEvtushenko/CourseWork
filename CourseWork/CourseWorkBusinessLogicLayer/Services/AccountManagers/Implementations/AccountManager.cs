@@ -1,11 +1,21 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using CourseWork.BusinessLogicLayer.Options;
+using CourseWork.BusinessLogicLayer.Services.ConverterExtensions;
 using CourseWork.BusinessLogicLayer.Services.MessageSenders;
+using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Enums.Configurations;
 using CourseWork.DataLayer.Models;
+using CourseWork.DataLayer.Repositories;
+using CourseWork.DataLayer.Repositories.Implementations;
+using Hangfire.Dashboard.Resources;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.DotNet.PlatformAbstractions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
 {
@@ -15,17 +25,22 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly IHttpContextAccessor _contextAccessor;
+        private readonly Repository<UserInfo> _userInfoRepository;
+        private readonly CloudinaryOptions _options;
 
         public AccountManager(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender, 
-            IHttpContextAccessor contextAccessor)
+            IHttpContextAccessor contextAccessor,
+            Repository<UserInfo> userInfoRepository, IOptions<CloudinaryOptions> options)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _contextAccessor = contextAccessor;
+            _userInfoRepository = userInfoRepository;
+            _options = options.Value;
         }
 
         public async Task<bool> Register(string userName, string email, string password)
@@ -45,14 +60,13 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
         }
 
         public async Task<bool> Login(string email, string password)
-        { 
+        {
             var user = await _userManager.FindByEmailAsync(email);
-            if (user != null && !await _userManager.IsEmailConfirmedAsync(user))
+            if (user == null || !await _userManager.IsEmailConfirmedAsync(user) || _userInfoRepository.Get(user.UserName).IsBlocked)
             {
                 return false;
             }
-            var result = await _signInManager.PasswordSignInAsync(email, password, true, lockoutOnFailure: false);
-            return result.Succeeded;
+            return await TryLogin(user, password);
         }
 
         public async Task Logout()
@@ -60,19 +74,37 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
             await _signInManager.SignOutAsync();
         }
 
-        public async Task<bool> IsAdmin()
+        public async Task AddRole(string userName, UserRole role)
         {
-            return await IsInRole(UserRole.Admin);
+            var user = await _userManager.FindByNameAsync(userName);
+            await AddRole(user, role);
         }
 
-        public async Task<bool> IsUser()
+        public async Task RemoveRole(string userName, UserRole role)
         {
-            return await IsInRole(UserRole.User);
+            var user = await _userManager.FindByNameAsync(userName);
+            await RemoveRole(user, role);
         }
 
-        public async Task<bool> IsConfirmedUser()
+        public DisplayableInfoViewModel[] GetDisplayableInfo(string[] userNames)
         {
-            return await IsInRole(UserRole.ConfirmedUser);
+            return ((UserInfoRepository) _userInfoRepository).GetDisplayableInfo(userNames).Select(item => 
+                item.ConvertTo<DisplayableInfoViewModel>()).ToArray();
+        }
+
+        public DisplayableInfoViewModel GetUserDisplayableInfo(string username)
+        {
+            return GetDisplayableInfo(new[] {username}).SingleOrDefault();
+        }
+
+        private async Task<bool> TryLogin(ApplicationUser user, string password)
+        {
+            var result = await _signInManager.PasswordSignInAsync(user.UserName, password, true, false);
+            if (result.Succeeded)
+            {
+                UpdateLoginTime(user);
+            }
+            return result.Succeeded;
         }
 
         private async Task<bool> TryRegister(ApplicationUser user, string password)
@@ -90,17 +122,45 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if (result.Succeeded)
             {
+                var userInfo = CreateBasicUserInfo(user.UserName);
+                if (!_userInfoRepository.AddRange(userInfo))
+                    return false;
                 await AddRole(user, UserRole.User);
             }
             return result.Succeeded;
         }
 
+        private UserInfo CreateBasicUserInfo(string userName)
+        {
+            return new UserInfo
+            {
+                UserName = userName,
+                IsBlocked = false,
+                Rating = 0,
+                Status = UserStatus.WithoutConfirmation,
+                LastLoginTime = DateTime.Now,
+                RegistrationTime = DateTime.Now,
+                Avatar = _options.DefaultUserAvatar
+            };
+        }
+
+        private void UpdateLoginTime(ApplicationUser user)
+        {
+            var userInfo = _userInfoRepository.Get(user.UserName);
+            userInfo.LastLoginTime = DateTime.Now;
+            _userInfoRepository.UpdateRange(userInfo);
+        }
+
         private async Task SendConfirmation(ApplicationUser user)
         {
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var callbackUrl = $"{ApplicationEnvironment.ApplicationBasePath}/api/Account/ConfirmRegistration?userId={user.Id}&code={code}";
-            //Url.Action(nameof(ConfirmEmail), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme));
+            var callbackUrl = $"{GetBaseUrl()}/api/Account/ConfirmRegistration?userId={user.Id}&code={System.Net.WebUtility.UrlEncode(code)}";
             await _emailSender.SendEmailAsync(user.Email, "Confirm your account", GetMessageToSendConfirmLink(callbackUrl));
+        }
+
+        private string GetBaseUrl()
+        {
+            return $"{_contextAccessor.HttpContext.Request.Scheme}://{_contextAccessor.HttpContext.Request.Host}";
         }
 
         private async Task AddRole(ApplicationUser user, UserRole role)
@@ -108,8 +168,13 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
             await _userManager.AddToRoleAsync(user, EnumConfiguration.RoleNames[role]);
         }
 
+        private async Task RemoveRole(ApplicationUser user, UserRole role)
+        {
+            await _userManager.RemoveFromRoleAsync(user, EnumConfiguration.RoleNames[role]);
+        }
+
         private static string GetMessageToSendConfirmLink(string url) =>
-            $"Please confirm your account by clicking this link: <a href='{url}'>link</a>";
+            $"Please confirm your account by clicking this link: <a href=\"{url}\">link</a>";
 
         private async Task<bool> IsInRole(UserRole role)
         {
