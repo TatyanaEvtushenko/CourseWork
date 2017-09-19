@@ -91,7 +91,9 @@ namespace CourseWork.BusinessLogicLayer.Services.SearchManagers.Implementations
 
         public bool RemoveProjectsFromIndex(Project[] projects)
         {
-            var projectDocuments = projects.Select(p => _projectSearchMapper.ConvertFrom(p));
+            var projectDocuments = projects.Select(p => _projectSearchMapper.ConvertFrom(p)).ToArray();
+            if (!projectDocuments.Any())
+                return true;
             var response = _client.DeleteMany(projectDocuments);
             return !response.Errors;
         }
