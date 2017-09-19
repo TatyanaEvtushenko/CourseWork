@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using CourseWork.DataLayer.Data;
 using CourseWork.DataLayer.Enums;
 
-namespace CourseWork.DataLayer.Data.Migrations
+namespace CourseWork.DataLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot

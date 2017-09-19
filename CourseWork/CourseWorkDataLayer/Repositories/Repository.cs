@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using CourseWork.DataLayer.Data;
-using CourseWork.DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace CourseWork.DataLayer.Repositories
@@ -61,7 +60,14 @@ namespace CourseWork.DataLayer.Repositories
 
         public T Get(object id)
         {
-            return Table.Find(id);
+            try
+            {
+                return Table.Find(id);
+            }
+            catch (Exception exception)
+            {
+                return null;
+            }
         }
 
         public List<T> GetWhere(Func<T, bool> whereExpression)

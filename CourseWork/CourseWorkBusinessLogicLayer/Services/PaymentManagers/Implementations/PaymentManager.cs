@@ -12,20 +12,15 @@ namespace CourseWork.BusinessLogicLayer.Services.PaymentManagers.Implementations
     {
         private readonly Repository<Payment> _paymentRepository;
         private readonly Repository<Project> _projectRepository;
-        private readonly Repository<UserInfo> _userInfoRepository;
-        private readonly IMapper<PaymentFormViewModel, Payment> _paymentMapper;
         private readonly IMapper<PaymentForFormViewModel, Project> _paymentForFormMapper;
         private readonly IUserManager _userManager;
 
-        public PaymentManager(Repository<Payment> paymentRepository,
-            IMapper<PaymentFormViewModel, Payment> paymentMapper, Repository<Project> projectRepository,
-            Repository<UserInfo> userInfoRepository, IUserManager userManager,
+        public PaymentManager(Repository<Payment> paymentRepository, Repository<Project> projectRepository,
+            IUserManager userManager,
             IMapper<PaymentForFormViewModel, Project> paymentForFormMapper)
         {
             _paymentRepository = paymentRepository;
-            _paymentMapper = paymentMapper;
             _projectRepository = projectRepository;
-            _userInfoRepository = userInfoRepository;
             _userManager = userManager;
             _paymentForFormMapper = paymentForFormMapper;
         }
@@ -41,27 +36,12 @@ namespace CourseWork.BusinessLogicLayer.Services.PaymentManagers.Implementations
             return _paymentRepository.GetWhere(payment => payment.ProjectId == projectId);
         }
 
-        public bool AddPayment(PaymentFormViewModel paymentForm)
-        {
-            UpdateAccountNumber(paymentForm);
-            var payment = _paymentMapper.ConvertTo(paymentForm);
-            //changestatus
-            return _paymentRepository.AddRange(payment);
-        }
-
         public PaymentForFormViewModel GetPaymentInfoForForm(string projectId)
         {
             var project = _projectRepository.Get(projectId);
             var paymentForForm = _paymentForFormMapper.ConvertFrom(project);
             paymentForForm.KeptAccountNumber = _userManager.GetCurrentUserUserInfo().LastAccountNumber;
             return paymentForForm;
-        }
-
-        private void UpdateAccountNumber(PaymentFormViewModel paymentForm)
-        {
-            var userInfo = _userManager.GetCurrentUserUserInfo();
-            userInfo.LastAccountNumber = paymentForm.AccountNumber;
-            _userInfoRepository.UpdateRange(userInfo);
         }
     }
 }

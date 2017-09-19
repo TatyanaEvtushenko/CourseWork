@@ -1,4 +1,5 @@
 using CourseWork.BusinessLogicLayer.Services.PaymentManagers;
+using CourseWork.BusinessLogicLayer.Services.ProjectManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.PaymentViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +11,12 @@ namespace CourseWork.Controllers
     public class PaymentController : Controller
     {
         private readonly IPaymentManager _paymentManager;
+        private readonly IProjectManager _projectManager;
 
-        public PaymentController(IPaymentManager paymentManager)
+        public PaymentController(IPaymentManager paymentManager, IProjectManager projectManager)
         {
             _paymentManager = paymentManager;
+            _projectManager = projectManager;
         }
 
         [HttpGet]
@@ -27,7 +30,7 @@ namespace CourseWork.Controllers
         [Route("api/Payment/AddPayment")]
         public bool AddPayment([FromBody]PaymentFormViewModel payment)
         {
-            return _paymentManager.AddPayment(payment);
+            return _projectManager.AddPayment(payment);
         }
     }
 }

@@ -10,8 +10,6 @@ namespace CourseWork.BusinessLogicLayer.Services.PaymentManagers
 
         IEnumerable<Payment> GetProjectPayments(string projectId);
 
-        bool AddPayment(PaymentFormViewModel paymentForm);
-
         PaymentForFormViewModel GetPaymentInfoForForm(string projectId);
     }
 }

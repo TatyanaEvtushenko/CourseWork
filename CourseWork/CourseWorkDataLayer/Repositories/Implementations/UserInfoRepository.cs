@@ -5,7 +5,6 @@ using System.Linq;
 using CourseWork.DataLayer.Data;
 using CourseWork.DataLayer.Dictionaries;
 using CourseWork.DataLayer.Enums.Configurations;
-using CourseWork.DataLayer.Migrations;
 using CourseWork.DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
