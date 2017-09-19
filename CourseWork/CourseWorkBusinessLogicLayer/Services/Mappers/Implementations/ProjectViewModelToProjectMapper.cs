@@ -128,7 +128,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
         {
             var commentViewModel = _commentMapper.ConvertFrom(commentModel);
             var userInfo = commentatorsInfo.FirstOrDefault(info => info.UserName == commentModel.UserName);
-            commentViewModel.User = _userInfoMapper.ConvertFrom(userInfo);
+            commentViewModel.User = userInfo != null ? _userInfoMapper.ConvertFrom(userInfo) : null;
             return commentViewModel;
         }
     }
