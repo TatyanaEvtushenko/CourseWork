@@ -1,12 +1,12 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using CourseWork.DataLayer.Enums;
 
 namespace CourseWork.DataLayer.Models
 {
     public class News
     {
+        [Key]
         public string Id { get; set; }
 
         public DateTime Time { get; set; }
@@ -19,8 +19,6 @@ namespace CourseWork.DataLayer.Models
 
         public NewsType Type { get; set; }
 
-        [ForeignKey("ProjectId")]
-        [Required]
         public Project Project { get; set; }
     }
 }

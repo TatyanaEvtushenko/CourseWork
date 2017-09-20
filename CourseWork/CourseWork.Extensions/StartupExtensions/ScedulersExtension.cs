@@ -1,4 +1,4 @@
-﻿using CourseWork.Extensions.Scheduler;
+﻿using CourseWork.BusinessLogicLayer.Services.Scheduler;
 using FluentScheduler;
 using Microsoft.Extensions.DependencyInjection;
 

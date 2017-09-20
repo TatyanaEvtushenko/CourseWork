@@ -3,7 +3,6 @@ using System.Security.Principal;
 using System.Threading.Tasks;
 using CourseWork.BusinessLogicLayer.ViewModels.AccountViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.CurrentUserViewModels;
-using CourseWork.DataLayer.Models;
 
 namespace CourseWork.BusinessLogicLayer.Services.UserManagers
 {
@@ -16,8 +15,6 @@ namespace CourseWork.BusinessLogicLayer.Services.UserManagers
         Task<CurrentUserViewModel> GetCurrentUserInfo();
 
         IEnumerable<string> GetEmails(IEnumerable<string> userNames);
-
-        UserInfo GetCurrentUserUserInfo();
 
         void Edit(AccountEditViewModel newAbout);
 

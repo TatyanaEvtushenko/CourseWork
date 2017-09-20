@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CourseWork.BusinessLogicLayer.Services.NewsManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.NewsViewModels;
@@ -15,6 +16,13 @@ namespace CourseWork.Controllers
         public NewsController(INewsManager newsManager)
         {
             _newsManager = newsManager;
+        }
+
+        [HttpGet]
+        [Route("api/News/GetLastNews")]
+        public IEnumerable<NewsViewModel> GetLastNews()
+        {
+            return _newsManager.GetLastNews();
         }
 
         [HttpPost]
