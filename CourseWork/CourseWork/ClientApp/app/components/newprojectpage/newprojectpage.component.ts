@@ -16,11 +16,10 @@ export class NewProjectPageComponent{
     projectForm = new NewProjectForm();
     isWrongRequest = false;
 
-    constructor(public storage: StorageService,
-                private sortingService: SortingService,
     constructor(public storage: MessageSubscriberService,
                 private title: Title, 
-                private projectService: ProjectService) {
+                private projectService: ProjectService,
+                private sortingService: SortingService) {
         title.setTitle("New project");
         this.projectForm.financialPurposes = [];
         this.projectForm.tags = [];

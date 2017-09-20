@@ -1,6 +1,16 @@
-﻿<!--<div class="input-field row">-->
-    <select [(ngModel)]="selectedLanguage">
-        
-        <option *ngFor="let language of languages" [value]="language.name">{{language.name}}</option>
-    </select>
-<!--</div>-->
+﻿<div class="input-field col s6">
+    <div class="select-wrapper select-language">
+        <input type="text" class="select-dropdown" readonly="true" data-activates="language-select" value="Choose language"/>
+        <ul id="select-options-language" class="dropdown-content select-dropdown">
+            <li class="disabled"><span>Choose language</span></li>
+            <li><span>en</span></li>
+            <li><span>ru</span></li>
+        </ul>
+        <select materialize="material_select" name="selectedOption" data-select-id="language">
+            <option disabled selected value>Choose language</option>
+            <option value="1">en</option>
+            <option value="2">ru</option>
+        </select>
+    </div>
+</div>
+

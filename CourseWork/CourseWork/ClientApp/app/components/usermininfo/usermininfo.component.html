@@ -3,7 +3,7 @@
         <img class="circle responsive-img" src="/images/default-user.png">
     </div>
     <div class="col m11">
-        <h6 *ngIf="user != null">{{user.userName}}</h6>
+        <h6 *ngIf="user != null"><a href="/UserPage?username={{user.userName}}">{{user.userName}}</a></h6>
         <h6 *ngIf="user == null"><i>Deleted user</i></h6>
     </div>
 </div>

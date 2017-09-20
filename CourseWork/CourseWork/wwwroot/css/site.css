@@ -1,4 +1,8 @@
-﻿.comments input {
+﻿div.select-wrapper  {
+    width: 150px;
+}
+
+.comments input {
     max-width: 50%;
 }
 .comments .text {
