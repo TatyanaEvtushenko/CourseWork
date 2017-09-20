@@ -37,18 +37,11 @@ namespace CourseWork.BusinessLogicLayer.Services.UserManagers.Implementations
 
         public async Task<CurrentUserViewModel> GetCurrentUserInfo()
         {
-            var user = CurrentUserIdentity;
-            return !user.IsAuthenticated ? null : new CurrentUserViewModel
-            { 
-                UserName = user.Name,
-                Role = (await _userManager.GetRolesAsync(await _userManager.FindByNameAsync(user.Name))).ElementAt(0),
-				IsBlocked = _userInfoRepository.Get(user.Name).IsBlocked
-            };
-        }
-
-        public UserInfo GetCurrentUserUserInfo()
-        {
-            return _userInfoRepository.Get(CurrentUserName);
+            if (!CurrentUserIdentity.IsAuthenticated)
+            {
+                return null;
+            }
+            return await GetCurrentUser();
         }
 
         public IEnumerable<string> GetEmails(IEnumerable<string> userNames)
@@ -58,8 +51,7 @@ namespace CourseWork.BusinessLogicLayer.Services.UserManagers.Implementations
 
         public void Edit(AccountEditViewModel newInfo)
         {
-            var user = _contextAccessor.HttpContext.User.Identity;
-            var currentUser = _userInfoRepository.GetWhere(item => item.UserName.Equals(user.Name)).Single();
+            var currentUser = _userInfoRepository.FirstOrDefault(item => item.UserName == CurrentUserName);
             currentUser.About = newInfo.About;
             currentUser.Contacts = newInfo.Contacts;
             _userInfoRepository.UpdateRange(currentUser);
@@ -67,12 +59,22 @@ namespace CourseWork.BusinessLogicLayer.Services.UserManagers.Implementations
 
         public string ChangeAvatar(string newAvatarB64)
         {
-            var user = _contextAccessor.HttpContext.User.Identity;
-            var currentUser = _userInfoRepository.GetWhere(item => item.UserName.Equals(user.Name)).Single();
+            var currentUser = _userInfoRepository.FirstOrDefault(item => item.UserName == CurrentUserName);
             var newAvatar = _photoManager.LoadImage(newAvatarB64);
             currentUser.Avatar = newAvatar;
             _userInfoRepository.UpdateRange(currentUser);
             return newAvatar;
+        }
+
+        private async Task<CurrentUserViewModel> GetCurrentUser()
+        {
+            var user = await _userManager.FindByNameAsync(CurrentUserName);
+            return new CurrentUserViewModel
+            {
+                UserName = CurrentUserName,
+                Role = (await _userManager.GetRolesAsync(user)).ElementAt(0),
+                IsBlocked = _userInfoRepository.Get(CurrentUserName).IsBlocked
+            };
         }
     }
 }

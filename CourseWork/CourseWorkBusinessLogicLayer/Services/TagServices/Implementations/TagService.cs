@@ -18,10 +18,11 @@ namespace CourseWork.BusinessLogicLayer.Services.TagServices.Implementations
         public IEnumerable<TagViewModel> GetAllTagViewModels()
         {
             var tags = _tagRepository.GetAll();
-            return tags.Select(tag => tag.Name).Distinct().Select(tag => new TagViewModel
+            var tagNames = tags.Select(tag => tag.Name).Distinct();
+            return tagNames.Select(tag => new TagViewModel
             {
                 Name = tag,
-                NumberOfUsing = tags.Count(tagInProject => tagInProject.Name == tag)
+                NumberOfUsing = tags.Count(t => t.Name == tag)
             });
         }
 

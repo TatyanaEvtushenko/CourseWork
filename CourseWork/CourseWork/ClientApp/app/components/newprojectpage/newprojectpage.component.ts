@@ -18,7 +18,6 @@ export class NewProjectPageComponent{
 
     constructor(public storage: StorageService,
                 private sortingService: SortingService,
-    constructor(public storage: MessageSubscriberService,
                 private title: Title, 
                 private projectService: ProjectService) {
         title.setTitle("New project");

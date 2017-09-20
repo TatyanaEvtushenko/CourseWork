@@ -5,9 +5,6 @@ using System.Linq;
 using CourseWork.BusinessLogicLayer.ElasticSearch;
 using CourseWork.BusinessLogicLayer.ElasticSearch.Documents;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
-using CourseWork.BusinessLogicLayer.Services.PaymentManagers;
-using CourseWork.BusinessLogicLayer.Services.UserManagers;
-using CourseWork.BusinessLogicLayer.ViewModels.NewsViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
@@ -19,39 +16,36 @@ namespace CourseWork.BusinessLogicLayer.Services.SearchManagers.Implementations
     public class SearchManager : ISearchManager
     {
         private readonly ElasticClient _client;
-        private readonly IMapper<ProjectItemViewModel, Project> _mapper;
         private readonly Repository<Project> _projectRepository;
-        private readonly IUserManager _userManager;
+        private readonly IMapper<ProjectItemViewModel, Project> _mapper;
         private readonly IMapper<ProjectSearchNote, Project> _projectSearchMapper;
-        private readonly IPaymentManager _paymentManager;
 
-        public SearchManager(SearchClient searchClient, IMapper<ProjectItemViewModel, Project> mapper, Repository<Project> projectRepository, IMapper<ProjectSearchNote, Project> projectSearchMapper, IUserManager userManager, IPaymentManager paymentManager)
+        private delegate void UpdateNewsDelegate(News news, List<string> updatedNewsSubjects,
+            List<string> updatedNewsTexts);
+        private delegate void UpdateCommentDelegate(Comment comment, List<string> updatedCommentTexts);
+
+        public SearchManager(SearchClient searchClient, IMapper<ProjectItemViewModel, Project> mapper,
+            Repository<Project> projectRepository, IMapper<ProjectSearchNote, Project> projectSearchMapper)
         {
             _mapper = mapper;
             _projectRepository = projectRepository;
             _projectSearchMapper = projectSearchMapper;
-            _userManager = userManager;
-            _paymentManager = paymentManager;
             searchClient.CreateNewElasticClient();
             _client = searchClient.Client;
         }
 
         public IEnumerable<ProjectItemViewModel> Search(string query)
         {
-            var response = _client.Search<ProjectSearchNote>(s => s.Query(q => q.MultiMatch(m => m
-                .Fields(f => f.Field(p => p.Name).Field(p => p.Comment).Field(p => p.Description).Field(p => p.FinancialPurposeDescription)
-                    .Field(p => p.FinancialPurposeName).Field(p => p.NewsSubject).Field(p => p.NewsText).Field(p => p.Tag))
-                    .Query(query).Operator(Operator.Or))));
-            var projectIds = response.Hits.Select(n => n.Source.Id).ToImmutableHashSet();
-            return _projectRepository
-                .GetWhereEager<IEnumerable<Object>>(item => projectIds.Contains(item.Id), item => item.Subscribers, item => item.Payments)
-                .Select(item =>
-            {
-                var viewModel = _mapper.ConvertFrom(item);
-                viewModel.IsSubscriber = item.Subscribers?.FirstOrDefault(s => s.UserName == _userManager.CurrentUserName) != null;
-                viewModel.PaidAmount = _paymentManager.GetProjectPaidAmount(item.Id, item.Payments);
-                return viewModel;
-            });
+            var response = _client.Search<ProjectSearchNote>(s => s.Query(q => q.MultiMatch(m => m.Fields(f => f
+                    .Field(p => p.Name)
+                    .Field(p => p.Comment)
+                    .Field(p => p.Description)
+                    .Field(p => p.FinancialPurposeDescription)
+                    .Field(p => p.FinancialPurposeName)
+                    .Field(p => p.NewsSubject).Field(p => p.NewsText)
+                    .Field(p => p.Tag))
+                .Query(query).Operator(Operator.Or))));
+            return GetProjectsFromResponse(response);
         }
 
         public bool AddProjectToIndex(Project project)
@@ -63,80 +57,114 @@ namespace CourseWork.BusinessLogicLayer.Services.SearchManagers.Implementations
 
         public bool AddNewsToIndex(News news)
         {
-            var searchResponse = _client.Search<ProjectSearchNote>(s =>
-                s.Type("projectSearchNote").Query(q => q.Term(t => t.Field("id").Value(news.ProjectId))));
-            var doc = searchResponse.Hits.Select(n => n.Source).Single();
-            var updatedNewsSubjects = doc.NewsSubject;
-            var updatedNewsTexts = doc.NewsText;
-            updatedNewsSubjects.Add(news.Subject);
-            updatedNewsTexts.Add(news.Text);
-            var updateResponse = _client.Update<ProjectSearchNote, Object>(news.ProjectId, d => d.Type("projectSearchNote")
-                .Doc(new { NewsSubject = updatedNewsSubjects, NewsText = updatedNewsTexts }).Refresh(Refresh.True));
-            return updateResponse.Result == Result.Updated;
+            return UpdateNews(news, AddNews);
         }
 
         public bool RemoveNewsFromIndex(News news)
         {
-            var searchResponse = _client.Search<ProjectSearchNote>(s =>
-                s.Type("projectSearchNote").Query(q => q.Term(t => t.Field("id").Value(news.ProjectId))));
-            var doc = searchResponse.Hits.Select(n => n.Source).Single();
-            var updatedNewsSubjects = doc.NewsSubject;
-            var updatedNewsTexts = doc.NewsText;
-            updatedNewsSubjects.RemoveAt(updatedNewsSubjects.IndexOf(news.Subject));
-            updatedNewsTexts.RemoveAt(updatedNewsTexts.IndexOf(news.Text));
-            var updateResponse = _client.Update<ProjectSearchNote, Object>(news.ProjectId, d => d.Type("projectSearchNote")
-                .Doc(new { NewsSubject = updatedNewsSubjects, NewsText = updatedNewsTexts }).Refresh(Refresh.True));
-            return updateResponse.Result == Result.Updated;
+            return UpdateNews(news, RemoveNews);
         }
 
         public bool RemoveProjectsFromIndex(Project[] projects)
         {
             var projectDocuments = projects.Select(p => _projectSearchMapper.ConvertFrom(p)).ToArray();
             if (!projectDocuments.Any())
+            {
                 return true;
+            }
             var response = _client.DeleteMany(projectDocuments);
             return !response.Errors;
         }
 
         public bool AddCommentToIndex(Comment comment)
         {
-            var searchResponse = _client.Search<ProjectSearchNote>(s =>
-                s.Type("projectSearchNote").Query(q => q.Term(t => t.Field("id").Value(comment.ProjectId))));
-            var doc = searchResponse.Hits.Select(n => n.Source).Single();
-            var updatedCommentTexts = doc.Comment;
-            updatedCommentTexts.Add(comment.Text);
-            var updateResponse = _client.Update<ProjectSearchNote, Object>(comment.ProjectId, d => d.Type("projectSearchNote")
-                .Doc(new { Comment = updatedCommentTexts }).Refresh(Refresh.True));
-            return updateResponse.Result == Result.Updated;
+            return UpdateComment(comment, AddComment);
         }
 
         public bool RemoveCommentsFromIndex(Comment[] comments)
         {
-            foreach (var comment in comments)
-            {
-                var searchResponse = _client.Search<ProjectSearchNote>(s =>
-                    s.Type("projectSearchNote").Query(q => q.Term(t => t.Field("id").Value(comment.ProjectId))));
-                var doc = searchResponse.Hits.Select(n => n.Source).Single();
-                var updatedCommentTexts = doc.Comment;
-                updatedCommentTexts.RemoveAt(updatedCommentTexts.IndexOf(comment.Text));
-                var updateResponse = _client.Update<ProjectSearchNote, Object>(comment.ProjectId, d => d.Type("projectSearchNote")
-                    .Doc(new { Comment = updatedCommentTexts }).Refresh(Refresh.True));
-                if (updateResponse.Result != Result.Updated) return false;
-            }
-            return true;
+            return comments.All(comment => UpdateComment(comment, RemoveComment));
         }
 
         public void SetFinancialPurposes(string projectId, FinancialPurpose[] purposes)
         {
-            _client.Update<ProjectSearchNote, Object>(projectId, d => d.Type("projectSearchNote")
-                .Doc(new { FinancialPurposeName = purposes.Select(p => p.Name).ToList(), FinancialPurposeDescription = purposes.Select(p => p.Description).ToList() })
-                .Refresh(Refresh.True));
+            RefreshUpdateResponse(projectId, new
+            {
+                FinancialPurposeName = purposes.Select(p => p.Name).ToList(),
+                FinancialPurposeDescription = purposes.Select(p => p.Description).ToList()
+            });
         }
 
         public void SetTags(string projectId, string[] tags)
         {
-            _client.Update<ProjectSearchNote, Object>(projectId, d => d.Type("projectSearchNote")
-                .Doc(new { Tag = tags.ToList() }).Refresh(Refresh.True));
+            RefreshUpdateResponse(projectId, new {Tag = tags.ToList()});
+        }
+
+        private IEnumerable<ProjectItemViewModel> GetProjectsFromResponse(ISearchResponse<ProjectSearchNote> response)
+        {
+            var projectIds = response.Hits.Select(n => n.Source.Id).ToImmutableHashSet();
+            return _projectRepository.GetWhere(project => projectIds.Contains(project.Id),
+                    project => project.Subscribers, project => project.Payments, project=> project.Ratings)
+                .Select(project => _mapper.ConvertFrom(project));
+        }
+
+        private IUpdateResponse<ProjectSearchNote> RefreshUpdateResponse(string projectId, object updateObject)
+        {
+            return _client.Update<ProjectSearchNote, Object>(projectId, d => d.Type("projectSearchNote")
+                .Doc(updateObject).Refresh(Refresh.True));
+        }
+        
+        private bool UpdateComment(Comment comment, UpdateCommentDelegate updateCommentAction)
+        {
+            var updatedCommentTexts = GetSearchDoc(comment.ProjectId).Comment;
+            updateCommentAction(comment, updatedCommentTexts);
+            var updateResponse = RefreshUpdateResponse(comment.ProjectId, new { Comment = updatedCommentTexts });
+            return updateResponse.Result == Result.Updated;
+        }
+
+        private bool UpdateNews(News news, UpdateNewsDelegate updateNewsAction)
+        {
+            List<string> updatedNewsSubjects, updatedNewsTexts;
+            GetNewsOptions(news.ProjectId, out updatedNewsSubjects, out updatedNewsTexts);
+            updateNewsAction(news, updatedNewsSubjects, updatedNewsTexts);
+            var updateResponse = RefreshUpdateResponse(news.ProjectId, new { NewsSubject = updatedNewsSubjects, NewsText = updatedNewsTexts});
+            return updateResponse.Result == Result.Updated;
+        }
+
+        private void AddComment(Comment comment, List<string> updatedCommentTexts)
+        {
+            updatedCommentTexts.Add(comment.Text);
+        }
+
+        private void RemoveComment(Comment comment, List<string> updatedCommentTexts)
+        {
+            updatedCommentTexts.RemoveAt(updatedCommentTexts.IndexOf(comment.Text));
+        }
+
+        private void AddNews(News news, List<string> updatedNewsSubjects, List<string> updatedNewsTexts)
+        {
+            updatedNewsSubjects.Add(news.Subject);
+            updatedNewsTexts.Add(news.Text);
+        }
+
+        private void RemoveNews(News news, List<string> updatedNewsSubjects, List<string> updatedNewsTexts)
+        {
+            updatedNewsSubjects.RemoveAt(updatedNewsSubjects.IndexOf(news.Subject));
+            updatedNewsTexts.RemoveAt(updatedNewsTexts.IndexOf(news.Text));
+        }
+
+        private void GetNewsOptions(object projectId, out List<string> updatedNewsSubjects, out List<string> updatedNewsTexts)
+        {
+            var doc = GetSearchDoc(projectId);
+            updatedNewsSubjects = doc.NewsSubject;
+            updatedNewsTexts = doc.NewsText;
+        }
+
+        private ProjectSearchNote GetSearchDoc(object projectId)
+        {
+            var searchResponse = _client.Search<ProjectSearchNote>(s =>
+                s.Type("projectSearchNote").Query(q => q.Term(t => t.Field("id").Value(projectId))));
+            return searchResponse.Hits.Select(n => n.Source).Single();
         }
     }
 }
