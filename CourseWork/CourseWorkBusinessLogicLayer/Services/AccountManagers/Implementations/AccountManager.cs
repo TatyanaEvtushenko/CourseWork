@@ -136,7 +136,6 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
             {
                 UserName = userName,
                 IsBlocked = false,
-                Rating = 0,
                 Status = UserStatus.WithoutConfirmation,
                 LastLoginTime = DateTime.Now,
                 RegistrationTime = DateTime.Now,

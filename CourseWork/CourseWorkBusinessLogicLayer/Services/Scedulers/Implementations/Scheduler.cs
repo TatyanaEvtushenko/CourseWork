@@ -30,8 +30,8 @@ namespace CourseWork.BusinessLogicLayer.Services.Scedulers.Implementations
         public void UpdateData()
         {
             var projects = _projectRepository.GetAll();
-            UpdateProjectStatuses(projects);
-            UpdateRatings(projects);
+            //UpdateProjectStatuses(projects);
+            //UpdateRatings(projects);
             _projectRepository.UpdateRange(projects.ToArray());
         }
 
@@ -45,31 +45,31 @@ namespace CourseWork.BusinessLogicLayer.Services.Scedulers.Implementations
             }
         }
 
-        private void UpdateRatings(IEnumerable<Project> projects)
-        {
-            UpdateProjectRatings(projects);
-            UpdateUserRatings(projects);
-        }
+        //private void UpdateRatings(IEnumerable<Project> projects)
+        //{
+        //    UpdateProjectRatings(projects);
+        //    UpdateUserRatings(projects);
+        //}
 
-        private void UpdateProjectRatings(IEnumerable<Project> projects)
-        {
-            var ratings = _ratingRepository.GetAll();
-            foreach (var project in projects)
-            {
-                var projectRaitings = ratings.Where(rating => rating.ProjectId == project.Id);
-                project.Rating = !projectRaitings.Any() ? 0 : projectRaitings.Average(rating => rating.RatingResult);
-            }
-        }
+        //private void UpdateProjectRatings(IEnumerable<Project> projects)
+        //{
+        //    var ratings = _ratingRepository.GetAll();
+        //    foreach (var project in projects)
+        //    {
+        //        var projectRaitings = ratings.Where(rating => rating.ProjectId == project.Id);
+        //        project.Rating = !projectRaitings.Any() ? 0 : projectRaitings.Average(rating => rating.RatingResult);
+        //    }
+        //}
 
-        private void UpdateUserRatings(IEnumerable<Project> projects)
-        {
-            var userInfos = _userInfoRepository.GetAll();
-            foreach (var userInfo in userInfos)
-            {
-                var userProjects = projects.Where(project => project.OwnerUserName == userInfo.UserName);
-                userInfo.Rating = !userProjects.Any() ? 0 : userProjects.Average(project => project.Rating);
-            }
-            _userInfoRepository.UpdateRange(userInfos.ToArray());
-        }
+        //private void UpdateUserRatings(IEnumerable<Project> projects)
+        //{
+        //    var userInfos = _userInfoRepository.GetAll();
+        //    foreach (var userInfo in userInfos)
+        //    {
+        //        var userProjects = projects.Where(project => project.OwnerUserName == userInfo.UserName);
+        //        userInfo.Rating = !userProjects.Any() ? 0 : userProjects.Average(project => project.Rating);
+        //    }
+        //    _userInfoRepository.UpdateRange(userInfos.ToArray());
+        //}
     }
 }

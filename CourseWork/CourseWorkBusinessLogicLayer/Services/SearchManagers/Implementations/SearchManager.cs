@@ -44,7 +44,7 @@ namespace CourseWork.BusinessLogicLayer.Services.SearchManagers.Implementations
                     .Query(query).Operator(Operator.Or))));
             var projectIds = response.Hits.Select(n => n.Source.Id).ToImmutableHashSet();
             return _projectRepository
-                .GetWhereEager(item => projectIds.Contains(item.Id), item => item.Subscribers, item => item.Payments)
+                .GetWhere(item => projectIds.Contains(item.Id), item => item.Subscribers, item => item.Payments)
                 .Select(item =>
             {
                 var viewModel = _mapper.ConvertFrom(item);

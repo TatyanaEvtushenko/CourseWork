@@ -23,19 +23,19 @@ namespace CourseWork.DataLayer.Repositories.Implementations
         public List<Object> GetUserListItemViewModels(Func<UserInfo, bool> whereExpression)
         {
             var query = from userInfo in Table
-                join project in DbContext.Projects on userInfo.UserName equals project.OwnerUserName into userProjects
-                where whereExpression.Invoke(userInfo)
-                select (Object) new
-                {
-                    Username = userInfo.UserName,
-                    LastLoginTime = userInfo.LastLoginTime.ToString(),
-                    RegistrationTime = userInfo.RegistrationTime.ToString(),
-                    ProjectNumber = userProjects.Count(),
-                    Raiting = userInfo.Rating.ToString(),
-                    Status = EnumConfiguration.StatusDisplayNames[userInfo.Status],
-                    StatusCode = (int)userInfo.Status,
-                    IsBlocked = userInfo.IsBlocked
-                };
+                        join project in DbContext.Projects on userInfo.UserName equals project.OwnerUserName into userProjects
+                        where whereExpression.Invoke(userInfo)
+                        select (Object)new
+                        {
+                            Username = userInfo.UserName,
+                            LastLoginTime = userInfo.LastLoginTime.ToString(),
+                            RegistrationTime = userInfo.RegistrationTime.ToString(),
+                            ProjectNumber = userProjects.Count(),
+                            Raiting = 0,//userInfo.Rating.ToString(),
+                            Status = EnumConfiguration.StatusDisplayNames[userInfo.Status],
+                            StatusCode = (int)userInfo.Status,
+                            IsBlocked = userInfo.IsBlocked
+                        };
             return query.ToList();
         }
 
@@ -43,17 +43,17 @@ namespace CourseWork.DataLayer.Repositories.Implementations
         {
             var userNamesSet = userNames.ToImmutableHashSet();
             var query = from userInfo in Table
-                join project in DbContext.Projects on userInfo.UserName equals project.OwnerUserName into userProjects
-                where userNamesSet.Contains(userInfo.UserName)
-                select (Object) new
-                {
-                    UserName = userInfo.UserName,
-                    RegistrationTime = userInfo.RegistrationTime,
-                    Avatar = userInfo.Avatar,
-                    About = userInfo.About,
-                    ProjectNumber = userProjects.Count(),
-                    Contacts = userInfo.Contacts
-                };
+                        join project in DbContext.Projects on userInfo.UserName equals project.OwnerUserName into userProjects
+                        where userNamesSet.Contains(userInfo.UserName)
+                        select (Object)new
+                        {
+                            UserName = userInfo.UserName,
+                            RegistrationTime = userInfo.RegistrationTime,
+                            Avatar = userInfo.Avatar,
+                            About = userInfo.About,
+                            ProjectNumber = userProjects.Count(),
+                            Contacts = userInfo.Contacts
+                        };
             return query.ToArray();
         }
 

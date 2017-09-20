@@ -18,6 +18,20 @@ namespace CourseWork.Controllers
             _projectManager = projectManager;
         }
 
+        [HttpGet]
+        [Route("api/Project/GetFinancedProjects")]
+        public IEnumerable<ProjectItemViewModel> GetFinancedProjects()
+        {
+            return _projectManager.GetFinancedProjects();
+        }
+
+        [HttpGet]
+        [Route("api/Project/GetLastCreatedProjects")]
+        public IEnumerable<ProjectItemViewModel> GetLastCreatedProjects()
+        {
+            return _projectManager.GetLastCreatedProjects();
+        }
+
         [HttpPost]
         [Route("api/Project/AddProject")]
         [Authorize(Roles = "Admin, ConfirmedUser")]

@@ -7,6 +7,14 @@ import { PaymentForm } from '../viewmodels/paymentform';
 @Injectable()
 export class ProjectService extends BaseService {
 
+    getLastCreatedProjects() {
+        return this.requestGet("api/Project/GetLastCreatedProjects");
+    }
+
+    getFinancedProjects() {
+        return this.requestGet("api/Project/GetFinancedProjects");
+    }
+
     getBigPayments() {
         return this.requestGet("api/Payment/GetBigPayments");
     }

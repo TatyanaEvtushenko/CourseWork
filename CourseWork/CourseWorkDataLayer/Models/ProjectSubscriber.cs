@@ -1,18 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace CourseWork.DataLayer.Models
+﻿namespace CourseWork.DataLayer.Models
 {
     public class ProjectSubscriber
     {
-        [Key]
         public string ProjectId { get; set; }
-
-        [Key]
+        
         public string UserName { get; set; }
 
-        [ForeignKey("ProjectId")]
-        [Required]
         public Project Project { get; set; }
+
+        public UserInfo UserInfo { get; set; }
     }
 }

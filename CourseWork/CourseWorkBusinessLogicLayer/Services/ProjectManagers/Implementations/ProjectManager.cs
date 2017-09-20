@@ -147,14 +147,14 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
 
         public IEnumerable<ProjectItemViewModel> GetProjects(string username)
         {
-            return _projectRepository.GetWhereEager(project => project.OwnerUserName == username,
+            return _projectRepository.GetWhere(project => project.OwnerUserName == username,
                     project => project.Subscribers, project => project.Payments)
                 .Select(item => GetPreparedProjectItem(item, item.Subscribers, item.Payments));
         }
 
         public IEnumerable<ProjectItemViewModel> GetSubscribedProjects(string username)
         {
-            return _projectRepository.GetWhereEager(
+            return _projectRepository.GetWhere(
                     project => project.Subscribers.Where(subscriber => subscriber.UserName == username)
                         .Select(subscriber => subscriber.ProjectId).Contains(project.Id),
                     project => project.Subscribers,
@@ -164,13 +164,13 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
 
         public IEnumerable<ProjectItemViewModel> GetLastCreatedProjects()
         {
-            return _projectRepository.GetAll().OrderByDescending(project => project.CreatingTime).Take(10)
+            return _projectRepository.GetOrdered(project => project.CreatingTime, 10, true)
                 .Select(project => _projectItemMapper.ConvertFrom(project));
         }
 
         public IEnumerable<ProjectItemViewModel> GetFinancedProjects()
         {
-            return _projectRepository.GetWhere(project => project.Status == ProjectStatus.Financed)
+            return _projectRepository.GetWhere(project => project.Status == ProjectStatus.Financed).Take(10)
                 .Select(project => _projectItemMapper.ConvertFrom(project));
         }
 

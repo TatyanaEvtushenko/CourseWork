@@ -44,7 +44,7 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
 
         public IEnumerable<NewsViewModel> GetLastNews()
         {
-            return _newsRepository.GetWhereEager(news => news.Time.AddDays(2) >= DateTime.UtcNow,
+            return _newsRepository.GetWhere(news => news.Time.AddDays(2) >= DateTime.UtcNow,
                 news => news.Project)
                 .Select(news => _newsViewMapper.ConvertFrom(news));
         }

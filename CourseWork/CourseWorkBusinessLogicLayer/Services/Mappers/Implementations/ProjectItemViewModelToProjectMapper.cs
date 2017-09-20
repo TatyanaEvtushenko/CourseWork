@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using CourseWork.DataLayer.Models;
 
@@ -19,7 +20,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
                 Name = item.Name,
                 ImageUrl = item.ImageUrl,
                 Status = item.Status,
-                Rating = item.Rating,
+                Rating = item.Ratings.Average(rating => rating.RatingResult),
                 Description = item.Description,
                 OwnerUserName = item.OwnerUserName,
                 ProjectEndTime = item.FundRaisingEnd
