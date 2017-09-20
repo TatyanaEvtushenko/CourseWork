@@ -11,5 +11,7 @@ namespace CourseWork.BusinessLogicLayer.ViewModels.NewsViewModels
         public string Text { get; set; }
 
         public DateTime Time { get; set; }
+
+        public string ProjectName { get; set; }
     }
 }

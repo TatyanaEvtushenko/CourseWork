@@ -25,13 +25,14 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers
 
         bool UpdateProject(ProjectFormViewModel projectForm);
 
-        void ChangeProjectStatus(Project project, IEnumerable<Payment> payments,
-            IEnumerable<FinancialPurpose> purposes);
+        void ChangeProjectStatus(Project project);
 
         IEnumerable<ProjectItemViewModel> GetUserSubscribedProjects();
 
         IEnumerable<ProjectItemViewModel> GetSubscribedProjects(string username);
 
         bool AddPayment(PaymentFormViewModel paymentForm);
+
+        double GetProjectRating(Project project);
     }
 }

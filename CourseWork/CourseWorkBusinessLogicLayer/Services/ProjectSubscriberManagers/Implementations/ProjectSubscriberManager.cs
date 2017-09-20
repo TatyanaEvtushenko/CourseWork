@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 using CourseWork.BusinessLogicLayer.Services.UserManagers;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
@@ -17,11 +17,6 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManagers.Imple
             _userManager = userManager;
         }
 
-        public IEnumerable<ProjectSubscriber> GetSubscribers(string projectId)
-        {
-            return _projectSubscriberRepository.GetWhere(subscriber => subscriber.ProjectId == projectId);
-        }
-
         public bool Subscribe(string projectId)
         {
             var subscriber = new ProjectSubscriber {ProjectId = projectId, UserName = _userManager.CurrentUserName};
@@ -32,6 +27,11 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManagers.Imple
         {
             return _projectSubscriberRepository.RemoveWhere(
                 subscriber => subscriber.ProjectId == projectId && subscriber.UserName == _userManager.CurrentUserName);
+        }
+
+        public bool IsSubscriber(Project project)
+        {
+            return project.Subscribers?.FirstOrDefault(s => s.UserName == _userManager.CurrentUserName) != null;
         }
     }
 }

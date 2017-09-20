@@ -10,6 +10,16 @@
         </div>
         <br><br>
         <tagcloud></tagcloud>
+        
+        
+        <div #carousel class="carousel" [ngClass]="{ 'initialized': showInitialized }" materialize="carousel">
+            <a *ngFor="let project of financedProjects" class="carousel-item">
+                <img [src]="project.image"/>
+                <!--<projectitem [project]="project" (onClickNews)="openNewsModal($event)" (onClickPay)="openPayment($event)"
+                                 (onClickSubscribe)="subscribe($event)" (onClickUnsubscribe)="unsubscribe($event)"></projectitem>-->
+            </a>
+        </div>
+
     </div>
 </div>
 
@@ -49,3 +59,6 @@
     </div>
     <br><br>
 </div>
+
+<newsformmodal [projectId]="selectedProjectId"></newsformmodal>
+<paymentmodal [projectId]="selectedProjectId"></paymentmodal>

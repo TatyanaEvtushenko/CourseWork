@@ -18,8 +18,6 @@ namespace CourseWork.DataLayer.Models
 
         public DateTime LastLoginTime { get; set; }
 
-        public double Rating { get; set; }
-
         public string Name { get; set; }
 
         public string Surname { get; set; }
@@ -36,6 +34,18 @@ namespace CourseWork.DataLayer.Models
 
         public string LastAccountNumber { get; set; }
 
+        public ApplicationUser ApplicationUser { get; set; }
+
+        public IEnumerable<Comment> Comments { get; set; }
+
+        public IEnumerable<Message> Messages { get; set; }
+
+        public IEnumerable<Payment> Payments { get; set; }
+
+        public IEnumerable<ProjectSubscriber> Subscriptions { get; set; }
+
         public IEnumerable<Project> Projects { get; set; }
+
+        public IEnumerable<Rating> Ratings { get; set; }
     }
 }

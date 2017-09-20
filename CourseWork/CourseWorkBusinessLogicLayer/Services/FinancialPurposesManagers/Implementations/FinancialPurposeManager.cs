@@ -24,9 +24,10 @@ namespace CourseWork.BusinessLogicLayer.Services.FinancialPurposesManagers.Imple
 
         public IEnumerable<FinancialPurposeViewModel> GetProjectFinancialPurposeViewModels(string projectId)
         {
-            var projectPayments = _paymentManager.GetProjectPayments(projectId);
-            var projectPaidAmount = _paymentManager.GetProjectPaidAmount(projectId, projectPayments);
-            return GetProjectFinancialPurposeViewModels(projectId, projectPaidAmount);
+            //var projectPayments = _paymentManager.GetProjectPayments(projectId);
+            //var projectPaidAmount = _paymentManager.GetProjectPaidAmount(projectId, projectPayments);
+            //return GetProjectFinancialPurposeViewModels(projectId, projectPaidAmount);
+            return null;
         }
 
         public IEnumerable<FinancialPurposeViewModel> GetProjectFinancialPurposeViewModels(string projectId, decimal paidAmount)

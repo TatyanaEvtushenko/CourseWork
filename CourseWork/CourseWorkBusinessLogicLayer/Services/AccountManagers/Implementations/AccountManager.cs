@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CourseWork.BusinessLogicLayer.Options;
@@ -11,10 +10,8 @@ using CourseWork.DataLayer.Enums.Configurations;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
 using CourseWork.DataLayer.Repositories.Implementations;
-using Hangfire.Dashboard.Resources;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
 namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
@@ -63,8 +60,8 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
 
         public async Task<bool> Login(string email, string password)
         {
-            var user = await _userManager.FindByEmailAsync(email);
-            if (user == null || !await _userManager.IsEmailConfirmedAsync(user) || _userInfoRepository.Get(user.UserName).IsBlocked)
+            var user = _userInfoRepository.FirstOrDefault(u => u.ApplicationUser.Email == email, u => u.ApplicationUser);
+            if (user == null || !user.ApplicationUser.EmailConfirmed || user.IsBlocked)
             {
                 return false;
             }
@@ -99,7 +96,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
             return GetDisplayableInfo(new[] {username}).SingleOrDefault();
         }
 
-        private async Task<bool> TryLogin(ApplicationUser user, string password)
+        private async Task<bool> TryLogin(UserInfo user, string password)
         {
             var result = await _signInManager.PasswordSignInAsync(user.UserName, password, true, false);
             if (result.Succeeded)
@@ -112,24 +109,25 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
         private async Task<bool> TryRegister(ApplicationUser user, string password)
         {
             var result = await _userManager.CreateAsync(user, password);
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-                await SendConfirmation(user);
+                return false;
             }
-            return result.Succeeded;
+            await SendConfirmation(user);
+            return true;
         }
 
         private async Task<bool> TryConfirmRegistration(ApplicationUser user, string code)
         {
             var result = await _userManager.ConfirmEmailAsync(user, code);
-            if (result.Succeeded)
-            {
-                var userInfo = CreateBasicUserInfo(user.UserName);
-                if (!_userInfoRepository.AddRange(userInfo))
-                    return false;
-                await AddRole(user, UserRole.User);
-            }
-            return result.Succeeded;
+            return result.Succeeded && await AddNewUser(user);
+        }
+
+        private async Task<bool> AddNewUser(ApplicationUser user)
+        {
+            await AddRole(user, UserRole.User);
+            var userInfo = CreateBasicUserInfo(user.UserName);
+            return _userInfoRepository.AddRange(userInfo);
         }
 
         private UserInfo CreateBasicUserInfo(string userName)
@@ -138,32 +136,31 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
             {
                 UserName = userName,
                 IsBlocked = false,
-                Rating = 0,
                 Status = UserStatus.WithoutConfirmation,
-                LastLoginTime = DateTime.Now,
-                RegistrationTime = DateTime.Now,
+                LastLoginTime = DateTime.UtcNow,
+                RegistrationTime = DateTime.UtcNow,
                 Avatar = _options.DefaultUserAvatar
             };
         }
 
-        private void UpdateLoginTime(ApplicationUser user)
+        private void UpdateLoginTime(UserInfo user)
         {
-            var userInfo = _userInfoRepository.Get(user.UserName);
-            userInfo.LastLoginTime = DateTime.Now;
-            _userInfoRepository.UpdateRange(userInfo);
+            user.LastLoginTime = DateTime.UtcNow;
+            _userInfoRepository.UpdateRange(user);
         }
 
         private async Task SendConfirmation(ApplicationUser user)
         {
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var callbackUrl = $"{GetBaseUrl()}/api/Account/ConfirmRegistration?userId={user.Id}&code={System.Net.WebUtility.UrlEncode(code)}";
+            var callbackUrl = GetCallBackConfirmUrl(user.Id, code);
             await _emailSender.SendEmailAsync(user.Email, "Confirm your account", GetMessageToSendConfirmLink(callbackUrl));
         }
 
-        private string GetBaseUrl()
-        {
-            return $"{_contextAccessor.HttpContext.Request.Scheme}://{_contextAccessor.HttpContext.Request.Host}";
-        }
+        private string GetCallBackConfirmUrl(string userId, string code) =>
+            $"{GetBaseUrl()}/api/Account/ConfirmRegistration?userId={userId}&code={System.Net.WebUtility.UrlEncode(code)}";
+
+        private string GetBaseUrl() =>
+            $"{_contextAccessor.HttpContext.Request.Scheme}://{_contextAccessor.HttpContext.Request.Host}";
 
         private async Task AddRole(ApplicationUser user, UserRole role)
         {
@@ -177,26 +174,5 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
 
         private static string GetMessageToSendConfirmLink(string url) =>
             $"Please confirm your account by clicking this link: <a href=\"{url}\">link</a>";
-
-        private async Task<bool> IsInRole(UserRole role)
-        {
-            var user = _contextAccessor.HttpContext.User.Identity;
-            if (!user.IsAuthenticated)
-            {
-                return false;
-            }
-            var applicationUser = await _userManager.FindByNameAsync(user.Name);
-            return await CheckRoleQueue(applicationUser, role);
-        }
-
-        private async Task<bool> CheckRoleQueue(ApplicationUser user, UserRole role)
-        {
-            var isInRole = false;
-            for (var i = role; i <= UserRole.Admin && !isInRole; i++)
-            {
-                isInRole = await _userManager.IsInRoleAsync(user, EnumConfiguration.RoleNames[i]);
-            }
-            return isInRole;
-        }
     }
 }
