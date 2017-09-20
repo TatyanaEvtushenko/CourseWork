@@ -1,4 +1,5 @@
-﻿using CourseWork.BusinessLogicLayer.ElasticSearch;
+﻿using System.Globalization;
+using CourseWork.BusinessLogicLayer.ElasticSearch;
 using CourseWork.BusinessLogicLayer.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +11,8 @@ using Microsoft.Extensions.Logging;
 using CourseWork.DataLayer.Data;
 using CourseWork.DataLayer.Models;
 using CourseWork.Extensions.StartupExtensions;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Options;
 using Nest;
 
 namespace CourseWork
@@ -40,6 +43,8 @@ namespace CourseWork
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
             //services.AddHangfire(x => x.UseSqlServerStorage(connectionString));
 
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
@@ -51,6 +56,17 @@ namespace CourseWork
                 Configuration.GetSection("CloudinaryOptions").Bind(options));
             services.Configure<ElasticSearchOptions>(options =>
                 Configuration.GetSection("ElasticSearchOptions").Bind(options));
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new[]
+                {
+                    new CultureInfo("ru"),
+                    new CultureInfo("en")
+                };
+                options.DefaultRequestCulture = new RequestCulture("en");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
             services.AddSingleton<SearchClient>();
 
             services.AddRepositories();
@@ -75,6 +91,9 @@ namespace CourseWork
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(locOptions.Value);
 
             app.UseStaticFiles();
             app.UseIdentity();

@@ -51,9 +51,9 @@ namespace CourseWork.Controllers
 
         [HttpGet]
         [Route("api/Admin/SortByField")]
-        public UserListItemViewModel[] SortByField(string fieldName, bool ascending)
+        public UserListItemViewModel[] SortByField([FromQuery] string fieldName, [FromQuery] bool ascending, [FromQuery] FilterRequestViewModel filters)
         {
-            return _adminManager.SortByField(fieldName, ascending);
+            return _adminManager.SortByField(fieldName, ascending, filters);
         }
 
         [HttpGet]

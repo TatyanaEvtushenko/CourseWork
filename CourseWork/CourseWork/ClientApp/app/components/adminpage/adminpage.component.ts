@@ -65,7 +65,7 @@ export class AdminPageComponent {
     }
 
     sortByField(fieldName: string) {
-        this.accountService.sortByField(fieldName, this.sortOrderAscending[fieldName]).subscribe(userInfos => {
+        this.accountService.sortByField(fieldName, this.sortOrderAscending[fieldName], this.filters).subscribe(userInfos => {
             this.userInfos = userInfos;
             this.sortOrderAscending[fieldName] = !this.sortOrderAscending[fieldName];
             this.isCheckedAtIndex = new Array<boolean>(this.userInfos.length);

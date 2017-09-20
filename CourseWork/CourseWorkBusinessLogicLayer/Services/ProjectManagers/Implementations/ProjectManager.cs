@@ -44,6 +44,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             IMapper<FinancialPurposeViewModel, FinancialPurpose> financialPurposeMapper,
             Repository<FinancialPurpose> financialPurposeRepository, IPhotoManager photoManager,
             IMapper<RatingViewModel, Rating> ratingMapper, IPaymentManager paymentManager,
+            ISearchManager searchManager, Repository<ProjectSubscriber> projectSubscribeRepository)
             Repository<Payment> paymentRepository, Repository<UserInfo> userInfoRepository,
             IMapper<PaymentFormViewModel, Payment> paymentMapper,
             ISearchManager searchManager)
