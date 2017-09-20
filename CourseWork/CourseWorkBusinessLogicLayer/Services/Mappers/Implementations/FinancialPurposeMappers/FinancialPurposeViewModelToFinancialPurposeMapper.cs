@@ -2,7 +2,7 @@
 using CourseWork.BusinessLogicLayer.ViewModels.FinancialPurposeViewModels;
 using CourseWork.DataLayer.Models;
 
-namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
+namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.FinancialPurposeMappers
 {
     public class FinancialPurposeViewModelToFinancialPurposeMapper : IMapper<FinancialPurposeViewModel, FinancialPurpose>
     {

@@ -27,10 +27,7 @@ namespace CourseWork.BusinessLogicLayer.Services.MessageSenders.Implementations
             emailMessage.From.Add(new MailboxAddress("Course work", _options.Email));
             emailMessage.To.Add(new MailboxAddress("", email));
             emailMessage.Subject = subject;
-            emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
-            {
-                Text = message
-            };
+            emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html) { Text = message };
             return emailMessage;
         }
 
@@ -38,12 +35,17 @@ namespace CourseWork.BusinessLogicLayer.Services.MessageSenders.Implementations
         {
             using (var client = new SmtpClient())
             {
-                client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-                client.Connect(_options.Server, _options.Port, SecureSocketOptions.SslOnConnect);
-                client.Authenticate(_options.Email, _options.Password);
-                client.Send(emailMessage);
-                client.Disconnect(true);
+                SendMessage(client, emailMessage);
             }
+        }
+
+        private void SendMessage(SmtpClient client, MimeMessage emailMessage)
+        {
+            client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+            client.Connect(_options.Server, _options.Port, SecureSocketOptions.SslOnConnect);
+            client.Authenticate(_options.Email, _options.Password);
+            client.Send(emailMessage);
+            client.Disconnect(true);
         }
     }
 }

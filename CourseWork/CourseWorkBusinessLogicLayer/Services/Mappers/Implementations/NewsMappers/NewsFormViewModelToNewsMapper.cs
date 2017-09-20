@@ -2,7 +2,7 @@
 using CourseWork.BusinessLogicLayer.ViewModels.NewsViewModels;
 using CourseWork.DataLayer.Models;
 
-namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
+namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.NewsMappers
 {
     public class NewsFormViewModelToNewsMapper : IMapper<NewsFormViewModel, News>
     {
@@ -13,7 +13,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
                 ProjectId = item.ProjectId,
                 Subject = item.Subject,
                 Text = item.Text,
-                Time = DateTime.Now,
+                Time = DateTime.UtcNow,
                 Id = Guid.NewGuid().ToString()
             };
         }

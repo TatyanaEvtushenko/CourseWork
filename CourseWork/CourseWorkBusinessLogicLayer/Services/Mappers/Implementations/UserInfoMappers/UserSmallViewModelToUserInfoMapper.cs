@@ -2,7 +2,7 @@
 using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
 using CourseWork.DataLayer.Models;
 
-namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
+namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.UserInfoMappers
 {
     public class UserSmallViewModelToUserInfoMapper : IMapper<UserSmallViewModel, UserInfo>
     {

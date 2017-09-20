@@ -2,7 +2,7 @@
 using CourseWork.BusinessLogicLayer.ViewModels.CommentViewModels;
 using CourseWork.DataLayer.Models;
 
-namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
+namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.CommentMappers
 {
     public class CommentViewModelToCommentMapper : IMapper<CommentViewModel, Comment>
     {

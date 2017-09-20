@@ -1,6 +1,13 @@
 ﻿using CourseWork.BusinessLogicLayer.ElasticSearch.Documents;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
-using CourseWork.BusinessLogicLayer.Services.Mappers.Implementations;
+using CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.CommentMappers;
+using CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.FinancialPurposeMappers;
+using CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.MessageMappers;
+using CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.NewsMappers;
+using CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.PaymentMappers;
+using CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.ProjectMappers;
+using CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.RatingMappers;
+using CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.UserInfoMappers;
 using CourseWork.BusinessLogicLayer.ViewModels.CommentViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.FinancialPurposeViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.NewsViewModels;

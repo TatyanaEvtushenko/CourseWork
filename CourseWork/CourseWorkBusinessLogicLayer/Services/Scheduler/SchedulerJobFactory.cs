@@ -2,7 +2,7 @@
 using FluentScheduler;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CourseWork.Extensions.Scheduler
+namespace CourseWork.BusinessLogicLayer.Services.Scheduler
 {
     public class SchedulerJobFactory : IJobFactory
     {

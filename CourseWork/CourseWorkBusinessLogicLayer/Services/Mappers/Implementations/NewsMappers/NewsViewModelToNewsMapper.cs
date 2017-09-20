@@ -2,7 +2,7 @@
 using CourseWork.BusinessLogicLayer.ViewModels.NewsViewModels;
 using CourseWork.DataLayer.Models;
 
-namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
+namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.NewsMappers
 {
     public class NewsViewModelToNewsMapper : IMapper<NewsViewModel, News>
     {

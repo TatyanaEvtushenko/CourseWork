@@ -1,12 +1,12 @@
 ﻿using FluentScheduler;
 
-namespace CourseWork.Extensions.Scheduler
+namespace CourseWork.BusinessLogicLayer.Services.Scheduler
 {
     public class SchedulerJobRegistry : Registry
     {
         public SchedulerJobRegistry()
         {
-            Schedule<SchedulerJob>().ToRunNow().AndEvery(30).Minutes();
+            Schedule<SchedulerJob>().ToRunNow().AndEvery(1).Days().At(0, 0);
         }
     }
 }

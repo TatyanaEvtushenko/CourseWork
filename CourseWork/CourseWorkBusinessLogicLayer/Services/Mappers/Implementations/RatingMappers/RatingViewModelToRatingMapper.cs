@@ -3,7 +3,7 @@ using CourseWork.BusinessLogicLayer.Services.UserManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using CourseWork.DataLayer.Models;
 
-namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
+namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.RatingMappers
 {
     public class RatingViewModelToRatingMapper : IMapper<RatingViewModel, Rating>
     {
@@ -20,7 +20,8 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
             {
                 ProjectId = item.ProjectId,
                 RatingResult = item.RatingValue,
-                UserName = _userManager.CurrentUserName
+                UserName = _userManager.CurrentUserName,
+                Id = Guid.NewGuid().ToString()
             };
         }
 

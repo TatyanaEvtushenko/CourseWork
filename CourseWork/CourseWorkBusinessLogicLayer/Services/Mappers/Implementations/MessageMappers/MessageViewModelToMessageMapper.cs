@@ -2,7 +2,7 @@
 using CourseWork.BusinessLogicLayer.ViewModels.MessageViewModels;
 using CourseWork.DataLayer.Models;
 
-namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
+namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.MessageMappers
 {
     public class MessageViewModelToMessageMapper : IMapper<MessageViewModel, Message>
     {

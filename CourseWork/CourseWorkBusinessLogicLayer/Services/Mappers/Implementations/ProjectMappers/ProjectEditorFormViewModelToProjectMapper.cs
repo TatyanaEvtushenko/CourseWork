@@ -4,7 +4,7 @@ using CourseWork.BusinessLogicLayer.Services.TagServices;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using CourseWork.DataLayer.Models;
 
-namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
+namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.ProjectMappers
 {
     public class ProjectEditorFormViewModelToProjectMapper : IMapper<ProjectEditorFormViewModel, Project>
     {

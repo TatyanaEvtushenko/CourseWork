@@ -3,7 +3,7 @@ using CourseWork.BusinessLogicLayer.ViewModels.PaymentViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
 using CourseWork.DataLayer.Models;
 
-namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
+namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.PaymentMappers
 {
     public class PaymentViewModelToPaymentMapper : IMapper<PaymentViewModel, Payment>
     {

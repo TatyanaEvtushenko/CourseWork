@@ -13,7 +13,7 @@ using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
 
-namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
+namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.ProjectMappers
 {
     public class ProjectViewModelToProjectMapper : IMapper<ProjectViewModel, Project>
     {
@@ -64,8 +64,8 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
         {
             var project = new ProjectViewModel();
             ConvertFromBaseInformation(project, item, _userManager.CurrentUserName);
+
             ConvertFromCurrentUser(project, item, _userManager.CurrentUserName);
-            ConvertFromPayment(project, item);
             ConvertFromCompleteObjects(project, item);
             return project;
         }
@@ -74,7 +74,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
         {
             viewModel.IsSubscriber = _projectSubscriberRepository.FirstOrDefault(
                     subscriber => subscriber.UserName.Equals(userName) && subscriber.ProjectId.Equals(model.Id)) != null;
-            ConvertFromRating(viewModel, model, userName);
+            viewModel.Rating = 0;
         }
 
         private void ConvertFromBaseInformation(ProjectViewModel viewModel, Project model, string userName)
@@ -83,31 +83,26 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations
             viewModel.Name = model.Name;
             viewModel.Description = model.Description;
             viewModel.ImageUrl = model.ImageUrl;
-            viewModel.Owner = new UserSmallViewModel { UserName = model.OwnerUserName};
             viewModel.Status = model.Status;
             viewModel.FundRaisingEnd = model.FundRaisingEnd;
         }
 
         private void ConvertFromPayment(ProjectViewModel viewModel, Project model)
         {
-            var projectPayments = _paymentRepository.GetWhere(payment => payment.ProjectId == model.Id);
-            viewModel.PaidAmount = _paymentManager.GetProjectPaidAmount(model.Id, projectPayments);
-            viewModel.CountOfPayments = projectPayments.Count;
+            viewModel.PaidAmount = _paymentManager.GetProjectPaidAmount(model);
+            viewModel.CountOfPayments = model.Payments.Count();
+
             viewModel.FinancialPurposes = _financialPurposeManager.GetProjectFinancialPurposeViewModels(model.Id, viewModel.PaidAmount);
         }
 
         private void ConvertFromCompleteObjects(ProjectViewModel viewModel, Project model)
         {
+            viewModel.Owner = _userInfoMapper.ConvertFrom(model.UserInfo);
+            ConvertFromPayment(viewModel, model);
+
             viewModel.Tags = _tagService.GetProjectTags(model.Id);
             ConvertFromNews(viewModel, model.Id);
             ConvertFromComments(viewModel, model.Id);
-        }
-
-        private void ConvertFromRating(ProjectViewModel viewModel, Project model, string userName)
-        {
-            viewModel.Rating = _raitingRepository.FirstOrDefault(
-                                    rating => rating.ProjectId == model.Id && rating.UserName == userName)
-                                   ?.RatingResult ?? model.Ratings.Average(rating => rating.RatingResult);
         }
 
         private void ConvertFromNews(ProjectViewModel viewModel, string projectId)

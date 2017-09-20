@@ -25,7 +25,11 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
         private readonly IAccountManager _accountManager;
         private readonly ISearchManager _searchManager;
 
-        public AdminManager(IMapper<UserListItemViewModel, UserInfo> mapperList, Repository<UserInfo> userInfoRepository, IMapper<UserConfirmationViewModel, UserInfo> mapperInfo, IAccountManager accountManager, Repository<ApplicationUser> applicationUserRepository, Repository<Project> projectRepository, Repository<Comment> commentRepository, Repository<Rating> raitingRepository, ISearchManager searchManager, Repository<Tag> tagRepository, Repository<FinancialPurpose> financialPurposeRepository, Repository<News> newsRepository)
+        public AdminManager(IMapper<UserListItemViewModel, UserInfo> mapperList,
+            Repository<UserInfo> userInfoRepository, IMapper<UserConfirmationViewModel, UserInfo> mapperInfo,
+            IAccountManager accountManager, Repository<ApplicationUser> applicationUserRepository,
+            Repository<Project> projectRepository, Repository<Comment> commentRepository,
+            Repository<Rating> raitingRepository, ISearchManager searchManager)
         {
             _mapperList = mapperList;
             _userInfoRepository = userInfoRepository;
@@ -33,14 +37,15 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
             _accountManager = accountManager;
             _applicationUserRepository = applicationUserRepository;
             _projectRepository = projectRepository;
-	        _commentRepository = commentRepository;
-	        _raitingRepository = raitingRepository;
+            _commentRepository = commentRepository;
+            _raitingRepository = raitingRepository;
             _searchManager = searchManager;
         }
 
         public UserListItemViewModel[] GetAllUsers()
         {
-            return ((UserInfoRepository)_userInfoRepository).GetUserListItemViewModels(item => true).Select(item => item.ConvertTo<UserListItemViewModel>()).ToArray();
+            return ((UserInfoRepository) _userInfoRepository).GetUserListItemViewModels(item => true)
+                .Select(item => item.ConvertTo<UserListItemViewModel>()).ToArray();
         }
 
         public UserListItemViewModel[] GetFilteredUsers(FilterRequestViewModel model)
@@ -61,18 +66,20 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
         {
             var user = _userInfoRepository.Get(userName);
             user.Status = accept ? UserStatus.Confirmed : UserStatus.WithoutConfirmation;
-            bool result = _userInfoRepository.UpdateRange(user);
-            if (result && accept)
+            var result = _userInfoRepository.UpdateRange(user);
+            if (!result || !accept)
             {
-                await _accountManager.RemoveRole(userName, UserRole.User);
-                await _accountManager.AddRole(userName, UserRole.ConfirmedUser);
+                return result;
             }
-            return result;
+            await _accountManager.RemoveRole(userName, UserRole.User);
+            await _accountManager.AddRole(userName, UserRole.ConfirmedUser);
+            return true;
         }
 
         public UserListItemViewModel[] SortByField(string fieldName, bool ascending)
         {
-            return ((UserInfoRepository)_userInfoRepository).SortByField(fieldName, ascending).Select(n => _mapperList.ConvertFrom(n)).ToArray();
+            return ((UserInfoRepository) _userInfoRepository).SortByField(fieldName, ascending)
+                .Select(n => _mapperList.ConvertFrom(n)).ToArray();
         }
 
         public bool BlockUnblock(string[] usersToBlock)
