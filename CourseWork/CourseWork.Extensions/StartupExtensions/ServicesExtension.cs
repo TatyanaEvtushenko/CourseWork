@@ -8,6 +8,8 @@ using CourseWork.BusinessLogicLayer.Services.CommentManagers;
 using CourseWork.BusinessLogicLayer.Services.CommentManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.FinancialPurposesManagers;
 using CourseWork.BusinessLogicLayer.Services.FinancialPurposesManagers.Implementations;
+using CourseWork.BusinessLogicLayer.Services.LocalizationManager;
+using CourseWork.BusinessLogicLayer.Services.LocalizationManager.Implementations;
 using CourseWork.BusinessLogicLayer.Services.MessageManagers;
 using CourseWork.BusinessLogicLayer.Services.MessageManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.MessageSenders;
@@ -53,6 +55,7 @@ namespace CourseWork.Extensions.StartupExtensions
             services.AddScoped<IFinancialPurposeManager, FinancialPurposeManager>();
 	        services.AddScoped<IMessageManager, MessageManager>();
             services.AddScoped<ISearchManager, SearchManager>();
+            services.AddScoped<ILocalizationManager, LocalizationManager>();
         }
     }
 }

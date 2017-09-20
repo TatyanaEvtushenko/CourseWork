@@ -1,27 +1,24 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+using CourseWork.BusinessLogicLayer.Services.LocalizationManager;
+using CourseWork.BusinessLogicLayer.ViewModels.LocalizationViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Options;
 
 namespace CourseWork.Controllers
 {
     [Produces("application/json")]
     public class LocalizationController : Controller
     {
-        private readonly RequestLocalizationOptions _options;
+        private readonly ILocalizationManager _localizationManager;
 
-        public LocalizationController(IOptions<RequestLocalizationOptions> options)
+        public LocalizationController(ILocalizationManager localizationManager)
         {
-            _options = options.Value;
+            _localizationManager = localizationManager;
         }
 
         [HttpPost]
+        [Route("api/Localization/SetLanguage")]
         public IActionResult SetLanguage(string culture, string returnUrl)
         {
             Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
@@ -31,12 +28,10 @@ namespace CourseWork.Controllers
         }
 
         [HttpGet]
-        public List<SelectListItem> GetSupportedCultures()
+        [Route("api/Localization/GetSupportedCultures")]
+        public SupportedAndCurrentLanguageViewModel GetSupportedCultures()
         {
-            var requestCulture = HttpContext.Features.Get<IRequestCultureFeature>();
-            var cultureItems = _options.SupportedUICultures.Select(c =>
-                new SelectListItem {Value = c.Name, Text = c.DisplayName}).ToList();
-            return cultureItems;
+            return _localizationManager.GetSuppotedCultures();
         }
     }
 }

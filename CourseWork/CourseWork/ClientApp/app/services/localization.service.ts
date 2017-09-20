@@ -4,6 +4,6 @@ import { BaseService } from './base.service';
 @Injectable()
 export class LocalizationService extends BaseService {
     getSupportedLanguages() {
-        return this.requestGet("api/Localization/GetSupportedLanguages");
+        return this.requestGet("api/Localization/GetSupportedCultures");
     }
 }
