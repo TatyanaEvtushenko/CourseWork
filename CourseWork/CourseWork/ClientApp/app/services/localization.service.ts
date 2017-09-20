@@ -10,4 +10,8 @@ export class LocalizationService extends BaseService {
     setLanguage(cultureName: string) {
         return this.requestPost("api/Localization/SetLanguage", cultureName);
     }
+
+    getTranslations(keys: string[]) {
+        return this.requestGetWithParams("api/Localization/GetTranslations", { keys: keys });
+    }
 }

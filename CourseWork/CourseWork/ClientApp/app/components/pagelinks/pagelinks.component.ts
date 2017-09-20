@@ -1,6 +1,7 @@
 ﻿import { Component } from '@angular/core';
 import { AccountService } from "../../services/account.service";
 import { StorageService } from '../../services/storage.service';
+import { LocalizationService } from "../../services/localization.service";
 
 @Component({
     selector: 'pagelinks',
@@ -8,12 +9,21 @@ import { StorageService } from '../../services/storage.service';
 })
 
 export class PageLinksComponent {
+    keys = ['Hello'];
+    translations = {};
 
-    constructor(public storage: StorageService, private accountService: AccountService) { }
+    constructor(public storage: StorageService, private accountService: AccountService, private localizationService: LocalizationService) { }
 
     logout() {   
         this.accountService.logout().subscribe(
             data  => this.accountService.changeAuthState(false)
         );
+    }
+
+    ngOnInit() {
+        this.localizationService.getTranslations(this.keys).subscribe((data) => {
+            this.translations = data;
+            console.log(this.translations['Hello']);
+        });
     }
 }

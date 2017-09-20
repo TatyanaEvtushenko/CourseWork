@@ -57,5 +57,13 @@
   <ItemGroup>
     <Folder Include="wwwroot\dist\" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Controllers.LocalizationController.en.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Controllers.LocalizationController.ru.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
 
 </Project>

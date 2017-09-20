@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using CourseWork.BusinessLogicLayer.Services.LocalizationManager;
 using CourseWork.BusinessLogicLayer.ViewModels.LocalizationViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 
 namespace CourseWork.Controllers
 {
@@ -11,10 +13,12 @@ namespace CourseWork.Controllers
     public class LocalizationController : Controller
     {
         private readonly ILocalizationManager _localizationManager;
+        private readonly IStringLocalizer<LocalizationController> _localizer;
 
-        public LocalizationController(ILocalizationManager localizationManager)
+        public LocalizationController(ILocalizationManager localizationManager, IStringLocalizer<LocalizationController> localizer)
         {
             _localizationManager = localizationManager;
+            _localizer = localizer;
         }
 
         [HttpPost]
@@ -31,6 +35,18 @@ namespace CourseWork.Controllers
         public SupportedAndCurrentLanguageViewModel GetSupportedCultures()
         {
             return _localizationManager.GetSuppotedCultures();
+        }
+
+        [HttpGet]
+        [Route("api/Localization/GetTranslations")]
+        public Dictionary<string, string> GetTranslations([FromQuery] string[] keys)
+        {
+            var result = new Dictionary<string, string>();
+            foreach (var key in keys)
+            {
+                result.Add(key, _localizer[key]);
+            }
+            return result;
         }
     }
 }

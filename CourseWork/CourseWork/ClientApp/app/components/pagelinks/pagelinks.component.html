@@ -2,7 +2,7 @@
 <li><a *ngIf="storage.isReadyCurrentUser && storage.isAdmin" href="/AdminPage">Admin page</a></li>
 
 <ng-container *ngIf="storage.isReadyCurrentUser && storage.isUser">
-    <li>Hello {{storage.currentUser.userName}}!</li>
+    <li>{{translations['Hello']}} {{storage.currentUser.userName}}!</li>
     <li *ngIf="storage.isJustUser"><a href="#confirmationModal" class="modal-trigger"> Confirm your account </a></li>
     <li><a (click)="logout()">Log out</a></li>
 </ng-container>

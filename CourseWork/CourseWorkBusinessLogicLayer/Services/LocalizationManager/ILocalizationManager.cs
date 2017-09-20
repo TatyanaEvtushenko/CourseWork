@@ -1,4 +1,5 @@
-﻿using CourseWork.BusinessLogicLayer.ViewModels.LocalizationViewModels;
+﻿using System.Collections.Generic;
+using CourseWork.BusinessLogicLayer.ViewModels.LocalizationViewModels;
 
 namespace CourseWork.BusinessLogicLayer.Services.LocalizationManager
 {
