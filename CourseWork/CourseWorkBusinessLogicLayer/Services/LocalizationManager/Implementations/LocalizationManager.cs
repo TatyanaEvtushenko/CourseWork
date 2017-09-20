@@ -3,9 +3,7 @@ using CourseWork.BusinessLogicLayer.ViewModels.LocalizationViewModels;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
-using Nest;
 
 namespace CourseWork.BusinessLogicLayer.Services.LocalizationManager.Implementations
 {

@@ -19,12 +19,11 @@ namespace CourseWork.Controllers
 
         [HttpPost]
         [Route("api/Localization/SetLanguage")]
-        public IActionResult SetLanguage(string culture, string returnUrl)
+        public void SetLanguage([FromBody] string cultureName)
         {
             Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
-                                    CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                                    CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(cultureName)),
                                     new CookieOptions { Expires = DateTimeOffset.Now.AddYears(1) });
-            return Redirect(returnUrl);
         }
 
         [HttpGet]
