@@ -9,5 +9,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManagers
         bool Unsubscribe(string projectId);
 
         bool IsSubscriber(Project project);
+
+        bool IsSubscriber(string projectId);
     }
 }

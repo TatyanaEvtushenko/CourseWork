@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CourseWork.BusinessLogicLayer.ViewModels.TagViewModels;
+using CourseWork.DataLayer.Models;
 
 namespace CourseWork.BusinessLogicLayer.Services.TagServices
 {
@@ -9,6 +10,8 @@ namespace CourseWork.BusinessLogicLayer.Services.TagServices
 
         IEnumerable<string> GetAllTagNames();
 
-        IEnumerable<string> GetProjectTags(string projectId);
+        IEnumerable<string> GetProjectTags(Project project);
+
+        IEnumerable<Tag> ConvertStringsToTags(IEnumerable<string> tags, string projectId);
     }
 }

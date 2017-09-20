@@ -33,5 +33,11 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManagers.Imple
         {
             return project.Subscribers?.FirstOrDefault(s => s.UserName == _userManager.CurrentUserName) != null;
         }
+
+        public bool IsSubscriber(string projectId)
+        {
+            return _projectSubscriberRepository.FirstOrDefault(
+                       s => s.UserName == _userManager.CurrentUserName && s.ProjectId == projectId) != null;
+        }
     }
 }

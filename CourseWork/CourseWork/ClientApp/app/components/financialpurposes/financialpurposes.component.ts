@@ -1,4 +1,4 @@
-﻿import { Component, Input, Output } from '@angular/core';
+﻿import { Component, Input, Output, AfterViewInit } from '@angular/core';
 import { SortingService } from '../../services/sorting.service';
 
 @Component({
@@ -6,13 +6,13 @@ import { SortingService } from '../../services/sorting.service';
     templateUrl: './financialpurposes.component.html',
 })
 
-export class FinancialPurposesComponent {
+export class FinancialPurposesComponent implements AfterViewInit {
     @Input() canChange = false;
     @Input() @Output() financialPurposes: any;
 
     constructor(private sortingService: SortingService) { }
 
-    ngOnInit() {
+    ngAfterViewInit(): void {
         this.financialPurposes.sort(this.sortingService.sortByBudget);
     }
 

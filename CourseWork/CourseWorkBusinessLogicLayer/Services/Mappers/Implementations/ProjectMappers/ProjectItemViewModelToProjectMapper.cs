@@ -1,7 +1,7 @@
 ﻿using System;
 using CourseWork.BusinessLogicLayer.Services.PaymentManagers;
-using CourseWork.BusinessLogicLayer.Services.ProjectManagers;
 using CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManagers;
+using CourseWork.BusinessLogicLayer.Services.RatingManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using CourseWork.DataLayer.Models;
 
@@ -11,14 +11,14 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.Project
     {
         private readonly IProjectSubscriberManager _projectSubscriberManager;
         private readonly IPaymentManager _paymentManager;
-        private readonly IProjectManager _projectManager;
+        private readonly IRatingManager _ratingManager;
 
         public ProjectItemViewModelToProjectMapper(IProjectSubscriberManager projectSubscriberManager,
-            IPaymentManager paymentManager, IProjectManager projectManager)
+            IPaymentManager paymentManager, IRatingManager ratingManager)
         {
             _projectSubscriberManager = projectSubscriberManager;
             _paymentManager = paymentManager;
-            _projectManager = projectManager;
+            _ratingManager = ratingManager;
         }
 
         public Project ConvertTo(ProjectItemViewModel item)
@@ -34,12 +34,12 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.Project
                 Name = item.Name,
                 ImageUrl = item.ImageUrl,
                 Status = item.Status,
-                Rating = _projectManager.GetProjectRating(item),
+                Rating = _ratingManager.GetProjectRatings(item),
                 Description = item.Description,
                 OwnerUserName = item.OwnerUserName,
                 ProjectEndTime = item.FundRaisingEnd,
                 IsSubscriber = _projectSubscriberManager.IsSubscriber(item),
-                PaidAmount = _paymentManager.GetProjectPaidAmount(item.Id, item.Payments)
+                PaidAmount = _paymentManager.GetProjectPaidAmount(item)
             };
         }
     }

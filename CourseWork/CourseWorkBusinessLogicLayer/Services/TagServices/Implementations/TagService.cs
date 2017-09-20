@@ -31,9 +31,19 @@ namespace CourseWork.BusinessLogicLayer.Services.TagServices.Implementations
             return _tagRepository.GetUnique(tag => tag.Name);
         }
 
-        public IEnumerable<string> GetProjectTags(string projectId)
+        public IEnumerable<string> GetProjectTags(Project project)
         {
-            return _tagRepository.GetWhere(tag => tag.ProjectId == projectId).Select(tag => tag.Name);
+            return project.Tags.Select(t => t.Name);
+        }
+
+        public IEnumerable<Tag> ConvertStringsToTags(IEnumerable<string> tags, string projectId)
+        {
+            return tags.Select(t => GetNewTag(t, projectId));
+        }
+
+        private Tag GetNewTag(string name, string projectId)
+        {
+            return new Tag { Name = name, ProjectId = projectId };
         }
     }
 }

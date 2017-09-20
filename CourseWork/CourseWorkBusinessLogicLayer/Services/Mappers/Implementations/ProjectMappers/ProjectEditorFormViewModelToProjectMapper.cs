@@ -27,7 +27,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.Project
             return new ProjectEditorFormViewModel
             {
                 Description = item.Description,
-                FinancialPurposes = _financialPurposeManager.GetProjectFinancialPurposeViewModels(item.Id),
+                FinancialPurposes = _financialPurposeManager.GetProjectFinancialPurposes(item),
                 FundRaisingEnd = item.FundRaisingEnd,
                 Id = item.Id,
                 ImageUrl = item.ImageUrl,
@@ -35,7 +35,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.Project
                 MinPaymentAmount = item.MinPayment,
                 Name = item.Name,
                 OwnerUserName = item.OwnerUserName,
-                Tags = _tagService.GetProjectTags(item.Id)
+                Tags = _tagService.GetProjectTags(item)
             };
         }
     }

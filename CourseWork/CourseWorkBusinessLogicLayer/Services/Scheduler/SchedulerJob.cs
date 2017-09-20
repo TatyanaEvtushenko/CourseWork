@@ -26,7 +26,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Scheduler
             var projects = _projectRepository.GetAll(project => project.Payments, project => project.FinancialPurposes);
             foreach (var project in projects)
             {
-                _projectManager.ChangeProjectStatus(project, project.Payments, project.FinancialPurposes);
+                _projectManager.ChangeProjectStatus(project);
             }
             _projectRepository.UpdateRange(projects.ToArray());
         }

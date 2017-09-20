@@ -38,7 +38,7 @@ namespace CourseWork.BusinessLogicLayer.Services.PaymentManagers.Implementations
 
         public PaymentForFormViewModel GetPaymentInfoForForm(string projectId)
         {
-            var project = _projectRepository.Get(projectId, p => p.UserInfo);
+            var project = _projectRepository.FirstOrDefault(p => p.Id == projectId, p => p.UserInfo);
             return _paymentForFormMapper.ConvertFrom(project);
         }
     }

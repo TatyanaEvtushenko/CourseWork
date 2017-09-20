@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Linq;
+using CourseWork.BusinessLogicLayer.Services.FinancialPurposesManagers;
 using CourseWork.BusinessLogicLayer.Services.PhotoManagers;
+using CourseWork.BusinessLogicLayer.Services.TagServices;
 using CourseWork.BusinessLogicLayer.Services.UserManagers;
-using CourseWork.BusinessLogicLayer.ViewModels.FinancialPurposeViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using CourseWork.DataLayer.Models;
 
@@ -12,14 +12,16 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.Project
     {
         private readonly IPhotoManager _photoManager;
         private readonly IUserManager _userManager;
-        private readonly IMapper<FinancialPurposeViewModel, FinancialPurpose> _financialPurposeMapper;
+        private readonly ITagService _tagService;
+        private readonly IFinancialPurposeManager _financialPurposeManager;
 
         public ProjectFormViewModelToProjectMapper(IPhotoManager photoManager, IUserManager userManager,
-            IMapper<FinancialPurposeViewModel, FinancialPurpose> financialPurposeMapper)
+            ITagService tagService, IFinancialPurposeManager financialPurposeManager)
         {
             _photoManager = photoManager;
             _userManager = userManager;
-            _financialPurposeMapper = financialPurposeMapper;
+            _tagService = tagService;
+            _financialPurposeManager = financialPurposeManager;
         }
 
         public Project ConvertTo(ProjectFormViewModel item)
@@ -56,20 +58,9 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.Project
         private void InitializeCompleteFields(Project model, ProjectFormViewModel viewModel)
         {
             var projectId = model.Id;
-            model.FinancialPurposes = viewModel.FinancialPurposes.Select(p => GetNewFinancialPurpose(p, projectId)); ;
-            model.Tags = viewModel.Tags.Select(t => GetNewTag(t, projectId));
-        }
-
-        private Tag GetNewTag(string name, string projectId)
-        {
-            return new Tag {Name = name, ProjectId = projectId};
-        }
-
-        private FinancialPurpose GetNewFinancialPurpose(FinancialPurposeViewModel purpose, string projectId)
-        {
-            var purposeToAdding = _financialPurposeMapper.ConvertTo(purpose);
-            purposeToAdding.ProjectId = projectId;
-            return purposeToAdding;
+            model.Tags = _tagService.ConvertStringsToTags(viewModel.Tags, projectId);
+            model.FinancialPurposes =
+                _financialPurposeManager.ConvertViewModelsToPurposes(viewModel.FinancialPurposes, projectId);
         }
     }
 }

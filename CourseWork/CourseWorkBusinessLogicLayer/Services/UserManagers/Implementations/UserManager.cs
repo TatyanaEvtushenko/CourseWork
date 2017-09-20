@@ -73,7 +73,7 @@ namespace CourseWork.BusinessLogicLayer.Services.UserManagers.Implementations
             {
                 UserName = CurrentUserName,
                 Role = (await _userManager.GetRolesAsync(user)).ElementAt(0),
-                IsBlocked = _userInfoRepository.Get(CurrentUserName).IsBlocked
+                IsBlocked = _userInfoRepository.FirstOrDefault(u => u.UserName == CurrentUserName).IsBlocked
             };
         }
     }

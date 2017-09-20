@@ -49,7 +49,7 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
 
         public async Task<bool> AddMailingToSubscribers(NewsFormViewModel newsForm)
         {
-            var project = _projectRepository.Get(newsForm.ProjectId, p => p.Subscribers);
+            var project = _projectRepository.FirstOrDefault(p => p.Id == newsForm.ProjectId, p => p.Subscribers);
             var recipientUserNames = project.Subscribers.Select(subscriber => subscriber.UserName);
             await SendMailing(newsForm, recipientUserNames, project.Name);
             return AddNewsToRepository(newsForm, NewsType.MailingToSubscribers);
@@ -57,7 +57,7 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
 
         public async Task<bool> AddMailingToPayers(NewsFormViewModel newsForm)
         {
-            var project = _projectRepository.Get(newsForm.ProjectId, p => p.Payments);
+            var project = _projectRepository.FirstOrDefault(p => p.Id == newsForm.ProjectId, p => p.Payments);
             var recipientUserNames = project.Payments.Select(payment => payment.UserName);
             await SendMailing(newsForm, recipientUserNames, project.Name);
             return AddNewsToRepository(newsForm, NewsType.MailingToPayers);
@@ -65,7 +65,7 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
 
         public bool RemoveNews(string newsId)
         {
-            var news = _newsRepository.Get(newsId);
+            var news = _newsRepository.FirstOrDefault(n => n.Id == newsId);
             return _newsRepository.RemoveRange(newsId) && _searchManager.RemoveNewsFromIndex(news);
         }
 

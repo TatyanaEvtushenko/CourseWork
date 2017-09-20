@@ -1,4 +1,4 @@
-﻿using System.Collections.Immutable;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CourseWork.BusinessLogicLayer.Services.AccountManagers;
@@ -58,21 +58,20 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
 
         public UserConfirmationViewModel GetPersonalInfo(string userName)
         {
-            var userInfo = _userInfoRepository.Get( userName);
+            var userInfo = _userInfoRepository.FirstOrDefault(x => x.UserName == userName);
             return _mapperInfo.ConvertFrom(userInfo);
         }
 
         public async Task<bool> RespondToConfirmation(string userName, bool accept)
         {
-            var user = _userInfoRepository.Get(userName);
+            var user = _userInfoRepository.FirstOrDefault(u => u.UserName == userName);
             user.Status = accept ? UserStatus.Confirmed : UserStatus.WithoutConfirmation;
             var result = _userInfoRepository.UpdateRange(user);
             if (!result || !accept)
             {
                 return result;
             }
-            await _accountManager.RemoveRole(userName, UserRole.User);
-            await _accountManager.AddRole(userName, UserRole.ConfirmedUser);
+            await UpdateRole(userName, UserRole.User, UserRole.ConfirmedUser);
             return true;
         }
 
@@ -82,7 +81,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
                 .Select(n => _mapperList.ConvertFrom(n)).ToArray();
         }
 
-        public bool BlockUnblock(string[] usersToBlock)
+        public bool BlockUnblock(IEnumerable<string> usersToBlock)
         {
             var users = _userInfoRepository.GetWhere(n => usersToBlock.Contains(n.UserName));
             foreach (var user in users)
@@ -92,20 +91,55 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
             return _userInfoRepository.UpdateRange(users.ToArray());
         }
 
-        public bool Delete(string[] usersToDelete, bool withCommentsAndRaitings)
+        public bool Delete(IEnumerable<string> usersToDelete, bool withCommentsAndRaitings)
         {
-	        var usersToDeleteSet = usersToDelete.ToImmutableHashSet();
-            var projectsToRemove = _projectRepository.GetWhere(n => usersToDeleteSet.Contains(n.OwnerUserName));
-            Comment[] commentsToRemove = null;
-            if (withCommentsAndRaitings)
-                commentsToRemove = _commentRepository.GetWhere(item => usersToDelete.Contains(item.UserName)).ToArray();
-            return (!withCommentsAndRaitings ||
-				(_raitingRepository.RemoveWhere(n => usersToDeleteSet.Contains(n.UserName)) &&
-				_commentRepository.RemoveWhere(n => usersToDeleteSet.Contains(n.UserName)) &&
-                _searchManager.RemoveCommentsFromIndex(commentsToRemove))) &&
-                 _searchManager.RemoveProjectsFromIndex(projectsToRemove.ToArray()) && 
-                _userInfoRepository.RemoveRange(usersToDelete) &&
-                _applicationUserRepository.RemoveWhere(n => usersToDeleteSet.Contains(n.UserName));
+            return withCommentsAndRaitings
+                ? DeleteUsersWithCommentsndRatings(usersToDelete)
+                : DeleteUsersWithoutCommentsndRatings(usersToDelete);
+        }
+
+        private async Task UpdateRole(string userName, UserRole oldRole, UserRole newRole)
+        {
+            await _accountManager.RemoveRole(userName, oldRole);
+            await _accountManager.AddRole(userName, newRole);
+        }
+
+        private bool DeleteUsersWithoutCommentsndRatings(IEnumerable<string> usersToDelete)
+        {
+            var projectsToRemove = _projectRepository.GetWhere(n => usersToDelete.Contains(n.OwnerUserName)).ToArray();
+            var result = _userInfoRepository.RemoveRange(usersToDelete);
+            if (result)
+            {
+                RemoveIndexes(projectsToRemove, null);
+            }
+            return result;
+        }
+
+        private bool DeleteUsersWithCommentsndRatings(IEnumerable<string> usersToDelete)
+        {
+            var projectsToRemove = _projectRepository.GetWhere(n => usersToDelete.Contains(n.OwnerUserName),
+                p => p.Comments, p => p.Ratings);
+            var commentsToRemove = projectsToRemove.SelectMany(p => p.Comments).ToArray();
+            var result = RemoveWithCommentsAndRatings(usersToDelete, commentsToRemove);
+            if (result)
+            {
+                RemoveIndexes(projectsToRemove.ToArray(), commentsToRemove);
+            }
+            return result;
+        }
+
+        private bool RemoveWithCommentsAndRatings(IEnumerable<string> usersToDelete,
+            IEnumerable<Comment> commentsToRemove)
+        {
+            return _userInfoRepository.RemoveRange(usersToDelete) &&
+                         _raitingRepository.RemoveWhere(n => usersToDelete.Contains(n.UserName)) &&
+                         _commentRepository.RemoveWhere(commentsToRemove.Contains);
+        }
+
+        private void RemoveIndexes(Project[] projectsToRemove, Comment[] commentsToRemove)
+        {
+            _searchManager.RemoveCommentsFromIndex(commentsToRemove);
+            _searchManager.RemoveProjectsFromIndex(projectsToRemove);
         }
     }
 }
