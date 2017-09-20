@@ -34,7 +34,7 @@ namespace CourseWork.DataLayer.Models
 
         public string LastAccountNumber { get; set; }
 
-      //  public ApplicationUser ApplicationUser { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
 
         public IEnumerable<Comment> Comments { get; set; }
 

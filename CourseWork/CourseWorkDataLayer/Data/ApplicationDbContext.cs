@@ -33,6 +33,7 @@ namespace CourseWork.DataLayer.Data
             SetRatingOptions(modelBuilder);
             SetTagOptions(modelBuilder);
             SetProjectOptions(modelBuilder);
+            SetUserInfoOptions(modelBuilder);
             base.OnModelCreating(modelBuilder);
         }
 
@@ -100,11 +101,11 @@ namespace CourseWork.DataLayer.Data
                 .HasForeignKey(project => project.OwnerUserName).OnDelete(DeleteBehavior.Restrict);
         }
 
-        //private void SetUserInfoOptions(ModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<UserInfo>().HasOne(info => info.ApplicationUser).WithOne(user => user.Info)
-        //        .HasForeignKey<UserInfo>(info => info.UserName).HasPrincipalKey<ApplicationUser>(user => user.UserName)
-        //        .OnDelete(DeleteBehavior.Cascade);
-        //}
+        private void SetUserInfoOptions(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ApplicationUser>().HasOne(user => user.Info).WithOne(info => info.ApplicationUser)
+                .HasForeignKey<UserInfo>(info => info.UserName).HasPrincipalKey<ApplicationUser>(user => user.UserName)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
     }
 }
