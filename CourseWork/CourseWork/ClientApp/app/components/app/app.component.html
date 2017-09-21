@@ -1,16 +1,65 @@
 ﻿<nav role="navigation">
     <div class="nav-wrapper container">
         <a data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-        <ul class="left hide-on-med-and-down">
-            <li><a id="logo-container" href="/" class="brand-logo">Logo</a></li>
+        <ul class="hide-on-med-and-down row">
+            <li class="col m4 left">
+                <a id="logo-container" href="/" class="brand-logo">Course work</a>
+            </li>
+            <li class="col m4 center-align">
+                <searcher></searcher>
+            </li>
+            <li class="col m4 right-align" *ngIf="storage.isReadyCurrentUser && storage.isUser">
+                <a id="dropdown-nav-button" materialize="dropdown" class='dropdown-button' href='#' data-activates='dropdown-nav'>
+                    Hello {{storage.currentUser.userName}}! <i class="material-icons right">arrow_drop_down</i> <!--<usermininfo [user]="storage.currentUser"></usermininfo>-->
+                </a>
+            </li>
+            <li class="right" *ngIf="storage.isReadyCurrentUser && !storage.isUser">
+                <a *ngIf="storage.isReadyCurrentUser && !storage.isUser" href="#registrationModal" class="modal-trigger">Register</a>
+            </li>
+            <li class="right" *ngIf="storage.isReadyCurrentUser && !storage.isUser">
+                <a href="#loginModal" class="modal-trigger">Log in</a>
+            </li>
         </ul>
-        <ul class="right hide-on-med-and-down">
-            <li><searcher></searcher></li>
-            <pagelinks></pagelinks>
+
+        <ul id='dropdown-nav' class='dropdown-content'>
+            <li *ngIf="storage.isReadyCurrentUser && storage.isAdmin">
+                <a href="/AdminPage"><i class="material-icons left">group</i> Admin page</a>
+            </li>
+            <li *ngIf="storage.isReadyCurrentUser && storage.isAdmin" class="divider"></li>
+            <li *ngIf="storage.isReadyCurrentUser && storage.isUser">
+                <a href="/UserPage"><i class="material-icons left">home</i> My page</a>
+            </li>
+            <li *ngIf="storage.isReadyCurrentUser && storage.isUser">
+                <a href="/UserPage"><i class="material-icons left">collections</i> My projects</a>
+            </li>
+            <li class="divider"></li>
+            <li *ngIf="storage.isReadyCurrentUser && storage.isUser">
+                <a (click)="logout()"><i class="material-icons left">directions_run</i> Log out</a>
+            </li>
         </ul>
+
         <ul class="side-nav" id="mobile-demo">
             <li><searcher></searcher></li>
-            <pagelinks></pagelinks>
+            <li *ngIf="storage.isReadyCurrentUser && !storage.isUser">
+                <a *ngIf="storage.isReadyCurrentUser && !storage.isUser" href="#registrationModal" class="modal-trigger">Register</a>
+            </li>
+            <li *ngIf="storage.isReadyCurrentUser && !storage.isUser">
+                <a href="#loginModal" class="modal-trigger">Log in</a>
+            </li>
+            <li *ngIf="storage.isReadyCurrentUser && storage.isAdmin">
+                <a href="/AdminPage"><i class="material-icons left">group</i> Admin page</a>
+            </li>
+            <li *ngIf="storage.isReadyCurrentUser && storage.isAdmin" class="divider"></li>
+            <li *ngIf="storage.isReadyCurrentUser && storage.isUser">
+                <a href="/UserPage"><i class="material-icons left">home</i> My page</a>
+            </li>
+            <li *ngIf="storage.isReadyCurrentUser && storage.isUser">
+                <a href="/UserPage"><i class="material-icons left">collections</i> My projects</a>
+            </li>
+            <li class="divider"></li>
+            <li *ngIf="storage.isReadyCurrentUser && storage.isUser">
+                <a (click)="logout()"><i class="material-icons left">directions_run</i> Log out</a>
+            </li>
         </ul>
     </div>
 </nav>
@@ -50,8 +99,4 @@
 <div *ngIf="storage.isReadyCurrentUser && !storage.isUser">
     <registermodal></registermodal>
     <loginmodal></loginmodal>
-</div>
-
-<div *ngIf="storage.isReadyCurrentUser && storage.isJustUser">
-    <confirmationmodal></confirmationmodal>
 </div>

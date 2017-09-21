@@ -1,4 +1,11 @@
-﻿.comments input {
+﻿#logo-container {
+    padding: 0 20px;
+}
+#dropdown-nav {
+    margin-top: 65px;
+ }
+
+.comments input {
     max-width: 50%;
 }
 .comments .text {
@@ -85,18 +92,21 @@
     font-size: inherit;
 }
 
-#search-form {
+.search form {
     height: 32px;
     margin-top: 16px;
-    opacity: 0.5;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
 }
 
 #search {
     border-radius: 10px;
+    opacity: 0.3;
 }
 
-.material-icons .search-icons .md-dark {
-    color: rgba(0, 0, 0, 0.54);
+.search label {
+    margin-top: -26px;
+    width: 100%;
 }
 
 .body-content {
@@ -135,7 +145,6 @@ select {
     }
 }
 
-
 .preloader {
     height: 100%;
     position: fixed;
@@ -144,7 +153,7 @@ select {
 
 .preloader .valign-wrapper {
     position: relative;
-    top: 45%;
-    left: 45%;
+    top: 47%;
+    left: 47%;
     width: 100%;
 }

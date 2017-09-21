@@ -14,7 +14,6 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { AppComponent } from './components/app/app.component';
 import { HomePageComponent } from './components/homepage/homepage.component';
 import { ErrorPageComponent } from './components/errorpage/errorpage.component';
-import { PageLinksComponent } from "./components/pagelinks/pagelinks.component";
 import { UserProjectsPageComponent } from './components/userprojectspage/userprojectspage.component';
 import { AdminPageComponent } from './components/adminpage/adminpage.component';
 import { RegisterModalComponent } from './components/registermodal/registermodal.component';
@@ -91,7 +90,6 @@ const appRoutes: Routes = [
     declarations: [
         AppComponent,
         HomePageComponent,
-        PageLinksComponent,
         UserProjectsPageComponent,
         AdminPageComponent,
         RegisterModalComponent,

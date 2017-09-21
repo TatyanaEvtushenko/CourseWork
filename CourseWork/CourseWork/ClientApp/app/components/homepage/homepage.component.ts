@@ -3,6 +3,7 @@ import {Title} from '@angular/platform-browser';
 import { MessageSenderService } from "../../services/messagesender.service";
 import { MessageSubscriberService } from '../../services/messagesubscriber.service';
 import { ProjectService } from '../../services/project.service';
+declare var $: any;
 
 import { MaterializeAction } from "angular2-materialize"
 
@@ -11,22 +12,35 @@ import { MaterializeAction } from "angular2-materialize"
     templateUrl: './homepage.component.html'
 })
 export class HomePageComponent {
-    lastNews: any;
-    bigPayments: any;
-    financedProjects: any;
-    lastCreatedProjects: any;
-    selectedProjectId: any;
-    @ViewChild('carousel') carouselElement: any;
-    actions = new EventEmitter<string>();
+    lastNews: any = null;
+    bigPayments: any = null;
+    financedProjects: any = null;
+    lastCreatedProjects: any = null;
+    selectedProjectId: any = null;
 
     constructor(private title: Title, protected messageSenderService: MessageSenderService,
         private messageSubscriberService: MessageSubscriberService, private projectService: ProjectService) {
         title.setTitle("Home page");
+        // example of a hacky way to add an image to the carousel dynamically
         window.setTimeout(() => {
-            this.carouselElement.nativeElement.classList.toggle("initialized")
+           // this.imageURLs = [this.imageURLs[0], ...this.imageURLs]; // duplicate the first iamge
+            this.carouselElement.nativeElement.classList.toggle("initialized");
             this.actions.emit("carousel");
         }, 1000);
     }
+
+    @ViewChild('carousel') carouselElement;
+    actions = new EventEmitter<string>();
+
+    imageURLs = [
+        "https://image.shutterstock.com/display_pic_with_logo/1264645/364153082/stock-photo-asian-girl-in-sunflower-field-364153082.jpg",
+        "https://image.shutterstock.com/display_pic_with_logo/1264645/298927574/stock-photo-a-young-traveler-girl-sit-on-the-wooden-bridge-in-halong-bay-and-enjoy-the-beauty-of-seascape-298927574.jpg",
+        "https://image.shutterstock.com/display_pic_with_logo/1264645/298757792/stock-photo-a-young-traveler-girl-sit-on-the-top-of-mountain-in-halong-bay-and-enjoy-the-beauty-of-seascape-298757792.jpg",
+        "https://image.shutterstock.com/display_pic_with_logo/2565601/411902890/stock-photo-ha-long-bay-scenic-view-hanoi-vietnam-411902890.jpg",
+        "https://image.shutterstock.com/display_pic_with_logo/2565601/413207668/stock-photo-the-temple-of-literature-in-hanoi-vietnam-the-chinese-words-is-poem-of-thie-temple-and-templs-s-413207668.jpg"
+    ];
+
+    showInitialized = false;
 
     ngOnInit() {
         this.getLastNews();
