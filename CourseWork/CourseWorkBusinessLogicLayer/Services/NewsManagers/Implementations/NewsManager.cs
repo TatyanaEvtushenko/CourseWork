@@ -10,6 +10,7 @@ using CourseWork.BusinessLogicLayer.ViewModels.NewsViewModels;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
+using CourseWork.DataLayer.Repositories.Implementations;
 
 namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
 {

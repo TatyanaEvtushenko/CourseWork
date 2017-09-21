@@ -12,6 +12,7 @@ using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
+using CourseWork.DataLayer.Repositories.Implementations;
 
 namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
 {

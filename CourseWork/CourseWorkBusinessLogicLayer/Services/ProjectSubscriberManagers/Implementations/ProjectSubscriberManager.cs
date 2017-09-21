@@ -2,6 +2,7 @@
 using CourseWork.BusinessLogicLayer.Services.UserManagers;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
+using CourseWork.DataLayer.Repositories.Implementations;
 
 namespace CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManagers.Implementations
 {

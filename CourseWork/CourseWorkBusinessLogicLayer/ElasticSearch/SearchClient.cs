@@ -6,6 +6,7 @@ using CourseWork.BusinessLogicLayer.Options;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
+using CourseWork.DataLayer.Repositories.Implementations;
 using Elasticsearch.Net;
 
 namespace CourseWork.BusinessLogicLayer.ElasticSearch

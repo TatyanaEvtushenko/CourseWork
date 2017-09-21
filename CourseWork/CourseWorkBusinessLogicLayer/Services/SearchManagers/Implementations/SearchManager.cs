@@ -7,7 +7,7 @@ using CourseWork.BusinessLogicLayer.ElasticSearch.Documents;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using CourseWork.DataLayer.Models;
-using CourseWork.DataLayer.Repositories;
+using CourseWork.DataLayer.Repositories.Implementations;
 using Elasticsearch.Net;
 using Nest;
 
@@ -22,6 +22,7 @@ namespace CourseWork.BusinessLogicLayer.Services.SearchManagers.Implementations
 
         private delegate void UpdateNewsDelegate(News news, List<string> updatedNewsSubjects,
             List<string> updatedNewsTexts);
+
         private delegate void UpdateCommentDelegate(Comment comment, List<string> updatedCommentTexts);
 
         public SearchManager(SearchClient searchClient, IMapper<ProjectItemViewModel, Project> mapper,
@@ -104,7 +105,7 @@ namespace CourseWork.BusinessLogicLayer.Services.SearchManagers.Implementations
         {
             var projectIds = response.Hits.Select(n => n.Source.Id).ToImmutableHashSet();
             return _projectRepository.GetWhere(project => projectIds.Contains(project.Id),
-                    project => project.Subscribers, project => project.Payments, project=> project.Ratings)
+                    project => project.Subscribers, project => project.Payments, project => project.Ratings)
                 .Select(project => _mapper.ConvertFrom(project));
         }
 
@@ -113,12 +114,12 @@ namespace CourseWork.BusinessLogicLayer.Services.SearchManagers.Implementations
             return _client.Update<ProjectSearchNote, Object>(projectId, d => d.Type("projectSearchNote")
                 .Doc(updateObject).Refresh(Refresh.True));
         }
-        
+
         private bool UpdateComment(Comment comment, UpdateCommentDelegate updateCommentAction)
         {
             var updatedCommentTexts = GetSearchDoc(comment.ProjectId).Comment;
             updateCommentAction(comment, updatedCommentTexts);
-            var updateResponse = RefreshUpdateResponse(comment.ProjectId, new { Comment = updatedCommentTexts });
+            var updateResponse = RefreshUpdateResponse(comment.ProjectId, new {Comment = updatedCommentTexts});
             return updateResponse.Result == Result.Updated;
         }
 
@@ -127,7 +128,8 @@ namespace CourseWork.BusinessLogicLayer.Services.SearchManagers.Implementations
             List<string> updatedNewsSubjects, updatedNewsTexts;
             GetNewsOptions(news.ProjectId, out updatedNewsSubjects, out updatedNewsTexts);
             updateNewsAction(news, updatedNewsSubjects, updatedNewsTexts);
-            var updateResponse = RefreshUpdateResponse(news.ProjectId, new { NewsSubject = updatedNewsSubjects, NewsText = updatedNewsTexts});
+            var updateResponse = RefreshUpdateResponse(news.ProjectId,
+                new {NewsSubject = updatedNewsSubjects, NewsText = updatedNewsTexts});
             return updateResponse.Result == Result.Updated;
         }
 
@@ -153,7 +155,8 @@ namespace CourseWork.BusinessLogicLayer.Services.SearchManagers.Implementations
             updatedNewsTexts.RemoveAt(updatedNewsTexts.IndexOf(news.Text));
         }
 
-        private void GetNewsOptions(object projectId, out List<string> updatedNewsSubjects, out List<string> updatedNewsTexts)
+        private void GetNewsOptions(object projectId, out List<string> updatedNewsSubjects,
+            out List<string> updatedNewsTexts)
         {
             var doc = GetSearchDoc(projectId);
             updatedNewsSubjects = doc.NewsSubject;

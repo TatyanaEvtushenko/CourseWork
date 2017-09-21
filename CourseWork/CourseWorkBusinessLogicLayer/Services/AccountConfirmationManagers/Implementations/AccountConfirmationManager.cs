@@ -3,6 +3,7 @@ using CourseWork.BusinessLogicLayer.Services.PhotoManagers;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
+using CourseWork.DataLayer.Repositories.Implementations;
 
 namespace CourseWork.BusinessLogicLayer.Services.AccountConfirmationManagers.Implementations
 {

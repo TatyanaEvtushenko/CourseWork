@@ -3,6 +3,7 @@ using System.Linq;
 using CourseWork.BusinessLogicLayer.ViewModels.TagViewModels;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
+using CourseWork.DataLayer.Repositories.Implementations;
 
 namespace CourseWork.BusinessLogicLayer.Services.TagServices.Implementations
 {

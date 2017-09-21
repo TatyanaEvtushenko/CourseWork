@@ -50,5 +50,7 @@ namespace CourseWork.DataLayer.Models
         public IEnumerable<Project> Projects { get; set; }
 
         public IEnumerable<Rating> Ratings { get; set; }
+
+        public IEnumerable<Award> Awards { get; set; }
     }
 }

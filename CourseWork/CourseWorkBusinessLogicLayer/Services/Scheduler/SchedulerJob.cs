@@ -1,6 +1,7 @@
 ﻿using CourseWork.BusinessLogicLayer.Services.ProjectManagers;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
+using CourseWork.DataLayer.Repositories.Implementations;
 using FluentScheduler;
 
 namespace CourseWork.BusinessLogicLayer.Services.Scheduler
