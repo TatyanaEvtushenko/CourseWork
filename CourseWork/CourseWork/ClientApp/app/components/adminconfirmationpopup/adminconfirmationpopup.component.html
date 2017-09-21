@@ -2,17 +2,17 @@
     <div class="modal-content center">
         <h4>Confirm your account</h4>
 
-        <a href="{{userData.passportScan}}" target="_blank">Passport scan</a> <br/>
+        <a href="{{userData.passportScan}}" target="_blank">{{translations['PASSPORTSCAN']}}</a> <br/>
         <div class="input-field">
-            <label class="active">Name</label>
+            <label class="active">{{translations['NAME']}}</label>
             <input type="text" value="{{userData.name}}" readonly="readonly" />
         </div>
         <div class="input-field">
-            <label class="active">Surname</label>
+            <label class="active">{{translations['SURNAME']}}</label>
             <input type="text" value="{{userData.surname}}" readonly="readonly" />
         </div>
         <div class="input-field">
-            <label class="active">Description</label>
+            <label class="active">{{translations['DESCRIPTION']}}</label>
             <input type="text" value="{{userData.description}}" readonly="readonly" />
         </div>
         <div class="input-field">

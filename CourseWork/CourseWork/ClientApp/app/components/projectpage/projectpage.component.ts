@@ -4,6 +4,7 @@ import { ProjectService } from '../../services/project.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { MessageSubscriberService } from '../../services/messagesubscriber.service';
 import { TimeService } from '../../services/time.service';
+import { LocalizationService } from "../../services/localization.service";
 
 @Component({
     selector: 'projectpage',
@@ -11,12 +12,19 @@ import { TimeService } from '../../services/time.service';
 })
 export class ProjectPageComponent {
     project: any = null;
+    keys = ["ONE", "TWO", "THREE", "FOUR", "FIVE", "DESCR", "FINANCIALPURPOSES", "COMMENTS", "NEWS",
+        "EDITPROJECT", "EDIT", "TOPROJECTPAGE", "SUBSCRIBE", "UNSUBSCRIBE"];
+    translations = {}
 
     constructor(public storage: MessageSubscriberService,
         public timeService: TimeService,
         private route: ActivatedRoute,
         private title: Title,
-        private projectService: ProjectService) {
+        private projectService: ProjectService,
+        private localizationService: LocalizationService) {
+        this.localizationService.getTranslations(this.keys).subscribe((data) => {
+            this.translations = data;
+        });
     }
 
     ngOnInit() {

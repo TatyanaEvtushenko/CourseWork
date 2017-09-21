@@ -1,4 +1,5 @@
 ﻿import { Component, EventEmitter, Output, Input } from '@angular/core';
+import { LocalizationService } from "../../services/localization.service";
 declare var $: any;
 
 @Component({
@@ -9,6 +10,14 @@ export class ImageLoaderComponent {
     @Input() fieldName: string;
     @Output() emitter = new EventEmitter<string>(); 
     imageString = "";
+    keys = ["BROWSE"];
+    translations = {}
+
+    constructor(private localizationService: LocalizationService) {
+        this.localizationService.getTranslations(this.keys).subscribe((data) => {
+            this.translations = data;
+        });
+    }
 
     toBase64(file: any) {
         var reader = new FileReader();

@@ -6,5 +6,6 @@ import { StorageService } from '../../services/storage.service';
     templateUrl: './app.component.html',
 })
 export class AppComponent {
-    constructor(public storage: StorageService){ }
+    param = { value: 'world' };
+    constructor(public storage: StorageService) {}
  }

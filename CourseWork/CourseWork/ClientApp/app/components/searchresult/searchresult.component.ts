@@ -6,6 +6,7 @@ import { MessageSenderService } from "../../services/messagesender.service";
 import { ProjectService } from '../../services/project.service';
 import { ActivatedRoute, Router } from "@angular/router";
 import { MessageSubscriberService } from '../../services/messagesubscriber.service';
+import { LocalizationService } from "../../services/localization.service";
 
 @Component({
     selector: 'searchresult',
@@ -14,10 +15,16 @@ import { MessageSubscriberService } from '../../services/messagesubscriber.servi
 export class SearchResultComponent {
     projects: any[] = [];
     selectedProjectId: string = null;
+    keys = ["SEARCHRESULTS"];
+    translations = {}
 
     constructor(private title: Title, private route: ActivatedRoute, private router: Router,
-      protected accountService: AccountService, protected messageSenderService: MessageSenderService, private projectService: ProjectService, private storage: MessageSubscriberService) {
+        protected accountService: AccountService, protected messageSenderService: MessageSenderService, private projectService: ProjectService,
+        private storage: MessageSubscriberService, private localizationService: LocalizationService) {
         title.setTitle("Search results");
+        this.localizationService.getTranslations(this.keys).subscribe((data) => {
+            this.translations = data;
+        });
     }
 
     ngOnInit() {

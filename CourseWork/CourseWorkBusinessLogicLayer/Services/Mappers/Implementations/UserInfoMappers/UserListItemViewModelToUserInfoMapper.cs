@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
+using CourseWork.DataLayer.Enums.Configurations;
 using CourseWork.DataLayer.Models;
 
 namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.UserInfoMappers
@@ -19,7 +20,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.UserInf
                 LastLoginTime = item.LastLoginTime.ToString(),
                 RegistrationTime = item.RegistrationTime.ToString(),
                 ProjectNumber = item.Projects.Count().ToString(),
-                Raiting = item.Rating.ToString(),
+                Raiting = "0",//item.Rating.ToString(),
                 Status = EnumConfiguration.StatusDisplayNames[item.Status],
                 StatusCode = (int)item.Status,
                 IsBlocked = item.IsBlocked

@@ -5,7 +5,7 @@
             <div class="card-title left-align">
                 <h1>{{project.name}}</h1>
                 <h6><rating [(ngModel)]="project.rating" (ngModelChange)="updateRating()"
-                            [titles]="['one', 'two', 'three', 'four', 'five']"></rating></h6>
+                            [titles]="[translations['ONE'], translations['TWO'], translations['THREE'], translations['FOUR'], translations['FIVE']]"></rating></h6>
             </div>
         </div>
     </div>
@@ -35,18 +35,18 @@
     <div class="row">
         <div class="col s12">
             <ul class="tabs tabs-fixed-width col s8" materialize="tabs">
-                <li class="tab col s3"><a class="active" href="#tab-description">Description</a></li>
-                <li class="tab col s3"><a href="#tab-financialPurposes">Financial purposes</a></li>
-                <li class="tab col s3"><a href="#tab-news">News</a></li>
-                <li class="tab col s2"><a href="#tab-comments">Comments</a></li>
+                <li class="tab col s3"><a class="active" href="#tab-description">{{translations['DESCR']}}</a></li>
+                <li class="tab col s3"><a href="#tab-financialPurposes">{{translations['FINANCIALPURPOSES']}}</a></li>
+                <li class="tab col s3"><a href="#tab-news">{{translations['NEWS']}}</a></li>
+                <li class="tab col s2"><a href="#tab-comments">{{translations['COMMENTS']}}</a></li>
             </ul>
             <div class="col s4 right-align" *ngIf="storage.isReadyCurrentUser && project != null && storage.isUser">
                 <ng-container *ngIf="project.owner.userName != storage.currentUser.userName">
-                    <button *ngIf="!project.isSubscriber" class="btn" (click)="subscribe()">Subscribe</button>
-                    <button *ngIf="project.isSubscriber" class="btn" (click)="unsubscribe()">Unsubscribe</button>
+                    <button *ngIf="!project.isSubscriber" class="btn" (click)="subscribe()">{{translations['SUBSCRIBE']}}</button>
+                    <button *ngIf="project.isSubscriber" class="btn" (click)="unsubscribe()">{{translations['UNSUBSCRIBE']}}</button>
                 </ng-container>
                 <ng-container *ngIf="timeService.isNotPast(project.fundRaisingEnd)">
-                    <button class="btn modal-trigger" href="#paymentModal">Pay</button>
+                    <button class="btn modal-trigger" href="#paymentModal">{{translations['PAY']}}</button>
                     <paymentmodal [projectId]="project.id"></paymentmodal>
                 </ng-container>
                 <ng-container *ngIf="storage.isAdmin || project.owner.userName == storage.currentUser.userName">

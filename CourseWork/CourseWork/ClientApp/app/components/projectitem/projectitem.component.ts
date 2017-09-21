@@ -1,6 +1,7 @@
 ﻿import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { StorageService } from '../../services/storage.service';
 import { TimeService } from '../../services/time.service';
+import { LocalizationService } from "../../services/localization.service";
 
 @Component({
     selector: 'projectitem',
@@ -13,8 +14,16 @@ export class ProjectItemComponent {
     @Output() onClickSubscribe = new EventEmitter<string>();
     @Output() onClickUnsubscribe = new EventEmitter<string>();
     @Output() onClickPay = new EventEmitter<string>();
+    keys = ["ABOUT", "ONE", "TWO", "THREE", "FOUR", "FIVE", "SUBSCRIBE", "UNSUBSCRIBE"];
+    translations = {}
 
-    constructor(public storage: StorageService, public timeService: TimeService) { }
+    constructor(public storage: StorageService,
+        public timeService: TimeService,
+        public localizationService: LocalizationService) {
+            this.localizationService.getTranslations(this.keys).subscribe((data) => {
+                this.translations = data;
+            });
+    }
 
     openNews() {
         this.onClickNews.emit(this.project.id);

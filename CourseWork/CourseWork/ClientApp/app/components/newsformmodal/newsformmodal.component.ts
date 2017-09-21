@@ -1,6 +1,7 @@
 ﻿import { Component, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
 import { NewsForm } from '../../viewmodels/newsform';
 import { ProjectService } from "../../services/project.service";
+import { LocalizationService } from "../../services/localization.service";
 declare var $: any;
 declare var Materialize: any;
 
@@ -17,8 +18,14 @@ export class NewsFormModalComponent implements AfterViewInit {
     isMailingToPayers = false;
     isSent = false;
     @Output() onAdded = new EventEmitter<any>();
+    keys = ["CREATENEWS", "SUBJECT", "CREATE", "JUSTNEWS", "INVALIDDATA", "MAILINGSUBSCRIBERS", "MAILINGPAYERS", "NEWSTEXT"];
+    translations = {}
 
-    constructor(private projectService: ProjectService) { }
+    constructor(private projectService: ProjectService, private localizationService: LocalizationService) {
+        this.localizationService.getTranslations(this.keys).subscribe((data) => {
+            this.translations = data;
+        });
+    }
 
     ngAfterViewInit() {
         $('#newsModal').modal();

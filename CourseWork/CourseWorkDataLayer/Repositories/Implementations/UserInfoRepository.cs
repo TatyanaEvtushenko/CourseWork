@@ -28,14 +28,14 @@ namespace CourseWork.DataLayer.Repositories.Implementations
         private UserInfo[] SortByFieldAscending(string fieldName, Func<UserInfo, bool> filterRequest)
         {
             return UserInfoFieldNamesDictionary.UserInfoFieldNames.ContainsKey(fieldName)
-                ? GetWhereEager(filterRequest, item => item.Projects).OrderBy(UserInfoFieldNamesDictionary.UserInfoFieldNames[fieldName]).ToArray()
+                ? GetWhere(filterRequest, item => item.Projects).OrderBy(UserInfoFieldNamesDictionary.UserInfoFieldNames[fieldName]).ToArray()
                 : null;
         }
 
         private UserInfo[] SortByFieldDescending(string fieldName, Func<UserInfo, bool> filterRequest)
         {
             return UserInfoFieldNamesDictionary.UserInfoFieldNames.ContainsKey(fieldName)
-                ? GetWhereEager(filterRequest, item => item.Projects).OrderByDescending(UserInfoFieldNamesDictionary.UserInfoFieldNames[fieldName]).ToArray()
+                ? GetWhere(filterRequest, item => item.Projects).OrderByDescending(UserInfoFieldNamesDictionary.UserInfoFieldNames[fieldName]).ToArray()
                 : null;
         }
     }

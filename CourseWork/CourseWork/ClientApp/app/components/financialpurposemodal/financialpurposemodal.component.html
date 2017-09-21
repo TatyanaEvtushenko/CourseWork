@@ -5,19 +5,19 @@
         <div class="input-field">
             <input id="financialPurpose-name" #name="ngModel" class="validate" required 
                    [(ngModel)]="financialPurpose.name" type="text" (keyup.enter)="onSubmit()"/>
-            <label for="financialPurpose-name">Name</label>
+            <label for="financialPurpose-name">{{translations['NAME']}}</label>
         </div>
 
         <div class="input-field">
             <input id="financialPurpose-budget" #budget="ngModel" class="validate" required 
                    [(ngModel)]="financialPurpose.budget" type="number" data-length="12" (keyup.enter)="onSubmit()"/>
-            <label for="financialPurpose-budget">Budget $</label>
+            <label for="financialPurpose-budget">{{translations['BUDGET']}} $</label>
         </div>
 
         <div class="input-field">
             <textarea id="financialPurpose-description" class="materialize-textarea" 
                       [(ngModel)]="financialPurpose.description"></textarea>
-            <label for="financialPurpose-description">Description</label>
+            <label for="financialPurpose-description">{{translations['DESCR']}}</label>
         </div>
         
         <div class="input-field">

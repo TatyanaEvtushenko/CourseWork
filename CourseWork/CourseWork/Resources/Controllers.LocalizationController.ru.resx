@@ -117,7 +117,283 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ABOUT" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="ACCOUNTNUMBER" xml:space="preserve">
+    <value>Номер счёта</value>
+  </data>
+  <data name="ADDPAYMENT" xml:space="preserve">
+    <value>Внести платёж для проекта</value>
+  </data>
+  <data name="AdminPage" xml:space="preserve">
+    <value>Админка</value>
+  </data>
+  <data name="APPLY" xml:space="preserve">
+    <value>Подтвердить</value>
+  </data>
+  <data name="AWAITING" xml:space="preserve">
+    <value>Запросил подтверждение</value>
+  </data>
+  <data name="BLOCKSELECTED" xml:space="preserve">
+    <value>Заблокировать/Разблокировать выбранных</value>
+  </data>
+  <data name="BROWSE" xml:space="preserve">
+    <value>Обзор</value>
+  </data>
+  <data name="BUDGET" xml:space="preserve">
+    <value>Бюджет</value>
+  </data>
+  <data name="CHANGEAVATAR" xml:space="preserve">
+    <value>Изменение аватара</value>
+  </data>
+  <data name="CONFIRMED" xml:space="preserve">
+    <value>Подтверждён</value>
+  </data>
+  <data name="ConfirmYourAccount" xml:space="preserve">
+    <value>Подтвердите свой аккаунт</value>
+  </data>
+  <data name="CONTACTS" xml:space="preserve">
+    <value>Контакты</value>
+  </data>
+  <data name="CREATE" xml:space="preserve">
+    <value>Создать</value>
+  </data>
+  <data name="CREATENEWPROJECT" xml:space="preserve">
+    <value>Создать новый проект</value>
+  </data>
+  <data name="CREATENEWS" xml:space="preserve">
+    <value>Создать новость</value>
+  </data>
+  <data name="DELCOMMENTSRATINGS" xml:space="preserve">
+    <value>Удалить с комментариями и рейтингами</value>
+  </data>
+  <data name="DELETESELECTED" xml:space="preserve">
+    <value>Удалить выбранных</value>
+  </data>
+  <data name="DESCR" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="DESCRIPTION" xml:space="preserve">
+    <value>Дополнительный комментарий</value>
+  </data>
+  <data name="EDIT" xml:space="preserve">
+    <value>Редактировать</value>
+  </data>
+  <data name="EDITACCOUNT" xml:space="preserve">
+    <value>Изменить информацию пользователя</value>
+  </data>
+  <data name="EDITPROJECT" xml:space="preserve">
+    <value>Редактирование проекта</value>
+  </data>
+  <data name="EMAIL" xml:space="preserve">
+    <value>Эл. почта</value>
+  </data>
+  <data name="FILTER" xml:space="preserve">
+    <value>Отфильтровать</value>
+  </data>
+  <data name="FINANCIALPURPOSES" xml:space="preserve">
+    <value>Финансовые цели</value>
+  </data>
+  <data name="FIVE" xml:space="preserve">
+    <value>Пять</value>
+  </data>
+  <data name="FOUR" xml:space="preserve">
+    <value>Четыре</value>
+  </data>
+  <data name="FUNDRAISINGEND" xml:space="preserve">
+    <value>Окончание сбора средств</value>
+  </data>
   <data name="Hello" xml:space="preserve">
     <value>Привет</value>
+  </data>
+  <data name="IMAGE" xml:space="preserve">
+    <value>Картинка</value>
+  </data>
+  <data name="INVALIDDATA" xml:space="preserve">
+    <value>Некорректные данные</value>
+  </data>
+  <data name="JUSTNEWS" xml:space="preserve">
+    <value>Просто новость</value>
+  </data>
+  <data name="LASTLOGINTIME" xml:space="preserve">
+    <value>Время последнего входа</value>
+  </data>
+  <data name="LogIn" xml:space="preserve">
+    <value>Войти</value>
+  </data>
+  <data name="LOGINERROR" xml:space="preserve">
+    <value>Неверный логин или пароль</value>
+  </data>
+  <data name="LogOut" xml:space="preserve">
+    <value>Выйти</value>
+  </data>
+  <data name="MAILINGPAYERS" xml:space="preserve">
+    <value>Рассылка оплатившим</value>
+  </data>
+  <data name="MAILINGSUBSCRIBERS" xml:space="preserve">
+    <value>Рассылка подписчикам</value>
+  </data>
+  <data name="MAXPAYMENT" xml:space="preserve">
+    <value>Макс. взнос</value>
+  </data>
+  <data name="MINPAYMENT" xml:space="preserve">
+    <value>Мин. взнос</value>
+  </data>
+  <data name="MyPage" xml:space="preserve">
+    <value>Моя страница</value>
+  </data>
+  <data name="NAME" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="NEWCOMMENT" xml:space="preserve">
+    <value>Новый комменарий</value>
+  </data>
+  <data name="NEWSTEXT" xml:space="preserve">
+    <value>Текст новости</value>
+  </data>
+  <data name="ONE" xml:space="preserve">
+    <value>Один</value>
+  </data>
+  <data name="PAGENOTFOUND" xml:space="preserve">
+    <value>СТРАНИЦА НЕ НАЙДЕНА</value>
+  </data>
+  <data name="PASSPORTSCAN" xml:space="preserve">
+    <value>Скан паспорта</value>
+  </data>
+  <data name="PASSWORD" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="PAY" xml:space="preserve">
+    <value>Оплатить</value>
+  </data>
+  <data name="PAYMENTAMOUNT" xml:space="preserve">
+    <value>Размер взноса</value>
+  </data>
+  <data name="PAYMENTRANGE" xml:space="preserve">
+    <value>Диапазон суммы взноса</value>
+  </data>
+  <data name="PROJECTERROR" xml:space="preserve">
+    <value>Ошибка, проект не был создан</value>
+  </data>
+  <data name="PROJECTNUMBER" xml:space="preserve">
+    <value>Число проектов</value>
+  </data>
+  <data name="RATING" xml:space="preserve">
+    <value>Рейтинг</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Зарегистрироваться</value>
+  </data>
+  <data name="REGISTERASNEW" xml:space="preserve">
+    <value>Зарегистрироваться</value>
+  </data>
+  <data name="REGISTRATIONTIME" xml:space="preserve">
+    <value>Время регистрации</value>
+  </data>
+  <data name="SELECTUSER" xml:space="preserve">
+    <value>Выбрать</value>
+  </data>
+  <data name="SEND" xml:space="preserve">
+    <value>Отправить</value>
+  </data>
+  <data name="SHOWCONFIRMED" xml:space="preserve">
+    <value>Показать подтверждённых</value>
+  </data>
+  <data name="SHOWREQUESTED" xml:space="preserve">
+    <value>Показать запросивших подтверждение</value>
+  </data>
+  <data name="SHOWUNCONFIRMED" xml:space="preserve">
+    <value>Показать неподтверждённых</value>
+  </data>
+  <data name="STATUS" xml:space="preserve">
+    <value>Статус</value>
+  </data>
+  <data name="SUBJECT" xml:space="preserve">
+    <value>Тема</value>
+  </data>
+  <data name="SURNAME" xml:space="preserve">
+    <value>Фамилия</value>
+  </data>
+  <data name="THREE" xml:space="preserve">
+    <value>Три</value>
+  </data>
+  <data name="TOPROJECTPAGE" xml:space="preserve">
+    <value>На страницу проекта</value>
+  </data>
+  <data name="TWO" xml:space="preserve">
+    <value>Два</value>
+  </data>
+  <data name="UNCONFIRMED" xml:space="preserve">
+    <value>Не подтверждён</value>
+  </data>
+  <data name="USERNAME" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="VIEWCONFIRMATIONREQUEST" xml:space="preserve">
+    <value>Посмотреть запрос на подтверждение</value>
+  </data>
+  <data name="ACTIVE" xml:space="preserve">
+    <value>Активен</value>
+  </data>
+  <data name="COMMENTS" xml:space="preserve">
+    <value>Комментарии</value>
+  </data>
+  <data name="CONFIRMACCOUNTNOW" xml:space="preserve">
+    <value>Подтвердите свой аккаунт сейчас, чтобы создавать проекты</value>
+  </data>
+  <data name="CREATEACCOUNT" xml:space="preserve">
+    <value>Создать новый аккаунт</value>
+  </data>
+  <data name="ERRORALREADYEXISTS" xml:space="preserve">
+    <value>Такое имя и/или адрес эл. почты уже существуют</value>
+  </data>
+  <data name="ERRORCONFIRMPASSWORD" xml:space="preserve">
+    <value>Введённые пароли не совпадают</value>
+  </data>
+  <data name="ERRORPASSWORDLENGTH" xml:space="preserve">
+    <value>Пароль должен содержать от 6 до 20 символов</value>
+  </data>
+  <data name="FAILED" xml:space="preserve">
+    <value>Провален</value>
+  </data>
+  <data name="FINANCED" xml:space="preserve">
+    <value>Профинансирован</value>
+  </data>
+  <data name="MYPROJECTS" xml:space="preserve">
+    <value>Мои проекты</value>
+  </data>
+  <data name="MYSUBSCRIPTIONS" xml:space="preserve">
+    <value>Мои подписки</value>
+  </data>
+  <data name="NEWS" xml:space="preserve">
+    <value>Новости</value>
+  </data>
+  <data name="PASSWORDCONFIRM" xml:space="preserve">
+    <value>Подтвердите пароль</value>
+  </data>
+  <data name="SEARCHPROJECTS" xml:space="preserve">
+    <value>Искать проекты</value>
+  </data>
+  <data name="SEARCHRESULTS" xml:space="preserve">
+    <value>Результаты поиска</value>
+  </data>
+  <data name="SUBSCRIBE" xml:space="preserve">
+    <value>Подписаться</value>
+  </data>
+  <data name="TAGS" xml:space="preserve">
+    <value>Теги</value>
+  </data>
+  <data name="UNSUBSCRIBE" xml:space="preserve">
+    <value>Отписаться</value>
+  </data>
+  <data name="USERPAGE" xml:space="preserve">
+    <value>Страница пользователя</value>
+  </data>
+  <data name="USERPROJECTS" xml:space="preserve">
+    <value>Проекты пользователя</value>
+  </data>
+  <data name="USERSUBSCRIPTIONS" xml:space="preserve">
+    <value>Подписки пользователя</value>
   </data>
 </root>

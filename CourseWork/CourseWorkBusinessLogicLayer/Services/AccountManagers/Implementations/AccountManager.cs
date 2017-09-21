@@ -87,7 +87,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
 
         public DisplayableInfoViewModel[] GetDisplayableInfo(string[] userNames)
         {
-            return _userInfoRepository.GetWhereEager(item => userNames.Contains(item.UserName), item => item.Projects).Select(item => 
+            return _userInfoRepository.GetWhere(item => userNames.Contains(item.UserName), item => item.Projects).Select(item => 
                 _mapper.ConvertFrom(item)).ToArray();
         }
 

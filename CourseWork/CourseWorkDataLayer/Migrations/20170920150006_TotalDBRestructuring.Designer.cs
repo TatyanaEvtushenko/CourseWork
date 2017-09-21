@@ -9,8 +9,8 @@ using CourseWork.DataLayer.Enums;
 namespace CourseWork.DataLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170919185620_TotalTotalRestructuring")]
-    partial class TotalTotalRestructuring
+    [Migration("20170920150006_TotalDBRestructuring")]
+    partial class TotalDBRestructuring
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,6 +54,7 @@ namespace CourseWork.DataLayer.Migrations
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
+                        .IsRequired()
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
@@ -252,8 +253,7 @@ namespace CourseWork.DataLayer.Migrations
 
             modelBuilder.Entity("CourseWork.DataLayer.Models.UserInfo", b =>
                 {
-                    b.Property<string>("UserName")
-                        .ValueGeneratedOnAdd();
+                    b.Property<string>("UserName");
 
                     b.Property<string>("About");
 
@@ -445,8 +445,7 @@ namespace CourseWork.DataLayer.Migrations
                 {
                     b.HasOne("CourseWork.DataLayer.Models.UserInfo", "UserInfo")
                         .WithMany("Projects")
-                        .HasForeignKey("OwnerUserName")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("OwnerUserName");
                 });
 
             modelBuilder.Entity("CourseWork.DataLayer.Models.ProjectSubscriber", b =>
@@ -480,6 +479,15 @@ namespace CourseWork.DataLayer.Migrations
                     b.HasOne("CourseWork.DataLayer.Models.Project", "Project")
                         .WithMany("Tags")
                         .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.UserInfo", b =>
+                {
+                    b.HasOne("CourseWork.DataLayer.Models.ApplicationUser", "ApplicationUser")
+                        .WithOne("Info")
+                        .HasForeignKey("CourseWork.DataLayer.Models.UserInfo", "UserName")
+                        .HasPrincipalKey("CourseWork.DataLayer.Models.ApplicationUser", "UserName")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

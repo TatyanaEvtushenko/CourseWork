@@ -9,7 +9,7 @@ import { LocalizationService } from "../../services/localization.service";
 })
 
 export class PageLinksComponent {
-    keys = ['Hello'];
+    keys = ['Hello', 'MyPage', 'AdminPage', 'ConfirmYourAccount', 'LogOut', 'Register', 'LogIn'];
     translations = {};
 
     constructor(public storage: StorageService, private accountService: AccountService, private localizationService: LocalizationService) { }
@@ -23,7 +23,6 @@ export class PageLinksComponent {
     ngOnInit() {
         this.localizationService.getTranslations(this.keys).subscribe((data) => {
             this.translations = data;
-            console.log(this.translations['Hello']);
         });
     }
 }

@@ -44,12 +44,12 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
 
         public UserListItemViewModel[] GetAllUsers()
         {
-            return _userInfoRepository.GetWhereEager(item => true, item => item.Projects).Select(item => _mapperList.ConvertFrom(item)).ToArray();
+            return _userInfoRepository.GetWhere(item => true, item => item.Projects).Select(item => _mapperList.ConvertFrom(item)).ToArray();
         }
 
         public UserListItemViewModel[] GetFilteredUsers(FilterRequestViewModel model)
         {
-            return _userInfoRepository.GetWhereEager(GetFilterRequest(model), item => item.Projects)
+            return _userInfoRepository.GetWhere(GetFilterRequest(model), item => item.Projects)
                        .Select(item => _mapperList.ConvertFrom(item)).ToArray();
         }
 

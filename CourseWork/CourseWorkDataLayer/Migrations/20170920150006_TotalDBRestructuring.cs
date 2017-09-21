@@ -4,13 +4,17 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CourseWork.DataLayer.Migrations
 {
-    public partial class TotalTotalRestructuring : Migration
+    public partial class TotalDBRestructuring : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            //migrationBuilder.DropForeignKey(
-            //    name: "FK_Payments_Projects_ProjectId",
-            //    table: "Payments");
+            migrationBuilder.DropForeignKey(
+                name: "FK_Payments_Projects_ProjectId",
+                table: "Payments");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Projects_UserInfos_OwnerUserName",
+                table: "Projects");
 
             migrationBuilder.DropUniqueConstraint(
                 name: "AK_Ratings_ProjectId_UserName",
@@ -36,17 +40,55 @@ namespace CourseWork.DataLayer.Migrations
                 name: "Rating",
                 table: "Projects");
 
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_UserInfos",
+                table: "UserInfos");
+
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_ProjectSubscribers",
+                table: "ProjectSubscribers");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "UserName",
+                table: "UserInfos",
+                nullable: false,
+                maxLength: 256,
+                oldClrType: typeof(string));
+
+            migrationBuilder.DropColumn(
+                name: "UserName",
+                table: "Comments"
+            );
+
+            migrationBuilder.AddColumn<string>(
+                name: "UserName",
+                table: "Comments",
+                nullable: true,
+                maxLength: 256);
+
             migrationBuilder.AlterColumn<string>(
                 name: "ProjectId",
                 table: "Ratings",
                 nullable: true,
                 oldClrType: typeof(string));
 
-            migrationBuilder.AlterColumn<string>(
+            //migrationBuilder.AlterColumn<string>(
+            //    name: "UserName",
+            //    table: "Ratings",
+            //    nullable: true,
+            //    maxLength: 256,
+            //    oldClrType: typeof(string));
+
+            migrationBuilder.DropColumn(
+                name: "UserName",
+                table: "Ratings"
+            );
+
+            migrationBuilder.AddColumn<string>(
                 name: "UserName",
                 table: "Ratings",
                 nullable: true,
-                oldClrType: typeof(string));
+                maxLength: 256);
 
             migrationBuilder.AddColumn<string>(
                 name: "Id",
@@ -58,19 +100,42 @@ namespace CourseWork.DataLayer.Migrations
                 name: "OwnerUserName",
                 table: "Projects",
                 nullable: true,
+                maxLength: 256,
                 oldClrType: typeof(string));
+
+            //migrationBuilder.DropColumn(
+            //    name: "OwnerUserName",
+            //    table: "Projects"
+            //);
+
+            //migrationBuilder.AddColumn<string>(
+            //    name: "OwnerUserName",
+            //    table: "Projects",
+            //    nullable: true,
+            //    maxLength: 256);
 
             migrationBuilder.AddColumn<string>(
                 name: "AccountNumber",
                 table: "Projects",
                 nullable: true);
 
-            migrationBuilder.AlterColumn<string>(
+            //migrationBuilder.AlterColumn<string>(
+            //    name: "UserName",
+            //    table: "Payments",
+            //    nullable: true,
+            //    oldClrType: typeof(string),
+            //    oldNullable: true);
+
+            migrationBuilder.DropColumn(
+                name: "UserName",
+                table: "Payments"
+            );
+
+            migrationBuilder.AddColumn<string>(
                 name: "UserName",
                 table: "Payments",
                 nullable: true,
-                oldClrType: typeof(string),
-                oldNullable: true);
+                maxLength: 256);
 
             migrationBuilder.AlterColumn<string>(
                 name: "ProjectId",
@@ -85,11 +150,29 @@ namespace CourseWork.DataLayer.Migrations
                 oldClrType: typeof(string));
 
             migrationBuilder.AlterColumn<string>(
+                name: "UserName",
+                table: "ProjectSubscribers",
+                nullable: false,
+                maxLength: 256,
+                oldClrType: typeof(string));
+
+            //migrationBuilder.AlterColumn<string>(
+            //    name: "RecipientUserName",
+            //    table: "Messages",
+            //    nullable: true,
+            //    oldClrType: typeof(string),
+            //    oldNullable: true);
+
+            migrationBuilder.DropColumn(
+                name: "RecipientUserName",
+                table: "Messages"
+            );
+
+            migrationBuilder.AddColumn<string>(
                 name: "RecipientUserName",
                 table: "Messages",
                 nullable: true,
-                oldClrType: typeof(string),
-                oldNullable: true);
+                maxLength: 256);
 
             migrationBuilder.AlterColumn<string>(
                 name: "ProjectId",
@@ -97,12 +180,12 @@ namespace CourseWork.DataLayer.Migrations
                 nullable: true,
                 oldClrType: typeof(string));
 
-            migrationBuilder.AlterColumn<string>(
-                name: "UserName",
-                table: "Comments",
-                nullable: true,
-                oldClrType: typeof(string),
-                oldNullable: true);
+            //migrationBuilder.AlterColumn<string>(
+            //    name: "UserName",
+            //    table: "Comments",
+            //    nullable: true,
+            //    oldClrType: typeof(string),
+            //    oldNullable: true);
 
             migrationBuilder.AlterColumn<string>(
                 name: "ProjectId",
@@ -110,10 +193,24 @@ namespace CourseWork.DataLayer.Migrations
                 nullable: true,
                 oldClrType: typeof(string));
 
+            migrationBuilder.AlterColumn<string>(
+                name: "UserName",
+                table: "AspNetUsers",
+                maxLength: 256,
+                nullable: false,
+                oldClrType: typeof(string),
+                oldMaxLength: 256,
+                oldNullable: true);
+
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Ratings",
                 table: "Ratings",
                 column: "Id");
+
+            migrationBuilder.AddUniqueConstraint(
+                name: "AK_AspNetUsers_UserName",
+                table: "AspNetUsers",
+                column: "UserName");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Ratings_ProjectId",
@@ -125,10 +222,10 @@ namespace CourseWork.DataLayer.Migrations
                 table: "Ratings",
                 column: "UserName");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_ProjectSubscribers_ProjectId",
-                table: "ProjectSubscribers",
-                column: "ProjectId");
+            //migrationBuilder.CreateIndex(
+            //    name: "IX_ProjectSubscribers_ProjectId",
+            //    table: "ProjectSubscribers",
+            //    column: "ProjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Payments_UserName",
@@ -143,6 +240,16 @@ namespace CourseWork.DataLayer.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_UserName",
                 table: "Comments",
+                column: "UserName");
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_UserInfos",
+                table: "UserInfos",
+                column: "UserName");
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_ProjectSubscribers",
+                table: "ProjectSubscribers",
                 column: "UserName");
 
             migrationBuilder.AddForeignKey(
@@ -178,6 +285,14 @@ namespace CourseWork.DataLayer.Migrations
                 onDelete: ReferentialAction.SetNull);
 
             migrationBuilder.AddForeignKey(
+                name: "FK_Projects_UserInfos_OwnerUserName",
+                table: "Projects",
+                column: "OwnerUserName",
+                principalTable: "UserInfos",
+                principalColumn: "UserName",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
                 name: "FK_ProjectSubscribers_UserInfos_UserName",
                 table: "ProjectSubscribers",
                 column: "UserName",
@@ -200,6 +315,14 @@ namespace CourseWork.DataLayer.Migrations
                 principalTable: "UserInfos",
                 principalColumn: "UserName",
                 onDelete: ReferentialAction.SetNull);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_UserInfos_AspNetUsers_UserName",
+                table: "UserInfos",
+                column: "UserName",
+                principalTable: "AspNetUsers",
+                principalColumn: "UserName",
+                onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -221,6 +344,10 @@ namespace CourseWork.DataLayer.Migrations
                 table: "Payments");
 
             migrationBuilder.DropForeignKey(
+                name: "FK_Projects_UserInfos_OwnerUserName",
+                table: "Projects");
+
+            migrationBuilder.DropForeignKey(
                 name: "FK_ProjectSubscribers_UserInfos_UserName",
                 table: "ProjectSubscribers");
 
@@ -231,6 +358,10 @@ namespace CourseWork.DataLayer.Migrations
             migrationBuilder.DropForeignKey(
                 name: "FK_Ratings_UserInfos_UserName",
                 table: "Ratings");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_UserInfos_AspNetUsers_UserName",
+                table: "UserInfos");
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_Ratings",
@@ -260,6 +391,10 @@ namespace CourseWork.DataLayer.Migrations
                 name: "IX_Comments_UserName",
                 table: "Comments");
 
+            migrationBuilder.DropUniqueConstraint(
+                name: "AK_AspNetUsers_UserName",
+                table: "AspNetUsers");
+
             migrationBuilder.DropColumn(
                 name: "Id",
                 table: "Ratings");
@@ -267,6 +402,12 @@ namespace CourseWork.DataLayer.Migrations
             migrationBuilder.DropColumn(
                 name: "AccountNumber",
                 table: "Projects");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "UserName",
+                table: "UserInfos",
+                nullable: false,
+                oldClrType: typeof(string));
 
             migrationBuilder.AddColumn<double>(
                 name: "Rating",
@@ -350,6 +491,14 @@ namespace CourseWork.DataLayer.Migrations
                 oldClrType: typeof(string),
                 oldNullable: true);
 
+            migrationBuilder.AlterColumn<string>(
+                name: "UserName",
+                table: "AspNetUsers",
+                maxLength: 256,
+                nullable: true,
+                oldClrType: typeof(string),
+                oldMaxLength: 256);
+
             migrationBuilder.AddUniqueConstraint(
                 name: "AK_Ratings_ProjectId_UserName",
                 table: "Ratings",
@@ -376,6 +525,14 @@ namespace CourseWork.DataLayer.Migrations
                 column: "ProjectId",
                 principalTable: "Projects",
                 principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Projects_UserInfos_OwnerUserName",
+                table: "Projects",
+                column: "OwnerUserName",
+                principalTable: "UserInfos",
+                principalColumn: "UserName",
                 onDelete: ReferentialAction.Cascade);
         }
     }

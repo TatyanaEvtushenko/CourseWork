@@ -1,13 +1,13 @@
-﻿<li><a *ngIf="storage.isReadyCurrentUser && storage.isUser" href="/UserPage">My page</a></li>
-<li><a *ngIf="storage.isReadyCurrentUser && storage.isAdmin" href="/AdminPage">Admin page</a></li>
+﻿<li><a *ngIf="storage.isReadyCurrentUser && storage.isUser" href="/UserPage">{{translations['MyPage']}}</a></li>
+<li><a *ngIf="storage.isReadyCurrentUser && storage.isAdmin" href="/AdminPage">{{translations['AdminPage']}}</a></li>
 
 <ng-container *ngIf="storage.isReadyCurrentUser && storage.isUser">
     <li>{{translations['Hello']}} {{storage.currentUser.userName}}!</li>
-    <li *ngIf="storage.isJustUser"><a href="#confirmationModal" class="modal-trigger"> Confirm your account </a></li>
-    <li><a (click)="logout()">Log out</a></li>
+    <li *ngIf="storage.isJustUser"><a href="#confirmationModal" class="modal-trigger"> {{translations['ConfirmYourAccount']}} </a></li>
+    <li><a (click)="logout()">{{translations['LogOut']}}</a></li>
 </ng-container>
 
 <ng-container *ngIf="storage.isReadyCurrentUser && !storage.isUser">
-    <li><a href="#registrationModal" class="modal-trigger">Register</a></li>
-    <li><a href="#loginModal" class="modal-trigger">Log in</a></li>
+    <li><a href="#registrationModal" class="modal-trigger">{{translations['Register']}}</a></li>
+    <li><a href="#loginModal" class="modal-trigger">{{translations['LogIn']}}</a></li>
 </ng-container>   

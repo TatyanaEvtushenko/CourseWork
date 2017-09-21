@@ -1,6 +1,7 @@
 ﻿import { Component, AfterViewInit } from '@angular/core';
 import {RegisterForm} from '../../viewmodels/registerform';
 import { AccountService } from "../../services/account.service";
+import { LocalizationService } from "../../services/localization.service";
 declare var $: any;
 declare var Materialize: any;
 
@@ -13,8 +14,15 @@ export class RegisterModalComponent implements AfterViewInit {
     isValidPassword = false;
     isValidPasswordConfirmation = false;
     isWrongRequest = false;
-     
-    constructor(private accountService: AccountService) { }
+    keys = ["CREATEACCOUNT", "EMAIL", "PASSWORD", "PASSWORDCONFIRM", "USERNAME", "ERRORPASSWORDLENGTH", "ERRORCONFIRMPASSWORD",
+        "ERRORALREADYEXISTS", "Register"];
+    translations = {}
+
+    constructor(private accountService: AccountService, private localizationService: LocalizationService) {
+        this.localizationService.getTranslations(this.keys).subscribe((data) => {
+            this.translations = data;
+        });
+    }
 
     ngAfterViewInit() {
         $('#registrationModal').modal();

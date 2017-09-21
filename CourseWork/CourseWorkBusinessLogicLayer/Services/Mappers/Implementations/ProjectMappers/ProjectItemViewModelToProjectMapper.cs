@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Linq;
 using CourseWork.BusinessLogicLayer.Services.PaymentManagers;
 using CourseWork.BusinessLogicLayer.Services.ProjectManagers;
 using CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using CourseWork.DataLayer.Models;
+using CourseWork.DataLayer.Repositories;
 
 namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.ProjectMappers
 {
@@ -11,14 +13,14 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.Project
     {
         private readonly IProjectSubscriberManager _projectSubscriberManager;
         private readonly IPaymentManager _paymentManager;
-        private readonly IProjectManager _projectManager;
+        //private readonly IProjectManager _projectManager;
 
         public ProjectItemViewModelToProjectMapper(IProjectSubscriberManager projectSubscriberManager,
-            IPaymentManager paymentManager, IProjectManager projectManager)
+            IPaymentManager paymentManager)
         {
             _projectSubscriberManager = projectSubscriberManager;
             _paymentManager = paymentManager;
-            _projectManager = projectManager;
+           // _projectManager = projectManager;
         }
 
         public Project ConvertTo(ProjectItemViewModel item)
@@ -34,12 +36,12 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.Project
                 Name = item.Name,
                 ImageUrl = item.ImageUrl,
                 Status = item.Status,
-                Rating = _projectManager.GetProjectRating(item),
+                Rating = 0, //item.Ratings.Average(rating => rating.RatingResult),
                 Description = item.Description,
                 OwnerUserName = item.OwnerUserName,
                 ProjectEndTime = item.FundRaisingEnd,
                 IsSubscriber = _projectSubscriberManager.IsSubscriber(item),
-                PaidAmount = _paymentManager.GetProjectPaidAmount(item.Id, item.Payments)
+                PaidAmount = _paymentManager.GetProjectPaidAmount(item)
             };
         }
     }

@@ -1,6 +1,7 @@
 ﻿import { Component, AfterViewInit } from '@angular/core';
 import { ConfirmationForm } from '../../viewmodels/confirmationform';
 import { AccountService } from "../../services/account.service";
+import { LocalizationService } from "../../services/localization.service";
 declare var $: any;
 declare var Materialize: any;
 
@@ -11,8 +12,13 @@ declare var Materialize: any;
 export class ConfirmationModalComponent implements AfterViewInit {
     confirmationForm = new ConfirmationForm();
     isWrongRequest = false;
+    keys = ["PASSPORTSCAN", "NAME", "SURNAME", "DESCRIPTION", "INVALIDDATA", "SEND"];
+    translations = {}
 
-    constructor(private accountService: AccountService) { }
+    constructor(private accountService: AccountService, private localizationService: LocalizationService) {
+        this.localizationService.getTranslations(this.keys).subscribe((data) => {
+            this.translations = data;
+        });}
 
     ngAfterViewInit() {
         $('#confirmationModal').modal(); //

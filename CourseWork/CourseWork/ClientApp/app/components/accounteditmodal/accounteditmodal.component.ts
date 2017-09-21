@@ -1,6 +1,8 @@
 ﻿import { Component, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
 import { AccountService } from "../../services/account.service";
+import { LocalizationService } from "../../services/localization.service";
 import { AccountEditForm } from '../../viewmodels/accounteditform'
+
 declare var $: any;
 
 @Component({
@@ -11,8 +13,14 @@ export class AccountEditModalComponent implements AfterViewInit {
     @Input() about: string;
     @Input() contacts: string;
     @Output() onConfirm = new EventEmitter<AccountEditForm>();
+    keys = ["EDITACCOUNT", "CONTACTS", "ABOUT", "APPLY"];
+    translations = {}
 
-    constructor(private accountService: AccountService) { }
+    constructor(private accountService: AccountService, private localizationService: LocalizationService) {
+        this.localizationService.getTranslations(this.keys).subscribe((data) => {
+            this.translations = data;
+        });
+    }
 
     ngAfterViewInit() {
         $('#accountEditModal').modal();

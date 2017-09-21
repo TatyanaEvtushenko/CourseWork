@@ -3,7 +3,6 @@ import {Title} from '@angular/platform-browser';
 import { MessageSenderService } from "../../services/messagesender.service";
 import { MessageSubscriberService } from '../../services/messagesubscriber.service';
 import { ProjectService } from '../../services/project.service';
-
 import { MaterializeAction } from "angular2-materialize"
 
 @Component({
@@ -23,7 +22,7 @@ export class HomePageComponent {
         private messageSubscriberService: MessageSubscriberService, private projectService: ProjectService) {
         title.setTitle("Home page");
         window.setTimeout(() => {
-            this.carouselElement.nativeElement.classList.toggle("initialized")
+            this.carouselElement.nativeElement.classList.toggle("initialized");
             this.actions.emit("carousel");
         }, 1000);
     }

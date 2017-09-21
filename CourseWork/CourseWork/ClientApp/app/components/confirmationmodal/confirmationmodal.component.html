@@ -3,25 +3,25 @@
         <h4>Confirm your account</h4>
         
         <label>Passport scan</label>
-        <imageloader (emitter)="onChange($event)" [fieldName]="'Upload pasport scan'"></imageloader>
+        <imageloader (emitter)="onChange($event)" [fieldName]="translations['PASSPORTSCAN']"></imageloader>
         <div class="input-field">
             <input id="confirmation-name" class="validate" required type="text" [(ngModel)]="confirmationForm.name" (keyup.enter)="onSubmit()"/>
-            <label for="confirmation-name">Name</label>
+            <label for="confirmation-name">{{translations['NAME']}}</label>
         </div>
         <div class="input-field">
             <input id="confirmation-surname" class="validate" required [(ngModel)]="confirmationForm.surname" type="text" (keyup.enter)="onSubmit()"/>
-            <label for="confirmation-surname">Surname</label>
+            <label for="confirmation-surname">{{translations['SURNAME']}}</label>
         </div>
         <div class="input-field">
             <input id="confirmation-description" type="text" [(ngModel)]="confirmationForm.description" (keyup.enter)="onSubmit()"/>
-            <label for="confirmation-description">Description</label>
+            <label for="confirmation-description">{{translations['DESCRIPTION']}}</label>
         </div>
 
         <div class="input-field">
             <button [disabled]="confirmationForm.passportScan == null || confirmationForm.name == null || confirmationForm.surname == null"
-                    class="btn" (click)="onSubmit()">Send</button>
+                    class="btn" (click)="onSubmit()">{{translations['SEND']}}</button>
         </div>
         
-        <errortext *ngIf="isWrongRequest" [text]="'Invalid data'"></errortext>
+        <errortext *ngIf="isWrongRequest" [text]="translations['INVALIDDATA']"></errortext>
     </div>
 </div>

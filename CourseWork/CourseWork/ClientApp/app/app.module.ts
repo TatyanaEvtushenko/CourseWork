@@ -3,7 +3,7 @@ import "froala-editor/js/froala_editor.pkgd.min.js";
 import { NgModule } from '@angular/core';
 import { BrowserModule }  from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
-import { HttpModule }   from '@angular/http';
+import { HttpModule, Http }   from '@angular/http';
 import { TagCloudModule } from 'angular-tag-cloud-module';
 import { FormsModule } from '@angular/forms';
 import { MarkdownModule } from 'angular2-markdown';
