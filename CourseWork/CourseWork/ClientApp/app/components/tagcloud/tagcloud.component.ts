@@ -18,8 +18,9 @@ export class TagCloudComponent {
                 return {
                     text: x.name,
                     weight: x.numberOfUsing,
-                    link: '/SearchResult?searchQuery=' + x.name
-            }
+                    link: '/SearchResult?searchQuery=' + x.name,
+                    color: "white"
+                }
             }),
             (error) => this.data = []
         );

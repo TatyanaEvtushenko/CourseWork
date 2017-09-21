@@ -1,12 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CourseWork.DataLayer.Models
 {
     public class Comment
     {
-		[Key]
+        [Key]
         public string Id { get; set; }
 
         public string UserName { get; set; }
@@ -17,8 +16,8 @@ namespace CourseWork.DataLayer.Models
 
         public string Text { get; set; }
 
-        [ForeignKey("ProjectId")]
-        [Required]
         public Project Project { get; set; }
+
+        public UserInfo UserInfo { get; set; }
     }
 }

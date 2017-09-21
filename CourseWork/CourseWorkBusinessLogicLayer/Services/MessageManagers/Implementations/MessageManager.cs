@@ -1,5 +1,4 @@
-﻿using System.Collections.Immutable;
-using System.Linq;
+﻿using System.Linq;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
 using CourseWork.BusinessLogicLayer.ViewModels.MessageViewModels;
 using CourseWork.DataLayer.Models;
@@ -14,17 +13,20 @@ namespace CourseWork.BusinessLogicLayer.Services.MessageManagers.Implementations
 	    private readonly IMapper<MessageViewModel, Message> _serverMapper;
 	    private readonly IMapper<ClientMessageViewModel, Message> _clientMapper;
 
-		public MessageManager(Repository<Message> messageRepository, IMapper<MessageViewModel, Message> serverMapper, IMapper<ClientMessageViewModel, Message> clientMapper, Repository<ProjectSubscriber> projectSubscribeRepository)
-	    {
-		    _messageRepository = messageRepository;
-		    _serverMapper = serverMapper;
-		    _clientMapper = clientMapper;
-	        _projectSubscribeRepository = projectSubscribeRepository;
-	    }
+        public MessageManager(Repository<Message> messageRepository, IMapper<MessageViewModel, Message> serverMapper,
+            IMapper<ClientMessageViewModel, Message> clientMapper,
+            Repository<ProjectSubscriber> projectSubscribeRepository)
+        {
+            _messageRepository = messageRepository;
+            _serverMapper = serverMapper;
+            _clientMapper = clientMapper;
+            _projectSubscribeRepository = projectSubscribeRepository;
+        }
 
-	    public void Send(MessageViewModel[] messages)
+        public void Send(MessageViewModel[] messages)
 	    {
-			_messageRepository.AddRange(messages.Select(message => _serverMapper.ConvertTo(message)).ToArray());
+	        var messageModels = messages.Select(message => _serverMapper.ConvertTo(message));
+			_messageRepository.AddRange(messageModels.ToArray());
 	    }
 
         public void SendAsAdmin(MessageViewModel[] messages)
@@ -34,26 +36,37 @@ namespace CourseWork.BusinessLogicLayer.Services.MessageManagers.Implementations
 
         public void NotifySubscribers(SubscriberNotificationViewModel model)
         {
-            var notifications = _projectSubscribeRepository.GetWhere(n => n.ProjectId.Equals(model.Id)).
-                Select(n => new MessageViewModel { RecipientUserName = n.UserName, Text = model.Text }).ToArray();
-            Send(notifications);
+            var subscribers = _projectSubscribeRepository.GetWhere(n => n.ProjectId.Equals(model.Id));
+            var notifications = subscribers.Select(n => GetMessageForSubscribers(n, model.Text));
+            Send(notifications.ToArray());
         }
 
         public ClientMessageViewModel[] GetUnreadMessages(string username)
-	    {
-		    return _messageRepository.GetWhere(item => item.RecipientUserName.Equals(username) && !item.IsSeen).
-				Select(item => _clientMapper.ConvertFrom(item)).ToArray();
+        {
+            var messages = _messageRepository.GetWhere(item => item.RecipientUserName.Equals(username) && !item.IsSeen);
+		    return messages.Select(item => _clientMapper.ConvertFrom(item)).ToArray();
 	    }
 
-	    public void MarkAsRead(string[] id)
+	    public void MarkAsRead(string[] ids)
 	    {
-		    var idSet = id.ToImmutableHashSet();
-		    var markedMessages = _messageRepository.GetWhere(message => idSet.Contains(message.Id)).Select(message =>
-			    {
-				    message.IsSeen = true;
-				    return message;
-			    }).ToArray();
+	        var messages = _messageRepository.GetWhere(message => ids.Contains(message.Id));
+		    var markedMessages = messages.Select(ReadMessage).ToArray();
 		    _messageRepository.UpdateRange(markedMessages);
 	    }
+
+        private MessageViewModel GetMessageForSubscribers(ProjectSubscriber subscriber, string text)
+        {
+            return new MessageViewModel
+            {
+                RecipientUserName = subscriber.UserName,
+                Text = text
+            };
+        }
+
+        private Message ReadMessage(Message message)
+        {
+            message.IsSeen = true;
+            return message;
+        }
     }
 }

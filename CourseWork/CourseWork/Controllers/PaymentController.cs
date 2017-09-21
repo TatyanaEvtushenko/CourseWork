@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using CourseWork.BusinessLogicLayer.Services.PaymentManagers;
 using CourseWork.BusinessLogicLayer.Services.ProjectManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.PaymentViewModels;
@@ -17,6 +18,13 @@ namespace CourseWork.Controllers
         {
             _paymentManager = paymentManager;
             _projectManager = projectManager;
+        }
+
+        [HttpGet]
+        [Route("api/Payment/GetBigPayments")]
+        public IEnumerable<PaymentViewModel> GetBigPayments()
+        {
+            return _paymentManager.GetBigPayments();
         }
 
         [HttpGet]

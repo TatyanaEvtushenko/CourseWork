@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
 
 namespace CourseWork.BusinessLogicLayer.Services.AdminManagers
@@ -15,8 +16,8 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers
 
         UserListItemViewModel[] SortByField(string fieldName, bool ascending);
 
-        bool BlockUnblock(string[] usersToBlock);
+        bool BlockUnblock(IEnumerable<string> usersToBlock);
 
-        bool Delete(string[] usersToDelete, bool withCommentsAndRaitings);
+        bool Delete(IEnumerable<string> usersToDelete, bool withCommentsAndRaitings);
     }
 }

@@ -22,7 +22,8 @@ using CourseWork.BusinessLogicLayer.Services.ProjectManagers;
 using CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManagers;
 using CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManagers.Implementations;
-using CourseWork.BusinessLogicLayer.Services.Scedulers;
+using CourseWork.BusinessLogicLayer.Services.RatingManagers;
+using CourseWork.BusinessLogicLayer.Services.RatingManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.SearchManagers;
 using CourseWork.BusinessLogicLayer.Services.SearchManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.TagServices;
@@ -48,11 +49,11 @@ namespace CourseWork.Extensions.StartupExtensions
             services.AddScoped<IAdminManager, AdminManager>();
             services.AddScoped<INewsManager, NewsManager>();
             services.AddScoped<IProjectSubscriberManager, ProjectSubscriberManager>();
-            services.AddScoped<IScheduler, BusinessLogicLayer.Services.Scedulers.Implementations.Scheduler>();
             services.AddScoped<ICommentManager, CommentManager>();
             services.AddScoped<IFinancialPurposeManager, FinancialPurposeManager>();
 	        services.AddScoped<IMessageManager, MessageManager>();
             services.AddScoped<ISearchManager, SearchManager>();
+            services.AddScoped<IRatingManager, RatingManager>();
         }
     }
 }

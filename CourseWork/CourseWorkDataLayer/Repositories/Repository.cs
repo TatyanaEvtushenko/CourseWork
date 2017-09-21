@@ -48,36 +48,20 @@ namespace CourseWork.DataLayer.Repositories
             });
         }
 
-        public List<TResult> GetUnique<TResult>(Func<T, TResult> gettinResultExpression)
+        public List<TResult> GetUnique<TResult>(Func<T, TResult> gettingResultExpression,
+            params Expression<Func<T, object>>[] includeStatements)
         {
-            return Table.Select(gettinResultExpression).Distinct().ToList();
+            return GetEager(includeStatements).Select(gettingResultExpression).Distinct().ToList();
         }
 
-        public List<T> GetAll()
+        public List<T> GetAll(params Expression<Func<T, object>>[] includeStatements)
         {
-            return Table.ToList();
+            return GetEager(includeStatements).ToList();
         }
 
-        public T Get(object id)
+        public T FirstOrDefault(Func<T, bool> whereExpression, params Expression<Func<T, object>>[] includeStatements)
         {
-            try
-            {
-                return Table.Find(id);
-            }
-            catch (Exception exception)
-            {
-                return null;
-            }
-        }
-
-        public List<T> GetWhere(Func<T, bool> whereExpression)
-        {
-            return Table.Where(whereExpression).ToList();
-        }
-
-        public T FirstOrDefault(Func<T, bool> whereExpression)
-        {
-            return Table.FirstOrDefault(whereExpression);
+            return GetEager(includeStatements).FirstOrDefault(whereExpression);
         }
 
         public int Count(Func<T, bool> whereExpression)
@@ -85,14 +69,26 @@ namespace CourseWork.DataLayer.Repositories
             return Table.Count(whereExpression);
         }
 
-        public List<T> GetWhereEager<TProperty>(Func<T, bool> whereExpression, params Expression<Func<T, TProperty>>[] includeStatements)
+        public List<T> GetWhere(Func<T, bool> whereExpression, params Expression<Func<T, object>>[] includeStatements)
         {
-            IQueryable<T> query = Table;
+            return GetEager(includeStatements).Where(whereExpression).ToList();
+        }
+
+        public List<T> GetOrdered<TKey>(Func<T, TKey> orderExpression, int count, bool isDescending, params Expression<Func<T, object>>[] includeStatements)
+        {
+            var items = GetEager(includeStatements);
+            items = isDescending ? items.OrderByDescending(orderExpression) : items.OrderBy(orderExpression);
+            return items.Take(count).ToList();
+        }
+
+        private IEnumerable<T> GetEager(params Expression<Func<T, object>>[] includeStatements)
+        {
+            var query = (IQueryable<T>)Table;
             foreach (var includeStatement in includeStatements)
             {
                 query = query.Include(includeStatement);
             }
-            return query.Where(whereExpression).ToList();
+            return query;
         }
 
         private bool SaveActionResult(Action action)

@@ -1,4 +1,5 @@
 ﻿using System;
+using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 
 namespace CourseWork.BusinessLogicLayer.ViewModels.NewsViewModels
 {
@@ -11,5 +12,7 @@ namespace CourseWork.BusinessLogicLayer.ViewModels.NewsViewModels
         public string Text { get; set; }
 
         public DateTime Time { get; set; }
+
+        public ProjectSmallInfoViewModel ProjectInfo { get; set; }
     }
 }

@@ -8,9 +8,10 @@
             </div>
         </a>
     </div>
+    <projectprogress [neccessaryAmount]="project.neccessaryAmount" [paidAmount]="project.paidAmount"></projectprogress>
     <div class="card-content row">
         <div class="col m6">
-            <p>{{project.paidAmount}}$</p>
+            <p>${{project.paidAmount}}</p>
         </div>
         <div class="col m6 right-align">
             <p><projectstatus [status]="project.status"></projectstatus></p>

@@ -18,10 +18,11 @@ namespace CourseWork.BusinessLogicLayer.Services.TagServices.Implementations
         public IEnumerable<TagViewModel> GetAllTagViewModels()
         {
             var tags = _tagRepository.GetAll();
-            return tags.Select(tag => tag.Name).Distinct().Select(tag => new TagViewModel
+            var tagNames = tags.Select(tag => tag.Name).Distinct();
+            return tagNames.Select(tag => new TagViewModel
             {
                 Name = tag,
-                NumberOfUsing = tags.Count(tagInProject => tagInProject.Name == tag)
+                NumberOfUsing = tags.Count(t => t.Name == tag)
             });
         }
 
@@ -30,9 +31,19 @@ namespace CourseWork.BusinessLogicLayer.Services.TagServices.Implementations
             return _tagRepository.GetUnique(tag => tag.Name);
         }
 
-        public IEnumerable<string> GetProjectTags(string projectId)
+        public IEnumerable<string> GetProjectTags(Project project)
         {
-            return _tagRepository.GetWhere(tag => tag.ProjectId == projectId).Select(tag => tag.Name);
+            return project.Tags.Select(t => t.Name);
+        }
+
+        public IEnumerable<Tag> ConvertStringsToTags(IEnumerable<string> tags, string projectId)
+        {
+            return tags.Select(t => GetNewTag(t, projectId));
+        }
+
+        private Tag GetNewTag(string name, string projectId)
+        {
+            return new Tag { Name = name, ProjectId = projectId };
         }
     }
 }

@@ -9,8 +9,8 @@ namespace CourseWork.BusinessLogicLayer.Services.CommentManagers.Implementations
     public class CommentManager : ICommentManager
     {
         private readonly Repository<Comment> _commentRepository;
-        private readonly IMapper<CommentFormViewModel, Comment> _commentMapper;
         private readonly ISearchManager _searchManager;
+        private readonly IMapper<CommentFormViewModel, Comment> _commentMapper;
         private readonly IMapper<CommentViewModel, Comment> _commentViewMapper;
 
         public CommentManager(Repository<Comment> commentRepository,
@@ -26,14 +26,18 @@ namespace CourseWork.BusinessLogicLayer.Services.CommentManagers.Implementations
         public CommentViewModel AddComment(CommentFormViewModel commentForm)
         {
             var comment = _commentMapper.ConvertTo(commentForm);
-            var result = _commentRepository.AddRange(comment) && _searchManager.AddCommentToIndex(comment);
+            if (!_commentRepository.AddRange(comment))
+            {
+                return null;
+            }
+            _searchManager.AddCommentToIndex(comment);
             return _commentViewMapper.ConvertFrom(comment);
         }
 
         public bool RemoveComment(string commentId)
         {
-            var comment = _commentRepository.Get(commentId);
-            return _commentRepository.RemoveRange(commentId) && _searchManager.RemoveCommentsFromIndex(new [] { comment });
+            var comment = _commentRepository.FirstOrDefault(c => c.Id == commentId);
+            return _commentRepository.RemoveRange(commentId) && _searchManager.RemoveCommentsFromIndex(new[] {comment});
         }
     }
 }

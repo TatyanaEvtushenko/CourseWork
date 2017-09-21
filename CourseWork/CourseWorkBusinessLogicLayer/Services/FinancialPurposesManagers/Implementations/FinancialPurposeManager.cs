@@ -1,42 +1,53 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
-using CourseWork.BusinessLogicLayer.Services.PaymentManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.FinancialPurposeViewModels;
 using CourseWork.DataLayer.Models;
-using CourseWork.DataLayer.Repositories;
 
 namespace CourseWork.BusinessLogicLayer.Services.FinancialPurposesManagers.Implementations
 {
     public class FinancialPurposeManager : IFinancialPurposeManager
     {
-        private readonly IPaymentManager _paymentManager;
-        private readonly Repository<FinancialPurpose> _financialPurposeRepository;
         private readonly IMapper<FinancialPurposeViewModel, FinancialPurpose> _financialPurposeMapper;
 
-        public FinancialPurposeManager(Repository<FinancialPurpose> financialPurposeRepository,
-            IPaymentManager paymentManager, IMapper<FinancialPurposeViewModel, FinancialPurpose> financialPurposeMapper)
+        public FinancialPurposeManager(IMapper<FinancialPurposeViewModel, FinancialPurpose> financialPurposeMapper)
         {
-            _financialPurposeRepository = financialPurposeRepository;
-            _paymentManager = paymentManager;
             _financialPurposeMapper = financialPurposeMapper;
         }
 
-        public IEnumerable<FinancialPurposeViewModel> GetProjectFinancialPurposeViewModels(string projectId)
+        public IEnumerable<FinancialPurposeViewModel> GetProjectFinancialPurposes(Project project, decimal paidAmount)
         {
-            var projectPayments = _paymentManager.GetProjectPayments(projectId);
-            var projectPaidAmount = _paymentManager.GetProjectPaidAmount(projectId, projectPayments);
-            return GetProjectFinancialPurposeViewModels(projectId, projectPaidAmount);
+            return project.FinancialPurposes.Select(p => GetFinancialPurposeViewModel(p, paidAmount));
         }
 
-        public IEnumerable<FinancialPurposeViewModel> GetProjectFinancialPurposeViewModels(string projectId, decimal paidAmount)
+        public IEnumerable<FinancialPurposeViewModel> GetProjectFinancialPurposes(Project project)
         {
-            return _financialPurposeRepository.GetWhere(purpose => purpose.ProjectId == projectId).Select(purpose =>
-            {
-                var purposeViewModel = _financialPurposeMapper.ConvertFrom(purpose);
-                purposeViewModel.IsReached = purposeViewModel.Budget <= paidAmount;
-                return purposeViewModel;
-            });
+            var paidAmount = project.Payments.Sum(p => p.PaidAmount);
+            return GetProjectFinancialPurposes(project, paidAmount);
+        }
+
+        public IEnumerable<FinancialPurpose> ConvertViewModelsToPurposes(IEnumerable<FinancialPurposeViewModel> purposes, string projectId)
+        {
+            return purposes.Select(p => GetNewFinancialPurpose(p, projectId));
+        }
+
+        public decimal GetProjectNeccessaryAmount(Project project)
+        {
+            return project.FinancialPurposes?.Sum(p => p.NecessaryPaymentAmount) ?? 0;
+        }
+
+        private FinancialPurposeViewModel GetFinancialPurposeViewModel(FinancialPurpose purpose, decimal paidAmount)
+        {
+            var purposeViewModel = _financialPurposeMapper.ConvertFrom(purpose);
+            purposeViewModel.IsReached = purposeViewModel.Budget <= paidAmount;
+            return purposeViewModel;
+        }
+
+        private FinancialPurpose GetNewFinancialPurpose(FinancialPurposeViewModel purpose, string projectId)
+        {
+            var purposeToAdding = _financialPurposeMapper.ConvertTo(purpose);
+            purposeToAdding.ProjectId = projectId;
+            return purposeToAdding;
         }
     }
 }

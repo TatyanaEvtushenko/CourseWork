@@ -19,7 +19,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountConfirmationManagers.Imp
 
         public bool ConfirmAccount(string userName, UserConfirmationViewModel model)
         {
-            var user = _userRepository.Get(userName);
+            var user = _userRepository.FirstOrDefault(p => p.UserName == userName);
             if (user.Status == UserStatus.WithoutConfirmation && model != null)
             {
                 return RequestConfirmation(user, model);
