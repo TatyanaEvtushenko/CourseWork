@@ -50,6 +50,7 @@ namespace CourseWork.Extensions.StartupExtensions
             services.AddScoped<IMapper<DisplayableInfoViewModel, UserInfo>, DisplayableInfoViewModelToUserInfoMapper>();
             services.AddScoped<IMapper<ProjectSmallInfoViewModel, Project>, ProjectSmallInfoViewModelToProjectMapper>();
             services.AddScoped<IMapper<CurrentUserViewModel, UserInfo>, CurrentUserViewModelToUserInfoMapper>();
+            services.AddScoped<IMapper<DisplayableInfoViewModel, UserInfo>, DisplayableInfoViewModelToUserInfoMapper>();
         }
     }
 }
