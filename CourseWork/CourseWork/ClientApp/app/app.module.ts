@@ -49,6 +49,7 @@ import { AccountEditModalComponent } from "./components/accounteditmodal/account
 import { AvatarChangeModalComponent } from "./components/avatarchangemodal/avatarchangemodal.component";
 import { UserSubscriptionsComponent } from "./components/usersubscriptions/usersubscriptions.component";
 import { LanguageSelectorComponent } from "./components/languageselector/languageselector.component";
+import { ColorSelectorComponent } from "./components/colorselector/colorselector.component";
 
 import { BaseService} from './services/base.service';
 import { CurrentUserService } from "./services/currentuser.service"; 
@@ -61,6 +62,7 @@ import { TimeService } from "./services/time.service";
 import { MessageSenderService } from "./services/messagesender.service"
 import { MessageSubscriberService } from "./services/messagesubscriber.service";
 import { LocalizationService } from "./services/localization.service";
+import { ColorService } from "./services/color.service";
 
 const appRoutes: Routes = [
     { path: '', component: HomePageComponent },
@@ -129,7 +131,8 @@ const appRoutes: Routes = [
         AccountEditModalComponent,
         AvatarChangeModalComponent,
         UserSubscriptionsComponent,
-        LanguageSelectorComponent
+        LanguageSelectorComponent,
+        ColorSelectorComponent
     ],
     providers: [
         BaseService,
@@ -143,7 +146,8 @@ const appRoutes: Routes = [
 		ProjectService,
         MessageSenderService,
         MessageSubscriberService,
-        LocalizationService
+        LocalizationService,
+        ColorService
     ],
     bootstrap: [
         AppComponent

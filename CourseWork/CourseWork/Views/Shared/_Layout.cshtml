@@ -1,4 +1,10 @@
-﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+﻿@using Org.BouncyCastle.Asn1.Ocsp
+@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    ViewBag.ColorScheme = HttpContextAccessor.HttpContext.Request.Cookies["color"] ?? "light";
+}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +14,7 @@
 
     <environment names="Development">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link type="text/css" rel="stylesheet" href="~/lib/materialize/css/materialize.css"  media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="~/lib/materialize/css/materialize_@(ViewBag.ColorScheme).css" media="screen,projection"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" href="~/css/site.css" />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism.min.css" rel="stylesheet" />

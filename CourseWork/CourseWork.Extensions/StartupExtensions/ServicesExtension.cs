@@ -4,6 +4,8 @@ using CourseWork.BusinessLogicLayer.Services.AccountManagers;
 using CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.AdminManagers;
 using CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations;
+using CourseWork.BusinessLogicLayer.Services.ColorManagers;
+using CourseWork.BusinessLogicLayer.Services.ColorManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.CommentManagers;
 using CourseWork.BusinessLogicLayer.Services.CommentManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.FinancialPurposesManagers;
@@ -54,6 +56,7 @@ namespace CourseWork.Extensions.StartupExtensions
 	        services.AddScoped<IMessageManager, MessageManager>();
             services.AddScoped<ISearchManager, SearchManager>();
             services.AddScoped<ILocalizationManager, LocalizationManager>();
+            services.AddScoped<IColorManager, ColorManager>();
         }
     }
 }

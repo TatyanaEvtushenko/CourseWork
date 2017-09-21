@@ -405,14 +405,23 @@
   <data name="APPROVECONFIRMATION" xml:space="preserve">
     <value>Ваша заявка на подтверждение аккаунта была одобрена.</value>
   </data>
+  <data name="CHANGECOLOR" xml:space="preserve">
+    <value>Изменить цветовую гамму</value>
+  </data>
   <data name="CONFIRMATIONREQUESTSENT" xml:space="preserve">
     <value>Ваша заявка на подтверждение аккаунта была отправлена администратору</value>
+  </data>
+  <data name="DARK" xml:space="preserve">
+    <value>Тёмная</value>
   </data>
   <data name="DECLINECONFIRMATION" xml:space="preserve">
     <value>Ваша заявка на подтверждение аккаунта была отклонена.</value>
   </data>
   <data name="EMAILCONFIRMATIONSENT" xml:space="preserve">
     <value>Письмо с подтверждением было отправлено</value>
+  </data>
+  <data name="LIGHT" xml:space="preserve">
+    <value>Светлая</value>
   </data>
   <data name="NEWSSENT" xml:space="preserve">
     <value>Новость отправлена</value>

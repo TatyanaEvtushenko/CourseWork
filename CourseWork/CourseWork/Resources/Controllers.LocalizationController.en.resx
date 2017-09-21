@@ -405,14 +405,23 @@
   <data name="APPROVECONFIRMATION" xml:space="preserve">
     <value>Your account confirmation request has been approved.</value>
   </data>
+  <data name="CHANGECOLOR" xml:space="preserve">
+    <value>Choose color</value>
+  </data>
   <data name="CONFIRMATIONREQUESTSENT" xml:space="preserve">
     <value>Your account confirmation request has been sent to admin.</value>
+  </data>
+  <data name="DARK" xml:space="preserve">
+    <value>Dark</value>
   </data>
   <data name="DECLINECONFIRMATION" xml:space="preserve">
     <value>Your account confirmation request has been declined.</value>
   </data>
   <data name="EMAILCONFIRMATIONSENT" xml:space="preserve">
     <value>Confirmation is sent</value>
+  </data>
+  <data name="LIGHT" xml:space="preserve">
+    <value>Light</value>
   </data>
   <data name="NEWSSENT" xml:space="preserve">
     <value>News is sent</value>
