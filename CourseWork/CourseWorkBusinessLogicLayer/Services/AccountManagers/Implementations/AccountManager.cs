@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using CourseWork.BusinessLogicLayer.Options;
-using CourseWork.BusinessLogicLayer.Services.ConverterExtensions;
+using CourseWork.BusinessLogicLayer.Services.Mappers;
 using CourseWork.BusinessLogicLayer.Services.MessageSenders;
 using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
 using CourseWork.DataLayer.Enums;
@@ -24,19 +24,21 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly Repository<UserInfo> _userInfoRepository;
         private readonly CloudinaryOptions _options;
+        private readonly IMapper<DisplayableInfoViewModel, UserInfo> _mapper;
 
         public AccountManager(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender, 
             IHttpContextAccessor contextAccessor,
-            Repository<UserInfo> userInfoRepository, IOptions<CloudinaryOptions> options)
+            Repository<UserInfo> userInfoRepository, IOptions<CloudinaryOptions> options, IMapper<DisplayableInfoViewModel, UserInfo> mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _contextAccessor = contextAccessor;
             _userInfoRepository = userInfoRepository;
+            _mapper = mapper;
             _options = options.Value;
         }
 
@@ -85,8 +87,8 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
 
         public DisplayableInfoViewModel[] GetDisplayableInfo(string[] userNames)
         {
-            return ((UserInfoRepository) _userInfoRepository).GetDisplayableInfo(userNames).Select(item => 
-                item.ConvertTo<DisplayableInfoViewModel>()).ToArray();
+            return _userInfoRepository.GetWhere(item => userNames.Contains(item.UserName), item => item.Projects).Select(item => 
+                _mapper.ConvertFrom(item)).ToArray();
         }
 
         public DisplayableInfoViewModel GetUserDisplayableInfo(string username)

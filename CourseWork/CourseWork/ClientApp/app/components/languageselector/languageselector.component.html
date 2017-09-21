@@ -1,0 +1,6 @@
+﻿<!--<div class="input-field row">-->
+    <select [(ngModel)]="selectedLanguage">
+        
+        <option *ngFor="let language of languages" [value]="language.name">{{language.name}}</option>
+    </select>
+<!--</div>-->

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using CourseWork.DataLayer.Data;
 using CourseWork.DataLayer.Dictionaries;
-using CourseWork.DataLayer.Enums.Configurations;
 using CourseWork.DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,59 +17,22 @@ namespace CourseWork.DataLayer.Repositories.Implementations
 
         public override object GetIdentificator(UserInfo item) => item.UserName;
 
-        public List<Object> GetUserListItemViewModels(Func<UserInfo, bool> whereExpression)
+        public UserInfo[] SortByField(string fieldName, bool ascending, Func<UserInfo, bool> filterRequest)
         {
-            var query = from userInfo in Table
-                        join project in DbContext.Projects on userInfo.UserName equals project.OwnerUserName into userProjects
-                        where whereExpression.Invoke(userInfo)
-                        select (Object)new
-                        {
-                            Username = userInfo.UserName,
-                            LastLoginTime = userInfo.LastLoginTime.ToString(),
-                            RegistrationTime = userInfo.RegistrationTime.ToString(),
-                            ProjectNumber = userProjects.Count(),
-                            Raiting = 0,//userInfo.Rating.ToString(),
-                            Status = EnumConfiguration.StatusDisplayNames[userInfo.Status],
-                            StatusCode = (int)userInfo.Status,
-                            IsBlocked = userInfo.IsBlocked
-                        };
-            return query.ToList();
+            return ascending ? SortByFieldAscending(fieldName, filterRequest) : SortByFieldDescending(fieldName, filterRequest);
         }
 
-        public Object[] GetDisplayableInfo(string[] userNames)
-        {
-            var userNamesSet = userNames.ToImmutableHashSet();
-            var query = from userInfo in Table
-                        join project in DbContext.Projects on userInfo.UserName equals project.OwnerUserName into userProjects
-                        where userNamesSet.Contains(userInfo.UserName)
-                        select (Object)new
-                        {
-                            UserName = userInfo.UserName,
-                            RegistrationTime = userInfo.RegistrationTime,
-                            Avatar = userInfo.Avatar,
-                            About = userInfo.About,
-                            ProjectNumber = userProjects.Count(),
-                            Contacts = userInfo.Contacts
-                        };
-            return query.ToArray();
-        }
-
-        public UserInfo[] SortByField(string fieldName, bool ascending)
-        {
-            return ascending ? SortByFieldAscending(fieldName) : SortByFieldDescending(fieldName);
-        }
-
-        private UserInfo[] SortByFieldAscending(string fieldName)
+        private UserInfo[] SortByFieldAscending(string fieldName, Func<UserInfo, bool> filterRequest)
         {
             return UserInfoFieldNamesDictionary.UserInfoFieldNames.ContainsKey(fieldName)
-                ? Table.OrderBy(UserInfoFieldNamesDictionary.UserInfoFieldNames[fieldName]).ToArray()
+                ? GetWhere(filterRequest, item => item.Projects).OrderBy(UserInfoFieldNamesDictionary.UserInfoFieldNames[fieldName]).ToArray()
                 : null;
         }
 
-        private UserInfo[] SortByFieldDescending(string fieldName)
+        private UserInfo[] SortByFieldDescending(string fieldName, Func<UserInfo, bool> filterRequest)
         {
             return UserInfoFieldNamesDictionary.UserInfoFieldNames.ContainsKey(fieldName)
-                ? Table.OrderByDescending(UserInfoFieldNamesDictionary.UserInfoFieldNames[fieldName]).ToArray()
+                ? GetWhere(filterRequest, item => item.Projects).OrderByDescending(UserInfoFieldNamesDictionary.UserInfoFieldNames[fieldName]).ToArray()
                 : null;
         }
     }

@@ -47,6 +47,7 @@ import { UserCardComponent } from "./components/usercard/usercard.component";
 import { AccountEditModalComponent } from "./components/accounteditmodal/accounteditmodal.component";
 import { AvatarChangeModalComponent } from "./components/avatarchangemodal/avatarchangemodal.component";
 import { UserSubscriptionsComponent } from "./components/usersubscriptions/usersubscriptions.component";
+import { LanguageSelectorComponent } from "./components/languageselector/languageselector.component";
 import { PaymentComponent } from "./components/payment/payment.component";
 import { ProjectProgressComponent } from "./components/projectprogress/projectprogress.component";
 
@@ -126,6 +127,7 @@ const appRoutes: Routes = [
         UserCardComponent,
         AccountEditModalComponent,
         AvatarChangeModalComponent,
+        LanguageSelectorComponent,
         UserSubscriptionsComponent,
         PaymentComponent,
         ProjectProgressComponent

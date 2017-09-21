@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using CourseWork.BusinessLogicLayer.Services.AccountManagers;
@@ -8,7 +9,6 @@ using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
-using CourseWork.BusinessLogicLayer.Services.ConverterExtensions;
 using CourseWork.DataLayer.Repositories.Implementations;
 
 namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
@@ -16,7 +16,6 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
     public class AdminManager : IAdminManager
     {
         private readonly Repository<UserInfo> _userInfoRepository;
-        private readonly Repository<ApplicationUser> _applicationUserRepository;
         private readonly Repository<Project> _projectRepository;
 	    private readonly Repository<Rating> _raitingRepository;
 	    private readonly Repository<Comment> _commentRepository;
@@ -27,7 +26,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
 
         public AdminManager(IMapper<UserListItemViewModel, UserInfo> mapperList,
             Repository<UserInfo> userInfoRepository, IMapper<UserConfirmationViewModel, UserInfo> mapperInfo,
-            IAccountManager accountManager, Repository<ApplicationUser> applicationUserRepository,
+            IAccountManager accountManager,
             Repository<Project> projectRepository, Repository<Comment> commentRepository,
             Repository<Rating> raitingRepository, ISearchManager searchManager)
         {
@@ -35,7 +34,6 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
             _userInfoRepository = userInfoRepository;
             _mapperInfo = mapperInfo;
             _accountManager = accountManager;
-            _applicationUserRepository = applicationUserRepository;
             _projectRepository = projectRepository;
             _commentRepository = commentRepository;
             _raitingRepository = raitingRepository;
@@ -44,16 +42,20 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
 
         public UserListItemViewModel[] GetAllUsers()
         {
-            return ((UserInfoRepository) _userInfoRepository).GetUserListItemViewModels(item => true)
-                .Select(item => item.ConvertTo<UserListItemViewModel>()).ToArray();
+            return _userInfoRepository.GetWhere(item => true, item => item.Projects).Select(item => _mapperList.ConvertFrom(item)).ToArray();
         }
 
         public UserListItemViewModel[] GetFilteredUsers(FilterRequestViewModel model)
         {
-            return ((UserInfoRepository)_userInfoRepository).GetUserListItemViewModels(item => (model.Confirmed && item.Status == UserStatus.Confirmed) ||
-                       (model.Requested && item.Status == UserStatus.AwaitingConfirmation) ||
-                       (model.Unconfirmed && item.Status == UserStatus.WithoutConfirmation))
-                       .Select(item => item.ConvertTo<UserListItemViewModel>()).ToArray();
+            return _userInfoRepository.GetWhere(GetFilterRequest(model), item => item.Projects)
+                       .Select(item => _mapperList.ConvertFrom(item)).ToArray();
+        }
+
+        private Func<UserInfo, bool> GetFilterRequest(FilterRequestViewModel model)
+        {
+            return item => (model.Confirmed && item.Status == UserStatus.Confirmed) ||
+                           (model.Requested && item.Status == UserStatus.AwaitingConfirmation) ||
+                           (model.Unconfirmed && item.Status == UserStatus.WithoutConfirmation);
         }
 
         public UserConfirmationViewModel GetPersonalInfo(string userName)
@@ -75,10 +77,10 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
             return true;
         }
 
-        public UserListItemViewModel[] SortByField(string fieldName, bool ascending)
+        public UserListItemViewModel[] SortByField(string fieldName, bool ascending, FilterRequestViewModel filters)
         {
-            return ((UserInfoRepository) _userInfoRepository).SortByField(fieldName, ascending)
-                .Select(n => _mapperList.ConvertFrom(n)).ToArray();
+            var filterRequest = GetFilterRequest(filters);
+            return ((UserInfoRepository)_userInfoRepository).SortByField(fieldName, ascending, filterRequest).Select(n => _mapperList.ConvertFrom(n)).ToArray();
         }
 
         public bool BlockUnblock(IEnumerable<string> usersToBlock)

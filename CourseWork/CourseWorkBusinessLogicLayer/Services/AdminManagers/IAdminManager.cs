@@ -14,7 +14,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers
 
         Task<bool> RespondToConfirmation(string userName, bool accept);
 
-        UserListItemViewModel[] SortByField(string fieldName, bool ascending);
+        UserListItemViewModel[] SortByField(string fieldName, bool ascending, FilterRequestViewModel filters);
 
         bool BlockUnblock(IEnumerable<string> usersToBlock);
 
