@@ -1,4 +1,33 @@
-﻿#logo-container {
+﻿angular-tag-cloud {
+    margin-left: 35%;
+}
+
+.progress {
+    margin: 0;
+}
+
+.payment {
+    max-width: 280px;
+}
+
+.homepage .row-news {
+    height: 500px;
+    overflow-y: auto;
+}
+
+#dropdown-nav-button {
+    line-height: 0;
+}
+
+.parallax-header {
+    margin-top: 100px;
+}
+
+.parallax-container {
+    max-height: 350px;
+}
+
+#logo-container {
     padding: 0 20px;
 }
 #dropdown-nav {
@@ -12,9 +41,14 @@
     word-break: break-all;
  }
 
+.user-min-info {
+    width: 245px;
+    height: 60px;
+}
+
 .user-min-info img {
-    min-width: 40px;
-    max-width: 50px;
+    width: 40px;
+    height: 40px;
 }
 
 .btn-icon.btn {

@@ -31,6 +31,11 @@ namespace CourseWork.BusinessLogicLayer.Services.FinancialPurposesManagers.Imple
             return purposes.Select(p => GetNewFinancialPurpose(p, projectId));
         }
 
+        public decimal GetProjectNeccessaryAmount(Project project)
+        {
+            return project.FinancialPurposes?.Sum(p => p.NecessaryPaymentAmount) ?? 0;
+        }
+
         private FinancialPurposeViewModel GetFinancialPurposeViewModel(FinancialPurpose purpose, decimal paidAmount)
         {
             var purposeViewModel = _financialPurposeMapper.ConvertFrom(purpose);

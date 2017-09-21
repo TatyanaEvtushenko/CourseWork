@@ -5,7 +5,15 @@ import { FinancialPurpose } from '../viewmodels/financialpurpose';
 export class SortingService {
 
     sortByTime(a: any, b: any) {
-        return (a: any, b: any) => this.sort(a.time, b.time, true);
+        if (a > b) {
+            return 1;
+        }
+        if (a === b) {
+            return 0;
+        } else {
+            return -1;
+        }
+       // return (a: any, b: any) => this.sort(a.time, b.time, true);
     }
 
     sortByBudget(a: FinancialPurpose, b: FinancialPurpose) {

@@ -38,7 +38,8 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
 
         public IEnumerable<NewsViewModel> GetLastNews()
         {
-            var newsModels = _newsRepository.GetWhere(news => news.Time.AddDays(2) >= DateTime.UtcNow, news => news.Project);
+            var newsModels = _newsRepository.GetOrdered(news => news.Time, 5, true,
+                news => news.Project);
             return newsModels.Select(news => _newsViewMapper.ConvertFrom(news));
         }
 

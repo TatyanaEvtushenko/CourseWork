@@ -1,4 +1,5 @@
 ﻿using System;
+using CourseWork.BusinessLogicLayer.Services.FinancialPurposesManagers;
 using CourseWork.BusinessLogicLayer.Services.PaymentManagers;
 using CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManagers;
 using CourseWork.BusinessLogicLayer.Services.RatingManagers;
@@ -12,13 +13,15 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.Project
         private readonly IProjectSubscriberManager _projectSubscriberManager;
         private readonly IPaymentManager _paymentManager;
         private readonly IRatingManager _ratingManager;
+        private readonly IFinancialPurposeManager _financialPurposeManager;
 
         public ProjectItemViewModelToProjectMapper(IProjectSubscriberManager projectSubscriberManager,
-            IPaymentManager paymentManager, IRatingManager ratingManager)
+            IPaymentManager paymentManager, IRatingManager ratingManager, IFinancialPurposeManager financialPurposeManager)
         {
             _projectSubscriberManager = projectSubscriberManager;
             _paymentManager = paymentManager;
             _ratingManager = ratingManager;
+            _financialPurposeManager = financialPurposeManager;
         }
 
         public Project ConvertTo(ProjectItemViewModel item)
@@ -39,7 +42,8 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.Project
                 OwnerUserName = item.OwnerUserName,
                 ProjectEndTime = item.FundRaisingEnd,
                 IsSubscriber = _projectSubscriberManager.IsSubscriber(item),
-                PaidAmount = _paymentManager.GetProjectPaidAmount(item)
+                PaidAmount = _paymentManager.GetProjectPaidAmount(item),
+                NeccessaryAmount = _financialPurposeManager.GetProjectNeccessaryAmount(item)
             };
         }
     }

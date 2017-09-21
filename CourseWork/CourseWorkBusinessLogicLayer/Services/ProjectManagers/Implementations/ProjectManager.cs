@@ -129,15 +129,15 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
 
         public IEnumerable<ProjectItemViewModel> GetLastCreatedProjects()
         {
-            return _projectRepository.GetOrdered(project => project.CreatingTime, 10, true,
-                    project => project.Subscribers, project => project.Payments, p => p.Ratings)
+            return _projectRepository.GetOrdered(project => project.CreatingTime, 4, true,
+                    project => project.Subscribers, project => project.Payments, p => p.Ratings, p => p.FinancialPurposes)
                 .Select(project => _projectItemMapper.ConvertFrom(project));
         }
 
         public IEnumerable<ProjectItemViewModel> GetFinancedProjects()
         {
             return _projectRepository.GetWhere(project => project.Status == ProjectStatus.Financed,
-                    project => project.Subscribers, project => project.Payments, p => p.Ratings).Take(10)
+                    project => project.Subscribers, project => project.Payments, p => p.Ratings, p => p.FinancialPurposes).Take(4)
                 .Select(project => _projectItemMapper.ConvertFrom(project));
         }
 
@@ -155,7 +155,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         private IEnumerable<ProjectItemViewModel> GetProjectItems(Func<Project, bool> whereExpression)
         {
             var projects = _projectRepository.GetWhere(whereExpression,
-                project => project.Subscribers, project => project.Payments, p => p.Ratings);
+                project => project.Subscribers, project => project.Payments, p => p.Ratings, p => p.FinancialPurposes);
             return projects.Select(p => _projectItemMapper.ConvertFrom(p));
         }
 

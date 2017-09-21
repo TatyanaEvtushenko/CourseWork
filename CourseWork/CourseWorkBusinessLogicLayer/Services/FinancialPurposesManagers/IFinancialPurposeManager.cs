@@ -12,5 +12,7 @@ namespace CourseWork.BusinessLogicLayer.Services.FinancialPurposesManagers
 
         IEnumerable<FinancialPurpose> ConvertViewModelsToPurposes(IEnumerable<FinancialPurposeViewModel> purposes,
             string projectId);
+
+        decimal GetProjectNeccessaryAmount(Project project);
     }
 }

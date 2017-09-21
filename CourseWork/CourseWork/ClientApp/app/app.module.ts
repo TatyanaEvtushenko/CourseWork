@@ -47,6 +47,8 @@ import { UserCardComponent } from "./components/usercard/usercard.component";
 import { AccountEditModalComponent } from "./components/accounteditmodal/accounteditmodal.component";
 import { AvatarChangeModalComponent } from "./components/avatarchangemodal/avatarchangemodal.component";
 import { UserSubscriptionsComponent } from "./components/usersubscriptions/usersubscriptions.component";
+import { PaymentComponent } from "./components/payment/payment.component";
+import { ProjectProgressComponent } from "./components/projectprogress/projectprogress.component";
 
 import { BaseService} from './services/base.service';
 import { CurrentUserService } from "./services/currentuser.service"; 
@@ -124,7 +126,9 @@ const appRoutes: Routes = [
         UserCardComponent,
         AccountEditModalComponent,
         AvatarChangeModalComponent,
-        UserSubscriptionsComponent
+        UserSubscriptionsComponent,
+        PaymentComponent,
+        ProjectProgressComponent
     ],
     providers: [
         BaseService,

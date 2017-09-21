@@ -1,14 +1,17 @@
 ﻿<ul materialize="collapsible" class="collapsible popout" data-collapsible="accordion">
-    <li *ngFor="let news of someNews">
-        <div class="collapsible-header">
-            <div class="col m8">
-                <h6>{{news.subject}}</h6>
+    <li *ngFor="let news of someNews; let i = index">
+        <div class="collapsible-header" [class.active]="i == 0">
+            <div class="col m8 left-align">
+                <div class="row">
+                    <span class="flow-text">{{news.subject}}    </span>
+                    <span *ngIf="news.projectInfo != null" class="grey-text">
+                        from project <a href="/ProjectPage/{{news.projectInfo.id}}" class="flow-text grey-text">{{news.projectInfo.name}}</a>
+                    </span> 
+                </div>
             </div>
-            <div class="col m3 right-align">
+            <div class="col m4 right-align">
                 {{timeService.getFormatDate(news.time)}}
-            </div>
-            <div class="col m1 right-align">
-                <i class="material-icons right" (click)="delete(news)">close</i>
+                <i *ngIf="canChange" class="material-icons right" (click)="delete(news)">close</i>
             </div>
         </div>
         <div class="collapsible-body">
