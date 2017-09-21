@@ -399,4 +399,31 @@
   <data name="USERSUBSCRIPTIONS" xml:space="preserve">
     <value>Subscriptions of user</value>
   </data>
+  <data name="AND" xml:space="preserve">
+    <value>and</value>
+  </data>
+  <data name="APPROVECONFIRMATION" xml:space="preserve">
+    <value>Your account confirmation request has been approved.</value>
+  </data>
+  <data name="CONFIRMATIONREQUESTSENT" xml:space="preserve">
+    <value>Your account confirmation request has been sent to admin.</value>
+  </data>
+  <data name="DECLINECONFIRMATION" xml:space="preserve">
+    <value>Your account confirmation request has been declined.</value>
+  </data>
+  <data name="EMAILCONFIRMATIONSENT" xml:space="preserve">
+    <value>Confirmation is sent</value>
+  </data>
+  <data name="NEWSSENT" xml:space="preserve">
+    <value>News is sent</value>
+  </data>
+  <data name="OTHERUSERS" xml:space="preserve">
+    <value>other users</value>
+  </data>
+  <data name="REQUESTEDCONFIRMATION" xml:space="preserve">
+    <value>have requested account confirmation</value>
+  </data>
+  <data name="UPDATE" xml:space="preserve">
+    <value>Update</value>
+  </data>
 </root>

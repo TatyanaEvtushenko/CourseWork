@@ -15,7 +15,7 @@ export class RegisterModalComponent implements AfterViewInit {
     isValidPasswordConfirmation = false;
     isWrongRequest = false;
     keys = ["CREATEACCOUNT", "EMAIL", "PASSWORD", "PASSWORDCONFIRM", "USERNAME", "ERRORPASSWORDLENGTH", "ERRORCONFIRMPASSWORD",
-        "ERRORALREADYEXISTS", "Register"];
+        "ERRORALREADYEXISTS", "Register", "EMAILCONFIRMATIONSENT"];
     translations = {}
 
     constructor(private accountService: AccountService, private localizationService: LocalizationService) {
@@ -48,7 +48,7 @@ export class RegisterModalComponent implements AfterViewInit {
         this.isWrongRequest = !data;
         if (!this.isWrongRequest) {
             $('#registrationModal').modal("close");
-            Materialize.toast('Confirmation is sent.', 4000);
+            Materialize.toast(this.translations['EMAILCONFIRMATIONSENT'], 4000);
         }
     }
 }

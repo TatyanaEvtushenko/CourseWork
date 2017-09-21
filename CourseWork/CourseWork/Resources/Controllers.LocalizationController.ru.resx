@@ -399,4 +399,31 @@
   <data name="USERSUBSCRIPTIONS" xml:space="preserve">
     <value>Подписки пользователя</value>
   </data>
+  <data name="AND" xml:space="preserve">
+    <value>и ещё</value>
+  </data>
+  <data name="APPROVECONFIRMATION" xml:space="preserve">
+    <value>Ваша заявка на подтверждение аккаунта была одобрена.</value>
+  </data>
+  <data name="CONFIRMATIONREQUESTSENT" xml:space="preserve">
+    <value>Ваша заявка на подтверждение аккаунта была отправлена администратору</value>
+  </data>
+  <data name="DECLINECONFIRMATION" xml:space="preserve">
+    <value>Ваша заявка на подтверждение аккаунта была отклонена.</value>
+  </data>
+  <data name="EMAILCONFIRMATIONSENT" xml:space="preserve">
+    <value>Письмо с подтверждением было отправлено</value>
+  </data>
+  <data name="NEWSSENT" xml:space="preserve">
+    <value>Новость отправлена</value>
+  </data>
+  <data name="OTHERUSERS" xml:space="preserve">
+    <value>пользователей</value>
+  </data>
+  <data name="REQUESTEDCONFIRMATION" xml:space="preserve">
+    <value>запросили подтверждение аккаунта</value>
+  </data>
+  <data name="UPDATE" xml:space="preserve">
+    <value>Обновление</value>
+  </data>
 </root>

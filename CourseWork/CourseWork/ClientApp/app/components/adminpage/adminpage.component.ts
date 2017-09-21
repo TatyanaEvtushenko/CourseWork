@@ -25,7 +25,7 @@ export class AdminPageComponent {
     sortOrderAscending = { "Status": true, "LastLoginTime": true };
     keys = ["VIEWCONFIRMATIONREQUEST", "STATUS", "LASTLOGINTIME", "USERNAME", "REGISTRATIONTIME", "PROJECTNUMBER", "RATING", "SELECTUSER",
         "AWAITING", "UNCONFIRMED", "CONFIRMED", "SHOWCONFIRMED", "SHOWUNCONFIRMED", "SHOWREQUESTED", "AdminPage", "FILTER",
-        "DELETESELECTED", "BLOCKSELECTED", "DELCOMMENTSRATINGS"];
+        "DELETESELECTED", "BLOCKSELECTED", "DELCOMMENTSRATINGS", "APPROVECONFIRMATION", "DECLINECONFIRMATION"];
     translations = {};
 
     constructor(private title: Title, public storage: MessageSubscriberService, private accountService: AccountService,
@@ -120,6 +120,6 @@ export class AdminPageComponent {
 	}
 
 	private generateResponseMessage(accept: boolean) {
-		return accept ? 'Your account confirmation request has been approved.' : 'Your account confirmation request has been declined.';
+        return accept ? this.translations["APPROVECONFIRMATION"] : this.translations['DECLINECONFIRMATION'];
 	}
 }

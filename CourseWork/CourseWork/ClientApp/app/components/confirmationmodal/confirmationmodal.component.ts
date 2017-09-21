@@ -12,7 +12,8 @@ declare var Materialize: any;
 export class ConfirmationModalComponent implements AfterViewInit {
     confirmationForm = new ConfirmationForm();
     isWrongRequest = false;
-    keys = ["PASSPORTSCAN", "NAME", "SURNAME", "DESCRIPTION", "INVALIDDATA", "SEND", "ConfirmYourAccount", "CONFIRMATIONREQUEST"];
+    keys = ["PASSPORTSCAN", "NAME", "SURNAME", "DESCRIPTION", "INVALIDDATA", "SEND", "ConfirmYourAccount", "CONFIRMATIONREQUEST",
+        "CONFIRMATIONREQUESTSENT"];
     translations = {}
 
     constructor(private accountService: AccountService, private localizationService: LocalizationService) {
@@ -21,7 +22,7 @@ export class ConfirmationModalComponent implements AfterViewInit {
         });}
 
     ngAfterViewInit() {
-        $('#confirmationModal').modal(); //
+        $('#confirmationModal').modal(); 
     }
 
     onChange(event: any) {
@@ -41,7 +42,7 @@ export class ConfirmationModalComponent implements AfterViewInit {
         this.isWrongRequest = !data;
         if (!this.isWrongRequest) {
             $('#confirmationModal').modal("close");
-            Materialize.toast('Confirmation request has been sent to admin.', 4000);
+            Materialize.toast(this.translations['CONFIRMATIONREQUESTSENT'], 4000);
         }
     }
 }
