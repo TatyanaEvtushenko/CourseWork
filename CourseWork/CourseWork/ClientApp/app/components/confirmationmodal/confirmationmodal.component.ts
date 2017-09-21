@@ -12,7 +12,7 @@ declare var Materialize: any;
 export class ConfirmationModalComponent implements AfterViewInit {
     confirmationForm = new ConfirmationForm();
     isWrongRequest = false;
-    keys = ["PASSPORTSCAN", "NAME", "SURNAME", "DESCRIPTION", "INVALIDDATA", "SEND"];
+    keys = ["PASSPORTSCAN", "NAME", "SURNAME", "DESCRIPTION", "INVALIDDATA", "SEND", "ConfirmYourAccount", "CONFIRMATIONREQUEST"];
     translations = {}
 
     constructor(private accountService: AccountService, private localizationService: LocalizationService) {

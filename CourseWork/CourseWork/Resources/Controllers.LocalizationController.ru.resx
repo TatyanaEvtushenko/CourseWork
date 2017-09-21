@@ -342,6 +342,9 @@
   <data name="CONFIRMACCOUNTNOW" xml:space="preserve">
     <value>Подтвердите свой аккаунт сейчас, чтобы создавать проекты</value>
   </data>
+  <data name="CONFIRMATIONREQUEST" xml:space="preserve">
+    <value>Заявка на подтверждение</value>
+  </data>
   <data name="CREATEACCOUNT" xml:space="preserve">
     <value>Создать новый аккаунт</value>
   </data>

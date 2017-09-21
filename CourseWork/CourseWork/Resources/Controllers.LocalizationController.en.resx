@@ -342,6 +342,9 @@
   <data name="CONFIRMACCOUNTNOW" xml:space="preserve">
     <value>Confirm your account now to create projects</value>
   </data>
+  <data name="CONFIRMATIONREQUEST" xml:space="preserve">
+    <value>Confirmation request</value>
+  </data>
   <data name="CREATEACCOUNT" xml:space="preserve">
     <value>Create a new account</value>
   </data>

@@ -25,11 +25,11 @@ export class NewProjectPageComponent{
                 private projectService: ProjectService,
                 private sortingService: SortingService,
                 private localizationService: LocalizationService) {
-        title.setTitle("New project");
         this.projectForm.financialPurposes = [];
         this.projectForm.tags = [];
         this.localizationService.getTranslations(this.keys).subscribe((data) => {
             this.translations = data;
+            title.setTitle(this.translations['CREATENEWPROJECT']);
         });
     }
 

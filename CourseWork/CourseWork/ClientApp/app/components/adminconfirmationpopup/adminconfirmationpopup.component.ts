@@ -13,7 +13,7 @@ export class AdminConfirmationPopupComponent implements AfterViewInit {
     userData = new ConfirmationForm();
     @Input() username: string;
     @Output() emitter = new EventEmitter<boolean>();
-    keys = ["PASSPORTSCAN", "NAME", "SURNAME", "DESCRIPTION"];
+    keys = ["PASSPORTSCAN", "NAME", "SURNAME", "DESCRIPTION", "CONFIRMATIONREQUEST"];
     translations = {};
 
     constructor(private accountService: AccountService, private localizationService: LocalizationService) {

@@ -24,16 +24,16 @@ export class AdminPageComponent {
     selectedIndex: number = null;
     sortOrderAscending = { "Status": true, "LastLoginTime": true };
     keys = ["VIEWCONFIRMATIONREQUEST", "STATUS", "LASTLOGINTIME", "USERNAME", "REGISTRATIONTIME", "PROJECTNUMBER", "RATING", "SELECTUSER",
-        "AWAITING", "UNCONFIRMED", "CONFIRMED", "SHOWCONFIRMED", "SHOWUNCONFIRMED", "SHOWREQUESTED", "ADMINPAGE", "FILTER",
+        "AWAITING", "UNCONFIRMED", "CONFIRMED", "SHOWCONFIRMED", "SHOWUNCONFIRMED", "SHOWREQUESTED", "AdminPage", "FILTER",
         "DELETESELECTED", "BLOCKSELECTED", "DELCOMMENTSRATINGS"];
     translations = {};
 
     constructor(private title: Title, public storage: MessageSubscriberService, private accountService: AccountService,
         private route: ActivatedRoute, private router: Router, protected messageSenderService: MessageSenderService,
         private localizationService: LocalizationService) {
-        title.setTitle("Admin page");
         this.localizationService.getTranslations(this.keys).subscribe((data) => {
             this.translations = data;
+            title.setTitle(this.translations['AdminPage']);
         });
     }
 

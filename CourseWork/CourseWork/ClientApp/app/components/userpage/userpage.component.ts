@@ -30,15 +30,12 @@ export class UserPageComponent {
     constructor(private title: Title, protected currentUserService: CurrentUserService, protected accountService: AccountService,
         protected messageSenderService: MessageSenderService, private projectService: ProjectService, private storage: MessageSubscriberService,
         private sortingService: SortingService, private route: ActivatedRoute, private localizationService: LocalizationService) {
-        title.setTitle("User page");
         this.localizationService.getTranslations(this.keys).subscribe((data) => {
             this.translations = data;
+            this.title.setTitle(this.translations['USERPAGE']);
+            this.subscribeToPageOwner();
         });
 
-    }
-
-    ngOnInit() {
-        this.subscribeToPageOwner();
     }
 
     private subscribeToPageOwner() {

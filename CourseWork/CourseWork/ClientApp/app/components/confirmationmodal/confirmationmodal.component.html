@@ -1,8 +1,7 @@
 ﻿<div id="confirmationModal" class="modal register-modal">
     <div class="modal-content center">
-        <h4>Confirm your account</h4>
+        <h4>{{translations['ConfirmYourAccount']}}</h4>
         
-        <label>Passport scan</label>
         <imageloader (emitter)="onChange($event)" [fieldName]="translations['PASSPORTSCAN']"></imageloader>
         <div class="input-field">
             <input id="confirmation-name" class="validate" required type="text" [(ngModel)]="confirmationForm.name" (keyup.enter)="onSubmit()"/>

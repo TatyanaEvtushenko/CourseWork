@@ -25,9 +25,9 @@ export class ProjectEditorPageComponent {
         private projectService: ProjectService,
         private route: ActivatedRoute,
         private sortingService: SortingService, private localizationService: LocalizationService) {
-        title.setTitle("Edit project");
         this.localizationService.getTranslations(this.keys).subscribe((data) => {
             this.translations = data;
+            title.setTitle(this.translations['EDITPROJECT']);
         });
     }
 

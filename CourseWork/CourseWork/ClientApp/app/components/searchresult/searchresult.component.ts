@@ -21,9 +21,9 @@ export class SearchResultComponent {
     constructor(private title: Title, private route: ActivatedRoute, private router: Router,
         protected accountService: AccountService, protected messageSenderService: MessageSenderService, private projectService: ProjectService,
         private storage: MessageSubscriberService, private localizationService: LocalizationService) {
-        title.setTitle("Search results");
         this.localizationService.getTranslations(this.keys).subscribe((data) => {
             this.translations = data;
+            title.setTitle(this.translations['SEARCHRESULTS']);
         });
     }
 
