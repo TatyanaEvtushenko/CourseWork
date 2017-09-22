@@ -17,51 +17,53 @@
                 </a>
             </li>
             <li class="right" *ngIf="storage.isReadyCurrentUser && !storage.isUser">
-                <a *ngIf="storage.isReadyCurrentUser && !storage.isUser" href="#registrationModal" class="modal-trigger">Register</a>
+                <a *ngIf="storage.isReadyCurrentUser && !storage.isUser" href="#registrationModal" class="modal-trigger">{{translations['Register']}}</a>
             </li>
             <li class="right" *ngIf="storage.isReadyCurrentUser && !storage.isUser">
-                <a href="#loginModal" class="modal-trigger">Log in</a>
+                <a href="#loginModal" class="modal-trigger">{{translations['LogIn']}}</a>
             </li>
         </ul>
 
         <ul id='dropdown-nav' class='dropdown-content'>
             <li *ngIf="storage.isReadyCurrentUser && storage.isAdmin">
-                <a href="/AdminPage"><i class="material-icons left">group</i> Admin page</a>
+                <a href="/AdminPage"><i class="material-icons left">group</i> {{translations['AdminPage']}}</a>
             </li>
             <li *ngIf="storage.isReadyCurrentUser && storage.isAdmin" class="divider"></li>
             <li *ngIf="storage.isReadyCurrentUser && storage.isUser">
-                <a href="/UserPage"><i class="material-icons left">home</i> My page</a>
+                <a href="/UserPage"><i class="material-icons left">home</i> {{translations['MyPage']}}</a>
             </li>
-            <li *ngIf="storage.isReadyCurrentUser && storage.isUser">
-                <a href="/UserPage"><i class="material-icons left">collections</i> My projects</a>
+            <li *ngIf="storage.isReadyCurrentUser && storage.isUser" class="divider"></li>
+            <li *ngIf="storage.isReadyCurrentUser && storage.isJustUser">
+                <a href="#confirmationModal" class="modal-trigger"><i class="material-icons left">collections</i>{{translations['ConfirmYourAccount']}}</a>
             </li>
             <li class="divider"></li>
             <li *ngIf="storage.isReadyCurrentUser && storage.isUser">
-                <a (click)="logout()"><i class="material-icons left">directions_run</i> Log out</a>
+                <a (click)="logout()"><i class="material-icons left">directions_run</i> {{translations['LogOut']}}</a>
             </li>
         </ul>
 
         <ul class="side-nav" id="mobile-demo">
             <li><searcher></searcher></li>
             <li *ngIf="storage.isReadyCurrentUser && !storage.isUser">
-                <a *ngIf="storage.isReadyCurrentUser && !storage.isUser" href="#registrationModal" class="modal-trigger">Register</a>
+                <a *ngIf="storage.isReadyCurrentUser && !storage.isUser" href="#registrationModal" class="modal-trigger">{{translations['Register']}}</a>
             </li>
             <li *ngIf="storage.isReadyCurrentUser && !storage.isUser">
-                <a href="#loginModal" class="modal-trigger">Log in</a>
+                <a href="#loginModal" class="modal-trigger">{{translations['LogIn']}}</a>
             </li>
             <li *ngIf="storage.isReadyCurrentUser && storage.isAdmin">
-                <a href="/AdminPage"><i class="material-icons left">group</i> Admin page</a>
+                <a href="/AdminPage"><i class="material-icons left">group</i> {{translations['AdminPage']}}</a>
             </li>
             <li *ngIf="storage.isReadyCurrentUser && storage.isAdmin" class="divider"></li>
             <li *ngIf="storage.isReadyCurrentUser && storage.isUser">
-                <a href="/UserPage"><i class="material-icons left">home</i> My page</a>
+                <a href="/UserPage"><i class="material-icons left">home</i>{{translations['MyPage']}}</a>
             </li>
-            <li *ngIf="storage.isReadyCurrentUser && storage.isUser">
-                <a href="/UserPage"><i class="material-icons left">collections</i> My projects</a>
+            <li *ngIf="storage.isReadyCurrentUser && storage.isUser" class="divider"></li>
+            <li *ngIf="storage.isReadyCurrentUser && storage.isJustUser">
+                <a href="#confirmationModal" class="modal-trigger"><i class="material-icons left">collections</i>{{translations['ConfirmYourAccount']}}</a>
             </li>
             <li class="divider"></li>
             <li *ngIf="storage.isReadyCurrentUser && storage.isUser">
-                <a (click)="logout()"><i class="material-icons left">directions_run</i> Log out</a>
+                <a (click)="logout()"><i class="material-icons left">directions_run</i> {{translations['LogOut']}}</a>
             </li>
         </ul>
     </div>
@@ -99,6 +101,11 @@
     </div>
 </footer>
     
+<div *ngIf="storage.isReadyCurrentUser && storage.isJustUser">
+    <confirmationmodal></confirmationmodal>
+</div>
+
+
 <div *ngIf="storage.isReadyCurrentUser && !storage.isUser">
     <registermodal></registermodal>
     <loginmodal></loginmodal>

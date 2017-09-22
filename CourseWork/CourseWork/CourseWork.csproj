@@ -17,12 +17,12 @@
      <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
   </PropertyGroup>
   
-  <ItemGroup>
+  <!--<ItemGroup>
     <Content Include="wwwroot\images\7bWlDCwt0Ks.jpg" />
     <Content Include="wwwroot\images\cnFAJzUkjKM.jpg" />
     <Content Include="wwwroot\images\fMGtf5ROn0c.jpg" />
     <Content Include="wwwroot\images\_XjvXqN2Go4.jpg" />
-  </ItemGroup>
+  </ItemGroup>-->
   
   <!--<ItemGroup>
     <Content Include="wwwroot\images\default-user.png" />

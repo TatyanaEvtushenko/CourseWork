@@ -6844,4 +6844,16 @@ body {
 table tr:hover td {
   background-color: #4db6ac; }
 
+div.card {
+  background: #424242; }
+
+div.modal {
+  background: #424242; }
+
+div.card div.card-reveal {
+  background: #424242; }
+
+input[type='text'] {
+  background: #424242; }
+
 /*# sourceMappingURL=materialize_dark.css.map */
