@@ -13,6 +13,8 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.UserInf
 
         public UserSmallViewModel ConvertFrom(UserInfo item)
         {
+            if (item == null)
+                return null;
             return new UserSmallViewModel
             {
                 UserName = item.UserName,

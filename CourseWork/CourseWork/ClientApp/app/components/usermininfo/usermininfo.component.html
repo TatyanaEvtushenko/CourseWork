@@ -1,4 +1,4 @@
-﻿<a class="user-min-info left row black-text" href="/UserPage/?username={{user.userName}}">
+﻿<a class="user-min-info left row black-text" [attr.href]="user != null ? '/UserPage/?username=' + user.userName : ''">
     <div class="col m3">
         <img *ngIf="user != null && user.avatar != null" class="circle responsive-img" src="{{user.avatar}}">
         <img *ngIf="user == null || user != null && user.avatar == null" class="circle responsive-img" src="/images/default-user.png">
