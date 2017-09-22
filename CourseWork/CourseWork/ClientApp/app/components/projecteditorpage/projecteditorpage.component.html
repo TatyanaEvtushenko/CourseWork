@@ -1,5 +1,5 @@
-﻿<errorpage *ngIf="storage.isReadyCurrentUser && project != null && project.ownerUserName != storage.currentUser.userName"></errorpage>
-<div *ngIf="storage.isReadyCurrentUser && project != null && project.ownerUserName == storage.currentUser.userName" class="container">
+﻿<errorpage *ngIf="storage.isReadyCurrentUser && project != null && project.ownerUserName != storage.currentUser.userName && !storage.isAdmin"></errorpage>
+<div *ngIf="(storage.isReadyCurrentUser && project != null) && (project.ownerUserName == storage.currentUser.userName || storage.isAdmin)" class="container">
     <h4>{{translations['EDITPROJECT']}}</h4>
     <div>
         <div class="row">

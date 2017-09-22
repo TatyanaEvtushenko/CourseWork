@@ -23,7 +23,6 @@ export class ColorSelectorComponent {
     }
 
     colorSelected() {
-        console.log(this.selectedColor);
         this.colorService.setColor(this.selectedColor).subscribe((data: void) => { });
     }
 }

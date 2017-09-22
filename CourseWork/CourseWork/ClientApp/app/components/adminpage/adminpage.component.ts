@@ -23,9 +23,10 @@ export class AdminPageComponent {
     userStatus = UserStatus;
     selectedIndex: number = null;
     sortOrderAscending = { "Status": true, "LastLoginTime": true };
+    selectedAction: string = null;
     keys = ["VIEWCONFIRMATIONREQUEST", "STATUS", "LASTLOGINTIME", "USERNAME", "REGISTRATIONTIME", "PROJECTNUMBER", "RATING", "SELECTUSER",
         "AWAITING", "UNCONFIRMED", "CONFIRMED", "SHOWCONFIRMED", "SHOWUNCONFIRMED", "SHOWREQUESTED", "AdminPage", "FILTER",
-        "DELETESELECTED", "BLOCKSELECTED", "DELCOMMENTSRATINGS", "APPROVECONFIRMATION", "DECLINECONFIRMATION"];
+        "DELETESELECTED", "BLOCKSELECTED", "DELCOMMENTSRATINGS", "APPROVECONFIRMATION", "DECLINECONFIRMATION", "APPLY", "CHOOSEACTION"];
     translations = {};
 
     constructor(private title: Title, public storage: MessageSubscriberService, private accountService: AccountService,
@@ -121,5 +122,10 @@ export class AdminPageComponent {
 
 	private generateResponseMessage(accept: boolean) {
         return accept ? this.translations["APPROVECONFIRMATION"] : this.translations['DECLINECONFIRMATION'];
-	}
+    }
+
+    apply() {
+        if (this.selectedAction != null)
+            this[this.selectedAction]();
+    }
 }

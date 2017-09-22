@@ -47,8 +47,13 @@ div.min-info {
     margin-top: 65px;
  }
 
+
 div.select-wrapper  {
-    width: 150px;
+    max-width: 325px;
+}
+
+.invisible-checkbox {
+    display: none;
 }
 
 .comments input {
@@ -163,10 +168,6 @@ div.select-wrapper  {
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
-}
-
-select {
-    max-width: 280px;
 }
 
 .carousel-caption p {

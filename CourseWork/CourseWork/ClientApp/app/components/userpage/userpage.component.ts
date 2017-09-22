@@ -33,9 +33,12 @@ export class UserPageComponent {
         this.localizationService.getTranslations(this.keys).subscribe((data) => {
             this.translations = data;
             this.title.setTitle(this.translations['USERPAGE']);
-            this.subscribeToPageOwner();
         });
 
+    }
+
+    ngOnInit() {
+        this.subscribeToPageOwner();
     }
 
     private subscribeToPageOwner() {

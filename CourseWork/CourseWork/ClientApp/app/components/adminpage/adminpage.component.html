@@ -8,26 +8,38 @@
             </button>
         </div>
 
-        <h2>{{translations['AdminPage']}}</h2>
-
-        <div>
-            <input id="admin-onlyConfirmed" type="checkbox" [(ngModel)]="filters['confirmed']"/>
-            <label for="admin-onlyConfirmed">{{translations['SHOWCONFIRMED']}}</label>
-            <input id="admin-onlyRequestedConfirmation" type="checkbox" [(ngModel)]="filters['requested']"/>
-            <label for="admin-onlyRequestedConfirmation">{{translations['SHOWREQUESTED']}}</label>
-            <input id="admin-onlyUnconfirmed" type="checkbox" [(ngModel)]="filters['unconfirmed']"/>
-            <label for="admin-onlyUnconfirmed">{{translations['SHOWUNCONFIRMED']}}</label>
-            <br/>
-            <button class="btn" (click)="filter()">{{translations['FILTER']}}</button>
-        </div>
-
-        <div>
-            <button class="btn" (click)="blockUnblock()">{{translations['BLOCKSELECTED']}}</button>
-            <button class="btn" (click)="delete()">{{translations['DELETESELECTED']}}</button>
-            <input id="admin-deleteWithCommentsAndRaitings" type="checkbox" [(ngModel)]="deleteWithCommentsAndRaitings" />
-            <label for="admin-deleteWithCommentsAndRaitings">{{translations['DELCOMMENTSRATINGS']}}</label>
-        </div>
+        <h2 class="center-align">{{translations['AdminPage']}}</h2>
         
+        <div class="row">
+            <div class="col m6">
+                <div>
+                    <input id="admin-onlyConfirmed" type="checkbox" [(ngModel)]="filters['confirmed']"/>
+                    <label for="admin-onlyConfirmed">{{translations['SHOWCONFIRMED']}}</label><br/>
+                    <input id="admin-onlyRequestedConfirmation" type="checkbox" [(ngModel)]="filters['requested']"/>
+                    <label for="admin-onlyRequestedConfirmation">{{translations['SHOWREQUESTED']}}</label><br/>
+                    <input id="admin-onlyUnconfirmed" type="checkbox" [(ngModel)]="filters['unconfirmed']"/>
+                    <label for="admin-onlyUnconfirmed">{{translations['SHOWUNCONFIRMED']}}</label>
+                </div>
+                <br/>
+                <button class="btn" (click)="confirm()">{{translations['FILTER']}}</button>
+            </div>
+            <div class="col m6">
+                <div>
+                    <input type="text" class="select-dropdown" readonly="true" data-activates="action-select" value="Choose action"/>
+                    <select id="selectedAction" materialize="material_select" name="selectedAction" data-select-id="action" [(ngModel)]="selectedAction" (ngModelChange)="actionSelected()">
+                        <option disabled selected value>{{translations['CHOOSEACTION']}}</option>
+                        <option value="delete">{{translations['DELETESELECTED']}}</option>
+                        <option value="blockUnblock">{{translations['BLOCKSELECTED']}}</option>
+                    </select>
+                </div>
+                <div [class.invisible-checkbox]="selectedAction !== 'delete'">
+                    <input id="admin-deleteWithCommentsAndRaitings" type="checkbox" [(ngModel)]="deleteWithCommentsAndRaitings"/>
+                    <label  for="admin-deleteWithCommentsAndRaitings">{{translations['DELCOMMENTSRATINGS']}}</label>
+                </div>
+                <button class="btn" (click)="apply()">{{translations['APPLY']}}</button>
+            </div>
+        </div>
+        <br/><br/>
         <div style="overflow: auto">
             <table class="highlight">
                 <thead>

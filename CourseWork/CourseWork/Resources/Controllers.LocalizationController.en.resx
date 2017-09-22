@@ -438,4 +438,7 @@
   <data name="ADDNEWPROJECT" xml:space="preserve">
     <value>Add a new project</value>
   </data>
+  <data name="CHOOSEACTION" xml:space="preserve">
+    <value>Choose action</value>
+  </data>
 </root>
