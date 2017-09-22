@@ -1,6 +1,6 @@
 ﻿<ul materialize="collapsible" class="collapsible popout" data-collapsible="accordion">
     <li *ngFor="let news of someNews; let i = index">
-        <div class="collapsible-header" [class.active]="i == 0">
+        <div class="collapsible-header display" [class.active]="i == 0">
             <div class="col m8 left-align">
                 <div class="row">
                     <span class="flow-text">{{news.subject}}    </span>

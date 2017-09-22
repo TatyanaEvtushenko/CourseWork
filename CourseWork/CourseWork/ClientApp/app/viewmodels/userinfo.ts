@@ -7,4 +7,5 @@
     raiting: string;
     statusCode: number;
     isBlocked: boolean;
+    avatar: string;
 }

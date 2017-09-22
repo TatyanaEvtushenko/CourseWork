@@ -17,5 +17,7 @@
         public int StatusCode { get; set; }
 
         public bool IsBlocked { get; set; }
+
+        public string Avatar;
     }
 }

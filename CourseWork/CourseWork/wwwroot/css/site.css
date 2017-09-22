@@ -21,6 +21,7 @@ label {
 .homepage .row-news {
     height: 500px;
     overflow-y: auto;
+    overflow: hidden;
 }
 
 #dropdown-nav-button {

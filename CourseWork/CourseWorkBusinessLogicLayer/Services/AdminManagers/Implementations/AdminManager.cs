@@ -119,23 +119,22 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
 
         private bool DeleteUsersWithCommentsndRatings(IEnumerable<string> usersToDelete)
         {
-            var projectsToRemove = _projectRepository.GetWhere(n => usersToDelete.Contains(n.OwnerUserName),
-                p => p.Comments, p => p.Ratings);
-            var commentsToRemove = projectsToRemove.SelectMany(p => p.Comments).ToArray();
-            var result = RemoveWithCommentsAndRatings(usersToDelete, commentsToRemove);
+            var commentsToRemove = _commentRepository.GetWhere(n => usersToDelete.Contains(n.UserName));
+            var projectsToRemove = _projectRepository.GetWhere(n => usersToDelete.Contains(n.OwnerUserName));
+            var result = RemoveWithCommentsAndRatings(usersToDelete);
             if (result)
             {
-                RemoveIndexes(projectsToRemove.ToArray(), commentsToRemove);
+                RemoveIndexes(projectsToRemove.ToArray(), commentsToRemove.ToArray());
             }
             return result;
         }
 
-        private bool RemoveWithCommentsAndRatings(IEnumerable<string> usersToDelete,
-            IEnumerable<Comment> commentsToRemove)
+        private bool RemoveWithCommentsAndRatings(IEnumerable<string> usersToDelete)
         {
-            return _userInfoRepository.RemoveRange(usersToDelete) &&
-                         _raitingRepository.RemoveWhere(n => usersToDelete.Contains(n.UserName)) &&
-                         _commentRepository.RemoveWhere(commentsToRemove.Contains);
+            return _raitingRepository.RemoveWhere(n => usersToDelete.Contains(n.UserName)) &&
+                   _commentRepository.RemoveWhere(n => usersToDelete.Contains(n.UserName)) &&
+                   _userInfoRepository.RemoveRange(usersToDelete);
+
         }
 
         private void RemoveIndexes(Project[] projectsToRemove, Comment[] commentsToRemove)
