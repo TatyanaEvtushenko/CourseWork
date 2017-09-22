@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CourseWork.BusinessLogicLayer.Options;
 using CourseWork.BusinessLogicLayer.Services.MessageManagers;
 using CourseWork.BusinessLogicLayer.Services.UserManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.MessageViewModels;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
-using Microsoft.Extensions.Options;
 
 namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
 {
@@ -21,10 +19,17 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
         private readonly IRepository<Payment> _paymentRepository;
         private readonly IRepository<ProjectSubscriber> _subscriberRepository;
         private readonly IRepository<Project> _projectRepository;
-        private readonly AwardLevelOptions _awardOptions;
 
-        public AwardManager(IUserManager userManager, IRepository<Award> awardRepository,
-            IOptions<AwardLevelOptions> awardOptions, IRepository<Comment> commentRepository,
+        private readonly Dictionary<AwardType, int[]> _levels = new Dictionary<AwardType, int[]>
+        {
+            [AwardType.ForComments] = new []{1, 5, 10, 30, 50, 80, 100, 200, 500},
+            [AwardType.ForPayments] = new []{1, 10, 20, 50, 100, 200, 300, 500, 1000},
+            [AwardType.ForReceivedPayments] = new []{1, 5, 10, 30, 50, 80, 100, 200, 500},
+            [AwardType.ForSubscriptions] = new []{1, 5, 10, 20, 30, 50, 80, 100, 150},
+            [AwardType.ForProjects] = new []{1, 3, 5, 10, 15, 20, 30, 50, 100},
+        };
+
+        public AwardManager(IUserManager userManager, IRepository<Award> awardRepository,IRepository<Comment> commentRepository,
             IRepository<Payment> paymentRepository, IRepository<ProjectSubscriber> subscriberRepository,
             IRepository<Project> projectRepository, IMessageManager messageManager)
         {
@@ -35,62 +40,69 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
             _subscriberRepository = subscriberRepository;
             _projectRepository = projectRepository;
             _messageManager = messageManager;
-            _awardOptions = awardOptions.Value;
         }
 
         public bool AddAwardForComments()
         {
             var ownerUserName = _userManager.CurrentUserName;
-            return CheckAward(AwardType.ForComments, ownerUserName, _awardOptions.CommentLevels, 
+            return CheckAward(AwardType.ForComments, ownerUserName,
                 () => _commentRepository.Count(c => c.UserName == ownerUserName));
         }
 
         public bool AddAwardForProjects()
         {
             var ownerUserName = _userManager.CurrentUserName;
-            return CheckAward(AwardType.ForProjects, ownerUserName, _awardOptions.ProjectLevels, 
+            return CheckAward(AwardType.ForProjects, ownerUserName, 
                 () => _projectRepository.Count(p => p.OwnerUserName == ownerUserName));
         }
 
         public bool AddAwardForPayments(Payment payment)
         {
-            return CheckAward(AwardType.ForPayments, payment.UserName, _awardOptions.PaymentLevels, 
+            return CheckAward(AwardType.ForPayments, payment.UserName,
                 () => payment.PaidAmount);
         }
 
         public bool AddAwardForReceivedSubscriptions(string projectId)
         {
             var ownerUserName = _projectRepository.FirstOrDefault(p => p.Id == projectId).OwnerUserName;
-            return CheckAward(AwardType.ForSubscriptions, ownerUserName, _awardOptions.SubscriptionLevels, 
+            return CheckAward(AwardType.ForSubscriptions, ownerUserName, 
                 () => _subscriberRepository.Count(s => s.Project.OwnerUserName == ownerUserName));
         }
 
         public bool AddAwardForReceivedPayments(Project project)
         {
-            return CheckAward(AwardType.ForReceivedPayments, project.OwnerUserName, _awardOptions.ReceivedPaymentLevels, 
+            return CheckAward(AwardType.ForReceivedPayments, project.OwnerUserName,
                 () => _paymentRepository.GetWhere(p => p.Project.OwnerUserName == project.OwnerUserName)?.Sum(p => p.PaidAmount) ?? 0);
         }
 
-        private bool CheckAward(AwardType awardType, string ownerUserName, Dictionary<int, int> levels, Func<decimal> countExistedValue)
+        public decimal GetNeccessaryCountForAward(AwardType type, int level)
+        {
+            return _levels[type][level];
+        }
+
+        public int GetTrueLevelNumber(int level) => level + 1;
+
+        private bool CheckAward(AwardType awardType, string ownerUserName, Func<decimal> countExistedValue)
         {
             var award = GetAward(awardType, ownerUserName);
             if (award == null)
             {
                return AddAward(awardType);
             }
-            var isUpdated = UpdateAward(award, levels, countExistedValue);
+            var isUpdated = UpdateAward(award, countExistedValue);
             SendMessageAboutNewAward(award, isUpdated, ownerUserName);
             return isUpdated;
         }
 
-        private bool UpdateAward(Award award, Dictionary<int, int> levels, Func<decimal> countExistedValue)
+        private bool UpdateAward(Award award, Func<decimal> countExistedValue)
         {
-            if (IsLastLevel(award, levels))
+            if (IsLastLevel(award))
             {
                 return false;
             }
             var existedValue = countExistedValue();
-            var existedLevel = (byte)levels.LastOrDefault(x => existedValue >= x.Value).Key;
+            var existedLevelValue = _levels[award.AwardType].LastOrDefault(x => existedValue >= x);
+            var existedLevel = (byte)Array.IndexOf(_levels[award.AwardType], existedLevelValue);
             return TryUpdateAwardInRepository(award, existedLevel);
         }
 
@@ -118,9 +130,9 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
             _messageManager.Send(new []{message});
         }
 
-        private bool IsLastLevel(Award award, Dictionary<int, int> levels)
+        private bool IsLastLevel(Award award)
         {
-            return award.Level >= levels.Keys.Last();
+            return award.Level >= _levels[award.AwardType].Length;
         }
 
         private bool AddAward(AwardType type)
@@ -128,8 +140,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
             var award = new Award
             {
                 AwardType = type,
-                UserName = _userManager.CurrentUserName,
-                Level = _awardOptions.FirstLevel
+                UserName = _userManager.CurrentUserName
             };
             return _awardRepository.AddRange(award);
         }

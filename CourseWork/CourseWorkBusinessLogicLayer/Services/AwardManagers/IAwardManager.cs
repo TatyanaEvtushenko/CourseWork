@@ -1,4 +1,5 @@
-﻿using CourseWork.DataLayer.Models;
+﻿using CourseWork.DataLayer.Enums;
+using CourseWork.DataLayer.Models;
 
 namespace CourseWork.BusinessLogicLayer.Services.AwardManagers
 {
@@ -13,5 +14,9 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers
         bool AddAwardForPayments(Payment payment);
 
         bool AddAwardForReceivedPayments(Project project);
+
+        decimal GetNeccessaryCountForAward(AwardType type, int level);
+
+        int GetTrueLevelNumber(int level);
     }
 }
