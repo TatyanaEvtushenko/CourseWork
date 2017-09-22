@@ -27,7 +27,7 @@ namespace CourseWork.BusinessLogicLayer.Services.PaymentManagers.Implementations
         public IEnumerable<PaymentViewModel> GetBigPayments()
         {
             return _paymentRepository.GetOrdered(payment => payment.PaidAmount, 4, true, 
-                payment => payment.Project, payment => payment.UserInfo)
+                payment => payment.Project, payment => payment.UserInfo, payment => payment.UserInfo.Awards)
                 .Select(payment => _paymentMapper.ConvertFrom(payment));
         }
 

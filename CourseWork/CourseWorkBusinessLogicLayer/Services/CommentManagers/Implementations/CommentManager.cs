@@ -10,6 +10,7 @@ namespace CourseWork.BusinessLogicLayer.Services.CommentManagers.Implementations
     public class CommentManager : ICommentManager
     {
         private readonly IRepository<Comment> _commentRepository;
+        private readonly IRepository<UserInfo> _userInfoRepository;
         private readonly ISearchManager _searchManager;
         private readonly IAwardManager _awardManager;
         private readonly IMapper<CommentFormViewModel, Comment> _commentMapper;
@@ -17,13 +18,14 @@ namespace CourseWork.BusinessLogicLayer.Services.CommentManagers.Implementations
 
         public CommentManager(IRepository<Comment> commentRepository,
             IMapper<CommentFormViewModel, Comment> commentMapper, ISearchManager searchManager,
-            IMapper<CommentViewModel, Comment> commentViewMapper, IAwardManager awardManager)
+            IMapper<CommentViewModel, Comment> commentViewMapper, IAwardManager awardManager, IRepository<UserInfo> userInfoRepository)
         {
             _commentRepository = commentRepository;
             _commentMapper = commentMapper;
             _searchManager = searchManager;
             _commentViewMapper = commentViewMapper;
             _awardManager = awardManager;
+            _userInfoRepository = userInfoRepository;
         }
 
         public CommentViewModel AddComment(CommentFormViewModel commentForm)
@@ -47,6 +49,7 @@ namespace CourseWork.BusinessLogicLayer.Services.CommentManagers.Implementations
         {
             _searchManager.AddCommentToIndex(comment);
             _awardManager.AddAwardForComments();
+            comment.UserInfo = _userInfoRepository.FirstOrDefault(i => i.UserName == comment.UserName);
         }
     }
 }

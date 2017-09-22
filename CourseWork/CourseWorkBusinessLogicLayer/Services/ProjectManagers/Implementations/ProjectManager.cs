@@ -32,7 +32,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         private readonly IMapper<ProjectEditorFormViewModel, Project> _projectEditorFormMapper;
         private readonly IMapper<PaymentFormViewModel, Payment> _paymentMapper;
 
-        public ProjectManager(DataLayer.Repositories.Implementations.Repository<Project> projectRepository,
+        public ProjectManager(IRepository<Project> projectRepository,
             IMapper<ProjectItemViewModel, Project> projectItemMapper,
             IMapper<ProjectFormViewModel, Project> projectFormMapper,
             IMapper<ProjectViewModel, Project> projectMapper, IUserManager userManager,
@@ -88,8 +88,9 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
 
         public ProjectViewModel GetProject(string projectId)
         {
-            var project = _projectRepository.FirstOrDefault(p => p.Id == projectId, 
-                p => p.Comments, p => p.Payments, p => p.FinancialPurposes, p => p.News, p => p.UserInfo, p => p.Tags, p => p.Ratings);
+            var project = _projectRepository.FirstOrDefault(p => p.Id == projectId,
+                p => p.Comments, p => p.Payments, p => p.FinancialPurposes, p => p.News, p => p.UserInfo, p => p.Tags,
+                p => p.Ratings, p => p.UserInfo.Awards);
             return _projectMapper.ConvertFrom(project);
         }
 
@@ -165,7 +166,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         private IEnumerable<ProjectItemViewModel> GetProjectItems(Func<Project, bool> whereExpression)
         {
             var projects = _projectRepository.GetWhere(whereExpression,
-                project => project.Subscribers, project => project.Payments, p => p.Ratings, p => p.FinancialPurposes);
+                project => project.Subscribers, project => project.Payments, p => p.Ratings, p => p.FinancialPurposes );
             return projects.Select(p => _projectItemMapper.ConvertFrom(p));
         }
 

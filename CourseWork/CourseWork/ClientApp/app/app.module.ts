@@ -50,6 +50,7 @@ import { UserSubscriptionsComponent } from "./components/usersubscriptions/users
 import { LanguageSelectorComponent } from "./components/languageselector/languageselector.component";
 import { PaymentComponent } from "./components/payment/payment.component";
 import { ProjectProgressComponent } from "./components/projectprogress/projectprogress.component";
+import { AwardComponent } from "./components/award/award.component";
 
 import { BaseService} from './services/base.service';
 import { CurrentUserService } from "./services/currentuser.service"; 
@@ -61,6 +62,7 @@ import { SortingService } from "./services/sorting.service";
 import { TimeService } from "./services/time.service";
 import { MessageSenderService } from "./services/messagesender.service"
 import { MessageSubscriberService } from "./services/messagesubscriber.service";
+import { AwardService } from "./services/award.service";
 
 const appRoutes: Routes = [
     { path: '', component: HomePageComponent },
@@ -130,7 +132,8 @@ const appRoutes: Routes = [
         LanguageSelectorComponent,
         UserSubscriptionsComponent,
         PaymentComponent,
-        ProjectProgressComponent
+        ProjectProgressComponent,
+        AwardComponent
     ],
     providers: [
         BaseService,
@@ -143,7 +146,8 @@ const appRoutes: Routes = [
         TimeService,
 		ProjectService,
         MessageSenderService,
-        MessageSubscriberService
+        MessageSubscriberService,
+        AwardService
     ],
     bootstrap: [
         AppComponent

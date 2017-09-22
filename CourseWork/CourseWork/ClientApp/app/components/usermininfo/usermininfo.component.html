@@ -5,7 +5,13 @@
     </div>
     <div class="col m9 left-align">
         <span *ngIf="user != null">
-            {{user.userName}}<br />ЗДЕСЬ МЕДАЛЬКИ
+            {{user.userName}}<br />
+            <ng-container *ngIf="user.awards != null">
+                <span *ngFor="let award of user.awards" class="center-align award-icon small-award">
+                    <img src="{{awardService.getAwardImage(award.type)}}"/>
+                    <span class="grey-text text-lighten-2"><b>{{award.level}}</b></span>
+                </span>
+            </ng-container>
         </span>
         <span *ngIf="user == null"><i>Deleted user</i></span>
     </div>
