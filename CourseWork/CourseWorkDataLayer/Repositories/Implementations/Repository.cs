@@ -7,7 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CourseWork.DataLayer.Repositories.Implementations
 {
-    public abstract class Repository<T> : IRepository<T> where T : class
+    public interface IRepository
+    {
+    }
+
+    public abstract class Repository<T> : Repositories.IRepository<T>, IRepository where T : class
     {
         protected readonly ApplicationDbContext DbContext;
 

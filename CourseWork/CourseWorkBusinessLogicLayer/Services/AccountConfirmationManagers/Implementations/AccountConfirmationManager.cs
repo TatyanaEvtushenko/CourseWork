@@ -3,16 +3,15 @@ using CourseWork.BusinessLogicLayer.Services.PhotoManagers;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
-using CourseWork.DataLayer.Repositories.Implementations;
 
 namespace CourseWork.BusinessLogicLayer.Services.AccountConfirmationManagers.Implementations
 {
     public class AccountConfirmationManager : IAccountConfirmationManager
     {
-        private readonly Repository<UserInfo> _userRepository;
+        private readonly IRepository<UserInfo> _userRepository;
         private readonly IPhotoManager _photoManager;
 
-        public AccountConfirmationManager(Repository<UserInfo> userRepository, IPhotoManager photoManager)
+        public AccountConfirmationManager(IRepository<UserInfo> userRepository, IPhotoManager photoManager)
         {
             _userRepository = userRepository;
             _photoManager = photoManager;

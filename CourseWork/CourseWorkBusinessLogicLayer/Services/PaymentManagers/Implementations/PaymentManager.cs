@@ -4,18 +4,17 @@ using CourseWork.BusinessLogicLayer.Services.Mappers;
 using CourseWork.BusinessLogicLayer.ViewModels.PaymentViewModels;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
-using CourseWork.DataLayer.Repositories.Implementations;
 
 namespace CourseWork.BusinessLogicLayer.Services.PaymentManagers.Implementations
 {
     public class PaymentManager : IPaymentManager
     {
-        private readonly Repository<Payment> _paymentRepository;
-        private readonly Repository<Project> _projectRepository;
+        private readonly IRepository<Payment> _paymentRepository;
+        private readonly IRepository<Project> _projectRepository;
         private readonly IMapper<PaymentForFormViewModel, Project> _paymentForFormMapper;
         private readonly IMapper<PaymentViewModel, Payment> _paymentMapper;
 
-        public PaymentManager(Repository<Payment> paymentRepository, Repository<Project> projectRepository,
+        public PaymentManager(IRepository<Payment> paymentRepository, IRepository<Project> projectRepository,
             IMapper<PaymentForFormViewModel, Project> paymentForFormMapper,
             IMapper<PaymentViewModel, Payment> paymentMapper)
         {

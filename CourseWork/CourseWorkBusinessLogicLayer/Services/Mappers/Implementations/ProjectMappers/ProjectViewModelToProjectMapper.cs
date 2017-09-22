@@ -13,13 +13,12 @@ using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
-using CourseWork.DataLayer.Repositories.Implementations;
 
 namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.ProjectMappers
 {
     public class ProjectViewModelToProjectMapper : IMapper<ProjectViewModel, Project>
     {
-        private readonly Repository<UserInfo> _userInfoRepository;
+        private readonly IRepository<UserInfo> _userInfoRepository;
         private readonly IMapper<NewsViewModel, News> _newsMapper;
         private readonly IMapper<CommentViewModel, Comment> _commentMapper;
         private readonly IMapper<UserSmallViewModel, UserInfo> _userInfoMapper;
@@ -32,7 +31,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.Project
         public ProjectViewModelToProjectMapper(
             IMapper<CommentViewModel, Comment> commentMapper, IMapper<NewsViewModel, News> newsMapper,
             ITagService tagService, IPaymentManager paymentManager,
-            IFinancialPurposeManager financialPurposeManager, Repository<UserInfo> userInfoRepository,
+            IFinancialPurposeManager financialPurposeManager, IRepository<UserInfo> userInfoRepository,
             IMapper<UserSmallViewModel, UserInfo> userInfoMapper, IProjectSubscriberManager projectSubscriberManager,
             IRatingManager ratingManager)
         {

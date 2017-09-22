@@ -3,20 +3,18 @@ using CourseWork.BusinessLogicLayer.Services.Mappers;
 using CourseWork.BusinessLogicLayer.ViewModels.MessageViewModels;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
-using CourseWork.DataLayer.Repositories.Implementations;
 
 namespace CourseWork.BusinessLogicLayer.Services.MessageManagers.Implementations
 {
     public class MessageManager : IMessageManager
     {
-	    private readonly Repository<Message> _messageRepository;
-        private readonly Repository<ProjectSubscriber> _projectSubscribeRepository;
+	    private readonly IRepository<Message> _messageRepository;
+        private readonly IRepository<ProjectSubscriber> _projectSubscribeRepository;
 	    private readonly IMapper<MessageViewModel, Message> _serverMapper;
 	    private readonly IMapper<ClientMessageViewModel, Message> _clientMapper;
 
-        public MessageManager(Repository<Message> messageRepository, IMapper<MessageViewModel, Message> serverMapper,
-            IMapper<ClientMessageViewModel, Message> clientMapper,
-            Repository<ProjectSubscriber> projectSubscribeRepository)
+        public MessageManager(IRepository<Message> messageRepository, IMapper<MessageViewModel, Message> serverMapper,
+            IMapper<ClientMessageViewModel, Message> clientMapper, IRepository<ProjectSubscriber> projectSubscribeRepository)
         {
             _messageRepository = messageRepository;
             _serverMapper = serverMapper;

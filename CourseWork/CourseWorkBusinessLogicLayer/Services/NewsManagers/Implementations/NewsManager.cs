@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
@@ -10,22 +9,21 @@ using CourseWork.BusinessLogicLayer.ViewModels.NewsViewModels;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
-using CourseWork.DataLayer.Repositories.Implementations;
 
 namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
 {
     public class NewsManager : INewsManager
     {
-        private readonly Repository<News> _newsRepository;
-        private readonly Repository<Project> _projectRepository;
+        private readonly IRepository<News> _newsRepository;
+        private readonly IRepository<Project> _projectRepository;
         private readonly IMapper<NewsFormViewModel, News> _newsMapper;
         private readonly IMapper<NewsViewModel, News> _newsViewMapper;
         private readonly IEmailSender _emailSender;
         private readonly IUserManager _userManager;
         private readonly ISearchManager _searchManager;
 
-        public NewsManager(Repository<News> newsRepository, IMapper<NewsFormViewModel, News> newsMapper,
-            IEmailSender emailSender, Repository<Project> projectRepository,
+        public NewsManager(IRepository<News> newsRepository, IMapper<NewsFormViewModel, News> newsMapper,
+            IEmailSender emailSender, IRepository<Project> projectRepository,
             IUserManager userManager, ISearchManager searchManager, IMapper<NewsViewModel, News> newsViewMapper)
         {
             _newsRepository = newsRepository;

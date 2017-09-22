@@ -1,6 +1,5 @@
 ﻿using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
-using CourseWork.DataLayer.Repositories.Implementations;
 using CourseWork.DataLayer.Repositories.Implementations.Implementations;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,17 +9,17 @@ namespace CourseWork.Extensions.StartupExtensions
     {
         public static void AddRepositories(this IServiceCollection services)
         {
-            services.AddScoped<Repository<Tag>, TagRepository>();
-            services.AddScoped<Repository<Project>, ProjectRepository>();
-            services.AddScoped<Repository<News>, NewsRepository>();
-            services.AddScoped<Repository<FinancialPurpose>, FinancialPurposeRepository>();
-            services.AddScoped<Repository<UserInfo>, UserInfoRepository>();
-            services.AddScoped<Repository<Payment>, PaymentRepository>();
-            services.AddScoped<Repository<ProjectSubscriber>, ProjectSubscriberRepository>();
-            services.AddScoped<Repository<ApplicationUser>, ApplicationUserRepository>();
-	        services.AddScoped<Repository<Rating>, RatingRepository>();
-	        services.AddScoped<Repository<Comment>, CommentRepository>();
-	        services.AddScoped<Repository<Message>, MessageRepository>();
+            services.AddScoped<IRepository<Tag>, TagRepository>();
+            services.AddScoped<IRepository<Project>, ProjectRepository>();
+            services.AddScoped<IRepository<News>, NewsRepository>();
+            services.AddScoped<IRepository<FinancialPurpose>, FinancialPurposeRepository>();
+            services.AddScoped<IRepository<UserInfo>, UserInfoRepository>();
+            services.AddScoped<IRepository<Payment>, PaymentRepository>();
+            services.AddScoped<IRepository<ProjectSubscriber>, ProjectSubscriberRepository>();
+            services.AddScoped<IRepository<ApplicationUser>, ApplicationUserRepository>();
+	        services.AddScoped<IRepository<Rating>, RatingRepository>();
+	        services.AddScoped<IRepository<Comment>, CommentRepository>();
+	        services.AddScoped<IRepository<Message>, MessageRepository>();
         }
     }
 }

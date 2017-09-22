@@ -2,16 +2,15 @@
 using CourseWork.BusinessLogicLayer.Services.UserManagers;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
-using CourseWork.DataLayer.Repositories.Implementations;
 
 namespace CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManagers.Implementations
 {
     public class ProjectSubscriberManager : IProjectSubscriberManager
     {
-        private readonly Repository<ProjectSubscriber> _projectSubscriberRepository;
+        private readonly IRepository<ProjectSubscriber> _projectSubscriberRepository;
         private readonly IUserManager _userManager;
 
-        public ProjectSubscriberManager(Repository<ProjectSubscriber> projectSubscriberRepository,
+        public ProjectSubscriberManager(IRepository<ProjectSubscriber> projectSubscriberRepository,
             IUserManager userManager)
         {
             _projectSubscriberRepository = projectSubscriberRepository;

@@ -4,17 +4,16 @@ using CourseWork.BusinessLogicLayer.Services.UserManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
-using CourseWork.DataLayer.Repositories.Implementations;
 
 namespace CourseWork.BusinessLogicLayer.Services.RatingManagers.Implementations
 {
     public class RatingManager : IRatingManager
     {
-        private readonly Repository<Rating> _raitingRepository;
+        private readonly IRepository<Rating> _raitingRepository;
         private readonly IMapper<RatingViewModel, Rating> _ratingMapper;
         private readonly IUserManager _userManager;
 
-        public RatingManager(Repository<Rating> raitingRepository, IMapper<RatingViewModel, Rating> ratingMapper,
+        public RatingManager(IRepository<Rating> raitingRepository, IMapper<RatingViewModel, Rating> ratingMapper,
             IUserManager userManager)
         {
             _raitingRepository = raitingRepository;

@@ -5,8 +5,6 @@ using Microsoft.Extensions.Options;
 using CourseWork.BusinessLogicLayer.Options;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
 using CourseWork.DataLayer.Models;
-using CourseWork.DataLayer.Repositories;
-using CourseWork.DataLayer.Repositories.Implementations;
 using Elasticsearch.Net;
 
 namespace CourseWork.BusinessLogicLayer.ElasticSearch
@@ -16,9 +14,10 @@ namespace CourseWork.BusinessLogicLayer.ElasticSearch
         public ElasticClient Client { get; private set; }
         private readonly ElasticSearchOptions _options;
         private readonly IMapper<ProjectSearchNote, Project> _projectSearchMapper;
-        private readonly Repository<Project> _projectRepository;
+        private readonly DataLayer.Repositories.IRepository<Project> _projectRepository;
 
-        public SearchClient(IOptions<ElasticSearchOptions> options, Repository<Project> projectRepository,
+        public SearchClient(IOptions<ElasticSearchOptions> options,
+            DataLayer.Repositories.IRepository<Project> projectRepository,
             IMapper<ProjectSearchNote, Project> projectSearchMapper)
         {
             _projectRepository = projectRepository;

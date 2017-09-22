@@ -12,14 +12,13 @@ using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
-using CourseWork.DataLayer.Repositories.Implementations;
 
 namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
 {
     public class ProjectManager : IProjectManager
     {
-        private readonly Repository<Project> _projectRepository;
-        private readonly Repository<Payment> _paymentRepository;
+        private readonly IRepository<Project> _projectRepository;
+        private readonly IRepository<Payment> _paymentRepository;
         private readonly IUserManager _userManager;
         private readonly IPhotoManager _photoManager;
         private readonly IFinancialPurposeManager _financialPurposeManager;
@@ -31,12 +30,11 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         private readonly IMapper<ProjectEditorFormViewModel, Project> _projectEditorFormMapper;
         private readonly IMapper<PaymentFormViewModel, Payment> _paymentMapper;
 
-        public ProjectManager(Repository<Project> projectRepository,
+        public ProjectManager(DataLayer.Repositories.Implementations.Repository<Project> projectRepository,
             IMapper<ProjectItemViewModel, Project> projectItemMapper,
             IMapper<ProjectFormViewModel, Project> projectFormMapper,
             IMapper<ProjectViewModel, Project> projectMapper, IUserManager userManager,
-            IMapper<ProjectEditorFormViewModel, Project> projectEditorFormMapper, IPhotoManager photoManager,
-            Repository<Payment> paymentRepository,
+            IMapper<ProjectEditorFormViewModel, Project> projectEditorFormMapper, IPhotoManager photoManager, DataLayer.Repositories.Implementations.Repository<Payment> paymentRepository,
             IMapper<PaymentFormViewModel, Payment> paymentMapper,
             ISearchManager searchManager, IFinancialPurposeManager financialPurposeManager, ITagService tagService)
         {

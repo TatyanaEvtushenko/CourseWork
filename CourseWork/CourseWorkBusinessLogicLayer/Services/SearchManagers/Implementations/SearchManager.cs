@@ -7,7 +7,6 @@ using CourseWork.BusinessLogicLayer.ElasticSearch.Documents;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using CourseWork.DataLayer.Models;
-using CourseWork.DataLayer.Repositories.Implementations;
 using Elasticsearch.Net;
 using Nest;
 
@@ -16,7 +15,7 @@ namespace CourseWork.BusinessLogicLayer.Services.SearchManagers.Implementations
     public class SearchManager : ISearchManager
     {
         private readonly ElasticClient _client;
-        private readonly Repository<Project> _projectRepository;
+        private readonly DataLayer.Repositories.IRepository<Project> _projectRepository;
         private readonly IMapper<ProjectItemViewModel, Project> _mapper;
         private readonly IMapper<ProjectSearchNote, Project> _projectSearchMapper;
 
@@ -26,7 +25,8 @@ namespace CourseWork.BusinessLogicLayer.Services.SearchManagers.Implementations
         private delegate void UpdateCommentDelegate(Comment comment, List<string> updatedCommentTexts);
 
         public SearchManager(SearchClient searchClient, IMapper<ProjectItemViewModel, Project> mapper,
-            Repository<Project> projectRepository, IMapper<ProjectSearchNote, Project> projectSearchMapper)
+            DataLayer.Repositories.IRepository<Project> projectRepository,
+            IMapper<ProjectSearchNote, Project> projectSearchMapper)
         {
             _mapper = mapper;
             _projectRepository = projectRepository;
