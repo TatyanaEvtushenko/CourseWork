@@ -11,7 +11,7 @@ namespace CourseWork.DataLayer.Repositories.Implementations
     {
     }
 
-    public abstract class Repository<T> : Repositories.IRepository<T>, IRepository where T : class
+    public abstract class Repository<T> : IRepository<T> where T : class
     {
         protected readonly ApplicationDbContext DbContext;
 
@@ -71,6 +71,11 @@ namespace CourseWork.DataLayer.Repositories.Implementations
         public int Count(Func<T, bool> whereExpression)
         {
             return Table.Count(whereExpression);
+        }
+
+        public decimal Sum(Func<T, decimal> whereExpression)
+        {
+            return Table.Sum(whereExpression);
         }
 
         public List<T> GetWhere(Func<T, bool> whereExpression, params Expression<Func<T, object>>[] includeStatements)

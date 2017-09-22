@@ -1,4 +1,5 @@
-﻿using CourseWork.BusinessLogicLayer.Services.Mappers;
+﻿using CourseWork.BusinessLogicLayer.Services.AwardManagers;
+using CourseWork.BusinessLogicLayer.Services.Mappers;
 using CourseWork.BusinessLogicLayer.Services.SearchManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.CommentViewModels;
 using CourseWork.DataLayer.Models;
@@ -10,17 +11,19 @@ namespace CourseWork.BusinessLogicLayer.Services.CommentManagers.Implementations
     {
         private readonly IRepository<Comment> _commentRepository;
         private readonly ISearchManager _searchManager;
+        private readonly IAwardManager _awardManager;
         private readonly IMapper<CommentFormViewModel, Comment> _commentMapper;
         private readonly IMapper<CommentViewModel, Comment> _commentViewMapper;
 
         public CommentManager(IRepository<Comment> commentRepository,
             IMapper<CommentFormViewModel, Comment> commentMapper, ISearchManager searchManager,
-            IMapper<CommentViewModel, Comment> commentViewMapper)
+            IMapper<CommentViewModel, Comment> commentViewMapper, IAwardManager awardManager)
         {
             _commentRepository = commentRepository;
             _commentMapper = commentMapper;
             _searchManager = searchManager;
             _commentViewMapper = commentViewMapper;
+            _awardManager = awardManager;
         }
 
         public CommentViewModel AddComment(CommentFormViewModel commentForm)
@@ -30,7 +33,7 @@ namespace CourseWork.BusinessLogicLayer.Services.CommentManagers.Implementations
             {
                 return null;
             }
-            _searchManager.AddCommentToIndex(comment);
+            ProcessCommentAfterAdding(comment);
             return _commentViewMapper.ConvertFrom(comment);
         }
 
@@ -38,6 +41,12 @@ namespace CourseWork.BusinessLogicLayer.Services.CommentManagers.Implementations
         {
             var comment = _commentRepository.FirstOrDefault(c => c.Id == commentId);
             return _commentRepository.RemoveRange(commentId) && _searchManager.RemoveCommentsFromIndex(new[] {comment});
+        }
+
+        private void ProcessCommentAfterAdding(Comment comment)
+        {
+            _searchManager.AddCommentToIndex(comment);
+            _awardManager.AddAwardForComments();
         }
     }
 }

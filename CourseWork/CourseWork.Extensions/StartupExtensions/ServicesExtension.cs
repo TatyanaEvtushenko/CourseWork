@@ -4,10 +4,13 @@ using CourseWork.BusinessLogicLayer.Services.AccountManagers;
 using CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.AdminManagers;
 using CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations;
+using CourseWork.BusinessLogicLayer.Services.AwardManagers;
+using CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.CommentManagers;
 using CourseWork.BusinessLogicLayer.Services.CommentManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.FinancialPurposesManagers;
 using CourseWork.BusinessLogicLayer.Services.FinancialPurposesManagers.Implementations;
+using CourseWork.BusinessLogicLayer.Services.LanguageManagers;
 using CourseWork.BusinessLogicLayer.Services.MessageManagers;
 using CourseWork.BusinessLogicLayer.Services.MessageManagers.Implementations;
 using CourseWork.BusinessLogicLayer.Services.MessageSenders;
@@ -54,6 +57,8 @@ namespace CourseWork.Extensions.StartupExtensions
 	        services.AddScoped<IMessageManager, MessageManager>();
             services.AddScoped<ISearchManager, SearchManager>();
             services.AddScoped<IRatingManager, RatingManager>();
+            services.AddScoped<IAwardManager, AwardManager>();
+            services.AddScoped<ILanguageManager, ILanguageManager>();
         }
     }
 }

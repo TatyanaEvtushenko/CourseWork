@@ -29,5 +29,7 @@ namespace CourseWork.DataLayer.Repositories
 
         List<T> GetOrdered<TKey>(Func<T, TKey> orderExpression, int count, bool isDescending,
             params Expression<Func<T, object>>[] includeStatements);
+
+        decimal Sum(Func<T, decimal> whereExpression);
     }
 }
