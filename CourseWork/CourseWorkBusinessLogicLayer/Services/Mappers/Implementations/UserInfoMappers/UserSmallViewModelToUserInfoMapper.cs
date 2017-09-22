@@ -15,7 +15,8 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.UserInf
         {
             return new UserSmallViewModel
             {
-                UserName = item.UserName
+                UserName = item.UserName,
+                Avatar = item.Avatar
             };
         }
     }

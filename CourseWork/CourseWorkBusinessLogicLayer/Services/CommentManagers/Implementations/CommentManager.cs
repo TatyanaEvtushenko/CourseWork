@@ -36,7 +36,7 @@ namespace CourseWork.BusinessLogicLayer.Services.CommentManagers.Implementations
 
         public bool RemoveComment(string commentId)
         {
-            var comment = _commentRepository.Get(commentId);
+            var comment = _commentRepository.FirstOrDefault(c => c.Id == commentId);
             return _commentRepository.RemoveRange(commentId) && _searchManager.RemoveCommentsFromIndex(new[] {comment});
         }
     }

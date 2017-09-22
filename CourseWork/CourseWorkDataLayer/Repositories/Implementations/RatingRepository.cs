@@ -12,6 +12,6 @@ namespace CourseWork.DataLayer.Repositories.Implementations
 
         protected override DbSet<Rating> Table => DbContext.Ratings;
 
-        public override object GetIdentificator(Rating item) => new {item.UserName, item.ProjectId};
+        public override object GetIdentificator(Rating item) => item.Id;
     }
 }

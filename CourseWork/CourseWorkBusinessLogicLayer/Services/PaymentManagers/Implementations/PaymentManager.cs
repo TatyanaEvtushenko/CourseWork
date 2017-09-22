@@ -26,7 +26,7 @@ namespace CourseWork.BusinessLogicLayer.Services.PaymentManagers.Implementations
 
         public IEnumerable<PaymentViewModel> GetBigPayments()
         {
-            return _paymentRepository.GetOrdered(payment => payment.PaidAmount, 10, true, 
+            return _paymentRepository.GetOrdered(payment => payment.PaidAmount, 4, true, 
                 payment => payment.Project, payment => payment.UserInfo)
                 .Select(payment => _paymentMapper.ConvertFrom(payment));
         }
@@ -38,7 +38,7 @@ namespace CourseWork.BusinessLogicLayer.Services.PaymentManagers.Implementations
 
         public PaymentForFormViewModel GetPaymentInfoForForm(string projectId)
         {
-            var project = _projectRepository.Get(projectId, p => p.UserInfo);
+            var project = _projectRepository.FirstOrDefault(p => p.Id == projectId, p => p.UserInfo);
             return _paymentForFormMapper.ConvertFrom(project);
         }
     }

@@ -1,30 +1,30 @@
-﻿import { Component, EventEmitter, ViewChild } from '@angular/core';
+﻿import { Component } from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import { MessageSenderService } from "../../services/messagesender.service";
 import { MessageSubscriberService } from '../../services/messagesubscriber.service';
 import { ProjectService } from '../../services/project.service';
-import { MaterializeAction } from "angular2-materialize"
+import { SortingService } from '../../services/sorting.service';
+import { TimeService } from '../../services/time.service';
+declare var $: any;
 
 @Component({
     selector: 'homepage',
     templateUrl: './homepage.component.html'
 })
 export class HomePageComponent {
-    lastNews: any;
-    bigPayments: any;
-    financedProjects: any;
-    lastCreatedProjects: any;
-    selectedProjectId: any;
-    @ViewChild('carousel') carouselElement: any;
-    actions = new EventEmitter<string>();
+    lastNews: any = null;
+    bigPayments: any = null;
+    financedProjects: any = null;
+    lastCreatedProjects: any = null;
+    selectedProjectId: any = null;
 
-    constructor(private title: Title, protected messageSenderService: MessageSenderService,
-        private messageSubscriberService: MessageSubscriberService, private projectService: ProjectService) {
+    constructor(private title: Title,
+        protected messageSenderService: MessageSenderService,
+        private messageSubscriberService: MessageSubscriberService,
+        private projectService: ProjectService,
+        private sortingService: SortingService,
+        public timeService: TimeService) {
         title.setTitle("Home page");
-        window.setTimeout(() => {
-            this.carouselElement.nativeElement.classList.toggle("initialized");
-            this.actions.emit("carousel");
-        }, 1000);
     }
 
     ngOnInit() {

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Security.Principal;
 using System.Threading.Tasks;
+using CourseWork.BusinessLogicLayer.Services.Mappers;
 using CourseWork.BusinessLogicLayer.Services.PhotoManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.AccountViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.CurrentUserViewModels;
@@ -20,18 +21,21 @@ namespace CourseWork.BusinessLogicLayer.Services.UserManagers.Implementations
 
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IPhotoManager _photoManager;
+        private readonly IMapper<CurrentUserViewModel, UserInfo> _userMapper;
 	    private readonly Repository<UserInfo> _userInfoRepository;
         private readonly Repository<ApplicationUser> _applicationUserRepository;
-        private readonly IPhotoManager _photoManager;
 
         public UserManager(IHttpContextAccessor contextAccessor, UserManager<ApplicationUser> userManager,
             Repository<UserInfo> userInfoRepository,
-            Repository<ApplicationUser> applicationUserRepository, IPhotoManager photoManager)
+            Repository<ApplicationUser> applicationUserRepository, IPhotoManager photoManager,
+            IMapper<CurrentUserViewModel, UserInfo> userMapper)
         {
             _contextAccessor = contextAccessor;
             _userManager = userManager;
             _applicationUserRepository = applicationUserRepository;
             _photoManager = photoManager;
+            _userMapper = userMapper;
             _userInfoRepository = userInfoRepository;
         }
 
@@ -68,13 +72,11 @@ namespace CourseWork.BusinessLogicLayer.Services.UserManagers.Implementations
 
         private async Task<CurrentUserViewModel> GetCurrentUser()
         {
-            var user = await _userManager.FindByNameAsync(CurrentUserName);
-            return new CurrentUserViewModel
-            {
-                UserName = CurrentUserName,
-                Role = (await _userManager.GetRolesAsync(user)).ElementAt(0),
-                IsBlocked = _userInfoRepository.Get(CurrentUserName).IsBlocked
-            };
+            var userInfo = _userInfoRepository.FirstOrDefault(i => i.UserName == CurrentUserName, 
+                i => i.ApplicationUser);
+            var viewModel = _userMapper.ConvertFrom(userInfo);
+            viewModel.Role = (await _userManager.GetRolesAsync(userInfo.ApplicationUser)).ElementAt(0);
+            return viewModel;
         }
     }
 }

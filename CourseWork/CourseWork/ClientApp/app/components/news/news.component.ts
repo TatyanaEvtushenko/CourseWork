@@ -18,7 +18,7 @@ export class NewsComponent {
     }
 
     ngOnInit() {
-        this.someNews.sort(this.sortingService.sortByTime);
+        //this.someNews.sort(this.sortingService.sortByTime);
     }
 
     delete(news: any) {

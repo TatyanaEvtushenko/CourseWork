@@ -1,0 +1,7 @@
+﻿<div class="card-panel payment row">
+    <usermininfo [user]="payment.payer"></usermininfo>
+    <h3>${{payment.paidAmount}}</h3>
+    перечислил на проект <br/>
+    <a class="black-text flow-text" href="/ProjectPage/{{payment.projectInfo.id}}">{{payment.projectInfo.name}}</a><br />    
+    {{timeService.getFormatDate(payment.time)}}
+</div>

@@ -1,4 +1,5 @@
 ﻿using System;
+using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
 
 namespace CourseWork.BusinessLogicLayer.ViewModels.PaymentViewModels
@@ -7,7 +8,7 @@ namespace CourseWork.BusinessLogicLayer.ViewModels.PaymentViewModels
     {
         public UserSmallViewModel Payer { get; set; }
 
-        public string ProjectName { get; set; }
+        public ProjectSmallInfoViewModel ProjectInfo { get; set; }
 
         public DateTime Time { get; set; }
 

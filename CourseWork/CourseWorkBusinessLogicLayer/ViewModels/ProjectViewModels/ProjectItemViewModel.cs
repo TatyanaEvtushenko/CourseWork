@@ -17,6 +17,8 @@ namespace CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels
 
         public decimal PaidAmount { get; set; }
 
+        public decimal NeccessaryAmount { get; set; }
+
         public string ImageUrl { get; set; }
 
         public DateTime ProjectEndTime { get; set; }

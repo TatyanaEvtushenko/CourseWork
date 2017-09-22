@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using CourseWork.DataLayer.Enums;
 
 namespace CourseWork.DataLayer.Models
@@ -33,6 +34,8 @@ namespace CourseWork.DataLayer.Models
         public string Contacts { get; set; }
 
         public string LastAccountNumber { get; set; }
+
+        public double Rating => Projects.Sum(p => p.Ratings.Average(r => r.RatingResult)) / Projects.Count();
 
         public ApplicationUser ApplicationUser { get; set; }
 

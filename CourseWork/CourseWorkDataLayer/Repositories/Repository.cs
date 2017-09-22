@@ -59,18 +59,6 @@ namespace CourseWork.DataLayer.Repositories
             return GetEager(includeStatements).ToList();
         }
 
-        public T Get(object id, params Expression<Func<T, object>>[] includeStatements)
-        {
-            try
-            {
-                return ((DbSet<T>)GetEager(includeStatements)).Find(id);
-            }
-            catch (Exception exception)
-            {
-                return null;
-            }
-        }
-
         public T FirstOrDefault(Func<T, bool> whereExpression, params Expression<Func<T, object>>[] includeStatements)
         {
             return GetEager(includeStatements).FirstOrDefault(whereExpression);

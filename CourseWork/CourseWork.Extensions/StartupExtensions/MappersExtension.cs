@@ -10,6 +10,7 @@ using CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.ProjectMapp
 using CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.RatingMappers;
 using CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.UserInfoMappers;
 using CourseWork.BusinessLogicLayer.ViewModels.CommentViewModels;
+using CourseWork.BusinessLogicLayer.ViewModels.CurrentUserViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.FinancialPurposeViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.NewsViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.PaymentViewModels;
@@ -46,6 +47,9 @@ namespace CourseWork.Extensions.StartupExtensions
 	        services.AddScoped<IMapper<ClientMessageViewModel, Message>, ClientMessageViewModelToMessageMapper>();
             services.AddScoped<IMapper<ProjectSearchNote, Project>, ProjectSearchNoteToProjectMapper>();
             services.AddScoped<IMapper<PaymentViewModel, Payment>, PaymentViewModelToPaymentMapper>();
+            services.AddScoped<IMapper<DisplayableInfoViewModel, UserInfo>, DisplayableInfoViewModelToUserInfoMapper>();
+            services.AddScoped<IMapper<ProjectSmallInfoViewModel, Project>, ProjectSmallInfoViewModelToProjectMapper>();
+            services.AddScoped<IMapper<CurrentUserViewModel, UserInfo>, CurrentUserViewModelToUserInfoMapper>();
             services.AddScoped<IMapper<DisplayableInfoViewModel, UserInfo>, DisplayableInfoViewModelToUserInfoMapper>();
         }
     }

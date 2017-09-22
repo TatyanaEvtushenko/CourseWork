@@ -14,7 +14,6 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { AppComponent } from './components/app/app.component';
 import { HomePageComponent } from './components/homepage/homepage.component';
 import { ErrorPageComponent } from './components/errorpage/errorpage.component';
-import { PageLinksComponent } from "./components/pagelinks/pagelinks.component";
 import { UserProjectsPageComponent } from './components/userprojectspage/userprojectspage.component';
 import { AdminPageComponent } from './components/adminpage/adminpage.component';
 import { RegisterModalComponent } from './components/registermodal/registermodal.component';
@@ -49,6 +48,8 @@ import { AccountEditModalComponent } from "./components/accounteditmodal/account
 import { AvatarChangeModalComponent } from "./components/avatarchangemodal/avatarchangemodal.component";
 import { UserSubscriptionsComponent } from "./components/usersubscriptions/usersubscriptions.component";
 import { LanguageSelectorComponent } from "./components/languageselector/languageselector.component";
+import { PaymentComponent } from "./components/payment/payment.component";
+import { ProjectProgressComponent } from "./components/projectprogress/projectprogress.component";
 import { ColorSelectorComponent } from "./components/colorselector/colorselector.component";
 
 import { BaseService} from './services/base.service';
@@ -95,7 +96,6 @@ const appRoutes: Routes = [
     declarations: [
         AppComponent,
         HomePageComponent,
-        PageLinksComponent,
         UserProjectsPageComponent,
         AdminPageComponent,
         RegisterModalComponent,
@@ -130,7 +130,10 @@ const appRoutes: Routes = [
         UserCardComponent,
         AccountEditModalComponent,
         AvatarChangeModalComponent,
+        LanguageSelectorComponent,
         UserSubscriptionsComponent,
+        PaymentComponent,
+        ProjectProgressComponent
         LanguageSelectorComponent,
         ColorSelectorComponent
     ],

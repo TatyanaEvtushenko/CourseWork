@@ -1,64 +1,97 @@
-﻿<div class="section no-pad-bot" id="index-banner">
-    <div class="container">
-        <br><br>
-        <h1 class="header center orange-text">Starter Template</h1>
-        <div class="row center">
-            <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
+﻿<div class="homepage">
+    <div class="parallax-container">
+        <div class="parallax" materialize="parallax">
+            <img src="https://pp.userapi.com/c543108/v543108795/294a6/cnFAJzUkjKM.jpg">
         </div>
-        <div class="row center">
-            <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light orange">Get Started</a>
+        <div class="parallax-header header center white-text">
+            <h1>Start your new project</h1>
+            <h5 class="light">Данный текст описывает, как тут все замечательно. Ну или что-нибудь еще</h5>
         </div>
-        <br><br>
-        <tagcloud></tagcloud>
-        
-        
-        <div #carousel class="carousel" [ngClass]="{ 'initialized': showInitialized }" materialize="carousel">
-            <a *ngFor="let project of financedProjects" class="carousel-item">
-                <img [src]="project.image"/>
-                <!--<projectitem [project]="project" (onClickNews)="openNewsModal($event)" (onClickPay)="openPayment($event)"
-                                 (onClickSubscribe)="subscribe($event)" (onClickUnsubscribe)="unsubscribe($event)"></projectitem>-->
-            </a>
-        </div>
-
     </div>
-</div>
 
-
-<div class="container">
-    <div class="section">
-
-        <div class="row">
-            <div class="col s12 m4">
-                <div class="icon-block">
-                    <h2 class="center light-blue-text"><i class="material-icons">flash_on</i></h2>
-                    <h5 class="center">Speeds up development</h5>
-
-                    <p class="light">We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.</p>
-                </div>
-            </div>
-
-            <div class="col s12 m4">
-                <div class="icon-block">
-                    <h2 class="center light-blue-text"><i class="material-icons">group</i></h2>
-                    <h5 class="center">User Experience Focused</h5>
-
-                    <p class="light">By utilizing elements and principles of Material Design, we were able to create a framework that incorporates components and animations that provide more feedback to users. Additionally, a single underlying responsive system across all platforms allow for a more unified user experience.</p>
-                </div>
-            </div>
-
-            <div class="col s12 m4">
-                <div class="icon-block">
-                    <h2 class="center light-blue-text"><i class="material-icons">settings</i></h2>
-                    <h5 class="center">Easy to work with</h5>
-
-                    <p class="light">We have provided detailed documentation as well as specific code examples to help new users get started. We are also always open to feedback and can answer any questions a user may have about Materialize.</p>
+    <div class="section white">
+        <div class="icon-block center container row">
+            <h5><i class="material-icons">collections</i> Last created projects</h5>
+            <div class="row">
+                <div *ngFor="let project of lastCreatedProjects" class="col m3">
+                    <projectitem [project]="project" (onClickNews)="openNewsModal($event)" (onClickPay)="openPayment($event)"
+                                 (onClickSubscribe)="subscribe($event)" (onClickUnsubscribe)="unsubscribe($event)"></projectitem>
                 </div>
             </div>
         </div>
-
     </div>
-    <br><br>
-</div>
 
-<newsformmodal [projectId]="selectedProjectId"></newsformmodal>
-<paymentmodal [projectId]="selectedProjectId"></paymentmodal>
+    <div class="parallax-container">
+        <div class="parallax" materialize="parallax">
+            <img src="https://pp.userapi.com/c543108/v543108795/294af/Lt0cMfZ36rA.jpg">
+        </div>
+        <div class="center">
+            <tagcloud></tagcloud>
+        </div>
+    </div>
+
+    <div class="section white">
+        <div class="container icon-block center">
+            <h5><i class="material-icons">payment</i> The biggest payments</h5>
+            <div class="row">
+                <div *ngFor="let payment of bigPayments" class="col m3">
+                    <payment [payment]="payment"></payment>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="parallax-container">
+        <div class="parallax" materialize="parallax">
+            <img src="https://pp.userapi.com/c543108/v543108795/294e5/L3P-K_B8gME.jpg">
+        </div>
+        <div class="parallax-header header center white-text">
+            <h2>Воодушевляющий заголовок</h2>
+            <h5 class="light">Воодушевляющий текст</h5>
+        </div>
+    </div>
+
+    <div class="section white">
+        <div class="icon-block center container row">
+            <h5><i class="material-icons">collections</i> Successfully financed projects</h5>
+            <div class="row">
+                <div *ngFor="let project of financedProjects" class="col m3">
+                    <projectitem [project]="project" (onClickNews)="openNewsModal($event)" (onClickPay)="openPayment($event)"
+                                 (onClickSubscribe)="subscribe($event)" (onClickUnsubscribe)="unsubscribe($event)"></projectitem>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="parallax-container">
+        <div class="parallax" materialize="parallax">
+            <img src="https://pp.userapi.com/c543108/v543108795/2949d/zQEJm1Yqfwk.jpg">
+        </div>
+        <div class="parallax-header header center white-text">
+            <h2>Еще заголовок</h2>
+            <h5 class="light">блаблабла</h5>
+        </div>
+    </div>
+
+    <div class="section white">
+        <div class="container">
+            <div class="icon-block center row">
+                <h5><i class="material-icons">public</i> Last news of projects</h5>
+                <news [someNews]="lastNews" [canChange]="false"></news>
+            </div>
+        </div>
+    </div>
+
+    <div class="parallax-container">
+        <div class="parallax" materialize="parallax">
+            <img src="https://pp.userapi.com/c543108/v543108795/294dc/eDN09FCa4bg.jpg">
+        </div>
+        <div class="parallax-header header center white-text">
+            <h2>About us</h2>
+            <h5 class="light">Авторы сайта - няшечки</h5>
+        </div>
+    </div>
+
+    <newsformmodal [projectId]="selectedProjectId"></newsformmodal>
+    <paymentmodal [projectId]="selectedProjectId"></paymentmodal>
+</div>

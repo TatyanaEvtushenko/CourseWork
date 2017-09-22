@@ -22,7 +22,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.UserInf
                 ProjectNumber = item.Projects.Count().ToString(),
                 Raiting = "0",//item.Rating.ToString(),
                 Status = EnumConfiguration.StatusDisplayNames[item.Status],
-                StatusCode = (int)item.Status,
+                StatusCode = (int) item.Status,
                 IsBlocked = item.IsBlocked
             };
         }

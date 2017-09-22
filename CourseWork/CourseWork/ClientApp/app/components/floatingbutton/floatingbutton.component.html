@@ -1,5 +1,14 @@
 ﻿<div *ngIf="storage.isReadyCurrentUser && storage.isConfirmedUser">
-    <a href="/NewProjectPage" class="btn-floating btn-large waves-effect waves-light">
+    <a href="/NewProjectPage" class="btn-floating btn-large waves-effect waves-light tooltipped" 
+       materialize="tooltip" data-position="top" data-delay="10" data-tooltip="Add a new project">
         <i class="material-icons">add</i>
     </a>
+</div>
+
+<div *ngIf="storage.isReadyCurrentUser && storage.isJustUser">
+    <a href="#confirmationModal" class="btn-floating btn-large waves-effect waves-light tooltipped modal-trigger"
+       materialize="tooltip" data-position="top" data-delay="10" data-tooltip="Confirm your account">
+        <i class="material-icons">check</i>
+    </a>
+    <confirmationmodal></confirmationmodal>
 </div>

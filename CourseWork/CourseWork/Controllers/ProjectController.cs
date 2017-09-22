@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CourseWork.BusinessLogicLayer.Services.ProjectManagers;
+using CourseWork.BusinessLogicLayer.Services.RatingManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +13,12 @@ namespace CourseWork.Controllers
     public class ProjectController : Controller
     {
         private readonly IProjectManager _projectManager;
+        private readonly IRatingManager _ratingManager;
 
-        public ProjectController(IProjectManager projectManager)
+        public ProjectController(IProjectManager projectManager, IRatingManager ratingManager)
         {
             _projectManager = projectManager;
+            _ratingManager = ratingManager;
         }
 
         [HttpGet]
@@ -45,7 +48,7 @@ namespace CourseWork.Controllers
         [Authorize(Roles = "Admin, ConfirmedUser")]
         public IEnumerable<ProjectItemViewModel> GetUserProjects()
         {
-            return _projectManager.GetUserProjects();
+            return _projectManager.GetCurrentUserProjects();
         }
 
         [HttpGet]
@@ -53,7 +56,7 @@ namespace CourseWork.Controllers
         [Authorize]
         public IEnumerable<ProjectItemViewModel> GetProjects([FromQuery] string username)
         {
-            return _projectManager.GetProjects(username);
+            return _projectManager.GetUserProjects(username);
         }
 
         [HttpGet]
@@ -68,7 +71,7 @@ namespace CourseWork.Controllers
         [Route("api/Project/ChangeRating")]
         public void ChangeRating([FromBody]RatingViewModel rating)
         {
-            _projectManager.ChangeRating(rating);
+            _ratingManager.ChangeRating(rating);
         }
 
         [HttpGet]
@@ -92,7 +95,7 @@ namespace CourseWork.Controllers
         [Authorize]
         public ProjectItemViewModel[] GetUserSubscribedProjects()
         {
-            return _projectManager.GetUserSubscribedProjects().ToArray();
+            return _projectManager.GetSubscribedProjects().ToArray();
         }
 
         [HttpGet]
@@ -100,7 +103,7 @@ namespace CourseWork.Controllers
         [Authorize]
         public ProjectItemViewModel[] GetUserSubscribedProjects([FromQuery] string username)
         {
-            return _projectManager.GetSubscribedProjects(username).ToArray();
+            return _projectManager.GetUserSubscribedProjects(username).ToArray();
         }
     }
 }
