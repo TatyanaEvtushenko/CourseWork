@@ -24,6 +24,10 @@ label {
     overflow: hidden;
 }
 
+div.min-info {
+    margin-top: 10px;
+}
+
 #dropdown-nav-button {
     line-height: 0;
 }

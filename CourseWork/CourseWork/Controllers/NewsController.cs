@@ -20,6 +20,7 @@ namespace CourseWork.Controllers
 
         [HttpGet]
         [Route("api/News/GetLastNews")]
+        [AllowAnonymous]
         public IEnumerable<NewsViewModel> GetLastNews()
         {
             return _newsManager.GetLastNews();

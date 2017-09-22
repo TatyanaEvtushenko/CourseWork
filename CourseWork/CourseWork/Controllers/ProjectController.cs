@@ -23,6 +23,7 @@ namespace CourseWork.Controllers
 
         [HttpGet]
         [Route("api/Project/GetFinancedProjects")]
+        [AllowAnonymous]
         public IEnumerable<ProjectItemViewModel> GetFinancedProjects()
         {
             return _projectManager.GetFinancedProjects();
@@ -30,6 +31,7 @@ namespace CourseWork.Controllers
 
         [HttpGet]
         [Route("api/Project/GetLastCreatedProjects")]
+        [AllowAnonymous]
         public IEnumerable<ProjectItemViewModel> GetLastCreatedProjects()
         {
             return _projectManager.GetLastCreatedProjects();

@@ -6856,6 +6856,12 @@ div.card div.card-reveal {
 div.display {
   background: #424242; }
 
+div.collapsible-body {
+  background: #424242; }
+
+div.collapsible-header {
+  background: #424242; }
+
 input[type='text'] {
   background: #424242; }
 
