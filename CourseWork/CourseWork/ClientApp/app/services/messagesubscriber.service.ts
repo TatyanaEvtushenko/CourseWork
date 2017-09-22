@@ -60,12 +60,12 @@ export class MessageSubscriberService extends StorageService {
    	private generateConfirmationMessageText(userInfos: UserInfo[]) {
         var text = "<a href=\"/AdminPage?confirmed=false&unconfirmed=false&requested=true\">";
 		let ending = '<br> ' + this.translations['REQUESTEDCONFIRMATION'] + '.</a>';
-		text = text.concat(userInfos[0].username);
+		text = text.concat(userInfos[0].userName);
 		if (userInfos.length == 1) return text.concat(ending);
 		userInfos.forEach((item, index) => {
 			if (index == 0) return;
 			if (index >= 3) return;
-			text = text.concat(',<br>' + item.username);
+			text = text.concat(',<br>' + item.userName);
 		});
 		if (userInfos.length <= 3) return text.concat(ending);
 		return text.concat(this.translations['AND'] + '<br>' + (userInfos.length - 3) + this.translations['OTHERUSERS'] + ending);

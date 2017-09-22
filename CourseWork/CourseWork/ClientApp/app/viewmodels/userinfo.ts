@@ -1,5 +1,5 @@
 ﻿export class UserInfo {
-    username: string;
+    userName: string;
     status: string;
     registrationTime: string;
     lastLoginTime: string;

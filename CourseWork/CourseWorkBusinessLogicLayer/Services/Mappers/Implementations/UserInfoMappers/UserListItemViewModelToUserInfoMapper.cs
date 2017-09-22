@@ -16,7 +16,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.UserInf
         {
             return new UserListItemViewModel
             {
-                Username = item.UserName,
+                UserName = item.UserName,
                 LastLoginTime = item.LastLoginTime.ToString(),
                 RegistrationTime = item.RegistrationTime.ToString(),
                 ProjectNumber = item.Projects.Count().ToString(),

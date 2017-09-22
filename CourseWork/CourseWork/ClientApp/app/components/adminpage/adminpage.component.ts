@@ -68,7 +68,7 @@ export class AdminPageComponent {
             this.userInfos[this.selectedIndex].statusCode = UserStatus.WithoutConfirmation;
             this.userInfos[this.selectedIndex].status = "UNCONFIRMED";
 		}
-	    this.sendConfirmationMessage(this.userInfos[this.selectedIndex].username, this.generateResponseMessage(accept));
+	    this.sendConfirmationMessage(this.userInfos[this.selectedIndex].userName, this.generateResponseMessage(accept));
     }
 
     sortByField(fieldName: string) {
@@ -109,7 +109,7 @@ export class AdminPageComponent {
         var result: string[] = [];
         this.userInfos.forEach((item, index) => {
             if (this.isCheckedAtIndex[index])
-                result.push(item.username);
+                result.push(item.userName);
         });
         return result;
 	}
