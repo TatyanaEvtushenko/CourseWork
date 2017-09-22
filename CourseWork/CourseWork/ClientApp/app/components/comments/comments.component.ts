@@ -3,6 +3,7 @@ import { ProjectService } from '../../services/project.service';
 import { TimeService } from '../../services/time.service';
 import { SortingService } from '../../services/sorting.service';
 import { StorageService } from '../../services/storage.service';
+import { LocalizationService } from '../../services/localization.service';
 
 @Component({
     selector: 'comments',
@@ -15,11 +16,16 @@ export class CommentsComponent implements AfterViewInit {
     @Input() projectId: string;
     @Input() projectOwnerUserName: string;
     commentText = "";
+    keys = ["NEWCOMMENT"];
+    translations = {}
 
     constructor(private projectService: ProjectService,
         public timeService: TimeService,
         private sortingService: SortingService,
-        public storage: StorageService) {
+        public storage: StorageService, private localizationService: LocalizationService) {
+        this.localizationService.getTranslations(this.keys).subscribe((data) => {
+            this.translations = data;
+        });
     }
 
     ngAfterViewInit() {

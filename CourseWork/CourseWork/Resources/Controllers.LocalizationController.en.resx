@@ -1,0 +1,438 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ABOUT" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="ACCOUNTNUMBER" xml:space="preserve">
+    <value>Account number</value>
+  </data>
+  <data name="ADDPAYMENT" xml:space="preserve">
+    <value>Add payment to project</value>
+  </data>
+  <data name="AdminPage" xml:space="preserve">
+    <value>Admin Page</value>
+  </data>
+  <data name="APPLY" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="AWAITING" xml:space="preserve">
+    <value>Awaiting confirmation</value>
+  </data>
+  <data name="BLOCKSELECTED" xml:space="preserve">
+    <value>Block/Unblock selected</value>
+  </data>
+  <data name="BROWSE" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="BUDGET" xml:space="preserve">
+    <value>Budget</value>
+  </data>
+  <data name="CHANGEAVATAR" xml:space="preserve">
+    <value>Change your avatar</value>
+  </data>
+  <data name="CONFIRMED" xml:space="preserve">
+    <value>Confirmed</value>
+  </data>
+  <data name="ConfirmYourAccount" xml:space="preserve">
+    <value>Confirm your account</value>
+  </data>
+  <data name="CONTACTS" xml:space="preserve">
+    <value>Contacts</value>
+  </data>
+  <data name="CREATE" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="CREATENEWPROJECT" xml:space="preserve">
+    <value>Create new project</value>
+  </data>
+  <data name="CREATENEWS" xml:space="preserve">
+    <value>Create a news</value>
+  </data>
+  <data name="DELCOMMENTSRATINGS" xml:space="preserve">
+    <value>Delete with comments and raitings</value>
+  </data>
+  <data name="DELETESELECTED" xml:space="preserve">
+    <value>Delete selected</value>
+  </data>
+  <data name="DESCR" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="DESCRIPTION" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="EDIT" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="EDITACCOUNT" xml:space="preserve">
+    <value>Edit your account description</value>
+  </data>
+  <data name="EDITPROJECT" xml:space="preserve">
+    <value>Edit project</value>
+  </data>
+  <data name="EMAIL" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="FILTER" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="FINANCIALPURPOSES" xml:space="preserve">
+    <value>Financial purposes</value>
+  </data>
+  <data name="FIVE" xml:space="preserve">
+    <value>five</value>
+  </data>
+  <data name="FOUR" xml:space="preserve">
+    <value>four</value>
+  </data>
+  <data name="FUNDRAISINGEND" xml:space="preserve">
+    <value>End of fundraising</value>
+  </data>
+  <data name="Hello" xml:space="preserve">
+    <value>Hello</value>
+  </data>
+  <data name="IMAGE" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="INVALIDDATA" xml:space="preserve">
+    <value>Invalid data</value>
+  </data>
+  <data name="JUSTNEWS" xml:space="preserve">
+    <value>Just news</value>
+  </data>
+  <data name="LASTLOGINTIME" xml:space="preserve">
+    <value>Last login time</value>
+  </data>
+  <data name="LogIn" xml:space="preserve">
+    <value>Log in</value>
+  </data>
+  <data name="LOGINERROR" xml:space="preserve">
+    <value>Invalid login or password</value>
+  </data>
+  <data name="LogOut" xml:space="preserve">
+    <value>Log out</value>
+  </data>
+  <data name="MAILINGPAYERS" xml:space="preserve">
+    <value>Mailing to payers</value>
+  </data>
+  <data name="MAILINGSUBSCRIBERS" xml:space="preserve">
+    <value>Mailing to subscribers</value>
+  </data>
+  <data name="MAXPAYMENT" xml:space="preserve">
+    <value>Max payment</value>
+  </data>
+  <data name="MINPAYMENT" xml:space="preserve">
+    <value>Min payment</value>
+  </data>
+  <data name="MyPage" xml:space="preserve">
+    <value>My Page</value>
+  </data>
+  <data name="NAME" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NEWCOMMENT" xml:space="preserve">
+    <value>New comment</value>
+  </data>
+  <data name="NEWSTEXT" xml:space="preserve">
+    <value>News text</value>
+  </data>
+  <data name="ONE" xml:space="preserve">
+    <value>one</value>
+  </data>
+  <data name="PAGENOTFOUND" xml:space="preserve">
+    <value>PAGE IS NOT FOUND</value>
+  </data>
+  <data name="PASSPORTSCAN" xml:space="preserve">
+    <value>Passport scan</value>
+  </data>
+  <data name="PASSWORD" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="PAY" xml:space="preserve">
+    <value>Pay</value>
+  </data>
+  <data name="PAYMENTAMOUNT" xml:space="preserve">
+    <value>Payment amount</value>
+  </data>
+  <data name="PAYMENTRANGE" xml:space="preserve">
+    <value>Payment range</value>
+  </data>
+  <data name="PROJECTERROR" xml:space="preserve">
+    <value>Mistake, project has not been created</value>
+  </data>
+  <data name="PROJECTNUMBER" xml:space="preserve">
+    <value>Project number</value>
+  </data>
+  <data name="RATING" xml:space="preserve">
+    <value>Rating</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="REGISTERASNEW" xml:space="preserve">
+    <value>Register as a new user</value>
+  </data>
+  <data name="REGISTRATIONTIME" xml:space="preserve">
+    <value>Registration time</value>
+  </data>
+  <data name="SELECTUSER" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="SEND" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="SHOWCONFIRMED" xml:space="preserve">
+    <value>Show confirmed</value>
+  </data>
+  <data name="SHOWREQUESTED" xml:space="preserve">
+    <value>Show unconfirmed users not requesting confirmation</value>
+  </data>
+  <data name="SHOWUNCONFIRMED" xml:space="preserve">
+    <value>Show users requesting confirmation</value>
+  </data>
+  <data name="STATUS" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="SUBJECT" xml:space="preserve">
+    <value>Subject</value>
+  </data>
+  <data name="SURNAME" xml:space="preserve">
+    <value>Surname</value>
+  </data>
+  <data name="THREE" xml:space="preserve">
+    <value>three</value>
+  </data>
+  <data name="TOPROJECTPAGE" xml:space="preserve">
+    <value>To project page</value>
+  </data>
+  <data name="TWO" xml:space="preserve">
+    <value>two</value>
+  </data>
+  <data name="UNCONFIRMED" xml:space="preserve">
+    <value>Without confirmation</value>
+  </data>
+  <data name="USERNAME" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="VIEWCONFIRMATIONREQUEST" xml:space="preserve">
+    <value>View confirmation request</value>
+  </data>
+  <data name="ACTIVE" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="COMMENTS" xml:space="preserve">
+    <value>Comments</value>
+  </data>
+  <data name="CONFIRMACCOUNTNOW" xml:space="preserve">
+    <value>Confirm your account now to create projects</value>
+  </data>
+  <data name="CONFIRMATIONREQUEST" xml:space="preserve">
+    <value>Confirmation request</value>
+  </data>
+  <data name="CREATEACCOUNT" xml:space="preserve">
+    <value>Create a new account</value>
+  </data>
+  <data name="ERRORALREADYEXISTS" xml:space="preserve">
+    <value>Such username or email is already registered</value>
+  </data>
+  <data name="ERRORCONFIRMPASSWORD" xml:space="preserve">
+    <value>The password and confirmation password do not match</value>
+  </data>
+  <data name="ERRORPASSWORDLENGTH" xml:space="preserve">
+    <value>The password must be at least 6 and at max 20 characters long</value>
+  </data>
+  <data name="FAILED" xml:space="preserve">
+    <value>Failed</value>
+  </data>
+  <data name="FINANCED" xml:space="preserve">
+    <value>Financed</value>
+  </data>
+  <data name="MYPROJECTS" xml:space="preserve">
+    <value>My projects</value>
+  </data>
+  <data name="MYSUBSCRIPTIONS" xml:space="preserve">
+    <value>My subscriptions</value>
+  </data>
+  <data name="NEWS" xml:space="preserve">
+    <value>News</value>
+  </data>
+  <data name="PASSWORDCONFIRM" xml:space="preserve">
+    <value>Confirm password</value>
+  </data>
+  <data name="SEARCHPROJECTS" xml:space="preserve">
+    <value>Search projects</value>
+  </data>
+  <data name="SEARCHRESULTS" xml:space="preserve">
+    <value>Search results</value>
+  </data>
+  <data name="SUBSCRIBE" xml:space="preserve">
+    <value>Subscribe</value>
+  </data>
+  <data name="TAGS" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="UNSUBSCRIBE" xml:space="preserve">
+    <value>Unsubscribe</value>
+  </data>
+  <data name="USERPAGE" xml:space="preserve">
+    <value>Page of user</value>
+  </data>
+  <data name="USERPROJECTS" xml:space="preserve">
+    <value>Projects of user</value>
+  </data>
+  <data name="USERSUBSCRIPTIONS" xml:space="preserve">
+    <value>Subscriptions of user</value>
+  </data>
+  <data name="AND" xml:space="preserve">
+    <value>and</value>
+  </data>
+  <data name="APPROVECONFIRMATION" xml:space="preserve">
+    <value>Your account confirmation request has been approved.</value>
+  </data>
+  <data name="CHANGECOLOR" xml:space="preserve">
+    <value>Choose color</value>
+  </data>
+  <data name="CONFIRMATIONREQUESTSENT" xml:space="preserve">
+    <value>Your account confirmation request has been sent to admin.</value>
+  </data>
+  <data name="DARK" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="DECLINECONFIRMATION" xml:space="preserve">
+    <value>Your account confirmation request has been declined.</value>
+  </data>
+  <data name="EMAILCONFIRMATIONSENT" xml:space="preserve">
+    <value>Confirmation is sent</value>
+  </data>
+  <data name="LIGHT" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="NEWSSENT" xml:space="preserve">
+    <value>News is sent</value>
+  </data>
+  <data name="OTHERUSERS" xml:space="preserve">
+    <value>other users</value>
+  </data>
+  <data name="REQUESTEDCONFIRMATION" xml:space="preserve">
+    <value>have requested account confirmation</value>
+  </data>
+  <data name="UPDATE" xml:space="preserve">
+    <value>Update</value>
+  </data>
+</root>

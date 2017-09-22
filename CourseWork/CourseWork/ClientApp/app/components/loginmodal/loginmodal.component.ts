@@ -1,6 +1,7 @@
 ﻿import { Component, AfterViewInit } from '@angular/core';
 import {LoginForm} from '../../viewmodels/loginform';
 import { AccountService } from "../../services/account.service";
+import { LocalizationService } from "../../services/localization.service";
 declare var $: any;
 
 @Component({
@@ -10,8 +11,14 @@ declare var $: any;
 export class LoginModalComponent implements AfterViewInit {
     loginForm = new LoginForm();
     isWrongRequest = false;
+    keys = ["EMAIL", "PASSWORD", "LOGINERROR", "REGISTERASNEW", "LogIn"];
+    translations = {}
 
-    constructor(private accountService: AccountService) { }
+    constructor(private accountService: AccountService, private localizationService: LocalizationService) {
+        this.localizationService.getTranslations(this.keys).subscribe((data) => {
+            this.translations = data;
+        });
+    }
 
     ngAfterViewInit() {
         $('#loginModal').modal();

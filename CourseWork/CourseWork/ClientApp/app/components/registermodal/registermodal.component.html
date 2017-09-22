@@ -1,34 +1,34 @@
 ﻿<div id="registrationModal" class="modal register-modal">
     <div class="modal-content center">
-        <h4>Create a new account</h4>
+        <h4>{{translations['CREATEACCOUNT']}}</h4>
                 
         <div class="input-field">
             <input id="register-userName" [(ngModel)]="registerForm.userName" maxlength="20" class="validate" type="text" />
-            <label for="register-userName">Username</label>
+            <label for="register-userName">{{translations['USERNAME']}}</label>
         </div>
         <div class="input-field">
             <input id="register-email" #email="ngModel" class="validate" required email [(ngModel)]="registerForm.email" type="email"/>
-            <label for="register-email">Email</label>
+            <label for="register-email">{{translations['EMAIL']}}</label>
         </div>
         <div class="input-field">
             <input id="register-password" #password="ngModel" class="validate" required data-length="20" type="password" 
                    [(ngModel)]="registerForm.password" (ngModelChange)="onPasswordChange()"/>
-            <label for="register-password">Password</label>
+            <label for="register-password">{{translations['PASSWORD']}}</label>
         </div>
         <div class="input-field">
             <input id="register-confirmPassword" #passwordConfirmation="ngModel" class="validate" required data-length="20" type="password"
                    [(ngModel)]="registerForm.passwordConfirmation" (ngModelChange)="onPasswordConfirmationChange()"/>
-            <label for="register-confirmPassword">Password confirmation</label>
+            <label for="register-confirmPassword">{{translations['PASSWORDCONFIRM']}}</label>
         </div>
         <div class="input-field">
-            <button [disabled]="email.invalid || !isValidPassword || !isValidPasswordConfirmation" class="btn"  (click)="onSubmit()">Register</button>
+            <button [disabled]="email.invalid || !isValidPassword || !isValidPasswordConfirmation" class="btn"  (click)="onSubmit()">{{translations['Register']}}</button>
         </div>
         
-        <errortext *ngIf="isWrongRequest" [text]="'Such username or email is already registered'"></errortext>
+        <errortext *ngIf="isWrongRequest" [text]="translations['ERRORALREADYEXISTS']"></errortext>
         <errortext [hidden]="password.untouched && password.pristine|| isValidPassword" 
-                   [text]="'● The password must be at least 6 and at max 20 characters long'"></errortext>
+                   [text]="'● ' + translations['ERRORPASSWORDLENGTH']"></errortext>
         <errortext [hidden]="passwordConfirmation.untouched && passwordConfirmation.pristine || isValidPasswordConfirmation"
-                   [text]="'● The password and confirmation password do not match'"></errortext>
+                   [text]="'● ' + translations['ERRORCONFIRMPASSWORD']"></errortext>
 
     </div>
 </div>

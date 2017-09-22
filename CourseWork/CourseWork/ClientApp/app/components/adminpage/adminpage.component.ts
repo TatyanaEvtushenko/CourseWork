@@ -5,9 +5,8 @@ import { AccountService } from "../../services/account.service";
 import { MessageSubscriberService } from '../../services/messagesubscriber.service';
 import { UserInfo } from '../../viewmodels/userinfo';
 import { UserStatus } from "../../enums/userstatus";
-//import { MessageSubscriber } from '../message.subscriber';
 import { MessageSenderService } from "../../services/messagesender.service";
-import { SentMessage } from "../../viewmodels/sentmessage";
+import { LocalizationService } from "../../services/localization.service";
 declare var $: any;
 declare var Materialize: any;
 
@@ -24,10 +23,18 @@ export class AdminPageComponent {
     userStatus = UserStatus;
     selectedIndex: number = null;
     sortOrderAscending = { "Status": true, "LastLoginTime": true };
+    keys = ["VIEWCONFIRMATIONREQUEST", "STATUS", "LASTLOGINTIME", "USERNAME", "REGISTRATIONTIME", "PROJECTNUMBER", "RATING", "SELECTUSER",
+        "AWAITING", "UNCONFIRMED", "CONFIRMED", "SHOWCONFIRMED", "SHOWUNCONFIRMED", "SHOWREQUESTED", "AdminPage", "FILTER",
+        "DELETESELECTED", "BLOCKSELECTED", "DELCOMMENTSRATINGS", "APPROVECONFIRMATION", "DECLINECONFIRMATION"];
+    translations = {};
 
     constructor(private title: Title, public storage: MessageSubscriberService, private accountService: AccountService,
-        private route: ActivatedRoute, private router: Router, protected messageSenderService: MessageSenderService) {
-		title.setTitle("Admin page");
+        private route: ActivatedRoute, private router: Router, protected messageSenderService: MessageSenderService,
+        private localizationService: LocalizationService) {
+        this.localizationService.getTranslations(this.keys).subscribe((data) => {
+            this.translations = data;
+            title.setTitle(this.translations['AdminPage']);
+        });
     }
 
 	ngOnInit() {
@@ -56,10 +63,10 @@ export class AdminPageComponent {
     changeStatus(accept: boolean) {
         if (accept) {
             this.userInfos[this.selectedIndex].statusCode = UserStatus.Confirmed;
-			this.userInfos[this.selectedIndex].status = "Confirmed"; 
+			this.userInfos[this.selectedIndex].status = "CONFIRMED"; 
         } else {
             this.userInfos[this.selectedIndex].statusCode = UserStatus.WithoutConfirmation;
-            this.userInfos[this.selectedIndex].status = "Without confirmation";
+            this.userInfos[this.selectedIndex].status = "UNCONFIRMED";
 		}
 	    this.sendConfirmationMessage(this.userInfos[this.selectedIndex].username, this.generateResponseMessage(accept));
     }
@@ -113,6 +120,6 @@ export class AdminPageComponent {
 	}
 
 	private generateResponseMessage(accept: boolean) {
-		return accept ? 'Your account confirmation request has been approved.' : 'Your account confirmation request has been declined.';
+        return accept ? this.translations["APPROVECONFIRMATION"] : this.translations['DECLINECONFIRMATION'];
 	}
 }

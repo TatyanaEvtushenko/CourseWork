@@ -7,13 +7,13 @@
             {{displayableInfo.userName}}<br />
         </div>
         <ul>
-            <li>Registered: {{displayableInfo.registrationTime}}</li>
-            <li>Projects created: {{displayableInfo.projectNumber}}</li>
-            <li>Contacts: {{displayableInfo.contacts}}</li>
+            <li>{{translations['REGISTRATIONTIME']}}: {{displayableInfo.registrationTime}}</li>
+            <li>{{translations['PROJECTNUMBER']}}: {{displayableInfo.projectNumber}}</li>
+            <li>{{translations['CONTACTS']}}: {{displayableInfo.contacts}}</li>
         </ul>
     </div>
     <div class="card-reveal">
-        <span class="card-title grey-text text-darken-4">About<i class="material-icons right">close</i></span>
+        <span class="card-title grey-text text-darken-4">{{translations['ABOUT']}}<i class="material-icons right">close</i></span>
         <markdown>{{displayableInfo.about}}</markdown>
     </div>
     <div class="card-action">

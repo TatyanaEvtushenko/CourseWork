@@ -1,6 +1,7 @@
 ﻿import { Component, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
 import { NewsForm } from '../../viewmodels/newsform';
 import { ProjectService } from "../../services/project.service";
+import { LocalizationService } from "../../services/localization.service";
 declare var $: any;
 declare var Materialize: any;
 
@@ -17,8 +18,15 @@ export class NewsFormModalComponent implements AfterViewInit {
     isMailingToPayers = false;
     isSent = false;
     @Output() onAdded = new EventEmitter<any>();
+    keys = ["CREATENEWS", "SUBJECT", "CREATE", "JUSTNEWS", "INVALIDDATA", "MAILINGSUBSCRIBERS", "MAILINGPAYERS", "NEWSTEXT", "UPDATE",
+        "NEWSSENT"];
+    translations = {}
 
-    constructor(private projectService: ProjectService) { }
+    constructor(private projectService: ProjectService, private localizationService: LocalizationService) {
+        this.localizationService.getTranslations(this.keys).subscribe((data) => {
+            this.translations = data;
+        });
+    }
 
     ngAfterViewInit() {
         $('#newsModal').modal();
@@ -45,7 +53,7 @@ export class NewsFormModalComponent implements AfterViewInit {
         this.getResponse(data);
         if (data) {
             this.projectService.notifySubscribers('<a href="/ProjectPage/' + this.newsForm.projectId + 
-                '">Update: ' + this.newsForm.subject + '</a>', this.newsForm.projectId).subscribe((data: void) => {});
+                '">' + this.translations['UPDATE'] + ': ' + this.newsForm.subject + '</a>', this.newsForm.projectId).subscribe((data: void) => {});
             this.onAdded.emit(this.newsForm);
         }
     }
@@ -74,7 +82,7 @@ export class NewsFormModalComponent implements AfterViewInit {
             this.isWrongRequest = !data;
             if (!this.isWrongRequest) {
                 $('#newsModal').modal("close");
-                Materialize.toast('News is sent.', 4000);
+                Materialize.toast(this.translations['NEWSSENT'], 4000);
             }
         }
     }

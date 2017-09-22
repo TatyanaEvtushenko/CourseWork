@@ -4,7 +4,7 @@
             <img src="{{project.imageUrl}}">
             <div class="card-title">
                 {{project.name}}<br/>
-                <rating class="project-item-rating" [(ngModel)]="project.rating" [readonly]="true" [titles]="['one', 'two', 'three', 'four', 'five']"></rating>
+                <rating class="project-item-rating" [(ngModel)]="project.rating" [readonly]="true" [titles]="[translations['ONE'], translations['TWO'], translations['THREE'], translations['FOUR'], translations['FIVE']]"></rating>
             </div>
         </a>
     </div>
@@ -18,13 +18,13 @@
         </div>
     </div>
     <div class="card-reveal">
-        <span class="card-title grey-text text-darken-4">Description<i class="material-icons right">close</i></span>
+        <span class="card-title grey-text text-darken-4">{{translations['ABOUT']}}<i class="material-icons right">close</i></span>
         <markdown>{{project.description}}</markdown>
     </div>
     <div class="card-action">
         <ng-container *ngIf="storage.isReadyCurrentUser && storage.isUser && storage.currentUser.userName != project.ownerUserName">
-            <button *ngIf="!project.isSubscriber" (click)="subscribe()" class="btn left">Subscribe</button>
-            <button *ngIf="project.isSubscriber" (click)="unsubscribe()" class="btn left">Unsubscribe</button>
+            <button *ngIf="!project.isSubscriber" (click)="subscribe()" class="btn left">{{translations['SUBSCRIBE']}}</button>
+            <button *ngIf="project.isSubscriber" (click)="unsubscribe()" class="btn left">{{translations['UNSUBSCRIBE']}}</button>
         </ng-container>
         <a><i class="material-icons right activator">more_vert</i></a>
         <ng-container *ngIf="storage.isReadyCurrentUser && (storage.isUser && storage.currentUser.userName == project.ownerUserName || storage.isAdmin)">

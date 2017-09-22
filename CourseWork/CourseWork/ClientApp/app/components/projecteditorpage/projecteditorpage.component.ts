@@ -5,6 +5,7 @@ import { StorageService } from '../../services/storage.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { SortingService } from '../../services/sorting.service';
 import { NewProjectForm } from '../../viewmodels/newprojectform';
+import { LocalizationService } from "../../services/localization.service";
 declare var $: any;
 
 @Component({
@@ -15,13 +16,19 @@ declare var $: any;
 export class ProjectEditorPageComponent {
     project: NewProjectForm = null;
     isWrongRequest = false;
+    keys = ["NAME", "FUNDRAISINGEND", "DESCR", "IMAGE", "MINPAYMENT", "MAXPAYMENT", "FINANCIALPURPOSES", "CREATE", "INVALIDDATA",
+        "EDITPROJECT", "EDIT", "TOPROJECTPAGE"];
+    translations = {}
 
     constructor(public storage: StorageService,
         private title: Title,
         private projectService: ProjectService,
         private route: ActivatedRoute,
-        private sortingService: SortingService) {
-        title.setTitle("Edit project");
+        private sortingService: SortingService, private localizationService: LocalizationService) {
+        this.localizationService.getTranslations(this.keys).subscribe((data) => {
+            this.translations = data;
+            title.setTitle(this.translations['EDITPROJECT']);
+        });
     }
 
     ngOnInit() {

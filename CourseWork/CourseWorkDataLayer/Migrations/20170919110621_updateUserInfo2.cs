@@ -8,15 +8,15 @@ namespace CourseWork.DataLayer.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "About",
-                table: "UserInfos",
-                nullable: true);
+            //migrationBuilder.AddColumn<string>(
+            //    name: "About",
+            //    table: "UserInfos",
+            //    nullable: true);
 
-            migrationBuilder.AddColumn<string>(
-                name: "Contacts",
-                table: "UserInfos",
-                nullable: true);
+            //migrationBuilder.AddColumn<string>(
+            //    name: "Contacts",
+            //    table: "UserInfos",
+            //    nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

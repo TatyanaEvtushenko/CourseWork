@@ -1,6 +1,7 @@
 ﻿import { Component, AfterViewInit } from '@angular/core';
 import { ConfirmationForm } from '../../viewmodels/confirmationform';
 import { AccountService } from "../../services/account.service";
+import { LocalizationService } from "../../services/localization.service";
 declare var $: any;
 declare var Materialize: any;
 
@@ -11,11 +12,17 @@ declare var Materialize: any;
 export class ConfirmationModalComponent implements AfterViewInit {
     confirmationForm = new ConfirmationForm();
     isWrongRequest = false;
+    keys = ["PASSPORTSCAN", "NAME", "SURNAME", "DESCRIPTION", "INVALIDDATA", "SEND", "ConfirmYourAccount", "CONFIRMATIONREQUEST",
+        "CONFIRMATIONREQUESTSENT"];
+    translations = {}
 
-    constructor(private accountService: AccountService) { }
+    constructor(private accountService: AccountService, private localizationService: LocalizationService) {
+        this.localizationService.getTranslations(this.keys).subscribe((data) => {
+            this.translations = data;
+        });}
 
     ngAfterViewInit() {
-        $('#confirmationModal').modal(); //
+        $('#confirmationModal').modal(); 
     }
 
     onChange(event: any) {
@@ -35,7 +42,7 @@ export class ConfirmationModalComponent implements AfterViewInit {
         this.isWrongRequest = !data;
         if (!this.isWrongRequest) {
             $('#confirmationModal').modal("close");
-            Materialize.toast('Confirmation request has been sent to admin.', 4000);
+            Materialize.toast(this.translations['CONFIRMATIONREQUESTSENT'], 4000);
         }
     }
 }

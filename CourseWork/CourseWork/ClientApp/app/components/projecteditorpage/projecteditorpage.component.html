@@ -1,43 +1,43 @@
 ﻿<errorpage *ngIf="storage.isReadyCurrentUser && project != null && project.ownerUserName != storage.currentUser.userName"></errorpage>
 <div *ngIf="storage.isReadyCurrentUser && project != null && project.ownerUserName == storage.currentUser.userName" class="container">
-    <h4>Edit the project</h4>
+    <h4>{{translations['EDITPROJECT']}}</h4>
     <div>
         <div class="row">
             <div class="col m6">
                 <div class="input-field">
                     <input id="project-name" #projectname="ngModel" class="validate" required [(ngModel)]="project.name" type="text" />
-                    <label for="project-name">Name</label>
+                    <label for="project-name">{{translations['NAME']}}</label>
                 </div>
             </div>
             <div class="col m6">
                 <div class="input-field">
                     <input id="project-datepicker" #projectdate="ngModel" name="datepicker" [(ngModel)]="project.fundRaisingEnd" required materialize="pickadate"
                            type="text" [materializeParams]="[{format: 'dd/mm/yyyy'}]" />
-                    <label for="project-datepicker">End of fundraising</label>
+                    <label for="project-datepicker">{{translations['FUNDRAISINGEND']}}</label>
                 </div>
             </div>
         </div>
 
         <div class="row">
             <div class="col m12">
-                <markdowneditor [text]="project.description" [fieldName]="'Description'" (onChanged)="project.description = $event"></markdowneditor>
+                <markdowneditor [text]="project.description" [fieldName]="translations['DESCR']" (onChanged)="project.description = $event"></markdowneditor>
             </div>
         </div>
 
         <div class="row">
             <div class="col m6">
-                <imageloader id="project-image" (emitter)="project.imageBase64 = $event" [fieldName]="'Image'"></imageloader>
+                <imageloader id="project-image" (emitter)="project.imageBase64 = $event" [fieldName]="translations['IMAGE']"></imageloader>
             </div>
             <div class="col m3">
                 <div class="input-field">
                     <input id="project-minpayment" #projectMinPayment="ngModel" class="validate" required [(ngModel)]="project.minPaymentAmount" type="number" />
-                    <label for="project-minpayment">Min payment, $</label>
+                    <label for="project-minpayment">{{translations['MINPAYMENT']}}, $</label>
                 </div>
             </div>
             <div class="col m3">
                 <div class="input-field">
                     <input id="project-maxpayment" #projectMaxPayment="ngModel" class="validate" required [(ngModel)]="project.maxPaymentAmount" type="number" />
-                    <label for="project-maxpayment">Max payment, $</label>
+                    <label for="project-maxpayment">{{translations['MAXPAYMENT']}}, $</label>
                 </div>
             </div>
         </div>
@@ -45,7 +45,7 @@
         <div class="row">
             <div class="col m11">
                 <div class="input-field">
-                    <h6 class="grey-text">Financial purposes</h6>
+                    <h6 class="grey-text">{{translations['FINANCIALPURPOSES']}}</h6>
                     <hr *ngIf="project.financialPurposes.length < 1" />
                     <financialpurposes *ngIf="project.financialPurposes.length >= 1" 
                                        [(financialPurposes)]="project.financialPurposes" [canChange]="true"></financialpurposes>
@@ -70,21 +70,21 @@
                 <div class="input-field">
                     <button [disabled]="projectname.invalid || projectdate.invalid || projectMinPayment.invalid || projectMaxPayment.invalid || project.financialPurposes.length < 1 || project.imageBase64 == null || project.minPaymentAmount > project.maxPaymentAmount || project.fundRaisingEnd < getTodayDate()"
                             class="btn btn-lg" (click)="onSubmit()">
-                        Edit
+                        {{translations['EDIT']}}
                     </button>
                 </div>
             </div>
             <div class="col m6 left-align">
                 <div class="input-field">
                     <a class="btn btn-lg" href="/ProjectPage/{{project.id}}">
-                        To project page
+                        {{translations['TOPROJECTPAGE']}}
                     </a>
                 </div>
             </div>
         </div>
         
         <div class="row center-align">
-            <errortext *ngIf="isWrongRequest" [text]="'Invalid data'"></errortext>
+            <errortext *ngIf="isWrongRequest" [text]="translations['INVALIDDATA']"></errortext>
         </div>
     </div>
 </div>

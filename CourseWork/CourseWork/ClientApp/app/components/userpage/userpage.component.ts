@@ -9,6 +9,7 @@ import { DisplayableInfo } from "../../viewmodels/displayableinfo";
 import { AccountEditForm } from "../../viewmodels/accounteditform";
 import { MessageSubscriberService } from '../../services/messagesubscriber.service';
 import { SortingService } from '../../services/sorting.service';
+import { LocalizationService } from "../../services/localization.service";
 
 @Component({
     selector: 'userpage',
@@ -23,15 +24,18 @@ export class UserPageComponent {
     accountEditForm: AccountEditForm = null;
     selectedProjectId: string = null;
     isInitialized = false;
+    keys = ["MyPage", "USERPAGE", "MYPROJECTS", "USERPROJECTS", "MYSUBSCRIPTIONS", "USERSUBSCRIPTIONS", "CONFIRMACCOUNTNOW"];
+    translations = {}
 
     constructor(private title: Title, protected currentUserService: CurrentUserService, protected accountService: AccountService,
         protected messageSenderService: MessageSenderService, private projectService: ProjectService, private storage: MessageSubscriberService,
-        private sortingService: SortingService, private route: ActivatedRoute) {
-        title.setTitle("My page");
-    }
+        private sortingService: SortingService, private route: ActivatedRoute, private localizationService: LocalizationService) {
+        this.localizationService.getTranslations(this.keys).subscribe((data) => {
+            this.translations = data;
+            this.title.setTitle(this.translations['USERPAGE']);
+            this.subscribeToPageOwner();
+        });
 
-    ngOnInit() {
-        this.subscribeToPageOwner();
     }
 
     private subscribeToPageOwner() {

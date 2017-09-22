@@ -5,6 +5,7 @@ import { ProjectService } from '../../services/project.service';
 import { StorageService } from '../../services/storage.service';
 import { SortingService } from '../../services/sorting.service';
 import { MessageSubscriberService } from '../../services/messagesubscriber.service';
+import { LocalizationService } from "../../services/localization.service";
 declare var $: any;
 
 @Component({
@@ -15,14 +16,21 @@ declare var $: any;
 export class NewProjectPageComponent{
     projectForm = new NewProjectForm();
     isWrongRequest = false;
+    keys = ["NAME", "FUNDRAISINGEND", "DESCR", "IMAGE", "MINPAYMENT", "MAXPAYMENT", "FINANCIALPURPOSES", "CREATE", "PROJECTERROR",
+        "CREATENEWPROJECT"];
+    translations = {}
 
-    constructor(public storage: StorageService,
-                private sortingService: SortingService,
+    constructor(public storage: MessageSubscriberService,
                 private title: Title, 
-                private projectService: ProjectService) {
-        title.setTitle("New project");
+                private projectService: ProjectService,
+                private sortingService: SortingService,
+                private localizationService: LocalizationService) {
         this.projectForm.financialPurposes = [];
         this.projectForm.tags = [];
+        this.localizationService.getTranslations(this.keys).subscribe((data) => {
+            this.translations = data;
+            title.setTitle(this.translations['CREATENEWPROJECT']);
+        });
     }
 
     getTodayDate() {

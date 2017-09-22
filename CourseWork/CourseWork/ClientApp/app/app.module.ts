@@ -3,7 +3,7 @@ import "froala-editor/js/froala_editor.pkgd.min.js";
 import { NgModule } from '@angular/core';
 import { BrowserModule }  from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
-import { HttpModule }   from '@angular/http';
+import { HttpModule, Http }   from '@angular/http';
 import { TagCloudModule } from 'angular-tag-cloud-module';
 import { FormsModule } from '@angular/forms';
 import { MarkdownModule } from 'angular2-markdown';
@@ -50,6 +50,7 @@ import { UserSubscriptionsComponent } from "./components/usersubscriptions/users
 import { LanguageSelectorComponent } from "./components/languageselector/languageselector.component";
 import { PaymentComponent } from "./components/payment/payment.component";
 import { ProjectProgressComponent } from "./components/projectprogress/projectprogress.component";
+import { ColorSelectorComponent } from "./components/colorselector/colorselector.component";
 
 import { BaseService} from './services/base.service';
 import { CurrentUserService } from "./services/currentuser.service"; 
@@ -61,6 +62,8 @@ import { SortingService } from "./services/sorting.service";
 import { TimeService } from "./services/time.service";
 import { MessageSenderService } from "./services/messagesender.service"
 import { MessageSubscriberService } from "./services/messagesubscriber.service";
+import { LocalizationService } from "./services/localization.service";
+import { ColorService } from "./services/color.service";
 
 const appRoutes: Routes = [
     { path: '', component: HomePageComponent },
@@ -131,6 +134,8 @@ const appRoutes: Routes = [
         UserSubscriptionsComponent,
         PaymentComponent,
         ProjectProgressComponent
+        LanguageSelectorComponent,
+        ColorSelectorComponent
     ],
     providers: [
         BaseService,
@@ -143,7 +148,9 @@ const appRoutes: Routes = [
         TimeService,
 		ProjectService,
         MessageSenderService,
-        MessageSubscriberService
+        MessageSubscriberService,
+        LocalizationService,
+        ColorService
     ],
     bootstrap: [
         AppComponent

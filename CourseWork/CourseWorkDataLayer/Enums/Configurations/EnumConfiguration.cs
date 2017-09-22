@@ -13,9 +13,9 @@ namespace CourseWork.DataLayer.Enums.Configurations
 
         public static Dictionary<UserStatus, string> StatusDisplayNames = new Dictionary<UserStatus, string>
         {
-            {UserStatus.WithoutConfirmation, "Without confirmation"},
-            {UserStatus.AwaitingConfirmation, "Awaiting confirmation"},
-            {UserStatus.Confirmed, "Confirmed"}
+            {UserStatus.WithoutConfirmation, "UNCONFIRMED"},
+            {UserStatus.AwaitingConfirmation, "AWAITING"},
+            {UserStatus.Confirmed, "CONFIRMED"}
         };
     }
 }
