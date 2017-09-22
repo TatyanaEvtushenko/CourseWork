@@ -435,4 +435,7 @@
   <data name="UPDATE" xml:space="preserve">
     <value>Обновление</value>
   </data>
+  <data name="ADDANEWPROJECT" xml:space="preserve">
+    <value>Добавить новый проект</value>
+  </data>
 </root>

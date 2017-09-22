@@ -8,7 +8,7 @@ import { LocalizationService } from "../../services/localization.service";
     templateUrl: './app.component.html',
 })
 export class AppComponent {
-    keys = ["Register", "LogIn", "LogOut", "AdminPage", "MyPage", "ConfirmYourAccount"];
+    keys = ["Register", "LogIn", "LogOut", "AdminPage", "MyPage"];
     translations = {};
 
     constructor(public storage: StorageService,
@@ -16,7 +16,7 @@ export class AppComponent {
         private localizationService: LocalizationService) {
         this.localizationService.getTranslations(this.keys).subscribe(data => {
             this.translations = data;
-        })
+        });
     }
 
     logout() {

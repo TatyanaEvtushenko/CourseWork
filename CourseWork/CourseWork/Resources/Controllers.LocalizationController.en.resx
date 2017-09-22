@@ -435,4 +435,7 @@
   <data name="UPDATE" xml:space="preserve">
     <value>Update</value>
   </data>
+  <data name="ADDNEWPROJECT" xml:space="preserve">
+    <value>Add a new project</value>
+  </data>
 </root>

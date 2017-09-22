@@ -83,7 +83,7 @@ namespace CourseWork.BusinessLogicLayer.Services.SearchManagers.Implementations
 
         public bool RemoveCommentsFromIndex(Comment[] comments)
         {
-            return comments.All(comment => UpdateComment(comment, RemoveComment));
+            return comments == null || comments.All(comment => UpdateComment(comment, RemoveComment));
         }
 
         public void SetFinancialPurposes(string projectId, FinancialPurpose[] purposes)

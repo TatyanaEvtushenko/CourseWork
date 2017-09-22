@@ -32,10 +32,6 @@
             <li *ngIf="storage.isReadyCurrentUser && storage.isUser">
                 <a href="/UserPage"><i class="material-icons left">home</i> {{translations['MyPage']}}</a>
             </li>
-            <li *ngIf="storage.isReadyCurrentUser && storage.isUser" class="divider"></li>
-            <li *ngIf="storage.isReadyCurrentUser && storage.isJustUser">
-                <a href="#confirmationModal" class="modal-trigger"><i class="material-icons left">collections</i>{{translations['ConfirmYourAccount']}}</a>
-            </li>
             <li class="divider"></li>
             <li *ngIf="storage.isReadyCurrentUser && storage.isUser">
                 <a (click)="logout()"><i class="material-icons left">directions_run</i> {{translations['LogOut']}}</a>
@@ -56,10 +52,6 @@
             <li *ngIf="storage.isReadyCurrentUser && storage.isAdmin" class="divider"></li>
             <li *ngIf="storage.isReadyCurrentUser && storage.isUser">
                 <a href="/UserPage"><i class="material-icons left">home</i>{{translations['MyPage']}}</a>
-            </li>
-            <li *ngIf="storage.isReadyCurrentUser && storage.isUser" class="divider"></li>
-            <li *ngIf="storage.isReadyCurrentUser && storage.isJustUser">
-                <a href="#confirmationModal" class="modal-trigger"><i class="material-icons left">collections</i>{{translations['ConfirmYourAccount']}}</a>
             </li>
             <li class="divider"></li>
             <li *ngIf="storage.isReadyCurrentUser && storage.isUser">
