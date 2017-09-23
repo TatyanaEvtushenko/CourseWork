@@ -136,7 +136,7 @@ const appRoutes: Routes = [
         PaymentComponent,
         ProjectProgressComponent,
         LanguageSelectorComponent,
-        ColorSelectorComponent
+        ColorSelectorComponent,
         ProjectProgressComponent,
         AwardComponent
     ],
