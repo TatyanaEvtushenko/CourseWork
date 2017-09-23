@@ -1,9 +1,9 @@
 ﻿<errorpage *ngIf="storage.isReadyCurrentUser && !storage.isUser"></errorpage>
 <div class="container body-content">
     <div *ngIf="storage.isReadyCurrentUser && storage.isUser && isInitialized">
-        <h2 *ngIf="currentUserName === ownerUserName">{{translations['MyPage']}}</h2>
-        <h2 *ngIf="currentUserName !== ownerUserName">{{translations['USERPAGE']}} {{ownerUserName}}</h2>
-        <div class="col s12 m7">
+        <h2 class="center-align" *ngIf="currentUserName === ownerUserName">{{translations['MyPage']}}</h2>
+        <h2 class="center-align" *ngIf="currentUserName !== ownerUserName">{{translations['USERPAGE']}} {{ownerUserName}}</h2>
+        <div class="col s12 m10">
             <usercard [displayableInfo]="displayableInfo" [isCardOfCurrentUser]="currentUserName === ownerUserName"
                       (onAccountEdit)="updateAccout($event)"></usercard>
         </div>
@@ -11,9 +11,9 @@
                           (onConfirm)="updateAccount($event)"></accounteditmodal>
         <avatarchangemodal *ngIf="storage.isReadyCurrentUser && storage.isUser" (onConfirm)="updateAvatar($event)"></avatarchangemodal>
         <div>
-            <h3 *ngIf="currentUserName === ownerUserName">{{translations['MYPROJECTS']}}</h3>
+            <h3 class="center-align" *ngIf="currentUserName === ownerUserName">{{translations['MYPROJECTS']}}</h3>
             <a href="#confirmationModal" class="modal-trigger" *ngIf="currentUserName === ownerUserName && storage.isJustUser">{{translations['CONFIRMACCOUNTNOW']}}</a>
-            <h3 *ngIf="currentUserName !== ownerUserName">{{translations['USERPROJECTS']}} {{ownerUserName}}</h3>
+            <h3 class="center-align" *ngIf="currentUserName !== ownerUserName">{{translations['USERPROJECTS']}} {{ownerUserName}}</h3>
             <div class="row">
                 <div class="col m4" *ngFor="let project of userProjects">
                     <projectitem [project]="project" (onClickNews)="openNewsModal($event)" (onClickPay)="openPayment($event)"
@@ -22,8 +22,8 @@
             </div>
         </div>
         <div>
-            <h3 *ngIf="currentUserName === ownerUserName">{{translations['MYSUBSCRIPTIONS']}}</h3>
-            <h3 *ngIf="currentUserName !== ownerUserName">{{translations['USERSUBSCRIPTIONS']}} {{ownerUserName}}</h3>
+            <h3 class="center-align" *ngIf="currentUserName === ownerUserName">{{translations['MYSUBSCRIPTIONS']}}</h3>
+            <h3 class="center-align" *ngIf="currentUserName !== ownerUserName">{{translations['USERSUBSCRIPTIONS']}} {{ownerUserName}}</h3>
             <div class="row">
                 <div class="col m4" *ngFor="let project of userSubscribedProjects">
                     <projectitem [project]="project" (onClickNews)="openNewsModal($event)" (onClickPay)="openPayment($event)"

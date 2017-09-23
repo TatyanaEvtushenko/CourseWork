@@ -90,6 +90,15 @@ div.select-wrapper  {
     display: none;
 }
 
+.usercard-pic {
+    height: 300px;
+    width: 300px;
+}
+
+td a.row {
+    margin-top: 35px;
+}
+
 .comments input {
     max-width: 50%;
 }

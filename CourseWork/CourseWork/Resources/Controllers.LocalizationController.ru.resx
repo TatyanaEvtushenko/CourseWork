@@ -277,7 +277,7 @@
     <value>Ошибка, проект не был создан</value>
   </data>
   <data name="PROJECTNUMBER" xml:space="preserve">
-    <value>Число проектов</value>
+    <value>Проектов</value>
   </data>
   <data name="RATING" xml:space="preserve">
     <value>Рейтинг</value>
@@ -452,5 +452,95 @@
   </data>
   <data name="PROJECTSTATUS" xml:space="preserve">
     <value>Статус проекта</value>
+  </data>
+  <data name="ABOUTUS" xml:space="preserve">
+    <value>О нас</value>
+  </data>
+  <data name="BIGGESTPAYMENTS" xml:space="preserve">
+    <value>Крупнейшие переводы денег</value>
+  </data>
+  <data name="BUSINESSMAN" xml:space="preserve">
+    <value>Бизнесмен</value>
+  </data>
+  <data name="COMMENTS_A" xml:space="preserve">
+    <value>комментариев</value>
+  </data>
+  <data name="CREATED" xml:space="preserve">
+    <value>Создал</value>
+  </data>
+  <data name="CREATOR" xml:space="preserve">
+    <value>Создатель</value>
+  </data>
+  <data name="HOMEPAGE" xml:space="preserve">
+    <value>Главная страница</value>
+  </data>
+  <data name="INVESTOR" xml:space="preserve">
+    <value>Инвестор</value>
+  </data>
+  <data name="LASTPROJECTS" xml:space="preserve">
+    <value>Новые проекты</value>
+  </data>
+  <data name="LATESTNEWS" xml:space="preserve">
+    <value>Последние новости</value>
+  </data>
+  <data name="PAID" xml:space="preserve">
+    <value>Совершил оплату в $</value>
+  </data>
+  <data name="PEOPLEPERSON" xml:space="preserve">
+    <value>Душа компании</value>
+  </data>
+  <data name="PROJECTS_A" xml:space="preserve">
+    <value>проектов</value>
+  </data>
+  <data name="STARTPROJECT" xml:space="preserve">
+    <value>Начните свой новый проект</value>
+  </data>
+  <data name="SUBSCRIBEDFOR" xml:space="preserve">
+    <value>подписалось на проекты пользователя</value>
+  </data>
+  <data name="SUCCESSFULPROJECTS" xml:space="preserve">
+    <value>Успешно профинансированные проекты</value>
+  </data>
+  <data name="WASPAID" xml:space="preserve">
+    <value>было перечислено на проекты пользователя</value>
+  </data>
+  <data name="WRITER" xml:space="preserve">
+    <value>Писатель</value>
+  </data>
+  <data name="APR" xml:space="preserve">
+    <value>Апр</value>
+  </data>
+  <data name="AUG" xml:space="preserve">
+    <value>Авг</value>
+  </data>
+  <data name="DEC" xml:space="preserve">
+    <value>Дек</value>
+  </data>
+  <data name="FEB" xml:space="preserve">
+    <value>Фев</value>
+  </data>
+  <data name="JAN" xml:space="preserve">
+    <value>Янв</value>
+  </data>
+  <data name="JUL" xml:space="preserve">
+    <value>Июл</value>
+  </data>
+  <data name="JUN" xml:space="preserve">
+    <value>Июн</value>
+  </data>
+  <data name="MAR" xml:space="preserve">
+    <value>Мар</value>
+  </data>
+  <data name="MAY" xml:space="preserve">
+    <value>Май</value>
+  </data>
+  <data name="NOV" xml:space="preserve">
+    <value>Ноя</value>
+  </data>
+  <data name="OCT" xml:space="preserve">
+    <value>Окт</value>
+  </data>
+  <data name="SEP" xml:space="preserve">
+    <value>Сен</value>
   </data>
 </root>

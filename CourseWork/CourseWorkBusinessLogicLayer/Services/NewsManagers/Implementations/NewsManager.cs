@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CourseWork.BusinessLogicLayer.Options;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
 using CourseWork.BusinessLogicLayer.Services.MessageSenders;
 using CourseWork.BusinessLogicLayer.Services.SearchManagers;
@@ -9,6 +10,7 @@ using CourseWork.BusinessLogicLayer.ViewModels.NewsViewModels;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
+using Microsoft.Extensions.Options;
 
 namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
 {
@@ -21,10 +23,11 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
         private readonly IEmailSender _emailSender;
         private readonly IUserManager _userManager;
         private readonly ISearchManager _searchManager;
+        private readonly HomePageOptions _options;
 
         public NewsManager(IRepository<News> newsRepository, IMapper<NewsFormViewModel, News> newsMapper,
             IEmailSender emailSender, IRepository<Project> projectRepository,
-            IUserManager userManager, ISearchManager searchManager, IMapper<NewsViewModel, News> newsViewMapper)
+            IUserManager userManager, ISearchManager searchManager, IMapper<NewsViewModel, News> newsViewMapper, IOptions<HomePageOptions> options)
         {
             _newsRepository = newsRepository;
             _newsMapper = newsMapper;
@@ -33,11 +36,12 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
             _projectRepository = projectRepository;
             _searchManager = searchManager;
             _newsViewMapper = newsViewMapper;
+            _options = options.Value;
         }
 
         public IEnumerable<NewsViewModel> GetLastNews()
         {
-            var newsModels = _newsRepository.GetOrdered(news => news.Time, 5, true,
+            var newsModels = _newsRepository.GetOrdered(news => news.Time, _options.LatestNewsCount, true,
                 news => news.Project);
             return newsModels.Select(news => _newsViewMapper.ConvertFrom(news));
         }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CourseWork.BusinessLogicLayer.ViewModels.AwardViewModels;
 
 namespace CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels
@@ -7,7 +8,7 @@ namespace CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels
     {
         public string UserName { get; set; }
 
-        public string RegistrationTime { get; set; }
+        public DateTime RegistrationTime { get; set; }
 
         public int ProjectNumber { get; set; }
 
@@ -18,5 +19,7 @@ namespace CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels
         public string Contacts { get; set; }
 
         public IEnumerable<AwardViewModel> Awards { get; set; }
+
+        public double Rating { get; set; }
     }
 }

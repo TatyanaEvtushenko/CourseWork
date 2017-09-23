@@ -277,7 +277,7 @@
     <value>Mistake, project has not been created</value>
   </data>
   <data name="PROJECTNUMBER" xml:space="preserve">
-    <value>Project number</value>
+    <value>Projects</value>
   </data>
   <data name="RATING" xml:space="preserve">
     <value>Rating</value>
@@ -452,5 +452,95 @@
   </data>
   <data name="PROJECTSTATUS" xml:space="preserve">
     <value>Project status</value>
+  </data>
+  <data name="ABOUTUS" xml:space="preserve">
+    <value>About us</value>
+  </data>
+  <data name="BIGGESTPAYMENTS" xml:space="preserve">
+    <value>The biggest payments</value>
+  </data>
+  <data name="BUSINESSMAN" xml:space="preserve">
+    <value>Businessman</value>
+  </data>
+  <data name="COMMENTS_A" xml:space="preserve">
+    <value>comments</value>
+  </data>
+  <data name="CREATED" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="CREATOR" xml:space="preserve">
+    <value>Creator</value>
+  </data>
+  <data name="HOMEPAGE" xml:space="preserve">
+    <value>Home page</value>
+  </data>
+  <data name="INVESTOR" xml:space="preserve">
+    <value>Investor</value>
+  </data>
+  <data name="LASTPROJECTS" xml:space="preserve">
+    <value>New projects</value>
+  </data>
+  <data name="LATESTNEWS" xml:space="preserve">
+    <value>Latest news</value>
+  </data>
+  <data name="PAID" xml:space="preserve">
+    <value>Donated $</value>
+  </data>
+  <data name="PEOPLEPERSON" xml:space="preserve">
+    <value>People person</value>
+  </data>
+  <data name="PROJECTS_A" xml:space="preserve">
+    <value>projects</value>
+  </data>
+  <data name="STARTPROJECT" xml:space="preserve">
+    <value>Start your new project</value>
+  </data>
+  <data name="SUBSCRIBEDFOR" xml:space="preserve">
+    <value>subscibed for user's projects</value>
+  </data>
+  <data name="SUCCESSFULPROJECTS" xml:space="preserve">
+    <value>Successfully financed projects</value>
+  </data>
+  <data name="WASPAID" xml:space="preserve">
+    <value>was donated for user's projects</value>
+  </data>
+  <data name="WRITER" xml:space="preserve">
+    <value>Writer</value>
+  </data>
+  <data name="APR" xml:space="preserve">
+    <value>Apr</value>
+  </data>
+  <data name="AUG" xml:space="preserve">
+    <value>Aug</value>
+  </data>
+  <data name="DEC" xml:space="preserve">
+    <value>Dec</value>
+  </data>
+  <data name="FEB" xml:space="preserve">
+    <value>Feb</value>
+  </data>
+  <data name="JAN" xml:space="preserve">
+    <value>Jan</value>
+  </data>
+  <data name="JUL" xml:space="preserve">
+    <value>Jul</value>
+  </data>
+  <data name="JUN" xml:space="preserve">
+    <value>Jun</value>
+  </data>
+  <data name="MAR" xml:space="preserve">
+    <value>Mar</value>
+  </data>
+  <data name="MAY" xml:space="preserve">
+    <value>May</value>
+  </data>
+  <data name="NOV" xml:space="preserve">
+    <value>Nov</value>
+  </data>
+  <data name="OCT" xml:space="preserve">
+    <value>Oct</value>
+  </data>
+  <data name="SEP" xml:space="preserve">
+    <value>Sep</value>
   </data>
 </root>

@@ -5,6 +5,7 @@ import { MessageSubscriberService } from '../../services/messagesubscriber.servi
 import { ProjectService } from '../../services/project.service';
 import { SortingService } from '../../services/sorting.service';
 import { TimeService } from '../../services/time.service';
+import { LocalizationService } from '../../services/localization.service';
 declare var $: any;
 
 @Component({
@@ -17,14 +18,20 @@ export class HomePageComponent {
     financedProjects: any = null;
     lastCreatedProjects: any = null;
     selectedProjectId: any = null;
+    keys = ["HOMEPAGE", "ABOUTUS", "STARTPROJECT", "LASTPROJECTS", "BIGGESTPAYMENTS", "SUCCESSFULPROJECTS", "LATESTNEWS"];
+    translations = {}
 
     constructor(private title: Title,
         protected messageSenderService: MessageSenderService,
         private messageSubscriberService: MessageSubscriberService,
         private projectService: ProjectService,
         private sortingService: SortingService,
-        public timeService: TimeService) {
-        title.setTitle("Home page");
+        public timeService: TimeService,
+        private localizationService: LocalizationService) {
+        this.localizationService.getTranslations(this.keys).subscribe((data) => {
+            this.translations = data;
+            title.setTitle(this.translations['HOMEPAGE']);
+        });
     }
 
     ngOnInit() {

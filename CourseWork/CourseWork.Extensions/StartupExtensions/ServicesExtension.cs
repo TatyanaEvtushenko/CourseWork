@@ -63,7 +63,6 @@ namespace CourseWork.Extensions.StartupExtensions
             services.AddScoped<ILocalizationManager, LocalizationManager>();
             services.AddScoped<IColorManager, ColorManager>();
             services.AddScoped<IAwardManager, AwardManager>();
-            services.AddScoped<ILanguageManager, LanguageManager>();
         }
     }
 }

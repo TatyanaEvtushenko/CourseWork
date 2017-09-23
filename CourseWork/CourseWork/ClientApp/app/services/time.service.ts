@@ -1,7 +1,16 @@
 ﻿import { Injectable } from '@angular/core';
+import { LocalizationService } from './localization.service';
 
 @Injectable()
 export class TimeService {
+    keys = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+    translations = {};
+
+    constructor(private localizationService: LocalizationService) {
+        this.localizationService.getTranslations(this.keys).subscribe((data) => {
+            this.translations = data;
+        });
+    }
 
     getFormatDate(notConvertDate: any) {
         const date = new Date(notConvertDate);
@@ -22,8 +31,7 @@ export class TimeService {
     }
 
     private convertDateToDate(date: Date) {
-        const monthes = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        const month = monthes[date.getMonth()];
+        const month = this.translations[this.keys[date.getMonth()]];
         const day = date.getDate();
         return `${day} ${month} ${date.getFullYear()}`;
     }

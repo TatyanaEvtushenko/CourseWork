@@ -56,6 +56,7 @@ namespace CourseWork
                 Configuration.GetSection("CloudinaryOptions").Bind(options));
             services.Configure<ElasticSearchOptions>(options =>
                 Configuration.GetSection("ElasticSearchOptions").Bind(options));
+            services.Configure<HomePageOptions>(options => Configuration.GetSection("HomePageOptions").Bind(options));
             services.Configure<RequestLocalizationOptions>(options =>
             {
                 var supportedCultures = new[]

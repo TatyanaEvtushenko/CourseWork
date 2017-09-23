@@ -1,21 +1,27 @@
-﻿<div class="card horizontal">
+﻿
+<div class="card horizontal">
     <div class="card-image">
-        <img src="{{displayableInfo.avatar}}" height="200">
+        <img src="{{displayableInfo.avatar}}" class="usercard-pic">
     </div>
     <div class="card-content row">
         <div class="card-title">
-            {{displayableInfo.userName}}<br />
+            {{displayableInfo.userName}}<br/>            
+            <rating class="project-item-rating" [(ngModel)]="displayableInfo.rating" [readonly]="true" [titles]="[translations['ONE'], translations['TWO'], translations['THREE'], translations['FOUR'], translations['FIVE']]"></rating>
         </div>
-        <ul>
-            <li>{{translations['REGISTRATIONTIME']}}: {{displayableInfo.registrationTime}}</li>
-            <li>{{translations['PROJECTNUMBER']}}: {{displayableInfo.projectNumber}}</li>
-            <li>{{translations['CONTACTS']}}: {{displayableInfo.contacts}}</li>
-        </ul>
         <div class="row">
-            <div *ngFor="let award of displayableInfo.awards" class="col m4 center-align">
-                <award [award]="award" [isSmall]="false"></award>
+            <div class="col m9 center-align">
+                <h5>{{timeService.getFormatDate(displayableInfo.registrationTime)}}</h5>
+                <div class="grey-text">{{translations['REGISTRATIONTIME']}}</div>
+            </div>
+            <div class="col m3 center-align">
+                <h5>{{displayableInfo.projectNumber}}</h5>
+                <div class="grey-text">{{translations['PROJECTNUMBER']}}</div>
             </div>
         </div>
+        <ul>
+            <li>{{translations['CONTACTS']}}: {{displayableInfo.contacts}}</li>
+        </ul>
+        
     </div>
     <div class="card-reveal">
         <span class="card-title grey-text text-darken-4">{{translations['ABOUT']}}<i class="material-icons right">close</i></span>
@@ -27,3 +33,11 @@
         <a *ngIf="isCardOfCurrentUser" href="#avatarChangeModal" (click)="openAvatarChange()" class="modal-trigger"><i class="material-icons">photo_camera</i></a>
     </div>
 </div>
+
+<div class="card horizontal">
+    <div class="card-content row">
+        <div *ngFor="let award of displayableInfo.awards" class="col m4 center-align">
+            <award [award]="award" [isSmall]="false"></award>
+        </div>
+    </div>
+</div>    
