@@ -1,10 +1,10 @@
-﻿<div class="center-align">
-    <div class="award-icon big-award">
-        <img class="responsive-img" src="{{awardService.getAwardImage(award.type)}}"/>
+﻿<span class="center-align">
+    <span class="award-icon" [class.big-award]="!isSmall" [class.small-award]="isSmall">
+        <img class="responsive-img" src="{{getAwardImage()}}"/>
         <span class="grey-text text-lighten-2"><b>{{award.level}}</b></span>
-    </div>
-    <h5>{{awardService.getName(award.type)}}</h5>
-    <h6>{{awardService.getDescription(award)}}</h6>
-</div>
-
-
+    </span>
+    <ng-container *ngIf="!isSmall">
+        <h5>{{getName()}}</h5>
+        <h6>{{getDescription()}}</h6>
+    </ng-container>
+</span>

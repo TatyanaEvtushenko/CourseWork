@@ -7,10 +7,9 @@
         <span *ngIf="user != null">
             {{user.userName}}<br />
             <ng-container *ngIf="user.awards != null">
-                <span *ngFor="let award of user.awards" class="center-align award-icon small-award">
-                    <img src="{{awardService.getAwardImage(award.type)}}"/>
-                    <span class="grey-text text-lighten-2"><b>{{award.level}}</b></span>
-                </span>
+                <ng-container *ngFor="let award of user.awards">
+                    <award [award]="award" [isSmall]="true"></award>
+                </ng-container>
             </ng-container>
         </span>
         <span *ngIf="user == null"><i>Deleted user</i></span>

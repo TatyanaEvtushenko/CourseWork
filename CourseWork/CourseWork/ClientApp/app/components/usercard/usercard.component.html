@@ -12,8 +12,8 @@
             <li>Contacts: {{displayableInfo.contacts}}</li>
         </ul>
         <div class="row">
-            <div *ngFor="let award of displayableInfo.awards" class="col m4">
-                <award [award]="award"></award>
+            <div *ngFor="let award of displayableInfo.awards" class="col m4 center-align">
+                <award [award]="award" [isSmall]="false"></award>
             </div>
         </div>
     </div>

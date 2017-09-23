@@ -29,7 +29,8 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
             [AwardType.ForProjects] = new []{1, 3, 5, 10, 15, 20, 30, 50, 100},
         };
 
-        public AwardManager(IUserManager userManager, IRepository<Award> awardRepository,IRepository<Comment> commentRepository,
+        public AwardManager(IUserManager userManager, IRepository<Award> awardRepository,
+            IRepository<Comment> commentRepository,
             IRepository<Payment> paymentRepository, IRepository<ProjectSubscriber> subscriberRepository,
             IRepository<Project> projectRepository, IMessageManager messageManager)
         {
@@ -84,31 +85,23 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
 
         private bool CheckAward(AwardType awardType, string ownerUserName, Func<decimal> countExistedValue)
         {
+            var existedLevel = GetExistedLevel(awardType, countExistedValue);
             var award = GetAward(awardType, ownerUserName);
-            if (award == null)
-            {
-               return AddAward(awardType);
-            }
-            var isUpdated = UpdateAward(award, countExistedValue);
+            var isUpdated = award == null ? AddAward(awardType, existedLevel) : UpdateAward(award, existedLevel);
             SendMessageAboutNewAward(award, isUpdated, ownerUserName);
             return isUpdated;
         }
 
-        private bool UpdateAward(Award award, Func<decimal> countExistedValue)
+        private byte GetExistedLevel(AwardType awardType, Func<decimal> countExistedValue)
         {
-            if (IsLastLevel(award))
-            {
-                return false;
-            }
             var existedValue = countExistedValue();
-            var existedLevelValue = _levels[award.AwardType].LastOrDefault(x => existedValue >= x);
-            var existedLevel = (byte)Array.IndexOf(_levels[award.AwardType], existedLevelValue);
-            return TryUpdateAwardInRepository(award, existedLevel);
+            var existedLevelValue = _levels[awardType].LastOrDefault(x => existedValue >= x);
+            return (byte)Array.IndexOf(_levels[awardType], existedLevelValue);
         }
 
-        private bool TryUpdateAwardInRepository(Award award, byte existedLevel)
+        private bool UpdateAward(Award award, byte existedLevel)
         {
-            if (award.Level >= existedLevel)
+            if (IsLastLevel(award) || award.Level >= existedLevel)
             {
                 return false;
             }
@@ -118,7 +111,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
 
         private void SendMessageAboutNewAward(Award award, bool isUpdated, string recipientUserName)
         {
-            if (isUpdated)
+            if (!isUpdated)
             {
                 return;
             }
@@ -135,12 +128,13 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
             return award.Level >= _levels[award.AwardType].Length;
         }
 
-        private bool AddAward(AwardType type)
+        private bool AddAward(AwardType type, byte existedLevel)
         {
             var award = new Award
             {
                 AwardType = type,
-                UserName = _userManager.CurrentUserName
+                UserName = _userManager.CurrentUserName,
+                Level = existedLevel
             };
             return _awardRepository.AddRange(award);
         }
@@ -151,7 +145,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
         }
 
         private string GetMessageTextAfterNewAward(Award award) =>
-            $"Вы получили награду \"{GetAwardName(award.AwardType)}\" {award.Level} уровня";
+            $"Вы получили награду \"{GetAwardName(award.AwardType)}\" {GetTrueLevelNumber(award.Level)} уровня";
 
         private string GetAwardName(AwardType awardType)
         {
