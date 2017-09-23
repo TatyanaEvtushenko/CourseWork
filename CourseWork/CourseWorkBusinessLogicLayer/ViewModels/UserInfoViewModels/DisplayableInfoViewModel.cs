@@ -1,4 +1,7 @@
-﻿namespace CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels
+﻿using System.Collections.Generic;
+using CourseWork.BusinessLogicLayer.ViewModels.AwardViewModels;
+
+namespace CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels
 {
     public class DisplayableInfoViewModel
     {
@@ -13,5 +16,7 @@
         public string About { get; set; }
 
         public string Contacts { get; set; }
+
+        public IEnumerable<AwardViewModel> Awards { get; set; }
     }
 }

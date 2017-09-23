@@ -10,26 +10,25 @@ using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
-using CourseWork.DataLayer.Repositories.Implementations;
+using CourseWork.DataLayer.Repositories.Implementations.Implementations;
 
 namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
 {
     public class AdminManager : IAdminManager
     {
-        private readonly Repository<UserInfo> _userInfoRepository;
-        private readonly Repository<Project> _projectRepository;
-	    private readonly Repository<Rating> _raitingRepository;
-	    private readonly Repository<Comment> _commentRepository;
+        private readonly IRepository<UserInfo> _userInfoRepository;
+        private readonly IRepository<Project> _projectRepository;
+	    private readonly IRepository<Rating> _raitingRepository;
+	    private readonly IRepository<Comment> _commentRepository;
         private readonly IMapper<UserListItemViewModel, UserInfo> _mapperList;
         private readonly IMapper<UserConfirmationViewModel, UserInfo> _mapperInfo;
         private readonly IAccountManager _accountManager;
         private readonly ISearchManager _searchManager;
 
         public AdminManager(IMapper<UserListItemViewModel, UserInfo> mapperList,
-            Repository<UserInfo> userInfoRepository, IMapper<UserConfirmationViewModel, UserInfo> mapperInfo,
-            IAccountManager accountManager,
-            Repository<Project> projectRepository, Repository<Comment> commentRepository,
-            Repository<Rating> raitingRepository, ISearchManager searchManager)
+            IRepository<UserInfo> userInfoRepository, IMapper<UserConfirmationViewModel, UserInfo> mapperInfo,
+            IAccountManager accountManager, IRepository<Project> projectRepository,
+            IRepository<Comment> commentRepository, IRepository<Rating> raitingRepository, ISearchManager searchManager)
         {
             _mapperList = mapperList;
             _userInfoRepository = userInfoRepository;

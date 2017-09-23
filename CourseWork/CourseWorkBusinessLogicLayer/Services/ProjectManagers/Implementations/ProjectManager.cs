@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CourseWork.BusinessLogicLayer.Services.AwardManagers;
 using CourseWork.BusinessLogicLayer.Services.FinancialPurposesManagers;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
 using CourseWork.BusinessLogicLayer.Services.PhotoManagers;
@@ -17,27 +18,29 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
 {
     public class ProjectManager : IProjectManager
     {
-        private readonly Repository<Project> _projectRepository;
-        private readonly Repository<Payment> _paymentRepository;
+        private readonly IRepository<Project> _projectRepository;
+        private readonly IRepository<Payment> _paymentRepository;
         private readonly IUserManager _userManager;
         private readonly IPhotoManager _photoManager;
         private readonly IFinancialPurposeManager _financialPurposeManager;
         private readonly ISearchManager _searchManager;
         private readonly ITagService _tagService;
+        private readonly IAwardManager _awardManager;
         private readonly IMapper<ProjectItemViewModel, Project> _projectItemMapper;
         private readonly IMapper<ProjectFormViewModel, Project> _projectFormMapper;
         private readonly IMapper<ProjectViewModel, Project> _projectMapper;
         private readonly IMapper<ProjectEditorFormViewModel, Project> _projectEditorFormMapper;
         private readonly IMapper<PaymentFormViewModel, Payment> _paymentMapper;
 
-        public ProjectManager(Repository<Project> projectRepository,
+        public ProjectManager(IRepository<Project> projectRepository,
             IMapper<ProjectItemViewModel, Project> projectItemMapper,
             IMapper<ProjectFormViewModel, Project> projectFormMapper,
             IMapper<ProjectViewModel, Project> projectMapper, IUserManager userManager,
             IMapper<ProjectEditorFormViewModel, Project> projectEditorFormMapper, IPhotoManager photoManager,
-            Repository<Payment> paymentRepository,
+            IRepository<Payment> paymentRepository,
             IMapper<PaymentFormViewModel, Payment> paymentMapper,
-            ISearchManager searchManager, IFinancialPurposeManager financialPurposeManager, ITagService tagService)
+            ISearchManager searchManager, IFinancialPurposeManager financialPurposeManager, ITagService tagService,
+            IAwardManager awardManager)
         {
             _projectRepository = projectRepository;
             _projectItemMapper = projectItemMapper;
@@ -50,6 +53,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             _searchManager = searchManager;
             _financialPurposeManager = financialPurposeManager;
             _tagService = tagService;
+            _awardManager = awardManager;
             _paymentMapper = paymentMapper;
         }
 
@@ -74,18 +78,19 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         {
             var project = _projectFormMapper.ConvertTo(projectForm);
             ChangeProjectStatus(project);
-            var resultSuccessfully = _projectRepository.AddRange(project);
-            if (resultSuccessfully)
+            if (!_projectRepository.AddRange(project))
             {
-                _searchManager.AddProjectToIndex(project);
+                return false;
             }
-            return resultSuccessfully;
+            ProccessProjectAfterAdding(project);
+            return true;
         }
 
         public ProjectViewModel GetProject(string projectId)
         {
-            var project = _projectRepository.FirstOrDefault(p => p.Id == projectId, 
-                p => p.Comments, p => p.Payments, p => p.FinancialPurposes, p => p.News, p => p.UserInfo, p => p.Tags, p => p.Ratings);
+            var project = _projectRepository.FirstOrDefault(p => p.Id == projectId,
+                p => p.Comments, p => p.Payments, p => p.FinancialPurposes, p => p.News, p => p.UserInfo, p => p.Tags,
+                p => p.Ratings, p => p.UserInfo.Awards);
             return _projectMapper.ConvertFrom(project);
         }
 
@@ -148,24 +153,38 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             {
                 return false;
             }
-            UpdateProjectAfterPayment(paymentForm.ProjectId, paymentForm.AccountNumber);
+            ProcessPaymentAfterAdding(payment, paymentForm.ProjectId, paymentForm.AccountNumber);
             return true;
+        }
+
+        private void ProccessProjectAfterAdding(Project project)
+        {
+            _searchManager.AddProjectToIndex(project);
+            _awardManager.AddAwardForProjects();
         }
 
         private IEnumerable<ProjectItemViewModel> GetProjectItems(Func<Project, bool> whereExpression)
         {
             var projects = _projectRepository.GetWhere(whereExpression,
-                project => project.Subscribers, project => project.Payments, p => p.Ratings, p => p.FinancialPurposes);
+                project => project.Subscribers, project => project.Payments, p => p.Ratings, p => p.FinancialPurposes );
             return projects.Select(p => _projectItemMapper.ConvertFrom(p));
         }
 
-        private void UpdateProjectAfterPayment(string projectId, string accountNumber)
+        private void ProcessPaymentAfterAdding(Payment payment, string projectId, string accountNumber)
+        {
+            _awardManager.AddAwardForPayments(payment);
+            var project = UpdateProjectAfterPayment(projectId, accountNumber);
+            _awardManager.AddAwardForReceivedPayments(project);
+        }
+
+        private Project UpdateProjectAfterPayment(string projectId, string accountNumber)
         {
             var project = _projectRepository.FirstOrDefault(p => p.Id == projectId, 
                 p => p.FinancialPurposes, p => p.Payments, p => p.UserInfo);
             project.UserInfo.LastAccountNumber = accountNumber;
             ChangeProjectStatus(project);
             _projectRepository.UpdateRange(project);
+            return project;
         }
 
         private bool IsFinancialProject(Project project)

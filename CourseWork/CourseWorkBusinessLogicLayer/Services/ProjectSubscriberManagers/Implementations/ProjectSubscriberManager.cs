@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using CourseWork.BusinessLogicLayer.Services.AwardManagers;
 using CourseWork.BusinessLogicLayer.Services.UserManagers;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
@@ -7,20 +8,27 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManagers.Imple
 {
     public class ProjectSubscriberManager : IProjectSubscriberManager
     {
-        private readonly Repository<ProjectSubscriber> _projectSubscriberRepository;
+        private readonly IRepository<ProjectSubscriber> _projectSubscriberRepository;
         private readonly IUserManager _userManager;
+        private readonly IAwardManager _awardManager;
 
-        public ProjectSubscriberManager(Repository<ProjectSubscriber> projectSubscriberRepository,
-            IUserManager userManager)
+        public ProjectSubscriberManager(IRepository<ProjectSubscriber> projectSubscriberRepository,
+            IUserManager userManager, IAwardManager awardManager)
         {
             _projectSubscriberRepository = projectSubscriberRepository;
             _userManager = userManager;
+            _awardManager = awardManager;
         }
 
         public bool Subscribe(string projectId)
         {
             var subscriber = new ProjectSubscriber {ProjectId = projectId, UserName = _userManager.CurrentUserName};
-            return _projectSubscriberRepository.AddRange(subscriber);
+            var result = _projectSubscriberRepository.AddRange(subscriber);
+            if (result)
+            {
+                _awardManager.AddAwardForReceivedSubscriptions(projectId);
+            }
+            return result;
         }
 
         public bool Unsubscribe(string projectId)

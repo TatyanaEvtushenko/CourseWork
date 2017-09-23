@@ -1,14 +1,17 @@
-﻿<a class="user-min-info left row black-text" [attr.href]="user != null ? '/UserPage/?username=' + user.userName : ''">
-    <div class="min-info">
-        <div class="col m3">
-            <img *ngIf="user != null && user.avatar != null" class="circle responsive-img" src="{{user.avatar}}">
-            <img *ngIf="user == null || user != null && user.avatar == null" class="circle responsive-img" src="/images/default-user.png">
-        </div>
-        <div class="col m9 left-align">
-            <span *ngIf="user != null">
-                {{user.userName}}<br/>ЗДЕСЬ МЕДАЛЬКИ
-            </span>
-            <span *ngIf="user == null"><i>Deleted user</i></span>
-        </div>
+﻿<a class="user-min-info left row black-text" href="/UserPage/?userName={{user.userName}}">
+    <div class="col m3">
+        <img *ngIf="user != null && user.avatar ! null" class="circle responsive-img" src="{{user.avatar}}">
+        <img *ngIf="user == null || user != null && user.avatar == null" class="circle responsive-img" src="/images/default-user.png">
+    </div>
+    <div class="col m9 left-align">
+        <span *ngIf="user != null">
+            {{user.userName}}<br />
+            <ng-container *ngIf="user.awards != null">
+                <ng-container *ngFor="let award of user.awards">
+                    <award [award]="award" [isSmall]="true"></award>
+                </ng-container>
+            </ng-container>
+        </span>
+        <span *ngIf="user == null"><i>Deleted user</i></span>
     </div>
 </a>

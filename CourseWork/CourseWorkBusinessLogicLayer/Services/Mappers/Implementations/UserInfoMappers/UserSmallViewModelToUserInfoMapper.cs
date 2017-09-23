@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using CourseWork.BusinessLogicLayer.ViewModels.AwardViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
 using CourseWork.DataLayer.Models;
 
@@ -6,6 +8,13 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.UserInf
 {
     public class UserSmallViewModelToUserInfoMapper : IMapper<UserSmallViewModel, UserInfo>
     {
+        private readonly IMapper<AwardSmallViewModel, Award> _awardMapper;
+
+        public UserSmallViewModelToUserInfoMapper(IMapper<AwardSmallViewModel, Award> awardMapper)
+        {
+            _awardMapper = awardMapper;
+        }
+
         public UserInfo ConvertTo(UserSmallViewModel item)
         {
             throw new NotImplementedException();
@@ -18,7 +27,8 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.UserInf
             return new UserSmallViewModel
             {
                 UserName = item.UserName,
-                Avatar = item.Avatar
+                Avatar = item.Avatar,
+                Awards = item.Awards?.Select(a => _awardMapper.ConvertFrom(a))
             };
         }
     }

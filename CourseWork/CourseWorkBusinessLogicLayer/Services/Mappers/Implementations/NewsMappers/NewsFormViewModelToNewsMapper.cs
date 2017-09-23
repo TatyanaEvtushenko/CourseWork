@@ -20,7 +20,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.NewsMap
 
         public NewsFormViewModel ConvertFrom(News item)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

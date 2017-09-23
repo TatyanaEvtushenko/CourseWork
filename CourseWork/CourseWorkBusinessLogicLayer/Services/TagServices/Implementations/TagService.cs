@@ -8,9 +8,9 @@ namespace CourseWork.BusinessLogicLayer.Services.TagServices.Implementations
 {
     public class TagService : ITagService
     {
-        private readonly Repository<Tag> _tagRepository;
+        private readonly IRepository<Tag> _tagRepository;
 
-        public TagService(Repository<Tag> tagRepository)
+        public TagService(IRepository<Tag> tagRepository)
         {
             _tagRepository = tagRepository;
         }

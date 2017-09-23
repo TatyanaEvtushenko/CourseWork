@@ -17,6 +17,7 @@ namespace CourseWork.DataLayer.Data
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<UserInfo> UserInfos { get; set; }
+        public DbSet<Award> Awards { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -34,6 +35,7 @@ namespace CourseWork.DataLayer.Data
             SetTagOptions(modelBuilder);
             SetProjectOptions(modelBuilder);
             SetUserInfoOptions(modelBuilder);
+            SetAwardOptions(modelBuilder);
             base.OnModelCreating(modelBuilder);
         }
 
@@ -106,6 +108,13 @@ namespace CourseWork.DataLayer.Data
             modelBuilder.Entity<ApplicationUser>().HasOne(user => user.Info).WithOne(info => info.ApplicationUser)
                 .HasForeignKey<UserInfo>(info => info.UserName).HasPrincipalKey<ApplicationUser>(user => user.UserName)
                 .OnDelete(DeleteBehavior.Cascade);
+        }
+
+        private void SetAwardOptions(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Award>().HasKey(award => new { award.UserName, award.AwardType });
+            modelBuilder.Entity<Award>().HasOne(award => award.UserInfo).WithMany(info => info.Awards)
+                .HasForeignKey(award => award.UserName).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
