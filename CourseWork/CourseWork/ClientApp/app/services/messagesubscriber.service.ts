@@ -48,8 +48,12 @@ export class MessageSubscriberService extends StorageService {
 		this.accountService.getFilteredUserList({ unconfirmed: false, requested: true, confirmed: false }).subscribe(
 			(userInfos: UserInfo[]) => {
 				if (userInfos.length > 0) {
-					var generatedText = this.generateConfirmationMessageText(userInfos);
-					this.messageSenderService.sendMessagesAsAdmin([generatedText]).
+					//var generatedText = this.generateConfirmationMessageText(userInfos);
+                    var usernames: string[] = [];
+                    userInfos.forEach((item) => {
+                        usernames.push(item.userName);
+                    });
+					this.messageSenderService.sendMessagesAsAdmin(usernames).
 						subscribe((data: void) => {
 					        this.updateMessages();
 					    });
@@ -57,19 +61,19 @@ export class MessageSubscriberService extends StorageService {
 			});
 	}
 
-   	private generateConfirmationMessageText(userInfos: UserInfo[]) {
-        var text = "<a href=\"/AdminPage?confirmed=false&unconfirmed=false&requested=true\">";
-		let ending = '<br> ' + this.translations['REQUESTEDCONFIRMATION'] + '.</a>';
-		text = text.concat(userInfos[0].userName);
-		if (userInfos.length == 1) return text.concat(ending);
-		userInfos.forEach((item, index) => {
-			if (index == 0) return;
-			if (index >= 3) return;
-			text = text.concat(',<br>' + item.userName);
-		});
-		if (userInfos.length <= 3) return text.concat(ending);
-		return text.concat(this.translations['AND'] + '<br>' + (userInfos.length - 3) + this.translations['OTHERUSERS'] + ending);
-	}
+ //  	private generateConfirmationMessageText(userInfos: UserInfo[]) {
+ //       var text = "<a href=\"/AdminPage?confirmed=false&unconfirmed=false&requested=true\">";
+	//	let ending = '<br> ' + " have requested account confirmation"/*this.translations['REQUESTEDCONFIRMATION']*/ + '.</a>';
+	//	text = text.concat(userInfos[0].userName);
+	//	if (userInfos.length == 1) return text.concat(ending);
+	//	userInfos.forEach((item, index) => {
+	//		if (index == 0) return;
+	//		if (index >= 3) return;
+	//		text = text.concat(',<br>' + item.userName);
+	//	});
+	//	if (userInfos.length <= 3) return text.concat(ending);
+	//	return text.concat("and" + '<br>' + (userInfos.length - 3) + 'other users'/*this.translations['OTHERUSERS']*/ + ending);
+	//}
 
 	private getIds(messages: UserMessage[]) {
 		var result: string[] = [];

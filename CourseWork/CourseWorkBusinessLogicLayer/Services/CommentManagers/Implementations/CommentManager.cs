@@ -28,14 +28,14 @@ namespace CourseWork.BusinessLogicLayer.Services.CommentManagers.Implementations
             _userInfoRepository = userInfoRepository;
         }
 
-        public CommentViewModel AddComment(CommentFormViewModel commentForm)
+        public CommentViewModel AddComment(CommentFormViewModel commentForm, string awardName)
         {
             var comment = _commentMapper.ConvertTo(commentForm);
             if (!_commentRepository.AddRange(comment))
             {
                 return null;
             }
-            ProcessCommentAfterAdding(comment);
+            ProcessCommentAfterAdding(comment, awardName);
             return _commentViewMapper.ConvertFrom(comment);
         }
 
@@ -45,10 +45,10 @@ namespace CourseWork.BusinessLogicLayer.Services.CommentManagers.Implementations
             return _commentRepository.RemoveRange(commentId) && _searchManager.RemoveCommentsFromIndex(new[] {comment});
         }
 
-        private void ProcessCommentAfterAdding(Comment comment)
+        private void ProcessCommentAfterAdding(Comment comment, string awardName)
         {
             _searchManager.AddCommentToIndex(comment);
-            _awardManager.AddAwardForComments();
+            _awardManager.AddAwardForComments(awardName);
             comment.UserInfo = _userInfoRepository.FirstOrDefault(i => i.UserName == comment.UserName);
         }
     }

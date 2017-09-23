@@ -130,6 +130,8 @@ namespace CourseWork.DataLayer.Migrations
 
                     b.Property<bool>("IsSeen");
 
+                    b.Property<string>("ParameterString");
+
                     b.Property<string>("RecipientUserName");
 
                     b.Property<string>("Text");
