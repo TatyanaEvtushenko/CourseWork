@@ -19,5 +19,7 @@ namespace CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels
         public string Contacts { get; set; }
 
         public IEnumerable<AwardViewModel> Awards { get; set; }
+
+        public double Rating { get; set; }
     }
 }

@@ -5,4 +5,6 @@
     avatar: string;
     projectNumber: number;
     contacts: string;
+    awards: any;
+    rating: number;
 }

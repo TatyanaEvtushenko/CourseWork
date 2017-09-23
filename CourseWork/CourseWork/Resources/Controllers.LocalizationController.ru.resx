@@ -277,7 +277,7 @@
     <value>Ошибка, проект не был создан</value>
   </data>
   <data name="PROJECTNUMBER" xml:space="preserve">
-    <value>Число проектов</value>
+    <value>Проектов</value>
   </data>
   <data name="RATING" xml:space="preserve">
     <value>Рейтинг</value>

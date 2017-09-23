@@ -108,11 +108,6 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
 
         private bool DeleteUsersWithoutCommentsndRatings(IEnumerable<string> usersToDelete)
         {
-            foreach (var user in usersToDelete)
-            {
-                System.Diagnostics.Debug.WriteLine("Hello: " + user);
-            }
-            
             var projectsToRemove = _projectRepository.GetWhere(n => usersToDelete.Contains(n.OwnerUserName)).ToArray();
             var result = _projectRepository.RemoveWhere(n => usersToDelete.Contains(n.OwnerUserName)) && _userInfoRepository.RemoveWhere(n => usersToDelete.Contains(n.UserName));
             if (result)

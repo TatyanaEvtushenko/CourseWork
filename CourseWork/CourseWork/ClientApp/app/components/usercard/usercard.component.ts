@@ -14,7 +14,7 @@ export class UserCardComponent {
     @Input() displayableInfo: DisplayableInfo;
     @Input() isCardOfCurrentUser: boolean;
 
-    keys = ["ABOUT", "REGISTRATIONTIME", "PROJECTNUMBER", "CONTACTS"];
+    keys = ["ABOUT", "REGISTRATIONTIME", "PROJECTNUMBER", "CONTACTS", "ONE", "TWO", "THREE", "FOUR", "FIVE"];
     translations = {}
 
     constructor(private localizationService: LocalizationService, private timeService: TimeService) {
