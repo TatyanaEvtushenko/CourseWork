@@ -7,10 +7,10 @@ namespace CourseWork.BusinessLogicLayer.Services.Scheduler
 {
     public class SchedulerJob : IJob
     {
-        private readonly Repository<Project> _projectRepository;
+        private readonly IRepository<Project> _projectRepository;
         private readonly IProjectManager _projectManager;
 
-        public SchedulerJob(Repository<Project> projectRepository, IProjectManager projectManager)
+        public SchedulerJob(IRepository<Project> projectRepository, IProjectManager projectManager)
         {
             _projectRepository = projectRepository;
             _projectManager = projectManager;

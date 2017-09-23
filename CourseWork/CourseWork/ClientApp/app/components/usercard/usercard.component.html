@@ -11,6 +11,11 @@
             <li>Projects created: {{displayableInfo.projectNumber}}</li>
             <li>Contacts: {{displayableInfo.contacts}}</li>
         </ul>
+        <div class="row">
+            <div *ngFor="let award of displayableInfo.awards" class="col m4 center-align">
+                <award [award]="award" [isSmall]="false"></award>
+            </div>
+        </div>
     </div>
     <div class="card-reveal">
         <span class="card-title grey-text text-darken-4">About<i class="material-icons right">close</i></span>

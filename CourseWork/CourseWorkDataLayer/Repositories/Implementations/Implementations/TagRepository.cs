@@ -2,7 +2,7 @@
 using CourseWork.DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace CourseWork.DataLayer.Repositories.Implementations
+namespace CourseWork.DataLayer.Repositories.Implementations.Implementations
 {
     public class TagRepository : Repository<Tag>
     {
@@ -12,6 +12,6 @@ namespace CourseWork.DataLayer.Repositories.Implementations
 
         protected override DbSet<Tag> Table => DbContext.Tags;
 
-        public override object GetIdentificator(Tag item) => new{item.Name, item.ProjectId};
+        public override object GetIdentificator(Tag item) => new {item.Name, item.ProjectId};
     }
 }

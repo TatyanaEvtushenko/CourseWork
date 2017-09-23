@@ -5,7 +5,7 @@ using CourseWork.DataLayer.Dictionaries;
 using CourseWork.DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace CourseWork.DataLayer.Repositories.Implementations
+namespace CourseWork.DataLayer.Repositories.Implementations.Implementations
 {
     public class UserInfoRepository : Repository<UserInfo>
     {
@@ -19,20 +19,24 @@ namespace CourseWork.DataLayer.Repositories.Implementations
 
         public UserInfo[] SortByField(string fieldName, bool ascending, Func<UserInfo, bool> filterRequest)
         {
-            return ascending ? SortByFieldAscending(fieldName, filterRequest) : SortByFieldDescending(fieldName, filterRequest);
+            return ascending
+                ? SortByFieldAscending(fieldName, filterRequest)
+                : SortByFieldDescending(fieldName, filterRequest);
         }
 
         private UserInfo[] SortByFieldAscending(string fieldName, Func<UserInfo, bool> filterRequest)
         {
             return UserInfoFieldNamesDictionary.UserInfoFieldNames.ContainsKey(fieldName)
-                ? GetWhere(filterRequest, item => item.Projects).OrderBy(UserInfoFieldNamesDictionary.UserInfoFieldNames[fieldName]).ToArray()
+                ? GetWhere(filterRequest, item => item.Projects)
+                    .OrderBy(UserInfoFieldNamesDictionary.UserInfoFieldNames[fieldName]).ToArray()
                 : null;
         }
 
         private UserInfo[] SortByFieldDescending(string fieldName, Func<UserInfo, bool> filterRequest)
         {
             return UserInfoFieldNamesDictionary.UserInfoFieldNames.ContainsKey(fieldName)
-                ? GetWhere(filterRequest, item => item.Projects).OrderByDescending(UserInfoFieldNamesDictionary.UserInfoFieldNames[fieldName]).ToArray()
+                ? GetWhere(filterRequest, item => item.Projects)
+                    .OrderByDescending(UserInfoFieldNamesDictionary.UserInfoFieldNames[fieldName]).ToArray()
                 : null;
         }
     }

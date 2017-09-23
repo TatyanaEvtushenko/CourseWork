@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using CourseWork.DataLayer.Data;
+using CourseWork.DataLayer.Enums;
 
 namespace CourseWork.DataLayer.Migrations
 {
@@ -65,6 +66,19 @@ namespace CourseWork.DataLayer.Migrations
                         .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.Award", b =>
+                {
+                    b.Property<string>("UserName");
+
+                    b.Property<int>("AwardType");
+
+                    b.Property<byte>("Level");
+
+                    b.HasKey("UserName", "AwardType");
+
+                    b.ToTable("Awards");
                 });
 
             modelBuilder.Entity("CourseWork.DataLayer.Models.Comment", b =>
@@ -387,6 +401,14 @@ namespace CourseWork.DataLayer.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.Award", b =>
+                {
+                    b.HasOne("CourseWork.DataLayer.Models.UserInfo", "UserInfo")
+                        .WithMany("Awards")
+                        .HasForeignKey("UserName")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CourseWork.DataLayer.Models.Comment", b =>

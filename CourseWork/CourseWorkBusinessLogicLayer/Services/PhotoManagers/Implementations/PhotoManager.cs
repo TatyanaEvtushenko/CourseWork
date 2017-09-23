@@ -12,6 +12,7 @@ namespace CourseWork.BusinessLogicLayer.Services.PhotoManagers.Implementations
     public class PhotoManager : IPhotoManager
     {
         private readonly Cloudinary _cloudinary;
+
         private readonly IHostingEnvironment _hostingEnvironment;
 
         public PhotoManager(IOptions<CloudinaryOptions> options, IHostingEnvironment hostingEnvironment)

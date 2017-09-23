@@ -9,7 +9,6 @@ using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Enums.Configurations;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
-using CourseWork.DataLayer.Repositories.Implementations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
@@ -22,16 +21,16 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly IHttpContextAccessor _contextAccessor;
-        private readonly Repository<UserInfo> _userInfoRepository;
+        private readonly IRepository<UserInfo> _userInfoRepository;
         private readonly CloudinaryOptions _options;
         private readonly IMapper<DisplayableInfoViewModel, UserInfo> _mapper;
 
         public AccountManager(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IEmailSender emailSender, 
-            IHttpContextAccessor contextAccessor,
-            Repository<UserInfo> userInfoRepository, IOptions<CloudinaryOptions> options, IMapper<DisplayableInfoViewModel, UserInfo> mapper)
+            IEmailSender emailSender,
+            IHttpContextAccessor contextAccessor, IRepository<UserInfo> userInfoRepository,
+            IOptions<CloudinaryOptions> options, IMapper<DisplayableInfoViewModel, UserInfo> mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -87,8 +86,9 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
 
         public DisplayableInfoViewModel[] GetDisplayableInfo(string[] userNames)
         {
-            return _userInfoRepository.GetWhere(item => userNames.Contains(item.UserName), item => item.Projects).Select(item => 
-                _mapper.ConvertFrom(item)).ToArray();
+            return _userInfoRepository.GetWhere(item => userNames.Contains(item.UserName), 
+                item => item.Projects, item => item.Awards)
+                .Select(item => _mapper.ConvertFrom(item)).ToArray();
         }
 
         public DisplayableInfoViewModel GetUserDisplayableInfo(string username)
