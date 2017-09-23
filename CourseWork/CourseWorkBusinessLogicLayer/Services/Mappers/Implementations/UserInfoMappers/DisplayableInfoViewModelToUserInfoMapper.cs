@@ -3,6 +3,7 @@ using System.Linq;
 using CourseWork.BusinessLogicLayer.ViewModels.AwardViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
 using CourseWork.DataLayer.Models;
+using Microsoft.Extensions.Localization;
 
 namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.UserInfoMappers
 {
@@ -25,7 +26,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.UserInf
             return new DisplayableInfoViewModel
             {
                 UserName = item.UserName,
-                RegistrationTime = item.RegistrationTime.ToString(),
+                RegistrationTime = item.RegistrationTime,
                 Avatar = item.Avatar,
                 About = item.About,
                 ProjectNumber = item.Projects.Count(),

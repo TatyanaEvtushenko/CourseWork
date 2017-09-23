@@ -2,6 +2,7 @@
 import { DisplayableInfo } from "../../viewmodels/displayableinfo";
 import { AccountEditForm } from '../../viewmodels/accounteditform'
 import { LocalizationService } from "../../services/localization.service";
+import { TimeService } from "../../services/time.service";
 declare var $: any;
 
 @Component({
@@ -16,7 +17,7 @@ export class UserCardComponent {
     keys = ["ABOUT", "REGISTRATIONTIME", "PROJECTNUMBER", "CONTACTS"];
     translations = {}
 
-    constructor(private localizationService: LocalizationService) {
+    constructor(private localizationService: LocalizationService, private timeService: TimeService) {
         this.localizationService.getTranslations(this.keys).subscribe((data) => {
             this.translations = data;
         });

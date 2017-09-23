@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CourseWork.BusinessLogicLayer.Options;
 using CourseWork.BusinessLogicLayer.Services.AwardManagers;
 using CourseWork.BusinessLogicLayer.Services.FinancialPurposesManagers;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
@@ -13,6 +14,7 @@ using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
+using Microsoft.Extensions.Options;
 
 namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
 {
@@ -31,6 +33,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         private readonly IMapper<ProjectViewModel, Project> _projectMapper;
         private readonly IMapper<ProjectEditorFormViewModel, Project> _projectEditorFormMapper;
         private readonly IMapper<PaymentFormViewModel, Payment> _paymentMapper;
+        private readonly HomePageOptions _options;
 
         public ProjectManager(IRepository<Project> projectRepository,
             IMapper<ProjectItemViewModel, Project> projectItemMapper,
@@ -40,7 +43,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             IRepository<Payment> paymentRepository,
             IMapper<PaymentFormViewModel, Payment> paymentMapper,
             ISearchManager searchManager, IFinancialPurposeManager financialPurposeManager, ITagService tagService,
-            IAwardManager awardManager)
+            IAwardManager awardManager, IOptions<HomePageOptions> options)
         {
             _projectRepository = projectRepository;
             _projectItemMapper = projectItemMapper;
@@ -54,6 +57,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             _financialPurposeManager = financialPurposeManager;
             _tagService = tagService;
             _awardManager = awardManager;
+            _options = options.Value;
             _paymentMapper = paymentMapper;
         }
 
@@ -134,7 +138,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
 
         public IEnumerable<ProjectItemViewModel> GetLastCreatedProjects()
         {
-            return _projectRepository.GetOrdered(project => project.CreatingTime, 4, true,
+            return _projectRepository.GetOrdered(project => project.CreatingTime, _options.LastCreatedProjectsCount, true,
                     project => project.Subscribers, project => project.Payments, p => p.Ratings, p => p.FinancialPurposes)
                 .Select(project => _projectItemMapper.ConvertFrom(project));
         }
@@ -142,7 +146,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         public IEnumerable<ProjectItemViewModel> GetFinancedProjects()
         {
             return _projectRepository.GetWhere(project => project.Status == ProjectStatus.Financed,
-                    project => project.Subscribers, project => project.Payments, p => p.Ratings, p => p.FinancialPurposes).Take(4)
+                    project => project.Subscribers, project => project.Payments, p => p.Ratings, p => p.FinancialPurposes).Take(_options.FinancedProjectsCount)
                 .Select(project => _projectItemMapper.ConvertFrom(project));
         }
 

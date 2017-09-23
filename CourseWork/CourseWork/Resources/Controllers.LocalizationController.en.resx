@@ -507,4 +507,40 @@
   <data name="WRITER" xml:space="preserve">
     <value>Writer</value>
   </data>
+  <data name="APR" xml:space="preserve">
+    <value>Apr</value>
+  </data>
+  <data name="AUG" xml:space="preserve">
+    <value>Aug</value>
+  </data>
+  <data name="DEC" xml:space="preserve">
+    <value>Dec</value>
+  </data>
+  <data name="FEB" xml:space="preserve">
+    <value>Feb</value>
+  </data>
+  <data name="JAN" xml:space="preserve">
+    <value>Jan</value>
+  </data>
+  <data name="JUL" xml:space="preserve">
+    <value>Jul</value>
+  </data>
+  <data name="JUN" xml:space="preserve">
+    <value>Jun</value>
+  </data>
+  <data name="MAR" xml:space="preserve">
+    <value>Mar</value>
+  </data>
+  <data name="MAY" xml:space="preserve">
+    <value>May</value>
+  </data>
+  <data name="NOV" xml:space="preserve">
+    <value>Nov</value>
+  </data>
+  <data name="OCT" xml:space="preserve">
+    <value>Oct</value>
+  </data>
+  <data name="SEP" xml:space="preserve">
+    <value>Sep</value>
+  </data>
 </root>
