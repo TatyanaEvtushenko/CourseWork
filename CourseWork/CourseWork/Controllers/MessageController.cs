@@ -5,6 +5,7 @@ using CourseWork.DataLayer.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Localization;
 
 namespace CourseWork.Controllers
@@ -14,11 +15,13 @@ namespace CourseWork.Controllers
     {
 	    private readonly IMessageManager _messageManager;
 	    private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IStringLocalizer<LocalizationController> _localizer;
 
-		public MessageController(IMessageManager messageManager, UserManager<ApplicationUser> userManager)
+		public MessageController(IMessageManager messageManager, UserManager<ApplicationUser> userManager, IStringLocalizer<LocalizationController> localizer)
 	    {
 		    _messageManager = messageManager;
 		    _userManager = userManager;
+	        _localizer = localizer;
 	    }
 
         [HttpPost]
@@ -36,24 +39,26 @@ namespace CourseWork.Controllers
         {
             var username = _userManager.GetUserName(HttpContext.User);
             _messageManager.Send(new[] { 
-                new MessageViewModel{ Text = GenerateNotification(usernames), RecipientUserName = username } }
-            );
+                new MessageViewModel
+                {
+                    Text = "ADMINPAGELINK",
+                    RecipientUserName = username,
+                    ParameterString = GenerateNotification(usernames, _localizer["AND"], _localizer["OTHERUSERS"])
+                } 
+            });
         }
 
-        private string GenerateNotification(string[] usernames)
+        private string GenerateNotification(string[] usernames, string andString, string otherUsersString)
         {
-            var text = "<a href=\"/AdminPage?confirmed=false&unconfirmed=false&requested=true\">";
-            var ending = "<br> " + " have requested account confirmation" + ".</a>";
-            text += usernames[0];
-            if (usernames.Length == 1) return text + ending;
+            var text = usernames[0];
+            if (usernames.Length == 1) return text;
             for (int i = 1; i < usernames.Length; i++)
             {
                 if (i >= 3) break;
                 text += ",<br>" + usernames[i];
             }
-            
-            if (usernames.Length <= 3) return text + ending;
-            return text + " and " + "<br>" + (usernames.Length - 3) + " other users" + ending;
+            if (usernames.Length <= 3) return text;
+            return text + andString + "<br>" + (usernames.Length - 3) + " " + otherUsersString;
         }
 
 	    [HttpPost]
@@ -75,8 +80,12 @@ namespace CourseWork.Controllers
 		[Authorize]
 	    public ClientMessageViewModel[] GetUnreadMessages()
 	    {
-		    return _messageManager.GetUnreadMessages(_userManager.GetUserName(HttpContext.User));
-            
+		    var message = _messageManager.GetUnreadMessages(_userManager.GetUserName(HttpContext.User));
+	        return message.Select(item => new ClientMessageViewModel
+	        {
+	            Id = item.Id,
+	            Text = item.ParameterString == null ? _localizer[item.Text] : string.Format(_localizer[item.Text], item.ParameterString.Split(new char[] {'*'}))
+	        }).ToArray();
 	    }
 	}
 }

@@ -1,6 +1,7 @@
 using CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManagers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 
 namespace CourseWork.Controllers
 {
@@ -9,17 +10,19 @@ namespace CourseWork.Controllers
     public class SubscriberController : Controller
     {
         private readonly IProjectSubscriberManager _projectSubscriberManager;
+        private readonly IStringLocalizer<LocalizationController> _localizer;
 
-        public SubscriberController(IProjectSubscriberManager projectSubscriberManager)
+        public SubscriberController(IProjectSubscriberManager projectSubscriberManager, IStringLocalizer<LocalizationController> localizer)
         {
             _projectSubscriberManager = projectSubscriberManager;
+            _localizer = localizer;
         }
 
         [HttpPost]
         [Route("api/Subscriber/Subscribe")]
         public bool Subscribe([FromBody]string projectId)
         {
-            return _projectSubscriberManager.Subscribe(projectId);
+            return _projectSubscriberManager.Subscribe(projectId, _localizer["PEOPLEPERSON"]);
         }
 
         [HttpPost]

@@ -45,37 +45,37 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
             _messageManager = messageManager;
         }
 
-        public bool AddAwardForComments()
+        public bool AddAwardForComments(string awardName)
         {
             var ownerUserName = _userManager.CurrentUserName;
             return CheckAward(AwardType.ForComments, ownerUserName,
-                () => _commentRepository.Count(c => c.UserName == ownerUserName));
+                () => _commentRepository.Count(c => c.UserName == ownerUserName), awardName);
         }
 
-        public bool AddAwardForProjects()
+        public bool AddAwardForProjects(string awardName)
         {
             var ownerUserName = _userManager.CurrentUserName;
             return CheckAward(AwardType.ForProjects, ownerUserName, 
-                () => _projectRepository.Count(p => p.OwnerUserName == ownerUserName));
+                () => _projectRepository.Count(p => p.OwnerUserName == ownerUserName), awardName);
         }
 
-        public bool AddAwardForPayments(Payment payment)
+        public bool AddAwardForPayments(Payment payment, string awardName)
         {
             return CheckAward(AwardType.ForPayments, payment.UserName,
-                () => payment.PaidAmount);
+                () => payment.PaidAmount, awardName);
         }
 
-        public bool AddAwardForReceivedSubscriptions(string projectId)
+        public bool AddAwardForReceivedSubscriptions(string projectId, string awardName)
         {
             var ownerUserName = _projectRepository.FirstOrDefault(p => p.Id == projectId).OwnerUserName;
             return CheckAward(AwardType.ForSubscriptions, ownerUserName, 
-                () => _subscriberRepository.Count(s => s.Project.OwnerUserName == ownerUserName));
+                () => _subscriberRepository.Count(s => s.Project.OwnerUserName == ownerUserName), awardName);
         }
 
-        public bool AddAwardForReceivedPayments(Project project)
+        public bool AddAwardForReceivedPayments(Project project, string awardName)
         {
             return CheckAward(AwardType.ForReceivedPayments, project.OwnerUserName,
-                () => _paymentRepository.GetWhere(p => p.Project.OwnerUserName == project.OwnerUserName)?.Sum(p => p.PaidAmount) ?? 0);
+                () => _paymentRepository.GetWhere(p => p.Project.OwnerUserName == project.OwnerUserName)?.Sum(p => p.PaidAmount) ?? 0, awardName);
         }
 
         public decimal GetNeccessaryCountForAward(AwardType type, int level)
@@ -85,7 +85,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
 
         public int GetTrueLevelNumber(int level) => level + 1;
 
-        private bool CheckAward(AwardType awardType, string ownerUserName, Func<decimal> countExistedValue)
+        private bool CheckAward(AwardType awardType, string ownerUserName, Func<decimal> countExistedValue, string awardName)
         {
             var existedLevel = GetExistedLevel(awardType, countExistedValue);
             var award = GetAward(awardType, ownerUserName);
@@ -101,7 +101,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
                 isUpdated = UpdateAward(award, existedLevel);
             }
             //isUpdated = award == null ? AddAward(awardType, existedLevel) : UpdateAward(award, existedLevel);
-            SendMessageAboutNewAward(award, isUpdated, ownerUserName);
+            SendMessageAboutNewAward(award, isUpdated, ownerUserName, awardName);
             return isUpdated;
         }
 
@@ -122,7 +122,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
             return _awardRepository.UpdateRange(award);
         }
 
-        private void SendMessageAboutNewAward(Award award, bool isUpdated, string recipientUserName)
+        private void SendMessageAboutNewAward(Award award, bool isUpdated, string recipientUserName, string awardName)
         {
             if (!isUpdated)
             {
@@ -131,7 +131,8 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
             var message = new MessageViewModel
             {
                 RecipientUserName = recipientUserName,
-                Text = GetMessageTextAfterNewAward(award)
+                Text = "AWARDNOTE",
+                ParameterString = GetParameterString(award, awardName)
             };
             _messageManager.Send(new []{message});
         }
@@ -157,26 +158,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
             return _awardRepository.FirstOrDefault(a => a.UserName == ownerUserName && a.AwardType == type);
         }
 
-        private string GetMessageTextAfterNewAward(Award award) =>
-            $"Вы получили награду \"{GetAwardName(award.AwardType)}\" {GetTrueLevelNumber(award.Level)} уровня";
-
-        private string GetAwardName(AwardType awardType)
-        {
-            switch (awardType)
-            {
-                case AwardType.ForComments:
-                    return "Писатель";
-                case AwardType.ForPayments:
-                    return "Инвестор";
-                case AwardType.ForSubscriptions:
-                    return "Душа компании";
-                case AwardType.ForProjects:
-                    return "Создатель";
-                case AwardType.ForReceivedPayments:
-                    return "Бизнесмен";
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(awardType), awardType, null);
-            }
-        }
+        private string GetParameterString(Award award, string awardName) =>
+            awardName + "*" + GetTrueLevelNumber(award.Level);
     }
 }

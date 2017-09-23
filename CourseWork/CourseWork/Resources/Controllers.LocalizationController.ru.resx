@@ -546,4 +546,13 @@
   <data name="NEWSUPDATE" xml:space="preserve">
     <value>&lt;a href="/ProjectPage/{0}"&gt;Обновление: {1}&lt;/a&gt;</value>
   </data>
+  <data name="ADMINPAGELINK" xml:space="preserve">
+    <value>&lt;a href="/AdminPage?confirmed=false&amp;unconfirmed=false&amp;requested=true"&gt;{0}&lt;br&gt; запросили подтверждение аккаунта.&lt;/a&gt;</value>
+  </data>
+  <data name="AWARDNOTE" xml:space="preserve">
+    <value>Вы заработали медаль "{0}" {1} уровня</value>
+  </data>
+  <data name="SUBSCRIBERMESSAGE" xml:space="preserve">
+    <value>&lt;a href="/ProjectPage/{0}"&gt; {1} &lt;/a&gt;</value>
+  </data>
 </root>

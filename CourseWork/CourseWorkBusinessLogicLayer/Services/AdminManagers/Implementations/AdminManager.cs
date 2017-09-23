@@ -70,15 +70,14 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
             return _mapperInfo.ConvertFrom(userInfo);
         }
 
-        public async Task<bool> RespondToConfirmation(string userName, bool accept)
+        public async Task<bool> RespondToConfirmation(string userName, bool accept, string message)
         {
             var user = _userInfoRepository.FirstOrDefault(u => u.UserName == userName);
             user.Status = accept ? UserStatus.Confirmed : UserStatus.WithoutConfirmation;
-            var message = accept ? "Your confirmation request has been approved" : "Your confirmation request has been declined";
             var result = _userInfoRepository.UpdateRange(user);
             if (result)
             {
-                _messageManager.Send(new[] { new MessageViewModel { RecipientUserName = userName, Text = message } });
+                _messageManager.Send(new[] { new MessageViewModel { RecipientUserName = userName, Text = message, ParameterString = null } });
             }
             if (accept)
             {

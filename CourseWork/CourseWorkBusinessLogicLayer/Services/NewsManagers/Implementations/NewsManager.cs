@@ -50,7 +50,7 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
             return newsModels.Select(news => _newsViewMapper.ConvertFrom(news));
         }
 
-        public bool AddNews(NewsFormViewModel newsForm)
+        public bool AddNews(NewsFormViewModel newsForm, string message)
         {
             var result = AddNewsToRepository(newsForm, NewsType.News);
             if (result)
@@ -58,8 +58,8 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
                 _messageManager.NotifySubscribers(new SubscriberNotificationViewModel
                 {
                     Id = newsForm.ProjectId,
-                    Text = "<a href=\"/ProjectPage/" + newsForm.ProjectId +
-                           "\">" + "UPDATE: " + newsForm.Subject + "</a>"
+                    Text = message,
+                    Subject = newsForm.Subject
                 });
             }
             return result;

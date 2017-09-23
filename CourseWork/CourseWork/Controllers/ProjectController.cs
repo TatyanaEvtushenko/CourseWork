@@ -5,6 +5,7 @@ using CourseWork.BusinessLogicLayer.Services.RatingManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 
 namespace CourseWork.Controllers
 {
@@ -14,11 +15,13 @@ namespace CourseWork.Controllers
     {
         private readonly IProjectManager _projectManager;
         private readonly IRatingManager _ratingManager;
+        private IStringLocalizer<LocalizationController> _localizer;
 
-        public ProjectController(IProjectManager projectManager, IRatingManager ratingManager)
+        public ProjectController(IProjectManager projectManager, IRatingManager ratingManager, IStringLocalizer<LocalizationController> localizer)
         {
             _projectManager = projectManager;
             _ratingManager = ratingManager;
+            _localizer = localizer;
         }
 
         [HttpGet]
@@ -42,7 +45,7 @@ namespace CourseWork.Controllers
         [Authorize(Roles = "Admin, ConfirmedUser")]
         public bool AddProject([FromBody]ProjectFormViewModel projectForm)
         {
-            return _projectManager.AddProject(projectForm);
+            return _projectManager.AddProject(projectForm, _localizer["CREATOR"]);
         }
 
         [HttpGet]

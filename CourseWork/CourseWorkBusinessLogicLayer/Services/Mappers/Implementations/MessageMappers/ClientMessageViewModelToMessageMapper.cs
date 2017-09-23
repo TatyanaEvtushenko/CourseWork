@@ -11,7 +11,8 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.Message
 			return new ClientMessageViewModel
 			{
 				Id = item.Id,
-				Text = item.Text
+				Text = item.Text,
+                ParameterString = item.ParameterString
 			};
 		}
 
