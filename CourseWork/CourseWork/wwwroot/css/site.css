@@ -95,6 +95,10 @@ div.select-wrapper  {
     width: 300px;
 }
 
+td a.row {
+    margin-top: 35px;
+}
+
 .comments input {
     max-width: 50%;
 }
