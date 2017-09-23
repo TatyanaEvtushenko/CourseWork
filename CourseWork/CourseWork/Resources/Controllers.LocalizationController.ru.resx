@@ -441,4 +441,16 @@
   <data name="CHOOSEACTION" xml:space="preserve">
     <value>Выберите действие</value>
   </data>
+  <data name="ENDDATE" xml:space="preserve">
+    <value>Дата окончания</value>
+  </data>
+  <data name="PAYEDAMOUNT" xml:space="preserve">
+    <value>Оплачено</value>
+  </data>
+  <data name="PAYMENTS" xml:space="preserve">
+    <value>Количество переводов денег</value>
+  </data>
+  <data name="PROJECTSTATUS" xml:space="preserve">
+    <value>Статус проекта</value>
+  </data>
 </root>

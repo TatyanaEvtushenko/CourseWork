@@ -441,4 +441,16 @@
   <data name="CHOOSEACTION" xml:space="preserve">
     <value>Choose action</value>
   </data>
+  <data name="ENDDATE" xml:space="preserve">
+    <value>End date</value>
+  </data>
+  <data name="PAYEDAMOUNT" xml:space="preserve">
+    <value>Payed amount</value>
+  </data>
+  <data name="PAYMENTS" xml:space="preserve">
+    <value>Payments</value>
+  </data>
+  <data name="PROJECTSTATUS" xml:space="preserve">
+    <value>Project status</value>
+  </data>
 </root>

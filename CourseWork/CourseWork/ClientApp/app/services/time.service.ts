@@ -24,7 +24,7 @@ export class TimeService {
     private convertDateToDate(date: Date) {
         const monthes = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         const month = monthes[date.getMonth()];
-        const day = date.getDate() + 1;
+        const day = date.getDate();
         return `${day} ${month} ${date.getFullYear()}`;
     }
 
