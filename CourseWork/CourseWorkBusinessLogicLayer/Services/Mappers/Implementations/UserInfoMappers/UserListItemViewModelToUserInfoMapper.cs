@@ -9,9 +9,9 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.UserInf
 {
     public class UserListItemViewModelToUserInfoMapper : IMapper<UserListItemViewModel, UserInfo>
     {
-        private readonly Repository<Rating> _ratingRepository;
+        private readonly IRepository<Rating> _ratingRepository;
 
-        public UserListItemViewModelToUserInfoMapper(Repository<Rating> ratingRepository)
+        public UserListItemViewModelToUserInfoMapper(IRepository<Rating> ratingRepository)
         {
             _ratingRepository = ratingRepository;
         }

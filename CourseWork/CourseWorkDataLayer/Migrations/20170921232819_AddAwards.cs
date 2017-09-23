@@ -12,7 +12,7 @@ namespace CourseWork.DataLayer.Migrations
                 name: "Awards",
                 columns: table => new
                 {
-                    UserName = table.Column<string>(nullable: false),
+                    UserName = table.Column<string>(nullable: false, maxLength: 256),
                     AwardType = table.Column<int>(nullable: false),
                     Level = table.Column<byte>(nullable: false)
                 },

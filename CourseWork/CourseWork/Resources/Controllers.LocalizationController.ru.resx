@@ -453,4 +453,37 @@
   <data name="PROJECTSTATUS" xml:space="preserve">
     <value>Статус проекта</value>
   </data>
+  <data name="BUSINESSMAN" xml:space="preserve">
+    <value>Бизнесмен</value>
+  </data>
+  <data name="COMMENTS_A" xml:space="preserve">
+    <value>комментариев</value>
+  </data>
+  <data name="CREATED" xml:space="preserve">
+    <value>Создал</value>
+  </data>
+  <data name="CREATOR" xml:space="preserve">
+    <value>Создатель</value>
+  </data>
+  <data name="INVESTOR" xml:space="preserve">
+    <value>Инвестор</value>
+  </data>
+  <data name="PAID" xml:space="preserve">
+    <value>Совершил оплату в $</value>
+  </data>
+  <data name="PEOPLEPERSON" xml:space="preserve">
+    <value>Душа компании</value>
+  </data>
+  <data name="PROJECTS_A" xml:space="preserve">
+    <value>проектов</value>
+  </data>
+  <data name="SUBSCRIBEDFOR" xml:space="preserve">
+    <value>подписалось на проекты пользователя</value>
+  </data>
+  <data name="WASPAID" xml:space="preserve">
+    <value>было перечислено на проекты пользователя</value>
+  </data>
+  <data name="WRITER" xml:space="preserve">
+    <value>Писатель</value>
+  </data>
 </root>

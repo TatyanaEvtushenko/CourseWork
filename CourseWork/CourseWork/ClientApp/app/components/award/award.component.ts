@@ -1,5 +1,6 @@
 ﻿import { Component, Input } from '@angular/core';
 import { AwardType } from "../../enums/awardtype";
+import { LocalizationService } from '../../services/localization.service';
 
 @Component({
     selector: 'award',
@@ -9,6 +10,15 @@ import { AwardType } from "../../enums/awardtype";
 export class AwardComponent {
     @Input() award: any;
     @Input() isSmall = false;
+    keys = ["CREATOR", "WRITER", "INVESTOR", "BUSINESSMAN", "PEOPLEPERSON", "CREATED", "COMMENTS_A", "PAID",
+        "PROJECTS_A", "WASPAID", "SUBSCRIBEDFOR"];
+    translations = {}
+
+    constructor(private localizationService: LocalizationService) {
+        this.localizationService.getTranslations(this.keys).subscribe((data) => {
+            this.translations = data;
+        });
+    }
 
     getAwardImage() {
         switch (this.award.type) {
@@ -29,32 +39,32 @@ export class AwardComponent {
     getName() {
         switch (this.award.type) {
             case AwardType.ForComments:
-                return "Писатель";
+                return this.translations['WRITER'];
             case AwardType.ForPayments:
-                return "Инвестор";
+                return this.translations['INVESTOR'];
             case AwardType.ForProjects:
-                return "Создатель";
+                return this.translations['CREATOR'];
             case AwardType.ForReceivedPayments:
-                return "Бизнесмен";
+                return this.translations['BUSINESSMAN'];
             case AwardType.ForSubscriptions:
             default:
-                return "Душа компании";
+                return this.translations['PEOPLEPERSON'];
         }
     }
 
     getDescription() {
         switch (this.award.type) {
             case AwardType.ForComments:
-                return `Создал ${this.award.neccessaryCount} комментариев`;
+                return `${this.translations['CREATED']} ${this.award.neccessaryCount} ${this.translations['COMMENTS_A']}`;
             case AwardType.ForPayments:
-                return `Совершил оплату в $${this.award.neccessaryCount}`;
+                return `${this.translations['PAID']} ${this.award.neccessaryCount}`;
             case AwardType.ForProjects:
-                return `Создал ${this.award.neccessaryCount} проектов`;
+                return `${this.translations['CREATED']} ${this.award.neccessaryCount} ${this.translations['PROJECT_A']}`;
             case AwardType.ForReceivedPayments:
-                return `$${this.award.neccessaryCount} было перечислено на проекты пользователя`;
+                return `$${this.award.neccessaryCount} ${this.translations['WASPAID']}`;
             case AwardType.ForSubscriptions:
             default:
-                return `${this.award.neccessaryCount} человек подписались на проекты`;
+                return `${this.award.neccessaryCount} ${this.translations['SUBSCRIBEDFOR']}`;
         }
     }
 }
