@@ -5,9 +5,13 @@ using System.Linq.Expressions;
 using CourseWork.DataLayer.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace CourseWork.DataLayer.Repositories
+namespace CourseWork.DataLayer.Repositories.Implementations
 {
-    public abstract class Repository<T> where T : class
+    public interface IRepository
+    {
+    }
+
+    public abstract class Repository<T> : IRepository<T> where T : class
     {
         protected readonly ApplicationDbContext DbContext;
 
@@ -69,12 +73,18 @@ namespace CourseWork.DataLayer.Repositories
             return Table.Count(whereExpression);
         }
 
+        public decimal Sum(Func<T, decimal> whereExpression)
+        {
+            return Table.Sum(whereExpression);
+        }
+
         public List<T> GetWhere(Func<T, bool> whereExpression, params Expression<Func<T, object>>[] includeStatements)
         {
             return GetEager(includeStatements).Where(whereExpression).ToList();
         }
 
-        public List<T> GetOrdered<TKey>(Func<T, TKey> orderExpression, int count, bool isDescending, params Expression<Func<T, object>>[] includeStatements)
+        public List<T> GetOrdered<TKey>(Func<T, TKey> orderExpression, int count, bool isDescending,
+            params Expression<Func<T, object>>[] includeStatements)
         {
             var items = GetEager(includeStatements);
             items = isDescending ? items.OrderByDescending(orderExpression) : items.OrderBy(orderExpression);
@@ -83,7 +93,7 @@ namespace CourseWork.DataLayer.Repositories
 
         private IEnumerable<T> GetEager(params Expression<Func<T, object>>[] includeStatements)
         {
-            var query = (IQueryable<T>)Table;
+            var query = (IQueryable<T>) Table;
             foreach (var includeStatement in includeStatements)
             {
                 query = query.Include(includeStatement);

@@ -9,12 +9,12 @@ namespace CourseWork.BusinessLogicLayer.Services.PaymentManagers.Implementations
 {
     public class PaymentManager : IPaymentManager
     {
-        private readonly Repository<Payment> _paymentRepository;
-        private readonly Repository<Project> _projectRepository;
+        private readonly IRepository<Payment> _paymentRepository;
+        private readonly IRepository<Project> _projectRepository;
         private readonly IMapper<PaymentForFormViewModel, Project> _paymentForFormMapper;
         private readonly IMapper<PaymentViewModel, Payment> _paymentMapper;
 
-        public PaymentManager(Repository<Payment> paymentRepository, Repository<Project> projectRepository,
+        public PaymentManager(IRepository<Payment> paymentRepository, IRepository<Project> projectRepository,
             IMapper<PaymentForFormViewModel, Project> paymentForFormMapper,
             IMapper<PaymentViewModel, Payment> paymentMapper)
         {
@@ -27,7 +27,7 @@ namespace CourseWork.BusinessLogicLayer.Services.PaymentManagers.Implementations
         public IEnumerable<PaymentViewModel> GetBigPayments()
         {
             return _paymentRepository.GetOrdered(payment => payment.PaidAmount, 4, true, 
-                payment => payment.Project, payment => payment.UserInfo)
+                payment => payment.Project, payment => payment.UserInfo, payment => payment.UserInfo.Awards)
                 .Select(payment => _paymentMapper.ConvertFrom(payment));
         }
 

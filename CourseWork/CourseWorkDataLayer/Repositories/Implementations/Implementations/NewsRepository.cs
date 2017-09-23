@@ -2,14 +2,16 @@
 using CourseWork.DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace CourseWork.DataLayer.Repositories.Implementations
+namespace CourseWork.DataLayer.Repositories.Implementations.Implementations
 {
-    public class NewsRepository: Repository<News>
+    public class NewsRepository : Repository<News>
     {
         protected override DbSet<News> Table => DbContext.News;
 
         public override object GetIdentificator(News item) => item.Id;
 
-        public NewsRepository(ApplicationDbContext dbContext) : base(dbContext) { }
+        public NewsRepository(ApplicationDbContext dbContext) : base(dbContext)
+        {
+        }
     }
 }

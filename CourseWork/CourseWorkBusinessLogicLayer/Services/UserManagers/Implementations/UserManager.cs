@@ -23,12 +23,12 @@ namespace CourseWork.BusinessLogicLayer.Services.UserManagers.Implementations
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IPhotoManager _photoManager;
         private readonly IMapper<CurrentUserViewModel, UserInfo> _userMapper;
-	    private readonly Repository<UserInfo> _userInfoRepository;
-        private readonly Repository<ApplicationUser> _applicationUserRepository;
+	    private readonly IRepository<UserInfo> _userInfoRepository;
+        private readonly IRepository<ApplicationUser> _applicationUserRepository;
 
         public UserManager(IHttpContextAccessor contextAccessor, UserManager<ApplicationUser> userManager,
-            Repository<UserInfo> userInfoRepository,
-            Repository<ApplicationUser> applicationUserRepository, IPhotoManager photoManager,
+            IRepository<UserInfo> userInfoRepository, IRepository<ApplicationUser> applicationUserRepository,
+            IPhotoManager photoManager,
             IMapper<CurrentUserViewModel, UserInfo> userMapper)
         {
             _contextAccessor = contextAccessor;

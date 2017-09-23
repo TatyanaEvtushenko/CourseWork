@@ -1,6 +1,6 @@
 ﻿using CourseWork.BusinessLogicLayer.ElasticSearch.Documents;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
-using CourseWork.BusinessLogicLayer.Services.Mappers.Implementations;
+using CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.AwardMappers;
 using CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.CommentMappers;
 using CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.FinancialPurposeMappers;
 using CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.MessageMappers;
@@ -9,6 +9,7 @@ using CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.PaymentMapp
 using CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.ProjectMappers;
 using CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.RatingMappers;
 using CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.UserInfoMappers;
+using CourseWork.BusinessLogicLayer.ViewModels.AwardViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.CommentViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.CurrentUserViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.FinancialPurposeViewModels;
@@ -50,7 +51,8 @@ namespace CourseWork.Extensions.StartupExtensions
             services.AddScoped<IMapper<DisplayableInfoViewModel, UserInfo>, DisplayableInfoViewModelToUserInfoMapper>();
             services.AddScoped<IMapper<ProjectSmallInfoViewModel, Project>, ProjectSmallInfoViewModelToProjectMapper>();
             services.AddScoped<IMapper<CurrentUserViewModel, UserInfo>, CurrentUserViewModelToUserInfoMapper>();
-            services.AddScoped<IMapper<DisplayableInfoViewModel, UserInfo>, DisplayableInfoViewModelToUserInfoMapper>();
+            services.AddScoped<IMapper<AwardSmallViewModel, Award>, AwardSmallViewModelToAwardMapper>();
+            services.AddScoped<IMapper<AwardViewModel, Award>, AwardViewModelToAwardMapper>();
         }
     }
 }

@@ -8,10 +8,10 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountConfirmationManagers.Imp
 {
     public class AccountConfirmationManager : IAccountConfirmationManager
     {
-        private readonly Repository<UserInfo> _userRepository;
+        private readonly IRepository<UserInfo> _userRepository;
         private readonly IPhotoManager _photoManager;
 
-        public AccountConfirmationManager(Repository<UserInfo> userRepository, IPhotoManager photoManager)
+        public AccountConfirmationManager(IRepository<UserInfo> userRepository, IPhotoManager photoManager)
         {
             _userRepository = userRepository;
             _photoManager = photoManager;

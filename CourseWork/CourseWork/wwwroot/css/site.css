@@ -1,4 +1,38 @@
-﻿angular-tag-cloud {
+﻿.award-icon {
+    display:inline-block;   
+    position:relative;
+}
+
+.award-icon span {
+    display: inline-block;
+    position: absolute;
+}
+
+.award-icon.big-award {
+    width: 100px;
+    height: 100px;
+}
+
+.award-icon.big-award span {
+    font-size: 50px;
+    top: 14px;
+    left: 36px;
+}
+
+.award-icon.small-award img{
+    width: 25px;
+    height: 25px;
+    margin-right: 3px;
+    margin-top: 2px;
+}
+
+.award-icon.small-award span {
+    font-size: 18px;
+    top: 2px;
+    left: 7px;
+}
+
+angular-tag-cloud {
     margin-left: 35%;
 }
 

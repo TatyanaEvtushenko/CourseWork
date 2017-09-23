@@ -64,7 +64,7 @@ export class HomePageComponent {
 
     private getBigPayments() {
         this.projectService.getBigPayments().subscribe(
-            data => this.bigPayments = data
+            data =>  this.bigPayments = data
         );
     }
 
