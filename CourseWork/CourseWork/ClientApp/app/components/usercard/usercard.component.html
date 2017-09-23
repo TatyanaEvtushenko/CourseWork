@@ -1,9 +1,9 @@
 ﻿
 <div class="card horizontal">
     <div class="card-image">
-        <img src="{{displayableInfo.avatar}}" height="300">
+        <img src="{{displayableInfo.avatar}}" class="usercard-pic">
     </div>
-    <div class="card-content">
+    <div class="card-content row">
         <div class="card-title">
             {{displayableInfo.userName}}<br/>            
             <rating class="project-item-rating" [(ngModel)]="displayableInfo.rating" [readonly]="true" [titles]="[translations['ONE'], translations['TWO'], translations['THREE'], translations['FOUR'], translations['FIVE']]"></rating>
