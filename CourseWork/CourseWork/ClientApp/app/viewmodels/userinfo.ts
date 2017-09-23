@@ -1,5 +1,5 @@
 ﻿export class UserInfo {
-    username: string;
+    userName: string;
     status: string;
     registrationTime: string;
     lastLoginTime: string;
@@ -7,4 +7,5 @@
     raiting: string;
     statusCode: number;
     isBlocked: boolean;
+    avatar: string;
 }

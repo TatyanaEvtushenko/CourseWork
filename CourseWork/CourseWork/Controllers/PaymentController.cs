@@ -22,6 +22,7 @@ namespace CourseWork.Controllers
 
         [HttpGet]
         [Route("api/Payment/GetBigPayments")]
+        [AllowAnonymous]
         public IEnumerable<PaymentViewModel> GetBigPayments()
         {
             return _paymentManager.GetBigPayments();

@@ -134,7 +134,7 @@ const appRoutes: Routes = [
         LanguageSelectorComponent,
         UserSubscriptionsComponent,
         PaymentComponent,
-        ProjectProgressComponent
+        ProjectProgressComponent,
         LanguageSelectorComponent,
         ColorSelectorComponent
         ProjectProgressComponent,

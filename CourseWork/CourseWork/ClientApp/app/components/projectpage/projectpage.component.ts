@@ -13,7 +13,7 @@ import { LocalizationService } from "../../services/localization.service";
 export class ProjectPageComponent {
     project: any = null;
     keys = ["ONE", "TWO", "THREE", "FOUR", "FIVE", "DESCR", "FINANCIALPURPOSES", "COMMENTS", "NEWS",
-        "EDITPROJECT", "EDIT", "TOPROJECTPAGE", "SUBSCRIBE", "UNSUBSCRIBE"];
+        "EDITPROJECT", "EDIT", "TOPROJECTPAGE", "SUBSCRIBE", "UNSUBSCRIBE", "PAYEDAMOUNT", "ENDDATE", "PROJECTSTATUS", "PAYMENTS"];
     translations = {}
 
     constructor(public storage: MessageSubscriberService,

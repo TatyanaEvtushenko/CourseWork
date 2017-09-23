@@ -23,9 +23,10 @@ export class AdminPageComponent {
     userStatus = UserStatus;
     selectedIndex: number = null;
     sortOrderAscending = { "Status": true, "LastLoginTime": true };
+    selectedAction: string = null;
     keys = ["VIEWCONFIRMATIONREQUEST", "STATUS", "LASTLOGINTIME", "USERNAME", "REGISTRATIONTIME", "PROJECTNUMBER", "RATING", "SELECTUSER",
         "AWAITING", "UNCONFIRMED", "CONFIRMED", "SHOWCONFIRMED", "SHOWUNCONFIRMED", "SHOWREQUESTED", "AdminPage", "FILTER",
-        "DELETESELECTED", "BLOCKSELECTED", "DELCOMMENTSRATINGS", "APPROVECONFIRMATION", "DECLINECONFIRMATION"];
+        "DELETESELECTED", "BLOCKSELECTED", "DELCOMMENTSRATINGS", "APPROVECONFIRMATION", "DECLINECONFIRMATION", "APPLY", "CHOOSEACTION"];
     translations = {};
 
     constructor(private title: Title, public storage: MessageSubscriberService, private accountService: AccountService,
@@ -68,7 +69,7 @@ export class AdminPageComponent {
             this.userInfos[this.selectedIndex].statusCode = UserStatus.WithoutConfirmation;
             this.userInfos[this.selectedIndex].status = "UNCONFIRMED";
 		}
-	    this.sendConfirmationMessage(this.userInfos[this.selectedIndex].username, this.generateResponseMessage(accept));
+	    this.sendConfirmationMessage(this.userInfos[this.selectedIndex].userName, this.generateResponseMessage(accept));
     }
 
     sortByField(fieldName: string) {
@@ -109,7 +110,7 @@ export class AdminPageComponent {
         var result: string[] = [];
         this.userInfos.forEach((item, index) => {
             if (this.isCheckedAtIndex[index])
-                result.push(item.username);
+                result.push(item.userName);
         });
         return result;
 	}
@@ -121,5 +122,10 @@ export class AdminPageComponent {
 
 	private generateResponseMessage(accept: boolean) {
         return accept ? this.translations["APPROVECONFIRMATION"] : this.translations['DECLINECONFIRMATION'];
-	}
+    }
+
+    apply() {
+        if (this.selectedAction != null)
+            this[this.selectedAction]();
+    }
 }

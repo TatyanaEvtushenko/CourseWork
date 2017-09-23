@@ -36,6 +36,14 @@ angular-tag-cloud {
     margin-left: 35%;
 }
 
+.btn {
+    margin-top: 10px;
+}
+
+label {
+    margin-right: 10px;
+}
+
 .progress {
     margin: 0;
 }
@@ -47,6 +55,11 @@ angular-tag-cloud {
 .homepage .row-news {
     height: 500px;
     overflow-y: auto;
+    overflow: hidden;
+}
+
+div.min-info {
+    margin-top: 10px;
 }
 
 #dropdown-nav-button {
@@ -68,8 +81,13 @@ angular-tag-cloud {
     margin-top: 65px;
  }
 
+
 div.select-wrapper  {
-    width: 150px;
+    max-width: 325px;
+}
+
+.invisible-checkbox {
+    display: none;
 }
 
 .comments input {
@@ -184,10 +202,6 @@ div.select-wrapper  {
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
-}
-
-select {
-    max-width: 280px;
 }
 
 .carousel-caption p {
