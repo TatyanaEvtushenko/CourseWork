@@ -3,9 +3,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using CourseWork.BusinessLogicLayer.Options;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
+using CourseWork.BusinessLogicLayer.Services.MessageManagers;
 using CourseWork.BusinessLogicLayer.Services.MessageSenders;
 using CourseWork.BusinessLogicLayer.Services.SearchManagers;
 using CourseWork.BusinessLogicLayer.Services.UserManagers;
+using CourseWork.BusinessLogicLayer.ViewModels.MessageViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.NewsViewModels;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
@@ -24,10 +26,11 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
         private readonly IUserManager _userManager;
         private readonly ISearchManager _searchManager;
         private readonly HomePageOptions _options;
+        private readonly IMessageManager _messageManager;
 
         public NewsManager(IRepository<News> newsRepository, IMapper<NewsFormViewModel, News> newsMapper,
             IEmailSender emailSender, IRepository<Project> projectRepository,
-            IUserManager userManager, ISearchManager searchManager, IMapper<NewsViewModel, News> newsViewMapper, IOptions<HomePageOptions> options)
+            IUserManager userManager, ISearchManager searchManager, IMapper<NewsViewModel, News> newsViewMapper, IOptions<HomePageOptions> options, IMessageManager messageManager)
         {
             _newsRepository = newsRepository;
             _newsMapper = newsMapper;
@@ -36,6 +39,7 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
             _projectRepository = projectRepository;
             _searchManager = searchManager;
             _newsViewMapper = newsViewMapper;
+            _messageManager = messageManager;
             _options = options.Value;
         }
 
@@ -48,7 +52,17 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers.Implementations
 
         public bool AddNews(NewsFormViewModel newsForm)
         {
-            return AddNewsToRepository(newsForm, NewsType.News);
+            var result = AddNewsToRepository(newsForm, NewsType.News);
+            if (result)
+            {
+                _messageManager.NotifySubscribers(new SubscriberNotificationViewModel
+                {
+                    Id = newsForm.ProjectId,
+                    Text = "<a href=\"/ProjectPage/" + newsForm.ProjectId +
+                           "\">" + "UPDATE: " + newsForm.Subject + "</a>"
+                });
+            }
+            return result;
         }
 
         public async Task<bool> AddMailingToSubscribers(NewsFormViewModel newsForm)

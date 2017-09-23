@@ -52,8 +52,8 @@ export class NewsFormModalComponent implements AfterViewInit {
     private getNewsResponse(data: any) {
         this.getResponse(data);
         if (data) {
-            this.projectService.notifySubscribers('<a href="/ProjectPage/' + this.newsForm.projectId + 
-                '">' + this.translations['UPDATE'] + ': ' + this.newsForm.subject + '</a>', this.newsForm.projectId).subscribe((data: void) => {});
+            //this.projectService.notifySubscribers('<a href="/ProjectPage/' + this.newsForm.projectId + 
+            //    '">' + this.translations['UPDATE'] + ': ' + this.newsForm.subject + '</a>', this.newsForm.projectId, this.newsForm.subject).subscribe((data: void) => {});
             this.onAdded.emit(this.newsForm);
         }
     }

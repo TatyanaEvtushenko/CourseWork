@@ -65,8 +65,8 @@ export class ProjectService extends BaseService {
         return this.requestGetWithParams("api/Project/GetSubscribedProjects", params);
     }
 
-    notifySubscribers(message: string, projectId: string) {
-        return this.requestPost("api/Message/NotifySubscribers", { text: message, id: projectId });
+    notifySubscribers(message: string, projectId: string, newsSubject: string) {
+        return this.requestPost("api/Message/NotifySubscribers", { text: message, id: projectId, subject: newsSubject });
     }
 
     addNews(newsForm: NewsForm) {

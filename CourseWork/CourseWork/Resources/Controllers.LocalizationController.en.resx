@@ -543,4 +543,7 @@
   <data name="SEP" xml:space="preserve">
     <value>Sep</value>
   </data>
+  <data name="NEWSUPDATE" xml:space="preserve">
+    <value>&lt;a href="/ProjectPage/{0}"&gt;Update: {1}&lt;/a&gt;</value>
+  </data>
 </root>

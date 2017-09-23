@@ -89,7 +89,18 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
         {
             var existedLevel = GetExistedLevel(awardType, countExistedValue);
             var award = GetAward(awardType, ownerUserName);
-            var isUpdated = award == null ? AddAward(awardType, existedLevel) : UpdateAward(award, existedLevel);
+            bool isUpdated = false;
+            if (award == null)
+            {
+                award = AddAward(awardType, existedLevel);
+                if (award != null)
+                    isUpdated = true;
+            }
+            else
+            {
+                isUpdated = UpdateAward(award, existedLevel);
+            }
+            //isUpdated = award == null ? AddAward(awardType, existedLevel) : UpdateAward(award, existedLevel);
             SendMessageAboutNewAward(award, isUpdated, ownerUserName);
             return isUpdated;
         }
@@ -130,7 +141,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
             return award.Level >= _levels[award.AwardType].Length;
         }
 
-        private bool AddAward(AwardType type, byte existedLevel)
+        private Award AddAward(AwardType type, byte existedLevel)
         {
             var award = new Award
             {
@@ -138,7 +149,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
                 UserName = _userManager.CurrentUserName,
                 Level = existedLevel
             };
-            return _awardRepository.AddRange(award);
+            return _awardRepository.AddRange(award) ? award : null;
         }
 
         private Award GetAward(AwardType type, string ownerUserName)

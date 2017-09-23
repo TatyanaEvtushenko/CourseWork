@@ -5,7 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using CourseWork.BusinessLogicLayer.Services.AccountManagers;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
+using CourseWork.BusinessLogicLayer.Services.MessageManagers;
 using CourseWork.BusinessLogicLayer.Services.SearchManagers;
+using CourseWork.BusinessLogicLayer.ViewModels.MessageViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
@@ -25,11 +27,12 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
         private readonly IMapper<UserConfirmationViewModel, UserInfo> _mapperInfo;
         private readonly IAccountManager _accountManager;
         private readonly ISearchManager _searchManager;
+        private readonly IMessageManager _messageManager;
 
         public AdminManager(IMapper<UserListItemViewModel, UserInfo> mapperList,
             IRepository<UserInfo> userInfoRepository, IMapper<UserConfirmationViewModel, UserInfo> mapperInfo,
             IAccountManager accountManager, IRepository<Project> projectRepository,
-            IRepository<Comment> commentRepository, IRepository<Rating> raitingRepository, ISearchManager searchManager, IRepository<ApplicationUser> applicationUserRepository)
+            IRepository<Comment> commentRepository, IRepository<Rating> raitingRepository, ISearchManager searchManager, IRepository<ApplicationUser> applicationUserRepository, IMessageManager messageManager)
         {
             _mapperList = mapperList;
             _userInfoRepository = userInfoRepository;
@@ -40,6 +43,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
             _raitingRepository = raitingRepository;
             _searchManager = searchManager;
             _applicationUserRepository = applicationUserRepository;
+            _messageManager = messageManager;
         }
 
         public UserListItemViewModel[] GetAllUsers()
@@ -70,12 +74,16 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
         {
             var user = _userInfoRepository.FirstOrDefault(u => u.UserName == userName);
             user.Status = accept ? UserStatus.Confirmed : UserStatus.WithoutConfirmation;
+            var message = accept ? "Your confirmation request has been approved" : "Your confirmation request has been declined";
             var result = _userInfoRepository.UpdateRange(user);
-            if (!result || !accept)
+            if (result)
             {
-                return result;
+                _messageManager.Send(new[] { new MessageViewModel { RecipientUserName = userName, Text = message } });
             }
-            await UpdateRole(userName, UserRole.User, UserRole.ConfirmedUser);
+            if (accept)
+            {
+                await UpdateRole(userName, UserRole.User, UserRole.ConfirmedUser);
+            }
             return true;
         }
 

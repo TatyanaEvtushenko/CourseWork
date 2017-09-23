@@ -69,7 +69,7 @@ export class AdminPageComponent {
             this.userInfos[this.selectedIndex].statusCode = UserStatus.WithoutConfirmation;
             this.userInfos[this.selectedIndex].status = "UNCONFIRMED";
 		}
-	    this.sendConfirmationMessage(this.userInfos[this.selectedIndex].userName, this.generateResponseMessage(accept));
+	    //this.sendConfirmationMessage(this.userInfos[this.selectedIndex].userName, this.generateResponseMessage(accept));
     }
 
     sortByField(fieldName: string) {
@@ -115,14 +115,14 @@ export class AdminPageComponent {
         return result;
 	}
 
-	private sendConfirmationMessage(username: string, message: string) {
-		this.messageSenderService.sendMessage([{ recipientUserName: username, text: message }]).
-			subscribe((data: void) => { });
-	}
+	//private sendConfirmationMessage(username: string, message: string) {
+	//	this.messageSenderService.sendMessage([{ recipientUserName: username, text: message }]).
+	//		subscribe((data: void) => { });
+	//}
 
-	private generateResponseMessage(accept: boolean) {
-        return accept ? this.translations["APPROVECONFIRMATION"] : this.translations['DECLINECONFIRMATION'];
-    }
+	//private generateResponseMessage(accept: boolean) {
+ //       return accept ? this.translations["APPROVECONFIRMATION"] : this.translations['DECLINECONFIRMATION'];
+ //   }
 
     apply() {
         if (this.selectedAction != null)
