@@ -453,6 +453,12 @@
   <data name="PROJECTSTATUS" xml:space="preserve">
     <value>Project status</value>
   </data>
+  <data name="ABOUTUS" xml:space="preserve">
+    <value>About us</value>
+  </data>
+  <data name="BIGGESTPAYMENTS" xml:space="preserve">
+    <value>The biggest payments</value>
+  </data>
   <data name="BUSINESSMAN" xml:space="preserve">
     <value>Businessman</value>
   </data>
@@ -465,8 +471,17 @@
   <data name="CREATOR" xml:space="preserve">
     <value>Creator</value>
   </data>
+  <data name="HOMEPAGE" xml:space="preserve">
+    <value>Home page</value>
+  </data>
   <data name="INVESTOR" xml:space="preserve">
     <value>Investor</value>
+  </data>
+  <data name="LASTPROJECTS" xml:space="preserve">
+    <value>New projects</value>
+  </data>
+  <data name="LATESTNEWS" xml:space="preserve">
+    <value>Latest news</value>
   </data>
   <data name="PAID" xml:space="preserve">
     <value>Donated $</value>
@@ -477,8 +492,14 @@
   <data name="PROJECTS_A" xml:space="preserve">
     <value>projects</value>
   </data>
+  <data name="STARTPROJECT" xml:space="preserve">
+    <value>Start your new project</value>
+  </data>
   <data name="SUBSCRIBEDFOR" xml:space="preserve">
     <value>subscibed for user's projects</value>
+  </data>
+  <data name="SUCCESSFULPROJECTS" xml:space="preserve">
+    <value>Successfully financed projects</value>
   </data>
   <data name="WASPAID" xml:space="preserve">
     <value>was donated for user's projects</value>

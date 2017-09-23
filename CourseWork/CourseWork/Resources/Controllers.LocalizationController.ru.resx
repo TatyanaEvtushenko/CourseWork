@@ -453,6 +453,12 @@
   <data name="PROJECTSTATUS" xml:space="preserve">
     <value>Статус проекта</value>
   </data>
+  <data name="ABOUTUS" xml:space="preserve">
+    <value>О нас</value>
+  </data>
+  <data name="BIGGESTPAYMENTS" xml:space="preserve">
+    <value>Крупнейшие переводы денег</value>
+  </data>
   <data name="BUSINESSMAN" xml:space="preserve">
     <value>Бизнесмен</value>
   </data>
@@ -465,8 +471,17 @@
   <data name="CREATOR" xml:space="preserve">
     <value>Создатель</value>
   </data>
+  <data name="HOMEPAGE" xml:space="preserve">
+    <value>Главная страница</value>
+  </data>
   <data name="INVESTOR" xml:space="preserve">
     <value>Инвестор</value>
+  </data>
+  <data name="LASTPROJECTS" xml:space="preserve">
+    <value>Новые проекты</value>
+  </data>
+  <data name="LATESTNEWS" xml:space="preserve">
+    <value>Последние новости</value>
   </data>
   <data name="PAID" xml:space="preserve">
     <value>Совершил оплату в $</value>
@@ -477,8 +492,14 @@
   <data name="PROJECTS_A" xml:space="preserve">
     <value>проектов</value>
   </data>
+  <data name="STARTPROJECT" xml:space="preserve">
+    <value>Начните свой новый проект</value>
+  </data>
   <data name="SUBSCRIBEDFOR" xml:space="preserve">
     <value>подписалось на проекты пользователя</value>
+  </data>
+  <data name="SUCCESSFULPROJECTS" xml:space="preserve">
+    <value>Успешно профинансированные проекты</value>
   </data>
   <data name="WASPAID" xml:space="preserve">
     <value>было перечислено на проекты пользователя</value>

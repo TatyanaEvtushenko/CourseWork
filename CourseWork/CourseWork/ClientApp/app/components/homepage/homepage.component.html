@@ -4,14 +4,14 @@
             <img src="https://pp.userapi.com/c543108/v543108795/294a6/cnFAJzUkjKM.jpg">
         </div>
         <div class="parallax-header header center white-text">
-            <h1>Start your new project</h1>
+            <h1>{{translations['STARTPROJECT']}}</h1>
             <h5 class="light">Данный текст описывает, как тут все замечательно. Ну или что-нибудь еще</h5>
         </div>
     </div>
 
     <div class="section display">
         <div class="icon-block center container row">
-            <h5><i class="material-icons">collections</i> Last created projects</h5>
+            <h5><i class="material-icons">collections</i>{{translations['LASTPROJECTS']}}</h5>
             <div class="row">
                 <div *ngFor="let project of lastCreatedProjects" class="col m3">
                     <projectitem [project]="project" (onClickNews)="openNewsModal($event)" (onClickPay)="openPayment($event)"
@@ -32,7 +32,7 @@
 
     <div class="section display">
         <div class="container icon-block center">
-            <h5><i class="material-icons">payment</i> The biggest payments</h5>
+            <h5><i class="material-icons">payment</i>{{translations['BIGGESTPAYMENTS']}}</h5>
             <div class="row">
                 <div *ngFor="let payment of bigPayments" class="col m3">
                     <payment [payment]="payment"></payment>
@@ -53,7 +53,7 @@
 
     <div class="section display">
         <div class="icon-block center container row">
-            <h5><i class="material-icons">collections</i> Successfully financed projects</h5>
+            <h5><i class="material-icons">collections</i> {{translations['SUCCESSFULPROJECTS']}}</h5>
             <div class="row">
                 <div *ngFor="let project of financedProjects" class="col m3">
                     <projectitem [project]="project" (onClickNews)="openNewsModal($event)" (onClickPay)="openPayment($event)"
@@ -76,7 +76,7 @@
     <div class="section display">
         <div class="container">
             <div class="icon-block center row">
-                <h5><i class="material-icons">public</i> Last news of projects</h5>
+                <h5><i class="material-icons">public</i> {{translations['LATESTNEWS']}}</h5>
                 <news [someNews]="lastNews" [canChange]="false"></news>
             </div>
         </div>
@@ -87,7 +87,7 @@
             <img src="https://pp.userapi.com/c543108/v543108795/294dc/eDN09FCa4bg.jpg">
         </div>
         <div class="parallax-header header center white-text">
-            <h2>About us</h2>
+            <h2>{{translations['ABOUTUS']}}</h2>
             <h5 class="light">Авторы сайта - няшечки</h5>
         </div>
     </div>
