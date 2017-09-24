@@ -21,29 +21,35 @@
         <span class="card-title grey-text text-darken-4">{{translations['ABOUT']}}<i class="material-icons right">close</i></span>
         <markdown>{{project.description}}</markdown>
     </div>
-    <div class="card-action center-align actions">
-        <a class="right action"><i class="material-icons activator">more_vert</i></a><br/>
-        <a class="right action tooltipped" *ngIf="storage.isReadyCurrentUser && storage.isUser && storage.currentUser.userName != project.ownerUserName
+    <div class="card-action actions row">
+        <div class="col m4 left-align">
+            <a class="action"><i class="material-icons activator">more_vert</i></a>
+            <a *ngIf="storage.isReadyCurrentUser && storage.isUser && timeService.isNotPast(project.projectEndTime)"
+               class="modal-trigger action tooltipped" (click)="openPayment()" href="#paymentModal"
+               materialize="tooltip" data-position="top" data-delay="10" [attr.data-tooltip]="translations['PAY']">
+                <i class="material-icons">payment</i>
+            </a>
+        </div>
+        <div class="col m4 center-align">
+            <a class="action tooltipped" *ngIf="storage.isReadyCurrentUser && storage.isUser && storage.currentUser.userName != project.ownerUserName
            && !project.isSubscriber" (click)="subscribe()"
-           materialize="tooltip" data-position="top" data-delay="10" [attr.data-tooltip]="translations['SUBSCRIBE']">
-            <i class="material-icons activator">notifications</i>
-        </a>
-        <a class="right action tooltipped" *ngIf="storage.isReadyCurrentUser && storage.isUser && storage.currentUser.userName != project.ownerUserName
+               materialize="tooltip" data-position="top" data-delay="10" [attr.data-tooltip]="translations['SUBSCRIBE']">
+                <i class="material-icons activator">notifications</i>
+            </a>
+            <a class="action tooltipped" *ngIf="storage.isReadyCurrentUser && storage.isUser && storage.currentUser.userName != project.ownerUserName
            && project.isSubscriber" (click)="unsubscribe()" materialize="tooltip" data-position="top" data-delay="10" [attr.data-tooltip]="translations['UNSUBSCRIBE']">
-            <i class="material-icons activator">notifications_off</i>
-        </a>
-        <ng-container *ngIf="storage.isReadyCurrentUser &&
+                <i class="material-icons activator">notifications_off</i>
+            </a>
+        </div>
+        <div class="col m4 right-align">
+            <ng-container *ngIf="storage.isReadyCurrentUser &&
                       (storage.isUser && storage.currentUser.userName == project.ownerUserName || storage.isAdmin)">
-            <a href="/ProjectEditorPage/{{project.id}}" class="right action tooltipped"
-               materialize="tooltip" data-position="top" data-delay="10" [attr.data-tooltip]="translations['EDIT']">
-                <i class="material-icons">edit</i></a>
-            <a (click)="openNews()" href="#newsModal" class="modal-trigger action center tooltipped"
-               materialize="tooltip" data-position="top" data-delay="10" [attr.data-tooltip]="translations['NEWS']"><i class="material-icons">library_books</i></a>
-        </ng-container>
-        <a *ngIf="storage.isReadyCurrentUser && storage.isUser && timeService.isNotPast(project.projectEndTime)"
-           class="modal-trigger right action tooltipped" (click)="openPayment()" href="#paymentModal"
-           materialize="tooltip" data-position="top" data-delay="10" [attr.data-tooltip]="translations['PAY']">
-            <i class="material-icons">payment</i>
-        </a>
+                <a href="/ProjectEditorPage/{{project.id}}" class="action tooltipped"
+                   materialize="tooltip" data-position="top" data-delay="10" [attr.data-tooltip]="translations['EDIT']">
+                    <i class="material-icons">edit</i></a>
+                <a (click)="openNews()" href="#newsModal" class="modal-trigger action tooltipped"
+                   materialize="tooltip" data-position="top" data-delay="10" [attr.data-tooltip]="translations['NEWS']"><i class="material-icons">library_books</i></a>
+            </ng-container>
+        </div>
     </div>
 </div>

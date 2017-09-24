@@ -129,9 +129,8 @@ img.project-item-image {
     overflow: hidden;
 }
 
-div.actions a.action {
-    margin-right: 2px;
-    margin-left: 2px;
+.action {
+    margin-right: 2px !important;
 }
 
 div.actions {
