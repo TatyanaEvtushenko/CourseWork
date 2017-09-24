@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { MarkdownModule } from 'angular2-markdown';
 import { MaterializeModule } from "angular2-materialize";
 import { RatingModule } from "ngx-rating";
+import { ColorPickerModule } from 'ngx-color-picker';
 
 import { AppComponent } from './components/app/app.component';
 import { HomePageComponent } from './components/homepage/homepage.component';
@@ -81,6 +82,7 @@ const appRoutes: Routes = [
         MaterializeModule,
         MarkdownModule.forRoot(),
         RatingModule,
+        ColorPickerModule,
         RouterModule.forRoot(
             appRoutes,
             { enableTracing: true }

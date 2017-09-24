@@ -207,9 +207,15 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         {
             project.Description = projectForm.Description;
             project.FundRaisingEnd = Convert.ToDateTime(projectForm.FundRaisingEnd);
-            project.ImageUrl = _photoManager.LoadImage(projectForm.ImageBase64);
             project.Name = projectForm.Name;
+            UpdateProjectDesignInformation(project, projectForm);
             UpdateProjectPaymentInfo(project, projectForm);
+        }
+
+        private void UpdateProjectDesignInformation(Project project, ProjectFormViewModel projectForm)
+        {
+            project.ImageUrl = _photoManager.LoadImage(projectForm.ImageBase64);
+            project.Color = projectForm.Color;
         }
 
         private void UpdateProjectPaymentInfo(Project project, ProjectFormViewModel projectForm)

@@ -4,6 +4,7 @@ import { ProjectService } from '../../services/project.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { MessageSubscriberService } from '../../services/messagesubscriber.service';
 import { TimeHelper } from '../../helpers/time.helper';
+declare var $: any;
 
 @Component({
     selector: 'projectpage',
@@ -22,10 +23,7 @@ export class ProjectPageComponent {
     ngOnInit() {
         const request = this.route.paramMap.switchMap((params: ParamMap) =>
             this.projectService.getProject(params.get('id')));
-        request.subscribe(data => {
-            this.project = data;
-            this.title.setTitle(data.name);
-        });
+        request.subscribe(data => this.initializeProject(data));
     }
 
     addNews(news: any) {
@@ -56,5 +54,19 @@ export class ProjectPageComponent {
             error => this.project.isSubscriber = true
         );
         this.project.isSubscriber = false;
+    }
+
+    private initializeProject(data: any) {
+        this.project = data;
+        this.title.setTitle(data.name);
+        if (data.color != null) {
+            this.initializeColor(data.color);
+        }
+    }
+
+    private initializeColor(color: string) {
+        $("nav").css("background-color", color);
+        $("footer").css("background-color", color);
+        $(".tabs.indicator").css("background-color", color);
     }
 }

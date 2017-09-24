@@ -1,7 +1,4 @@
 ﻿<div class="comments">
-    <div id="froala-editor">
-        <p>You can see the new buttons added after the separator in the toolbar.</p>
-    </div>
     <div class="input-field" *ngIf="storage.isReadyCurrentUser && storage.isUser">
         <i class="material-icons prefix" (click)="add()">mode_edit</i>
         <input id="newComment" [(ngModel)]="commentText" (keyup.enter)="add()" class="materialize-textarea" type="text"/>

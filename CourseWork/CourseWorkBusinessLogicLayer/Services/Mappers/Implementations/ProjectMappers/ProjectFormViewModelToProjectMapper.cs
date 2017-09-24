@@ -41,11 +41,17 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.Project
 
         private void ConvertToBaseInformation(Project project, ProjectFormViewModel projectForm)
         {
+            project.Name = projectForm.Name;
             project.Description = projectForm.Description;
             project.FundRaisingEnd = Convert.ToDateTime(projectForm.FundRaisingEnd).ToUniversalTime();
-            project.ImageUrl = _photoManager.LoadImage(projectForm.ImageBase64);
-            project.Name = projectForm.Name;
+            ConvertToDesignInformation(project, projectForm);
             ConvertToPaymentInformation(project, projectForm);
+        }
+
+        private void ConvertToDesignInformation(Project project, ProjectFormViewModel projectForm)
+        {
+            project.ImageUrl = _photoManager.LoadImage(projectForm.ImageBase64);
+            project.Color = projectForm.Color;
         }
 
         private void ConvertToPaymentInformation(Project project, ProjectFormViewModel projectForm)

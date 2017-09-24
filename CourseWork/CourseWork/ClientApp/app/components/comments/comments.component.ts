@@ -24,7 +24,6 @@ export class CommentsComponent implements AfterViewInit {
     ngAfterViewInit() {
         this.comments.sort(this.sortingHelper.sortByTimeDescending);
         this.comments.reverse();
-        $('div#froala-editor').froalaEditor();
     }
 
     add() {

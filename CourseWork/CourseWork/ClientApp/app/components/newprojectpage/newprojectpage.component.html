@@ -53,8 +53,14 @@
                 <label for="project-accountnumber">Account number</label>
             </div>
         </div>
+        <div class="col m3">
+            <div class="input-field">
+                <input [(colorPicker)]="projectForm.color" [style.background]="projectForm.color" [value]="projectForm.color" id="project-color"/>
+                <label for="project-color">Main color of your project page</label>
+            </div>
+        </div>
     </div>
-
+    
     <div class="row">
         <div class="col m11">
             <div class="input-field">
@@ -81,7 +87,7 @@
     <div class="row">
         <div class="col m2 offset-m5">
             <div class="input-field">
-                <button [disabled]="projectname.invalid || projectdate.invalid || projectMinPayment.invalid || projectMaxPayment.invalid || projectForm.financialPurposes.length < 1 || projectForm.imageBase64 == null || projectForm.minPaymentAmount > projectForm.maxPaymentAmount || projectForm.fundRaisingEnd < getTodayDate()" 
+                <button [disabled]="projectname.invalid || projectdate.invalid || projectMinPayment.invalid || projectMaxPayment.invalid || projectForm.financialPurposes.length < 1 || projectForm.imageBase64 == null || projectForm.minPaymentAmount > projectForm.maxPaymentAmount || projectForm.fundRaisingEnd >= timeHelper.getNowTime()" 
                         class="btn btn-large" (click)="onSubmit()">Create</button>
             </div>
         </div>

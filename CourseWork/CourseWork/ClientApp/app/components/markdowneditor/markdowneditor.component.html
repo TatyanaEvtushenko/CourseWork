@@ -4,6 +4,10 @@
             <textarea id="markdownText" class="materialize-textarea" [(ngModel)]="text" (ngModelChange)="change()"></textarea> 
             <label [attr.class]="text !== '' && text != null ? 'active' : ''" for="markdownText">{{fieldName}}</label>
         </div>
+        <div id="froala-editor">
+            
+            <p>You can see the new buttons added after the separator in the toolbar.</p>
+        </div>
     </div>
     <div class="col m1">
         <div class="input-field">
