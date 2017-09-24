@@ -68,14 +68,14 @@ namespace CourseWork.DataLayer.Repositories.Implementations
             return GetEager(includeStatements).FirstOrDefault(whereExpression);
         }
 
-        public int Count(Func<T, bool> whereExpression)
+        public int Count(Func<T, bool> whereExpression, params Expression<Func<T, object>>[] includeStatements)
         {
-            return Table.Count(whereExpression);
+            return GetEager(includeStatements).Count(whereExpression);
         }
 
-        public decimal Sum(Func<T, decimal> whereExpression)
+        public decimal Sum(Func<T, decimal> whereExpression, params Expression<Func<T, object>>[] includeStatements)
         {
-            return Table.Sum(whereExpression);
+            return GetEager(includeStatements).Sum(whereExpression);
         }
 
         public List<T> GetWhere(Func<T, bool> whereExpression, params Expression<Func<T, object>>[] includeStatements)
@@ -109,7 +109,7 @@ namespace CourseWork.DataLayer.Repositories.Implementations
                 DbContext.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
                 return false;
             }

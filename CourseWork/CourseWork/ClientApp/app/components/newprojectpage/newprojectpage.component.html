@@ -40,6 +40,19 @@
                 <label for="project-maxpayment">Max payment, $</label>
             </div>
         </div>
+        <div class="col m3">
+            <div class="input-field">
+                <input id="project-id" #projectId="ngModel" class="validate" required [(ngModel)]="projectForm.id" type="text" />
+                <label for="project-id">Path</label>
+            </div>
+        </div>
+        <div class="col m3">
+            <div class="input-field">
+                <input id="project-accountnumber" #projectAccountNumber="ngModel" class="validate" required
+                       [(ngModel)]="projectForm.accountNumber" type="text" />
+                <label for="project-accountnumber">Account number</label>
+            </div>
+        </div>
     </div>
 
     <div class="row">

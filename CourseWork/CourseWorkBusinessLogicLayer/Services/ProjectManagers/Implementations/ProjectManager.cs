@@ -208,16 +208,22 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             project.Description = projectForm.Description;
             project.FundRaisingEnd = Convert.ToDateTime(projectForm.FundRaisingEnd);
             project.ImageUrl = _photoManager.LoadImage(projectForm.ImageBase64);
+            project.Name = projectForm.Name;
+            UpdateProjectPaymentInfo(project, projectForm);
+        }
+
+        private void UpdateProjectPaymentInfo(Project project, ProjectFormViewModel projectForm)
+        {
             project.MaxPayment = projectForm.MaxPaymentAmount;
             project.MinPayment = projectForm.MinPaymentAmount;
-            project.Name = projectForm.Name;
+            project.AccountNumber = projectForm.AccountNumber;
         }
 
         private void UpdateCompleteProjectInfo(Project project, ProjectFormViewModel projectForm)
         {
-            project.Tags = _tagService.ConvertStringsToTags(projectForm.Tags, project.Id);
+            project.Tags = _tagService.ConvertStringsToTags(projectForm.Tags, project.Id).ToList();
             project.FinancialPurposes =
-                _financialPurposeManager.ConvertViewModelsToPurposes(projectForm.FinancialPurposes, project.Id);
+                _financialPurposeManager.ConvertViewModelsToPurposes(projectForm.FinancialPurposes, project.Id).ToList();
         }
 
         private void UpdateIndex(Project project)

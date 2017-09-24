@@ -10,4 +10,5 @@ export class NewProjectForm{
     maxPaymentAmount: number;
     financialPurposes: FinancialPurpose[];
     tags: string[];
+    accountNumber: string;
 }

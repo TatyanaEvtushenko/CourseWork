@@ -10,8 +10,11 @@
             </li>
             <li class="col m4 right-align" *ngIf="storage.isReadyCurrentUser && storage.isUser">
                 <a id="dropdown-nav-button" materialize="dropdown" class='dropdown-button right-align nav-user-info' href='#' data-activates='dropdown-nav'>
-                    <span class="user-min-info user">
-                        <img class="circle responsive-img" src="{{storage.currentUser.avatar}}">
+                    <span class="user-min-info user right">
+                        <img *ngIf="storage.currentUser != null && storage.currentUser.avatar ! null" class="circle responsive-img" 
+                             src="{{storage.currentUser.avatar}}">
+                        <img *ngIf="storage.currentUser == null || storage.currentUser != null && storage.currentUser.avatar == null" 
+                             class="circle responsive-img" src="/images/default-user.png">
                         <span>{{storage.currentUser.userName}}<i class="material-icons right">arrow_drop_down</i></span>
                     </span>
                 </a>
@@ -32,7 +35,7 @@
             <li *ngIf="storage.isReadyCurrentUser && storage.isUser">
                 <a href="/UserPage"><i class="material-icons left">home</i> My page</a>
             </li>
-            <li *ngIf="storage.isReadyCurrentUser && storage.isUser">
+            <li *ngIf="storage.isReadyCurrentUser && storage.isConfirmedUser">
                 <a href="/UserPage"><i class="material-icons left">collections</i> My projects</a>
             </li>
             <li class="divider"></li>
@@ -56,7 +59,7 @@
             <li *ngIf="storage.isReadyCurrentUser && storage.isUser">
                 <a href="/UserPage"><i class="material-icons left">home</i> My page</a>
             </li>
-            <li *ngIf="storage.isReadyCurrentUser && storage.isUser">
+            <li *ngIf="storage.isReadyCurrentUser && storage.isConfirmedUser">
                 <a href="/UserPage"><i class="material-icons left">collections</i> My projects</a>
             </li>
             <li class="divider"></li>

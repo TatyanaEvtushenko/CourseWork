@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using CourseWork.BusinessLogicLayer.Services.FinancialPurposesManagers;
 using CourseWork.BusinessLogicLayer.Services.PhotoManagers;
 using CourseWork.BusinessLogicLayer.Services.TagServices;
@@ -27,7 +28,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.Project
         public Project ConvertTo(ProjectFormViewModel item)
         {
             var project = new Project();
-            InitializeNewProject(project);
+            InitializeNewProject(project, item);
             ConvertToBaseInformation(project, item);
             InitializeCompleteFields(project, item);
             return project;
@@ -43,24 +44,30 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.Project
             project.Description = projectForm.Description;
             project.FundRaisingEnd = Convert.ToDateTime(projectForm.FundRaisingEnd).ToUniversalTime();
             project.ImageUrl = _photoManager.LoadImage(projectForm.ImageBase64);
-            project.MaxPayment = projectForm.MaxPaymentAmount;
-            project.MinPayment = projectForm.MinPaymentAmount;
             project.Name = projectForm.Name;
+            ConvertToPaymentInformation(project, projectForm);
         }
 
-        private void InitializeNewProject(Project project)
+        private void ConvertToPaymentInformation(Project project, ProjectFormViewModel projectForm)
+        {
+            project.MaxPayment = projectForm.MaxPaymentAmount;
+            project.MinPayment = projectForm.MinPaymentAmount;
+            project.AccountNumber = projectForm.AccountNumber;
+        }
+
+        private void InitializeNewProject(Project project, ProjectFormViewModel projectForm)
         {
             project.CreatingTime = DateTime.UtcNow;
-            project.Id = Guid.NewGuid().ToString();
+            project.Id = projectForm.Id ?? Guid.NewGuid().ToString();
             project.OwnerUserName = _userManager.CurrentUserName;
         }
 
         private void InitializeCompleteFields(Project model, ProjectFormViewModel viewModel)
         {
             var projectId = model.Id;
-            model.Tags = _tagService.ConvertStringsToTags(viewModel.Tags, projectId);
-            model.FinancialPurposes =
-                _financialPurposeManager.ConvertViewModelsToPurposes(viewModel.FinancialPurposes, projectId);
+            model.Tags = _tagService.ConvertStringsToTags(viewModel.Tags, projectId).ToList();
+            model.FinancialPurposes = 
+                _financialPurposeManager.ConvertViewModelsToPurposes(viewModel.FinancialPurposes, projectId).ToList();
         }
     }
 }
