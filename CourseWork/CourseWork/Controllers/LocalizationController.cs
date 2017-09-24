@@ -29,6 +29,7 @@ namespace CourseWork.Controllers
             Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
                                     CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(cultureName)),
                                     new CookieOptions { Expires = DateTimeOffset.Now.AddYears(1) });
+            Response.Cookies.Append("lang", cultureName, new CookieOptions { Expires = DateTimeOffset.Now.AddYears(1) });
         }
 
         [HttpGet]

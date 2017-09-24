@@ -4,6 +4,7 @@ using CourseWork.BusinessLogicLayer.ViewModels.AccountViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 
 namespace CourseWork.Controllers
 {
@@ -12,10 +13,12 @@ namespace CourseWork.Controllers
     public class AccountController : Controller
     {
         private readonly IAccountManager _accountManager;
+        private readonly IStringLocalizer<LocalizationController> _localizer;
 
-        public AccountController(IAccountManager accountManager)
+        public AccountController(IAccountManager accountManager, IStringLocalizer<LocalizationController> localizer)
         {
             _accountManager = accountManager;
+            _localizer = localizer;
         }
 
         [HttpPost]
@@ -23,7 +26,8 @@ namespace CourseWork.Controllers
         [AllowAnonymous]
         public async Task<bool> Register([FromBody]RegisterViewModel user)
         {
-            return await _accountManager.Register(user.UserName, user.Email, user.Password);
+            return await _accountManager.Register(user.UserName, user.Email, user.Password,
+                _localizer["ConfirmYourAccount"], _localizer["CONFIRMATIONLINK"]);
         }
 
         [HttpPost]

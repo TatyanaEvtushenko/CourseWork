@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using CourseWork.BusinessLogicLayer.Options;
 using CourseWork.BusinessLogicLayer.Services.MessageManagers;
 using CourseWork.BusinessLogicLayer.Services.UserManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.MessageViewModels;
@@ -9,6 +10,7 @@ using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Options;
 
 namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
 {
@@ -21,20 +23,12 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
         private readonly IRepository<Payment> _paymentRepository;
         private readonly IRepository<ProjectSubscriber> _subscriberRepository;
         private readonly IRepository<Project> _projectRepository;
-
-        private readonly Dictionary<AwardType, int[]> _levels = new Dictionary<AwardType, int[]>
-        {
-            [AwardType.ForComments] = new []{1, 5, 10, 30, 50, 80, 100, 200, 500},
-            [AwardType.ForPayments] = new []{1, 10, 20, 50, 100, 200, 300, 500, 1000},
-            [AwardType.ForReceivedPayments] = new []{1, 5, 10, 30, 50, 80, 100, 200, 500},
-            [AwardType.ForSubscriptions] = new []{1, 5, 10, 20, 30, 50, 80, 100, 150},
-            [AwardType.ForProjects] = new []{1, 3, 5, 10, 15, 20, 30, 50, 100},
-        };
+        private readonly Dictionary<AwardType, int[]> _levels;
 
         public AwardManager(IUserManager userManager, IRepository<Award> awardRepository,
             IRepository<Comment> commentRepository,
             IRepository<Payment> paymentRepository, IRepository<ProjectSubscriber> subscriberRepository,
-            IRepository<Project> projectRepository, IMessageManager messageManager)
+            IRepository<Project> projectRepository, IMessageManager messageManager, IOptions<AwardOptions> options)
         {
             _userManager = userManager;
             _awardRepository = awardRepository;
@@ -43,6 +37,14 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
             _subscriberRepository = subscriberRepository;
             _projectRepository = projectRepository;
             _messageManager = messageManager;
+            _levels = new Dictionary<AwardType, int[]>
+            {
+                [AwardType.ForComments] = options.Value.ForComments,
+                [AwardType.ForPayments] = options.Value.ForPayments,
+                [AwardType.ForReceivedPayments] = options.Value.ForReceivedPayments,
+                [AwardType.ForSubscriptions] = options.Value.ForSubscriptions,
+                [AwardType.ForProjects] = options.Value.ForProjects
+            };
         }
 
         public bool AddAwardForComments(string awardName)
@@ -69,13 +71,13 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
         {
             var ownerUserName = _projectRepository.FirstOrDefault(p => p.Id == projectId).OwnerUserName;
             return CheckAward(AwardType.ForSubscriptions, ownerUserName, 
-                () => _subscriberRepository.Count(s => s.Project.OwnerUserName == ownerUserName), awardName);
+                () => _subscriberRepository.GetWhere(s => s.Project.OwnerUserName == ownerUserName, s => s.Project).Count(s => s.Project.OwnerUserName == ownerUserName), awardName);
         }
 
         public bool AddAwardForReceivedPayments(Project project, string awardName)
         {
             return CheckAward(AwardType.ForReceivedPayments, project.OwnerUserName,
-                () => _paymentRepository.GetWhere(p => p.Project.OwnerUserName == project.OwnerUserName)?.Sum(p => p.PaidAmount) ?? 0, awardName);
+                () => _paymentRepository.GetWhere(p => p.Project.OwnerUserName == project.OwnerUserName, p => p.Project)?.Sum(p => p.PaidAmount) ?? 0, awardName);
         }
 
         public decimal GetNeccessaryCountForAward(AwardType type, int level)

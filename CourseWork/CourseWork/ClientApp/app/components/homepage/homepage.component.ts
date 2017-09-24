@@ -13,11 +13,11 @@ declare var $: any;
     templateUrl: './homepage.component.html'
 })
 export class HomePageComponent {
+    selectedProjectId: string = null;
     lastNews: any = null;
     bigPayments: any = null;
     financedProjects: any = null;
     lastCreatedProjects: any = null;
-    selectedProjectId: any = null;
     keys = ["HOMEPAGE", "ABOUTUS", "STARTPROJECT", "LASTPROJECTS", "BIGGESTPAYMENTS", "SUCCESSFULPROJECTS", "LATESTNEWS"];
     translations = {}
 
@@ -39,22 +39,6 @@ export class HomePageComponent {
         this.getBigPayments();
         this.getFinancedProjects();
         this.getLastCreatedProjects();
-    }
-
-    openPayment(event: any) {
-        this.selectedProjectId = event;
-    }
-
-    openNewsModal(event: any) {
-        this.selectedProjectId = event;
-    }
-
-    subscribe(projectId: string) {
-        this.projectService.subscribe(projectId).subscribe();
-    }
-
-    unsubscribe(projectId: string) {
-        this.projectService.unsubscribe(projectId).subscribe();
     }
 
     private getLastCreatedProjects() {

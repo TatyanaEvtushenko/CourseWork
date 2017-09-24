@@ -90,13 +90,26 @@ div.select-wrapper  {
     display: none;
 }
 
-.usercard-pic {
+.horizontal .card-image {
     height: 300px;
     width: 300px;
 }
 
+.horizontal .card-image img {
+    height: 100%;
+    width: 100%;
+}
+
+.horizontal .card-action {
+    width: 10%;
+}
+
 td a.row {
     margin-top: 35px;
+}
+
+img.project-item-image {
+    height: 140px;
 }
 
 .comments input {
@@ -125,9 +138,25 @@ td a.row {
     overflow: hidden;
 }
 
+.action {
+    margin-right: 2px !important;
+}
+
+div.actions {
+    white-space: nowrap;
+}
+
 .project .card {
     margin-top: 0;
     overflow: hidden;
+}
+
+.small .card-image {
+    height: 45%;
+}
+
+.small .card-image img {
+    height: 100%;
 }
 
 .project .card-image img{

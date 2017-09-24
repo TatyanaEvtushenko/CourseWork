@@ -7,7 +7,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers
 {
     public interface IAccountManager
     {
-        Task<bool> Register(string userName, string email, string password);
+        Task<bool> Register(string userName, string email, string password, string messageSubsject, string messagePrototype);
 
         Task<bool> ConfirmRegistration(string userId, string code);
 

@@ -41,10 +41,10 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
             _options = options.Value;
         }
 
-        public async Task<bool> Register(string userName, string email, string password)
+        public async Task<bool> Register(string userName, string email, string password, string messageSubject, string messagePrototype)
         {
             var user = new ApplicationUser {UserName = userName ?? email, Email = email};
-            return await TryRegister(user, password);
+            return await TryRegister(user, password, messageSubject, messagePrototype);
         }
 
         public async Task<bool> ConfirmRegistration(string userId, string code)
@@ -106,14 +106,14 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
             return result.Succeeded;
         }
 
-        private async Task<bool> TryRegister(ApplicationUser user, string password)
+        private async Task<bool> TryRegister(ApplicationUser user, string password, string messageSubject, string messagePrototype)
         {
             var result = await _userManager.CreateAsync(user, password);
             if (!result.Succeeded)
             {
                 return false;
             }
-            await SendConfirmation(user);
+            await SendConfirmation(user, messageSubject, messagePrototype);
             return true;
         }
 
@@ -149,11 +149,11 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
             _userInfoRepository.UpdateRange(user);
         }
 
-        private async Task SendConfirmation(ApplicationUser user)
+        private async Task SendConfirmation(ApplicationUser user, string messageSubject, string messagePrototype)
         {
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var callbackUrl = GetCallBackConfirmUrl(user.Id, code);
-            await _emailSender.SendEmailAsync(user.Email, "Confirm your account", GetMessageToSendConfirmLink(callbackUrl));
+            await _emailSender.SendEmailAsync(user.Email, messageSubject, GetMessageToSendConfirmLink(callbackUrl, messagePrototype));
         }
 
         private string GetCallBackConfirmUrl(string userId, string code) =>
@@ -172,7 +172,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
             await _userManager.RemoveFromRoleAsync(user, EnumConfiguration.RoleNames[role]);
         }
 
-        private static string GetMessageToSendConfirmLink(string url) =>
-            $"Please confirm your account by clicking this link: <a href=\"{url}\">link</a>";
+        private static string GetMessageToSendConfirmLink(string url, string messagePrototype) =>
+            string.Format(messagePrototype, url);
     }
 }

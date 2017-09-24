@@ -10,6 +10,9 @@ import { MarkdownModule } from 'angular2-markdown';
 import { MaterializeModule } from "angular2-materialize";
 import { RatingModule } from "ngx-rating";
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { APP_INITIALIZER } from '@angular/core';
+import { AppConfig } from './app.config';
+import { Cookie } from 'ng2-cookies/ng2-cookies';
 
 import { AppComponent } from './components/app/app.component';
 import { HomePageComponent } from './components/homepage/homepage.component';
@@ -52,6 +55,7 @@ import { PaymentComponent } from "./components/payment/payment.component";
 import { ProjectProgressComponent } from "./components/projectprogress/projectprogress.component";
 import { ColorSelectorComponent } from "./components/colorselector/colorselector.component";
 import { AwardComponent } from "./components/award/award.component";
+import { ProjectItemCollectionComponent } from "./components/projectitemcollection/projectitemcollection.component";
 
 import { BaseService} from './services/base.service';
 import { CurrentUserService } from "./services/currentuser.service"; 
@@ -138,7 +142,8 @@ const appRoutes: Routes = [
         LanguageSelectorComponent,
         ColorSelectorComponent,
         ProjectProgressComponent,
-        AwardComponent
+        AwardComponent,
+        ProjectItemCollectionComponent
     ],
     providers: [
         BaseService,
@@ -153,7 +158,9 @@ const appRoutes: Routes = [
         MessageSenderService,
         MessageSubscriberService,
         LocalizationService,
-        ColorService
+        ColorService,
+        AppConfig,
+        { provide: APP_INITIALIZER, useFactory: (config: AppConfig) => () => config.load(), deps: [AppConfig], multi: true }
     ],
     bootstrap: [
         AppComponent

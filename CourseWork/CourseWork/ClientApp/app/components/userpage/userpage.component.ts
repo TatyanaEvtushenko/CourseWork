@@ -16,13 +16,13 @@ import { LocalizationService } from "../../services/localization.service";
     templateUrl: './userpage.component.html'
 })
 export class UserPageComponent {
+    selectedProjectId: string = null;
     ownerUserName: string = null;
     currentUserName: string = null;
     userProjects: any[] = [];
     userSubscribedProjects: any[] = [];
     displayableInfo: DisplayableInfo = null;
     accountEditForm: AccountEditForm = null;
-    selectedProjectId: string = null;
     isInitialized = false;
     keys = ["MyPage", "USERPAGE", "MYPROJECTS", "USERPROJECTS", "MYSUBSCRIPTIONS", "USERSUBSCRIPTIONS", "CONFIRMACCOUNTNOW"];
     translations = {}
@@ -80,22 +80,6 @@ export class UserPageComponent {
         this.projectService.getSubscribedProjects(this.ownerUserName).subscribe((data) => {
             this.userSubscribedProjects = data;
         });
-    }
-
-    openPayment(event: any) {
-        this.selectedProjectId = event;
-    }
-
-    openNewsModal(event: any) {
-        this.selectedProjectId = event;
-    }
-
-    subscribe(projectId: string) {
-        this.projectService.subscribe(projectId).subscribe();
-    }
-
-    unsubscribe(projectId: string) {
-        this.projectService.unsubscribe(projectId).subscribe();
     }
 
     updateAccount(editForm: AccountEditForm) {

@@ -14,7 +14,7 @@ export class ProjectItemComponent {
     @Output() onClickSubscribe = new EventEmitter<string>();
     @Output() onClickUnsubscribe = new EventEmitter<string>();
     @Output() onClickPay = new EventEmitter<string>();
-    keys = ["ABOUT", "ONE", "TWO", "THREE", "FOUR", "FIVE", "SUBSCRIBE", "UNSUBSCRIBE"];
+    keys = ["ABOUT", "ONE", "TWO", "THREE", "FOUR", "FIVE", "SUBSCRIBE", "UNSUBSCRIBE", "PAY", "EDIT", "NEWS"];
     translations = {}
 
     constructor(public storage: StorageService,

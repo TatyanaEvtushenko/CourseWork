@@ -435,7 +435,7 @@
   <data name="UPDATE" xml:space="preserve">
     <value>Update</value>
   </data>
-  <data name="ADDNEWPROJECT" xml:space="preserve">
+  <data name="ADDANEWPROJECT" xml:space="preserve">
     <value>Add a new project</value>
   </data>
   <data name="CHOOSEACTION" xml:space="preserve">
@@ -554,5 +554,8 @@
   </data>
   <data name="SUBSCRIBERMESSAGE" xml:space="preserve">
     <value>&lt;a href="/ProjectPage/{0}"&gt;  {1} &lt;/a&gt;</value>
+  </data>
+  <data name="CONFIRMATIONLINK" xml:space="preserve">
+    <value>Please confirm your account by clicking this link: &lt;a href="{0}"&gt;link&lt;/a&gt;</value>
   </data>
 </root>
