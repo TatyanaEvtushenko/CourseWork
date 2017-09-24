@@ -1,5 +1,6 @@
 ﻿import { Component, Input } from '@angular/core';
-import { TimeService } from '../../services/time.service';
+import { TimeHelper } from '../../helpers/time.helper';
+import { LocalizationService } from "../../services/localization.service";
 
 @Component({
     selector: 'payment',
@@ -8,6 +9,7 @@ import { TimeService } from '../../services/time.service';
 
 export class PaymentComponent {
     @Input() payment: any;
+    timeHelper = new TimeHelper(this.localizationService);
 
-    constructor(public timeService: TimeService) { }
+    constructor(private localizationService: LocalizationService) { }
 }

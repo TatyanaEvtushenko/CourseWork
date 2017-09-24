@@ -1,7 +1,7 @@
 ﻿import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { StorageService } from '../../services/storage.service';
-import { TimeService } from '../../services/time.service';
 import { LocalizationService } from "../../services/localization.service";
+import { TimeHelper } from '../../helpers/time.helper';
 
 @Component({
     selector: 'projectitem',
@@ -14,11 +14,11 @@ export class ProjectItemComponent {
     @Output() onClickSubscribe = new EventEmitter<string>();
     @Output() onClickUnsubscribe = new EventEmitter<string>();
     @Output() onClickPay = new EventEmitter<string>();
+    timeHelper = new TimeHelper(this.localizationService);
     keys = ["ABOUT", "ONE", "TWO", "THREE", "FOUR", "FIVE", "SUBSCRIBE", "UNSUBSCRIBE", "PAY", "EDIT", "NEWS"];
     translations = {}
 
     constructor(public storage: StorageService,
-        public timeService: TimeService,
         public localizationService: LocalizationService) {
             this.localizationService.getTranslations(this.keys).subscribe((data) => {
                 this.translations = data;

@@ -49,7 +49,8 @@ namespace CourseWork.BusinessLogicLayer.Services.CommentManagers.Implementations
         {
             _searchManager.AddCommentToIndex(comment);
             _awardManager.AddAwardForComments(awardName);
-            comment.UserInfo = _userInfoRepository.FirstOrDefault(i => i.UserName == comment.UserName);
+            comment.UserInfo = _userInfoRepository.FirstOrDefault(i => i.UserName == comment.UserName, 
+                c => c.Awards);
         }
     }
 }

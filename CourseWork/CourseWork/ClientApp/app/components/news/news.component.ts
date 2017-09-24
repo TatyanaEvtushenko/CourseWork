@@ -1,24 +1,30 @@
-﻿import { Component, Input } from '@angular/core';
+﻿import { Component, Input, DoCheck, ChangeDetectorRef } from '@angular/core';
 import { ProjectService } from '../../services/project.service';
-import { TimeService } from '../../services/time.service';
-import { SortingService } from '../../services/sorting.service';
+import { TimeHelper } from '../../helpers/time.helper';
+import { SortingHelper } from '../../helpers/sorting.helper';
+import { LocalizationService } from "../../services/localization.service";
 
 @Component({
     selector: 'news',
     templateUrl: './news.component.html',
 })
-
-export class NewsComponent {
+export class NewsComponent implements DoCheck {
     @Input() canChange = false;
+    @Input() viewProjectName = false;
     @Input() someNews: any;
+    sortingHelper = new SortingHelper();
+    timeHelper = new TimeHelper(this.localizationService);
+    isSorted = false;
 
-    constructor(private projectService: ProjectService,
-        public timeService: TimeService,
-        private sortingService: SortingService) {
+    constructor(private projectService: ProjectService, private cdr: ChangeDetectorRef, private localizationService: LocalizationService) {
     }
 
-    ngOnInit() {
-        //this.someNews.sort(this.sortingService.sortByTime);
+    ngDoCheck() {
+        if (this.someNews != null && !this.isSorted) {
+            this.someNews.sort(this.sortingHelper.sortByTimeDescending);
+            this.isSorted = true;
+            this.cdr.detectChanges();
+        }
     }
 
     delete(news: any) {

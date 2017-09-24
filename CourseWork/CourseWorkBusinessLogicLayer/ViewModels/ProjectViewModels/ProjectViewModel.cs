@@ -20,6 +20,8 @@ namespace CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels
 
         public string Description { get; set; }
 
+        public string Color { get; set; }
+
         public decimal PaidAmount { get; set; }
 
         public int CountOfPayments { get; set; }

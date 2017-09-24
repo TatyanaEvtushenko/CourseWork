@@ -1,6 +1,6 @@
 ﻿import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AccountService } from "../../services/account.service";
 import { CurrentUserService } from '../../services/currentuser.service';
 import { ProjectService } from '../../services/project.service';
@@ -8,7 +8,7 @@ import { MessageSenderService } from '../../services/messagesender.service';
 import { DisplayableInfo } from "../../viewmodels/displayableinfo";
 import { AccountEditForm } from "../../viewmodels/accounteditform";
 import { MessageSubscriberService } from '../../services/messagesubscriber.service';
-import { SortingService } from '../../services/sorting.service';
+import { SortingHelper } from '../../helpers/sorting.helper';
 import { LocalizationService } from "../../services/localization.service";
 
 @Component({
@@ -24,17 +24,22 @@ export class UserPageComponent {
     displayableInfo: DisplayableInfo = null;
     accountEditForm: AccountEditForm = null;
     isInitialized = false;
+    sortingHelper = new SortingHelper();
     keys = ["MyPage", "USERPAGE", "MYPROJECTS", "USERPROJECTS", "MYSUBSCRIPTIONS", "USERSUBSCRIPTIONS", "CONFIRMACCOUNTNOW"];
     translations = {}
 
-    constructor(private title: Title, protected currentUserService: CurrentUserService, protected accountService: AccountService,
-        protected messageSenderService: MessageSenderService, private projectService: ProjectService, private storage: MessageSubscriberService,
-        private sortingService: SortingService, private route: ActivatedRoute, private localizationService: LocalizationService) {
+    constructor(private title: Title,
+        protected currentUserService: CurrentUserService,
+        protected accountService: AccountService,
+        protected messageSenderService: MessageSenderService,
+        private projectService: ProjectService,
+        private storage: MessageSubscriberService,
+        private route: ActivatedRoute,
+        private localizationService: LocalizationService) {
         this.localizationService.getTranslations(this.keys).subscribe((data) => {
             this.translations = data;
             this.title.setTitle(this.translations['USERPAGE']);
         });
-
     }
 
     ngOnInit() {
@@ -60,7 +65,7 @@ export class UserPageComponent {
     private getUserProjects() {
         this.projectService.getProjects(this.ownerUserName).subscribe(
             (data) => {
-                data.sort(this.sortingService.sortByProjectStatus);
+                data.sort(this.sortingHelper.sortByProjectStatus);
                 this.userProjects = data;
             }
         );

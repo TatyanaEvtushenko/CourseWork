@@ -71,13 +71,14 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
         {
             var ownerUserName = _projectRepository.FirstOrDefault(p => p.Id == projectId).OwnerUserName;
             return CheckAward(AwardType.ForSubscriptions, ownerUserName, 
-                () => _subscriberRepository.GetWhere(s => s.Project.OwnerUserName == ownerUserName, s => s.Project).Count(s => s.Project.OwnerUserName == ownerUserName), awardName);
+                () => _subscriberRepository.Count(s => s.Project.OwnerUserName == ownerUserName, s => s.Project), awardName);
         }
 
         public bool AddAwardForReceivedPayments(Project project, string awardName)
         {
             return CheckAward(AwardType.ForReceivedPayments, project.OwnerUserName,
-                () => _paymentRepository.GetWhere(p => p.Project.OwnerUserName == project.OwnerUserName, p => p.Project)?.Sum(p => p.PaidAmount) ?? 0, awardName);
+                () => _paymentRepository.GetWhere(p => p.Project.OwnerUserName == project.OwnerUserName, p => p.Project)?
+                .Sum(p => p.PaidAmount) ?? 0, awardName);
         }
 
         public decimal GetNeccessaryCountForAward(AwardType type, int level)

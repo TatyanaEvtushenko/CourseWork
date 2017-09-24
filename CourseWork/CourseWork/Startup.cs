@@ -76,9 +76,9 @@ namespace CourseWork
             });
             services.AddSingleton<SearchClient>();
 
-            int adminCount = Int32.Parse(Configuration["AdminUserNamesOptions:AdminCount"]);
-            List<string> adminUserNames = new List<string>();
-            for (int i = 0; i < adminCount; i++)
+            var adminCount = Int32.Parse(Configuration["AdminUserNamesOptions:AdminCount"]);
+            var adminUserNames = new List<string>();
+            for (var i = 0; i < adminCount; i++)
                 adminUserNames.Add(Configuration[$"AdminUserNamesOptions:AdminUserNames:{i}"]);
             services.AddRepositories();
             services.AddServices();

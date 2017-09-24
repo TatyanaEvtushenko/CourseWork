@@ -21,17 +21,14 @@ export class ImageLoaderComponent {
 
     toBase64(file: any) {
         var reader = new FileReader();
-        reader.onloadend = (e) => {
-            this.previewImage(reader.result);
-            this.imageString = reader.result;
-            this.emitter.emit(this.imageString);
-        }
+        reader.onloadend = (e) => this.getResponse(e, reader);
         reader.readAsDataURL(file);
     }
 
-    previewImage(file: any) {
-        var preview = document.querySelector('#uploaded-image');
-        preview.src = file;
+    private getResponse(file: any, reader: any) {
+        $("#uploaded-image").attr("src", file);
+        this.imageString = reader.result;
+        this.emitter.emit(this.imageString);
     }
 
     onChange(event: any) {

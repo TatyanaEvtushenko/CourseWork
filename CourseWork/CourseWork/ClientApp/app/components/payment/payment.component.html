@@ -3,5 +3,5 @@
     <h3>${{payment.paidAmount}}</h3>
     перечислил на проект <br/>
     <a class="black-text flow-text" href="/ProjectPage/{{payment.projectInfo.id}}">{{payment.projectInfo.name}}</a><br />    
-    {{timeService.getFormatDate(payment.time)}}
+    {{timeHelper.getFormatDate(payment.time)}}
 </div>

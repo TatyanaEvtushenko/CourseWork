@@ -1,6 +1,5 @@
 ﻿<errorpage *ngIf="storage.isReadyCurrentUser && !storage.isConfirmedUser"></errorpage>
-<div class="container body-content">
-    <div *ngIf="storage.isReadyCurrentUser && storage.isConfirmedUser" class="container">
+<div class="container body-content" *ngIf="storage.isReadyCurrentUser && storage.isConfirmedUser">
         <h4 class="center-align">{{translations['CREATENEWPROJECT']}}</h4>
 
         <div class="row">
@@ -25,62 +24,75 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col m6">
-                <imageloader id="project-image" (emitter)="projectForm.imageBase64 = $event" [fieldName]="translations['IMAGE']"></imageloader>
-            </div>
-            <div class="col m3">
-                <div class="input-field">
-                    <input id="project-minpayment" #projectMinPayment="ngModel" class="validate" required [(ngModel)]="projectForm.minPaymentAmount" type="number" />
-                    <label for="project-minpayment">{{translations['MINPAYMENT']}}, $</label>
-                </div>
-            </div>
-            <div class="col m3">
-                <div class="input-field">
-                    <input id="project-maxpayment" #projectMaxPayment="ngModel" class="validate" required [(ngModel)]="projectForm.maxPaymentAmount" type="number" />
-                    <label for="project-maxpayment">{{translations['MAXPAYMENT']}}, $</label>
-                </div>
+    <div class="row">
+        <div class="col m6">
+            <imageloader id="project-image" (emitter)="projectForm.imageBase64 = $event" [fieldName]="translations['IMAGE']"></imageloader>
+        </div>
+        <div class="col m3">
+            <div class="input-field">
+                <input id="project-minpayment" #projectMinPayment="ngModel" class="validate" required [(ngModel)]="projectForm.minPaymentAmount" type="number" />
+                <label for="project-minpayment">{{translations['MINPAYMENT']}}, $</label>
             </div>
         </div>
-
-        <div class="row">
-            <div class="col m11">
-                <div class="input-field">
-                    <h6 class="grey-text">{{translations['FINANCIALPURPOSES']}}</h6>
-                    <hr *ngIf="projectForm.financialPurposes.length < 1" />
-                    <financialpurposes *ngIf="projectForm.financialPurposes.length >= 1"
-                                       [(financialPurposes)]="projectForm.financialPurposes" [canChange]="true"></financialpurposes>
-                </div>
+        <div class="col m3">
+            <div class="input-field">
+                <input id="project-maxpayment" #projectMaxPayment="ngModel" class="validate" required [(ngModel)]="projectForm.maxPaymentAmount" type="number" />
+                <label for="project-maxpayment">{{translations['MAXPAYMENT']}}, $</label>
             </div>
-            <div class="col m1">
-                <div class="input-field">
-                    <a href="#financialPurposeModal" class="btn modal-trigger"><i class="material-icons">add</i></a>
-                </div>
-            </div>
-            <financialpurposemodal (onCreated)="addFinancialPurpose($event)"></financialpurposemodal>
         </div>
-
+        <div class="col m3">
+            <div class="input-field">
+                <input id="project-id" #projectId="ngModel" class="validate" required [(ngModel)]="projectForm.id" type="text" />
+                <label for="project-id">Path</label>
+            </div>
+        </div>
+        <div class="col m3">
+            <div class="input-field">
+                <input id="project-accountnumber" #projectAccountNumber="ngModel" class="validate" required
+                       [(ngModel)]="projectForm.accountNumber" type="text" />
+                <label for="project-accountnumber">Account number</label>
+            </div>
+        </div>
+        <div class="col m3">
+            <div class="input-field">
+                <input [(colorPicker)]="projectForm.color" [style.background]="projectForm.color" [value]="projectForm.color" id="project-color"/>
+                <label for="project-color">Main color of your project page</label>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col m11">
+            <div class="input-field">
+                <h6 class="grey-text">{{translations['FINANCIALPURPOSES']}}</h6>
+                <hr *ngIf="projectForm.financialPurposes.length < 1"/>
+                <financialpurposes *ngIf="projectForm.financialPurposes.length >= 1"
+                                   [(financialPurposes)]="projectForm.financialPurposes" [canChange]="true"></financialpurposes>
+            </div>
+        </div>
+        <div class="col m1">
+            <div class="input-field">
+                <a href="#financialPurposeModal" class="btn modal-trigger"><i class="material-icons">add</i></a>
+            </div>
+        </div>
+        <financialpurposemodal (onCreated)="addFinancialPurpose($event)"></financialpurposemodal>
+    </div>
         <div class="row">
             <div class="col m12">
                 <tagsearcher [(data)]="projectForm.tags"></tagsearcher>
             </div>
         </div>
-
-        <div class="row">
-            <div class="col m2 offset-m5">
-                <div class="input-field">
-                    <button [disabled]="projectname.invalid || projectdate.invalid || projectMinPayment.invalid || projectMaxPayment.invalid || projectForm.financialPurposes.length < 1 || projectForm.imageBase64 == null || projectForm.minPaymentAmount > projectForm.maxPaymentAmount || projectForm.fundRaisingEnd < getTodayDate()"
-                            class="btn btn-large" (click)="onSubmit()">
-                        {{translations['CREATE']}}
-                    </button>
-                </div>
+    <div class="row">
+        <div class="col m2 offset-m5">
+            <div class="input-field">
+                <button [disabled]="projectname.invalid || projectdate.invalid || projectMinPayment.invalid || projectMaxPayment.invalid || projectForm.financialPurposes.length < 1 || projectForm.imageBase64 == null || projectForm.minPaymentAmount > projectForm.maxPaymentAmount || projectForm.fundRaisingEnd >= timeHelper.getNowTime()"
+                        class="btn btn-large" (click)="onSubmit()">{{translations['CREATE']}}</button>
             </div>
         </div>
-
-        <div class="row">
-            <div class="col m12 center-align">
-                <errortext *ngIf="isWrongRequest" [text]="translations['PROJECTERROR']"></errortext>
-            </div>
+    </div>
+    <div class="row">
+        <div class="col m12 center-align">
+            <errortext *ngIf="isWrongRequest" [text]="translations['PROJECTERROR']"></errortext>
         </div>
     </div>
 </div>

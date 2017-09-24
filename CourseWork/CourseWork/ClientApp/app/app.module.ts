@@ -1,5 +1,6 @@
 ﻿import "jquery";
 import "froala-editor/js/froala_editor.pkgd.min.js";
+
 import { NgModule } from '@angular/core';
 import { BrowserModule }  from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
@@ -9,10 +10,10 @@ import { FormsModule } from '@angular/forms';
 import { MarkdownModule } from 'angular2-markdown';
 import { MaterializeModule } from "angular2-materialize";
 import { RatingModule } from "ngx-rating";
+import { ColorPickerModule } from 'ngx-color-picker';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { APP_INITIALIZER } from '@angular/core';
 import { AppConfig } from './app.config';
-import { Cookie } from 'ng2-cookies/ng2-cookies';
 
 import { AppComponent } from './components/app/app.component';
 import { HomePageComponent } from './components/homepage/homepage.component';
@@ -63,8 +64,6 @@ import { TagService } from "./services/tag.service";
 import { AccountService } from "./services/account.service";
 import { ProjectService } from "./services/project.service";
 import { StorageService } from "./services/storage.service";
-import { SortingService } from "./services/sorting.service";
-import { TimeService } from "./services/time.service";
 import { MessageSenderService } from "./services/messagesender.service"
 import { MessageSubscriberService } from "./services/messagesubscriber.service";
 import { LocalizationService } from "./services/localization.service";
@@ -75,9 +74,10 @@ const appRoutes: Routes = [
     { path: 'UserPage', component: UserPageComponent },
     { path: 'AdminPage', component: AdminPageComponent },
     { path: 'NewProjectPage', component: NewProjectPageComponent },
-    { path: 'ProjectEditorPage/:id', component: ProjectEditorPageComponent },
-    { path: 'ProjectPage/:id', component: ProjectPageComponent },
     { path: 'ProjectEditorPage', component: NewProjectPageComponent },
+    { path: 'ProjectEditorPage/:id', component: ProjectEditorPageComponent },
+    { path: 'UserProjectsPage', component: UserProjectsPageComponent },
+    { path: 'ProjectPage/:id', component: ProjectPageComponent },
     { path: 'SearchResult', component: SearchResultComponent },
     { path: '**', component: ErrorPageComponent }
 ];
@@ -91,6 +91,7 @@ const appRoutes: Routes = [
         MaterializeModule,
         MarkdownModule.forRoot(),
         RatingModule,
+        ColorPickerModule,
         FroalaEditorModule.forRoot(),
         FroalaViewModule.forRoot(),
         RouterModule.forRoot(
@@ -152,8 +153,6 @@ const appRoutes: Routes = [
         TagService,
         ProjectService,
         StorageService,
-        SortingService,
-        TimeService,
 		ProjectService,
         MessageSenderService,
         MessageSubscriberService,

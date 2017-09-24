@@ -28,7 +28,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.UserInf
             {
                 UserName = item.UserName,
                 Avatar = item.Avatar,
-                Awards = item.Awards?.Select(a => _awardMapper.ConvertFrom(a))
+                Awards = item.Awards?.Select(a => _awardMapper.ConvertFrom(a)).ToList()
             };
         }
     }

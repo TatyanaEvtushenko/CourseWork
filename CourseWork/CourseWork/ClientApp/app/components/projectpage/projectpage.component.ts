@@ -3,8 +3,9 @@ import { Title } from '@angular/platform-browser';
 import { ProjectService } from '../../services/project.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { MessageSubscriberService } from '../../services/messagesubscriber.service';
-import { TimeService } from '../../services/time.service';
+import { TimeHelper } from '../../helpers/time.helper';
 import { LocalizationService } from "../../services/localization.service";
+declare var $: any;
 
 @Component({
     selector: 'projectpage',
@@ -15,9 +16,9 @@ export class ProjectPageComponent {
     keys = ["ONE", "TWO", "THREE", "FOUR", "FIVE", "DESCR", "FINANCIALPURPOSES", "COMMENTS", "NEWS",
         "EDITPROJECT", "EDIT", "TOPROJECTPAGE", "SUBSCRIBE", "UNSUBSCRIBE", "PAYEDAMOUNT", "ENDDATE", "PROJECTSTATUS", "PAYMENTS"];
     translations = {}
+    timeHelper = new TimeHelper(this.localizationService);
 
     constructor(public storage: MessageSubscriberService,
-        public timeService: TimeService,
         private route: ActivatedRoute,
         private title: Title,
         private projectService: ProjectService,
@@ -30,19 +31,21 @@ export class ProjectPageComponent {
     ngOnInit() {
         const request = this.route.paramMap.switchMap((params: ParamMap) =>
             this.projectService.getProject(params.get('id')));
-        request.subscribe(data => {
-            this.project = data;
-            this.title.setTitle(data.name);
-        });
+        request.subscribe(data => this.initializeProject(data));
     }
 
     addNews(news: any) {
-        news.time = this.timeService.getNowTime();
+        news.time = this.timeHelper.getNowTime();
         this.project.news = [news].concat(this.project.news);
     }
 
     updateRating() {
         this.projectService.changeRating(this.project.id, this.project.rating).subscribe();
+    }
+
+    getNeccessaryAmount() {
+        const budgets = this.project.financialPurposes.map((x : any)=> x.budget);
+        return Math.max.apply(null, budgets);
     }
 
     subscribe() {
@@ -62,5 +65,19 @@ export class ProjectPageComponent {
             },
             error => this.project.isSubscriber = true
         );
+    }
+
+    private initializeProject(data: any) {
+        this.project = data;
+        this.title.setTitle(data.name);
+        if (data.color != null) {
+            this.initializeColor(data.color);
+        }
+    }
+
+    private initializeColor(color: string) {
+        $("nav").css("background-color", color);
+        $("footer").css("background-color", color);
+        $(".tabs .tab a").css("background-color", color);
     }
 }

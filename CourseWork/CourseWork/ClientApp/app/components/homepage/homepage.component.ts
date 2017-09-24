@@ -3,8 +3,6 @@ import {Title} from '@angular/platform-browser';
 import { MessageSenderService } from "../../services/messagesender.service";
 import { MessageSubscriberService } from '../../services/messagesubscriber.service';
 import { ProjectService } from '../../services/project.service';
-import { SortingService } from '../../services/sorting.service';
-import { TimeService } from '../../services/time.service';
 import { LocalizationService } from '../../services/localization.service';
 declare var $: any;
 
@@ -25,8 +23,6 @@ export class HomePageComponent {
         protected messageSenderService: MessageSenderService,
         private messageSubscriberService: MessageSubscriberService,
         private projectService: ProjectService,
-        private sortingService: SortingService,
-        public timeService: TimeService,
         private localizationService: LocalizationService) {
         this.localizationService.getTranslations(this.keys).subscribe((data) => {
             this.translations = data;

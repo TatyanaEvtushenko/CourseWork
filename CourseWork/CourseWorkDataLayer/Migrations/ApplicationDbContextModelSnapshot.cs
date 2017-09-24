@@ -194,6 +194,8 @@ namespace CourseWork.DataLayer.Migrations
 
                     b.Property<string>("AccountNumber");
 
+                    b.Property<string>("Color");
+
                     b.Property<DateTime>("CreatingTime");
 
                     b.Property<string>("Description");

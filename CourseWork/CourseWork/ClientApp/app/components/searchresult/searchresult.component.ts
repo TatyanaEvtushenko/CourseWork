@@ -17,6 +17,8 @@ export class SearchResultComponent {
     projects: any[] = [];
     keys = ["SEARCHRESULTS"];
     translations = {}
+    selectedProjectId: string = null;
+    isReady = false;
 
     constructor(private title: Title, private route: ActivatedRoute, private router: Router,
         protected accountService: AccountService, protected messageSenderService: MessageSenderService, private projectService: ProjectService,
@@ -31,6 +33,7 @@ export class SearchResultComponent {
         this.route.queryParams.subscribe(params => {
             this.projectService.search(params['searchQuery']).subscribe(result => {
                 this.projects = result;
+                this.isReady = true;
             });
         });
     }

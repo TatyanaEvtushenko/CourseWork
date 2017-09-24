@@ -24,7 +24,7 @@
     <div class="card-action actions row">
         <div class="col m4 left-align">
             <a class="action"><i class="material-icons activator">more_vert</i></a>
-            <a *ngIf="storage.isReadyCurrentUser && storage.isUser && timeService.isNotPast(project.projectEndTime)"
+            <a *ngIf="storage.isReadyCurrentUser && storage.isUser && timeHelper.isNotPast(project.projectEndTime)"
                class="modal-trigger action" (click)="openPayment()" href="#paymentModal"
                >
                 <i class="material-icons">payment</i>

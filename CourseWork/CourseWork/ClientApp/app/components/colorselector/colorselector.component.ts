@@ -23,6 +23,7 @@ export class ColorSelectorComponent {
     }
 
     colorSelected() {
-        this.colorService.setColor(this.selectedColor).subscribe((data: void) => { });
+        this.colorService.setColor(this.selectedColor).subscribe(
+            (data: void) => location.reload());
     }
 }

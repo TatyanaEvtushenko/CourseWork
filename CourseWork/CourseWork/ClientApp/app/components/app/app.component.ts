@@ -2,7 +2,6 @@
 import { StorageService } from '../../services/storage.service';
 import { AccountService } from "../../services/account.service";
 import { LocalizationService } from "../../services/localization.service";
-import { Cookie } from 'ng2-cookies/ng2-cookies';
 
 @Component({
     selector: 'app',
