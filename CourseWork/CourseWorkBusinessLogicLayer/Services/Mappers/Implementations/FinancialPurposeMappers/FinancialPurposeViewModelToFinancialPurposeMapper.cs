@@ -24,7 +24,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.Financi
                 Description = item.Description,
                 Name = item.Name,
                 Budget = item.NecessaryPaymentAmount,
-                Id = item.Id
+         //       Id = item.Id
             };
         }
     }

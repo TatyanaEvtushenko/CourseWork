@@ -23,13 +23,13 @@ namespace CourseWork.DataLayer.Repositories
 
         T FirstOrDefault(Func<T, bool> whereExpression, params Expression<Func<T, object>>[] includeStatements);
 
-        int Count(Func<T, bool> whereExpression);
+        int Count(Func<T, bool> whereExpression, params Expression<Func<T, object>>[] includeStatements);
 
         List<T> GetWhere(Func<T, bool> whereExpression, params Expression<Func<T, object>>[] includeStatements);
 
         List<T> GetOrdered<TKey>(Func<T, TKey> orderExpression, int count, bool isDescending,
             params Expression<Func<T, object>>[] includeStatements);
 
-        decimal Sum(Func<T, decimal> whereExpression);
+        decimal Sum(Func<T, decimal> whereExpression, params Expression<Func<T, object>>[] includeStatements);
     }
 }

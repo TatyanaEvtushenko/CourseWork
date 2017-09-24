@@ -14,6 +14,7 @@ import { MessageSubscriberService } from '../../services/messagesubscriber.servi
 export class SearchResultComponent {
     projects: any[] = [];
     selectedProjectId: string = null;
+    isReady = false;
 
     constructor(private title: Title, private route: ActivatedRoute, private router: Router,
       protected accountService: AccountService, protected messageSenderService: MessageSenderService, private projectService: ProjectService, private storage: MessageSubscriberService) {
@@ -24,6 +25,7 @@ export class SearchResultComponent {
         this.route.queryParams.subscribe(params => {
             this.projectService.search(params['searchQuery']).subscribe(result => {
                 this.projects = result;
+                this.isReady = true;
             });
         });
     }
