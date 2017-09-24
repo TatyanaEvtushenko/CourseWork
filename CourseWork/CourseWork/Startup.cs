@@ -44,6 +44,7 @@ namespace CourseWork
         {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+            services.LaunchElastic(Configuration["ElasticSearchLauncherOptions:LauncherPath"]);
             //services.AddHangfire(x => x.UseSqlServerStorage(connectionString));
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
