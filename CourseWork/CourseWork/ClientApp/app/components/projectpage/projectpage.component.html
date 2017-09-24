@@ -1,82 +1,91 @@
-﻿<div *ngIf="project != null" class="project">
-    <div class="card">
-        <div class="card-image">
-            <img src="{{project.imageUrl}}">
-            <div class="card-title left-align">
-                <h1>{{project.name}}</h1>
-                <h6><rating [(ngModel)]="project.rating" (ngModelChange)="updateRating()"
-                            [titles]="['one', 'two', 'three', 'four', 'five']"></rating></h6>
+﻿<div class="container body-content">
+    <div class="project" *ngIf="project != null">
+        <div class="card">
+            <div class="card-image">
+                <img src="{{project.imageUrl}}">
+                <div class="card-title left-align">
+                    <h1>{{project.name}}</h1>
+                    <h6><rating [(ngModel)]="project.rating" (ngModelChange)="updateRating()"
+                                [titles]="['one', 'two', 'three', 'four', 'five']"></rating></h6>
+                </div>
+            </div>
+            <projectprogress *ngIf="project != null" [neccessaryAmount]="getNeccessaryAmount()" [paidAmount]="project.paidAmount"></projectprogress>
+        </div>
+
+        <div class="row">
+            <div class="col m4 center-align">
+                <usermininfo [user]="project.owner"></usermininfo>
+            </div>
+            <div class="col m2 center-align">
+                <h5>${{project.paidAmount}}</h5>
+                <div class="grey-text">payed amount</div>
+            </div>
+            <div class="col m2 center-align">
+                <h5>{{project.countOfPayments}}</h5>
+                <div class="grey-text">payments</div>
+            </div>
+            <div class="col m2 center-align">
+                <h5>{{timeHelper.getFormatOnlyDate(project.fundRaisingEnd)}}</h5>
+                <div class="grey-text">end time</div>
+            </div>
+            <div class="col m2 center-align">
+                <h5><projectstatus [status]="project.status"></projectstatus></h5>
+                <div class="grey-text">projet status</div>
             </div>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col m4">
-            <h5><usermininfo [user]="project.owner"></usermininfo></h5>
-        </div>
-        <div class="col m2 center-align">
-            <h5>${{project.paidAmount}}</h5>
-            <div class="grey-text">payed amount</div>
-        </div>
-        <div class="col m2 center-align">
-            <h5>{{project.countOfPayments}}</h5>
-            <div class="grey-text">payments</div>
-        </div>
-        <div class="col m2 center-align">
-            <h5>{{timeService.getFormatOnlyDate(project.fundRaisingEnd)}}</h5>
-            <div class="grey-text">end time</div>
-        </div>
-        <div class="col m2 center-align">
-            <h5><projectstatus [status]="project.status"></projectstatus></h5>
-            <div class="grey-text">projet status</div>
-        </div>
-    </div>
     
-    <div class="row">
-        <div class="col s12">
-            <ul class="tabs tabs-fixed-width col s8" materialize="tabs">
-                <li class="tab col s3"><a class="active" href="#tab-description">Description</a></li>
-                <li class="tab col s3"><a href="#tab-financialPurposes">Financial purposes</a></li>
-                <li class="tab col s3"><a href="#tab-news">News</a></li>
-                <li class="tab col s2"><a href="#tab-comments">Comments</a></li>
-            </ul>
-            <div class="col s4 right-align" *ngIf="storage.isReadyCurrentUser && project != null && storage.isUser">
-                <ng-container *ngIf="project.owner.userName != storage.currentUser.userName">
-                    <button *ngIf="!project.isSubscriber" class="btn" (click)="subscribe()">Subscribe</button>
-                    <button *ngIf="project.isSubscriber" class="btn" (click)="unsubscribe()">Unsubscribe</button>
-                </ng-container>
-                <ng-container *ngIf="timeService.isNotPast(project.fundRaisingEnd)">
-                    <button class="btn modal-trigger" href="#paymentModal">Pay</button>
-                    <paymentmodal [projectId]="project.id"></paymentmodal>
-                </ng-container>
-                <ng-container *ngIf="storage.isAdmin || project.owner.userName == storage.currentUser.userName">
-                    <button class="btn btn-icon modal-trigger" href="#newsModal">
-                        <i class="material-icons">library_books</i>
-                    </button>
-                    <a class="btn btn-icon" href="/ProjectEditorPage/{{project.id}}">
-                        <i class="material-icons">edit</i>
-                    </a>
-                    <newsformmodal [projectId]="project.id" (onAdded)="addNews($event)"></newsformmodal>
-                </ng-container>
+        <div class="row">
+            <div class="col s12">
+                <ul class="tabs tabs-fixed-width col s8" materialize="tabs">
+                    <li class="tab col s3"><a class="active" href="#tab-description">Description</a></li>
+                    <li class="tab col s3"><a href="#tab-financialPurposes">Financial purposes</a></li>
+                    <li class="tab col s3"><a href="#tab-news">News</a></li>
+                    <li class="tab col s3"><a href="#tab-comments">Comments</a></li>
+                </ul>
+                <div class="col s4 right-align" *ngIf="storage.isReadyCurrentUser && project != null && storage.isUser">
+                    <ng-container *ngIf="project.owner.userName != storage.currentUser.userName">
+                        <button *ngIf="!project.isSubscriber" class="btn" (click)="subscribe()">Subscribe</button>
+                        <button *ngIf="project.isSubscriber" class="btn" (click)="unsubscribe()">Unsubscribe</button>
+                    </ng-container>
+                    <ng-container *ngIf="timeHelper.isNotPast(project.fundRaisingEnd)">
+                        <button class="btn modal-trigger" href="#paymentModal">Pay</button>
+                        <paymentmodal [projectId]="project.id"></paymentmodal>
+                    </ng-container>
+                    <ng-container *ngIf="storage.isAdmin || project.owner.userName == storage.currentUser.userName">
+                        <button class="btn btn-icon modal-trigger tooltipped" href="#newsModal" 
+                                materialize="tooltip" data-position="top" data-delay="10" data-tooltip="Add a news">
+                            <i class="material-icons">library_books</i>
+                        </button>
+                        <a class="btn btn-icon tooltipped" href="/ProjectEditorPage/{{project.id}}" 
+                           materialize="tooltip" data-position="top" data-delay="10" data-tooltip="Edit the project">
+                            <i class="material-icons">edit</i>
+                        </a>
+                        <newsformmodal [projectId]="project.id" (onAdded)="addNews($event)"></newsformmodal>
+                    </ng-container>
+                </div>
+            </div>
+            <div id="tab-description" class="col s12">
+                <markdown>{{project.description}}</markdown>
+            </div>
+            <div id="tab-financialPurposes" class="col s12 container">
+                <financialpurposes [(financialPurposes)]="project.financialPurposes" [canChange]="false"></financialpurposes>
+            </div>
+            <div id="tab-news" class="col s12">
+                <news [someNews]="project.news" [viewProjectName]="false"
+                      [canChange]="storage.isReadyCurrentUser && storage.isUser && (project.owner.userName == storage.currentUser.userName || storage.isAdmin)"></news>
+            </div>
+            <div id="tab-comments" class="col s12">
+                <comments [comments]="project.comments" [projectId]="project.id" [projectOwnerUserName]="project.owner.userName"></comments>
             </div>
         </div>
-        <div id="tab-description" class="col s12">
-            <markdown>{{project.description}}</markdown>
-        </div>
-        <div id="tab-financialPurposes" class="col s12 container">
-            <financialpurposes [(financialPurposes)]="project.financialPurposes" [canChange]="false"></financialpurposes>
-        </div>
-        <div id="tab-news" class="col s12">
-            <news [someNews]="project.news" [canChange]="storage.isReadyCurrentUser && storage.isUser && (project.owner.userName == storage.currentUser.userName || storage.isAdmin)"></news>
-        </div>
-        <div id="tab-comments" class="col s12">
-            <comments [comments]="project.comments" [projectId]="project.id" [projectOwnerUserName]="project.owner.userName"></comments>
+
+        <div class="row center">
+            <div class="chip" *ngFor="let tag of project.tags">
+                <a class="grey-text text-darken-3" href="/SearchResult?searchQuery={{tag}}">{{tag}}</a>
+            </div>
         </div>
     </div>
-
-    <div class="row center">
-        <div class="chip" *ngFor="let tag of project.tags">
-            {{tag}}
-        </div>
+    <div *ngIf="project == null">
+        <preloader></preloader>
     </div>
 </div>

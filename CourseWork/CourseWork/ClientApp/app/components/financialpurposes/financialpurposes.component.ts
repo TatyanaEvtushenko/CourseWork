@@ -1,5 +1,5 @@
 ﻿import { Component, Input, Output, AfterViewInit } from '@angular/core';
-import { SortingService } from '../../services/sorting.service';
+import { SortingHelper } from '../../helpers/sorting.helper';
 
 @Component({
     selector: 'financialpurposes',
@@ -9,11 +9,10 @@ import { SortingService } from '../../services/sorting.service';
 export class FinancialPurposesComponent implements AfterViewInit {
     @Input() canChange = false;
     @Input() @Output() financialPurposes: any;
-
-    constructor(private sortingService: SortingService) { }
+    sortingHelper = new SortingHelper();
 
     ngAfterViewInit(): void {
-        this.financialPurposes.sort(this.sortingService.sortByBudget);
+        this.financialPurposes.sort(this.sortingHelper.sortByBudget);
     }
 
     delete(purpose: any) {

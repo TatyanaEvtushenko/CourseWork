@@ -1,5 +1,5 @@
 ﻿import { Component, Input } from '@angular/core';
-import { TimeService } from '../../services/time.service';
+import { TimeHelper } from '../../helpers/time.helper';
 
 @Component({
     selector: 'payment',
@@ -8,6 +8,5 @@ import { TimeService } from '../../services/time.service';
 
 export class PaymentComponent {
     @Input() payment: any;
-
-    constructor(public timeService: TimeService) { }
+    timeHelper = new TimeHelper();
 }

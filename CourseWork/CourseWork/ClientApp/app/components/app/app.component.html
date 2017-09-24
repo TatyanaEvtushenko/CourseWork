@@ -9,8 +9,8 @@
                 <searcher></searcher>
             </li>
             <li class="col m4 right-align" *ngIf="storage.isReadyCurrentUser && storage.isUser">
-                <a id="dropdown-nav-button" materialize="dropdown" class='dropdown-button right-align' href='#' data-activates='dropdown-nav'>
-                    <span class="user-min-info">
+                <a id="dropdown-nav-button" materialize="dropdown" class='dropdown-button right-align nav-user-info' href='#' data-activates='dropdown-nav'>
+                    <span class="user-min-info user">
                         <img class="circle responsive-img" src="{{storage.currentUser.avatar}}">
                         <span>{{storage.currentUser.userName}}<i class="material-icons right">arrow_drop_down</i></span>
                     </span>
@@ -67,11 +67,10 @@
     </div>
 </nav>
 
-<!--<div class="container body-content">
-</div>-->
-<router-outlet></router-outlet>
-<floatingbutton></floatingbutton>
-
+<main>
+    <router-outlet></router-outlet>
+    <floatingbutton></floatingbutton>
+</main>
 
 <footer class="page-footer">
     <div class="container">

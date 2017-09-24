@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { ProjectService } from '../../services/project.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { MessageSubscriberService } from '../../services/messagesubscriber.service';
-import { TimeService } from '../../services/time.service';
+import { TimeHelper } from '../../helpers/time.helper';
 
 @Component({
     selector: 'projectpage',
@@ -11,9 +11,9 @@ import { TimeService } from '../../services/time.service';
 })
 export class ProjectPageComponent {
     project: any = null;
+    timeHelper = new TimeHelper();
 
     constructor(public storage: MessageSubscriberService,
-        public timeService: TimeService,
         private route: ActivatedRoute,
         private title: Title,
         private projectService: ProjectService) {
@@ -29,12 +29,17 @@ export class ProjectPageComponent {
     }
 
     addNews(news: any) {
-        news.time = this.timeService.getNowTime();
+        news.time = this.timeHelper.getNowTime();
         this.project.news = [news].concat(this.project.news);
     }
 
     updateRating() {
         this.projectService.changeRating(this.project.id, this.project.rating).subscribe();
+    }
+
+    getNeccessaryAmount() {
+        const budgets = this.project.financialPurposes.map((x : any)=> x.budget);
+        return Math.max.apply(null, budgets);
     }
 
     subscribe() {

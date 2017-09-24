@@ -3,8 +3,7 @@ import { NewProjectForm } from '../../viewmodels/newprojectform';
 import { Title } from '@angular/platform-browser';
 import { ProjectService } from '../../services/project.service';
 import { StorageService } from '../../services/storage.service';
-import { SortingService } from '../../services/sorting.service';
-import { MessageSubscriberService } from '../../services/messagesubscriber.service';
+import { SortingHelper } from '../../helpers/sorting.helper';
 declare var $: any;
 
 @Component({
@@ -15,9 +14,9 @@ declare var $: any;
 export class NewProjectPageComponent{
     projectForm = new NewProjectForm();
     isWrongRequest = false;
+    sortingHelper = new SortingHelper();
 
     constructor(public storage: StorageService,
-                private sortingService: SortingService,
                 private title: Title, 
                 private projectService: ProjectService) {
         title.setTitle("New project");
@@ -31,7 +30,7 @@ export class NewProjectPageComponent{
 
     addFinancialPurpose(purpose: any) {
         this.projectForm.financialPurposes.push(purpose);
-        this.projectForm.financialPurposes.sort(this.sortingService.sortByBudget);
+        this.projectForm.financialPurposes.sort(this.sortingHelper.sortByBudget);
     }
 
     onSubmit() {

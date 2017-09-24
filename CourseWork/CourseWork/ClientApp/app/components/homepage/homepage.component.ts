@@ -3,8 +3,6 @@ import {Title} from '@angular/platform-browser';
 import { MessageSenderService } from "../../services/messagesender.service";
 import { MessageSubscriberService } from '../../services/messagesubscriber.service';
 import { ProjectService } from '../../services/project.service';
-import { SortingService } from '../../services/sorting.service';
-import { TimeService } from '../../services/time.service';
 declare var $: any;
 
 @Component({
@@ -21,9 +19,7 @@ export class HomePageComponent {
     constructor(private title: Title,
         protected messageSenderService: MessageSenderService,
         private messageSubscriberService: MessageSubscriberService,
-        private projectService: ProjectService,
-        private sortingService: SortingService,
-        public timeService: TimeService) {
+        private projectService: ProjectService) {
         title.setTitle("Home page");
     }
 
