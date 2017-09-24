@@ -10,19 +10,17 @@ namespace CourseWork.Controllers
     public class SubscriberController : Controller
     {
         private readonly IProjectSubscriberManager _projectSubscriberManager;
-        private readonly IStringLocalizer<LocalizationController> _localizer;
 
-        public SubscriberController(IProjectSubscriberManager projectSubscriberManager, IStringLocalizer<LocalizationController> localizer)
+        public SubscriberController(IProjectSubscriberManager projectSubscriberManager)
         {
             _projectSubscriberManager = projectSubscriberManager;
-            _localizer = localizer;
         }
 
         [HttpPost]
         [Route("api/Subscriber/Subscribe")]
         public bool Subscribe([FromBody]string projectId)
         {
-            return _projectSubscriberManager.Subscribe(projectId, _localizer["PEOPLEPERSON"]);
+            return _projectSubscriberManager.Subscribe(projectId);
         }
 
         [HttpPost]

@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using CourseWork.DataLayer.Data;
-using CourseWork.DataLayer.Enums;
 
 namespace CourseWork.DataLayer.Migrations
 {
@@ -129,8 +128,6 @@ namespace CourseWork.DataLayer.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool>("IsSeen");
-
-                    b.Property<string>("ParameterString");
 
                     b.Property<string>("RecipientUserName");
 

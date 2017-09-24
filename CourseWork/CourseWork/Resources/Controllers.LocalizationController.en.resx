@@ -558,4 +558,7 @@
   <data name="CONFIRMATIONLINK" xml:space="preserve">
     <value>Please confirm your account by clicking this link: &lt;a href="{0}"&gt;link&lt;/a&gt;</value>
   </data>
+  <data name="ADMINPAGELINKMANY" xml:space="preserve">
+    <value>&lt;a href="/AdminPage?confirmed=false&amp;unconfirmed=false&amp;requested=true"&gt;{0}&lt;br&gt; and {1} other users&lt;br&gt; have requested account confirmation.&lt;/a&gt;</value>
+  </data>
 </root>

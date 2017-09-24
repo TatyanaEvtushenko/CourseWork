@@ -4,7 +4,7 @@ namespace CourseWork.BusinessLogicLayer.Services.CommentManagers
 {
     public interface ICommentManager
     {
-        CommentViewModel AddComment(CommentFormViewModel commentForm, string awardName);
+        CommentViewModel AddComment(CommentFormViewModel commentForm);
 
         bool RemoveComment(string commentId);
     }

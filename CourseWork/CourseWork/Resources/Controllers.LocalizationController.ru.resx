@@ -558,4 +558,7 @@
   <data name="CONFIRMATIONLINK" xml:space="preserve">
     <value>Пожалуйста, подтвердите свой аккаунт, пройдя по этой ссылке: &lt;a href="{0}"&gt;ссылка&lt;/a&gt;</value>
   </data>
+  <data name="ADMINPAGELINKMANY" xml:space="preserve">
+    <value>&lt;a href="/AdminPage?confirmed=false&amp;unconfirmed=false&amp;requested=true"&gt;{0}&lt;br&gt; и ещё {1} пользователей&lt;br&gt; запросили подтверждение аккаунта.&lt;/a&gt;</value>
+  </data>
 </root>
