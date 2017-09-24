@@ -34,10 +34,9 @@
     </div>
 </div>
 
-<div class="card horizontal">
-    <div class="card-content row">
-        <div *ngFor="let award of displayableInfo.awards" class="col m4 center-align">
-            <award [award]="award" [isSmall]="false"></award>
-        </div>
+<div class="row">
+    <div class="col offset-m1"></div>
+    <div *ngFor="let award of displayableInfo.awards" class="col m2 center">
+        <award [award]="award" [isSmall]="false"></award>
     </div>
-</div>    
+</div>  

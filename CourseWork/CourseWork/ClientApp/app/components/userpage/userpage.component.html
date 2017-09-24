@@ -15,7 +15,7 @@
             <a href="#confirmationModal" class="modal-trigger" *ngIf="currentUserName === ownerUserName && storage.isJustUser">{{translations['CONFIRMACCOUNTNOW']}}</a>
             <h3 class="center-align" *ngIf="currentUserName !== ownerUserName">{{translations['USERPROJECTS']}} {{ownerUserName}}</h3>
             <div class="row">
-                <div class="col m4" *ngFor="let project of userProjects">
+                <div class="col m3" *ngFor="let project of userProjects">
                     <projectitem [project]="project" (onClickNews)="openNewsModal($event)" (onClickPay)="openPayment($event)"
                                  (onClickSubscribe)="subscribe($event)" (onClickUnsubscribe)="unsubscribe($event)"></projectitem>
                 </div>

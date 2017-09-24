@@ -99,6 +99,10 @@ td a.row {
     margin-top: 35px;
 }
 
+img.project-item-image {
+    height: 140px;
+}
+
 .comments input {
     max-width: 50%;
 }
@@ -125,9 +129,21 @@ td a.row {
     overflow: hidden;
 }
 
+div.actions {
+    white-space: nowrap;
+}
+
 .project .card {
     margin-top: 0;
     overflow: hidden;
+}
+
+.small .card-image {
+    height: 55%;
+}
+
+.small .card-image img {
+    object-fit: contain;
 }
 
 .project .card-image img{

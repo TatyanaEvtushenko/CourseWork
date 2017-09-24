@@ -47,17 +47,20 @@ export class ProjectPageComponent {
 
     subscribe() {
         this.projectService.subscribe(this.project.id).subscribe(
-            data => this.project.isSubscriber = data,
+            data => {
+                this.project.isSubscriber = true;
+            },
             error => this.project.isSubscriber = false
         );
-        this.project.isSubscriber = true;
+        
     }
 
     unsubscribe() {
         this.projectService.unsubscribe(this.project.id).subscribe(
-            data => this.project.isSubscriber = !data,
+            data => {
+                this.project.isSubscriber = false;
+            },
             error => this.project.isSubscriber = true
         );
-        this.project.isSubscriber = false;
     }
 }

@@ -71,7 +71,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
         {
             var ownerUserName = _projectRepository.FirstOrDefault(p => p.Id == projectId).OwnerUserName;
             return CheckAward(AwardType.ForSubscriptions, ownerUserName, 
-                () => _subscriberRepository.Count(s => s.Project.OwnerUserName == ownerUserName), awardName);
+                () => _subscriberRepository.GetWhere(s => s.Project.OwnerUserName == ownerUserName, s => s.Project).Count(s => s.Project.OwnerUserName == ownerUserName), awardName);
         }
 
         public bool AddAwardForReceivedPayments(Project project, string awardName)
