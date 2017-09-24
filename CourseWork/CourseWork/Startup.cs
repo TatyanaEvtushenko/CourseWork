@@ -1,4 +1,7 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using CourseWork.BusinessLogicLayer.ElasticSearch;
 using CourseWork.BusinessLogicLayer.Options;
 using Microsoft.AspNetCore.Builder;
@@ -72,10 +75,14 @@ namespace CourseWork
             });
             services.AddSingleton<SearchClient>();
 
+            int adminCount = Int32.Parse(Configuration["AdminUserNamesOptions:AdminCount"]);
+            List<string> adminUserNames = new List<string>();
+            for (int i = 0; i < adminCount; i++)
+                adminUserNames.Add(Configuration[$"AdminUserNamesOptions:AdminUserNames:{i}"]);
             services.AddRepositories();
             services.AddServices();
             services.AddMappers();
-            services.CreateDatabaseRoles().Wait();
+            services.CreateDatabaseRoles(adminUserNames).Wait();
             services.RunScheduler();
         }
         

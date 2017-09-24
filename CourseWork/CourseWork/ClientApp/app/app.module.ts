@@ -12,6 +12,7 @@ import { RatingModule } from "ngx-rating";
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { APP_INITIALIZER } from '@angular/core';
 import { AppConfig } from './app.config';
+import { Cookie } from 'ng2-cookies/ng2-cookies';
 
 import { AppComponent } from './components/app/app.component';
 import { HomePageComponent } from './components/homepage/homepage.component';
