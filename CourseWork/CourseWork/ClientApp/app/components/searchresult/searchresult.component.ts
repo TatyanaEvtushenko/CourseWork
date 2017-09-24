@@ -2,10 +2,8 @@
 import { Title } from '@angular/platform-browser';
 import { AccountService } from "../../services/account.service";
 import { StorageService } from "../../services/storage.service";
-import { MessageSenderService } from "../../services/messagesender.service";
 import { ProjectService } from '../../services/project.service';
 import { ActivatedRoute, Router } from "@angular/router";
-import { MessageSubscriberService } from '../../services/messagesubscriber.service';
 import { LocalizationService } from "../../services/localization.service";
 
 @Component({
@@ -21,8 +19,8 @@ export class SearchResultComponent {
     isReady = false;
 
     constructor(private title: Title, private route: ActivatedRoute, private router: Router,
-        protected accountService: AccountService, protected messageSenderService: MessageSenderService, private projectService: ProjectService,
-        private storage: MessageSubscriberService, private localizationService: LocalizationService) {
+        protected accountService: AccountService, private projectService: ProjectService,
+        private storage: StorageService, private localizationService: LocalizationService) {
         this.localizationService.getTranslations(this.keys).subscribe((data) => {
             this.translations = data;
             title.setTitle(this.translations['SEARCHRESULTS']);

@@ -5,7 +5,7 @@ import { ProjectService } from '../../services/project.service';
 import { SortingHelper } from '../../helpers/sorting.helper';
 import { TimeHelper } from '../../helpers/time.helper';
 import { ColorPickerService } from 'ngx-color-picker';
-import { MessageSubscriberService } from '../../services/messagesubscriber.service';
+import { StorageService } from '../../services/storage.service';
 import { LocalizationService } from "../../services/localization.service";
 declare var $: any;
 
@@ -23,7 +23,7 @@ export class NewProjectPageComponent{
         "CREATENEWPROJECT"];
     translations = {}
 
-    constructor(public storage: MessageSubscriberService,
+    constructor(public storage: StorageService,
         private title: Title,
         private projectService: ProjectService,
         private cpService: ColorPickerService,

@@ -2,7 +2,7 @@
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from "../../services/account.service";
-import { MessageSubscriberService } from '../../services/messagesubscriber.service';
+import { StorageService } from '../../services/storage.service';
 import { UserInfo } from '../../viewmodels/userinfo';
 import { UserStatus } from "../../enums/userstatus";
 import { MessageSenderService } from "../../services/messagesender.service";
@@ -29,7 +29,7 @@ export class AdminPageComponent {
         "DELETESELECTED", "BLOCKSELECTED", "DELCOMMENTSRATINGS", "APPROVECONFIRMATION", "DECLINECONFIRMATION", "APPLY", "CHOOSEACTION"];
     translations = {};
 
-    constructor(private title: Title, public storage: MessageSubscriberService, private accountService: AccountService,
+    constructor(private title: Title, public storage: StorageService, private accountService: AccountService,
         private route: ActivatedRoute, private router: Router, protected messageSenderService: MessageSenderService,
         private localizationService: LocalizationService) {
         this.localizationService.getTranslations(this.keys).subscribe((data) => {
