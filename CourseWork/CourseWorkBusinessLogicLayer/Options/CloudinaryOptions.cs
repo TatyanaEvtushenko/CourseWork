@@ -7,7 +7,5 @@
         public string ApiKey { get; set; }
 
         public string ApiSecret { get; set; }
-
-        public string DefaultUserAvatar { get; set; }
     }
 }
