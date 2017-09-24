@@ -67,6 +67,6 @@ export class ProjectPageComponent {
     private initializeColor(color: string) {
         $("nav").css("background-color", color);
         $("footer").css("background-color", color);
-        $(".tabs.indicator").css("background-color", color);
+        $(".tabs .tab a").css("background-color", color);
     }
 }

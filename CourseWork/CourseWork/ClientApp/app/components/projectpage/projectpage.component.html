@@ -65,7 +65,7 @@
                 </div>
             </div>
             <div id="tab-description" class="col s12">
-                <markdown>{{project.description}}</markdown>
+                <div [froalaView]="project.description"></div>
             </div>
             <div id="tab-financialPurposes" class="col s12 container">
                 <financialpurposes [(financialPurposes)]="project.financialPurposes" [canChange]="false"></financialpurposes>

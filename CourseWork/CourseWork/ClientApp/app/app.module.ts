@@ -1,4 +1,6 @@
 ﻿import "jquery";
+import "froala-editor/js/froala_editor.pkgd.min.js";
+
 import { NgModule } from '@angular/core';
 import { BrowserModule }  from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
@@ -9,6 +11,7 @@ import { MarkdownModule } from 'angular2-markdown';
 import { MaterializeModule } from "angular2-materialize";
 import { RatingModule } from "ngx-rating";
 import { ColorPickerModule } from 'ngx-color-picker';
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 
 import { AppComponent } from './components/app/app.component';
 import { HomePageComponent } from './components/homepage/homepage.component';
@@ -83,6 +86,8 @@ const appRoutes: Routes = [
         MarkdownModule.forRoot(),
         RatingModule,
         ColorPickerModule,
+        FroalaEditorModule.forRoot(),
+        FroalaViewModule.forRoot(),
         RouterModule.forRoot(
             appRoutes,
             { enableTracing: true }
