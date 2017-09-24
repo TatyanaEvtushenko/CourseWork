@@ -3,9 +3,12 @@
     <div *ngIf="storage.isReadyCurrentUser && storage.isUser && isInitialized">
         <h2 class="center-align" *ngIf="currentUserName === ownerUserName">{{translations['MyPage']}}</h2>
         <h2 class="center-align" *ngIf="currentUserName !== ownerUserName">{{translations['USERPAGE']}} {{ownerUserName}}</h2>
-        <div class="col s12 m10">
-            <usercard [displayableInfo]="displayableInfo" [isCardOfCurrentUser]="currentUserName === ownerUserName"
-                      (onAccountEdit)="updateAccout($event)"></usercard>
+        <div class="row center-align">
+            <div class="col offset-m2">
+            <div class="col m6"></div>
+                <usercard [displayableInfo]="displayableInfo" [isCardOfCurrentUser]="currentUserName === ownerUserName"
+                              (onAccountEdit)="updateAccout($event)"></usercard>
+            </div>
         </div>
         <accounteditmodal [about]="accountEditForm.about" [contacts]="accountEditForm.contacts"
                           (onConfirm)="updateAccount($event)"></accounteditmodal>

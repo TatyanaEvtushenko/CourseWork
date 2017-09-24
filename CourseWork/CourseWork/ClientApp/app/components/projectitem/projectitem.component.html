@@ -25,30 +25,30 @@
         <div class="col m4 left-align">
             <a class="action"><i class="material-icons activator">more_vert</i></a>
             <a *ngIf="storage.isReadyCurrentUser && storage.isUser && timeService.isNotPast(project.projectEndTime)"
-               class="modal-trigger action tooltipped" (click)="openPayment()" href="#paymentModal"
-               materialize="tooltip" data-position="top" data-delay="10" [attr.data-tooltip]="translations['PAY']">
+               class="modal-trigger action" (click)="openPayment()" href="#paymentModal"
+               >
                 <i class="material-icons">payment</i>
             </a>
         </div>
         <div class="col m4 center-align">
-            <a class="action tooltipped" *ngIf="storage.isReadyCurrentUser && storage.isUser && storage.currentUser.userName != project.ownerUserName
+            <a class="action" *ngIf="storage.isReadyCurrentUser && storage.isUser && storage.currentUser.userName != project.ownerUserName
            && !project.isSubscriber" (click)="subscribe()"
-               materialize="tooltip" data-position="top" data-delay="10" [attr.data-tooltip]="translations['SUBSCRIBE']">
+               >
                 <i class="material-icons activator">notifications</i>
             </a>
-            <a class="action tooltipped" *ngIf="storage.isReadyCurrentUser && storage.isUser && storage.currentUser.userName != project.ownerUserName
-           && project.isSubscriber" (click)="unsubscribe()" materialize="tooltip" data-position="top" data-delay="10" [attr.data-tooltip]="translations['UNSUBSCRIBE']">
+            <a class="action" *ngIf="storage.isReadyCurrentUser && storage.isUser && storage.currentUser.userName != project.ownerUserName
+           && project.isSubscriber" (click)="unsubscribe()">
                 <i class="material-icons activator">notifications_off</i>
             </a>
         </div>
         <div class="col m4 right-align">
             <ng-container *ngIf="storage.isReadyCurrentUser &&
                       (storage.isUser && storage.currentUser.userName == project.ownerUserName || storage.isAdmin)">
-                <a href="/ProjectEditorPage/{{project.id}}" class="action tooltipped"
-                   materialize="tooltip" data-position="top" data-delay="10" [attr.data-tooltip]="translations['EDIT']">
+                <a href="/ProjectEditorPage/{{project.id}}" class="action"
+                   >
                     <i class="material-icons">edit</i></a>
-                <a (click)="openNews()" href="#newsModal" class="modal-trigger action tooltipped"
-                   materialize="tooltip" data-position="top" data-delay="10" [attr.data-tooltip]="translations['NEWS']"><i class="material-icons">library_books</i></a>
+                <a (click)="openNews()" href="#newsModal" class="modal-trigger action"
+                   ><i class="material-icons">library_books</i></a>
             </ng-container>
         </div>
     </div>

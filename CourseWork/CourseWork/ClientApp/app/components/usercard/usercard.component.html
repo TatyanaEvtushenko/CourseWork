@@ -1,41 +1,40 @@
-﻿
-<div class="card horizontal">
+﻿<div class="card horizontal">
     <div class="card-image">
-        <img src="{{displayableInfo.avatar}}" class="usercard-pic">
-    </div>
-    <div class="card-content row">
-        <div class="card-title">
+        <img src="{{displayableInfo.avatar}}">
+        <div class="card-title left-align">
             {{displayableInfo.userName}}<br/>            
             <rating class="project-item-rating" [(ngModel)]="displayableInfo.rating" [readonly]="true" [titles]="[translations['ONE'], translations['TWO'], translations['THREE'], translations['FOUR'], translations['FIVE']]"></rating>
+        </div>    
+    </div>
+    <div class="card-content center-align row">   
+        <div class="col m9 center-align">
+            <h5>{{timeService.getFormatDate(displayableInfo.registrationTime)}}</h5>
+            <div class="grey-text">{{translations['REGISTRATIONTIME']}}</div>
         </div>
-        <div class="row">
-            <div class="col m9 center-align">
-                <h5>{{timeService.getFormatDate(displayableInfo.registrationTime)}}</h5>
-                <div class="grey-text">{{translations['REGISTRATIONTIME']}}</div>
-            </div>
-            <div class="col m3 center-align">
-                <h5>{{displayableInfo.projectNumber}}</h5>
-                <div class="grey-text">{{translations['PROJECTNUMBER']}}</div>
-            </div>
+        <div class="col m3 center-align">
+            <h5>{{displayableInfo.projectNumber}}</h5>
+            <div class="grey-text">{{translations['PROJECTNUMBER']}}</div>
         </div>
+        <br/><br/><br/>
         <ul>
-            <li>{{translations['CONTACTS']}}: {{displayableInfo.contacts}}</li>
-        </ul>
-        
+            <li class="left-align">{{translations['CONTACTS']}}: {{displayableInfo.contacts}}</li>
+        </ul>  
     </div>
     <div class="card-reveal">
         <span class="card-title grey-text text-darken-4">{{translations['ABOUT']}}<i class="material-icons right">close</i></span>
         <markdown>{{displayableInfo.about}}</markdown>
     </div>
-    <div class="card-action">
-        <a><i class="material-icons right activator">more_vert</i></a>
-        <a *ngIf="isCardOfCurrentUser" href="#accountEditModal" (click)="openAccountEdit()" class="modal-trigger"><i class="material-icons">edit</i></a>
-        <a *ngIf="isCardOfCurrentUser" href="#avatarChangeModal" (click)="openAvatarChange()" class="modal-trigger"><i class="material-icons">photo_camera</i></a>
+    <div class="card-action row">
+        <div class="col offset-m11 right-align"></div>
+        <div class="col m1">
+            <a><i class="material-icons activator">more_horiz</i><br/></a>
+            <a *ngIf="isCardOfCurrentUser" href="#accountEditModal" (click)="openAccountEdit()" class="modal-trigger"><i class="material-icons">edit</i><br/></a>
+            <a *ngIf="isCardOfCurrentUser" href="#avatarChangeModal" (click)="openAvatarChange()" class="modal-trigger"><i class="material-icons">photo_camera</i><br/></a>
+       </div>       
     </div>
 </div>
 
 <div class="row">
-    <div class="col offset-m1"></div>
     <div *ngFor="let award of displayableInfo.awards" class="col m2 center">
         <award [award]="award" [isSmall]="false"></award>
     </div>

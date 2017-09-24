@@ -90,9 +90,18 @@ div.select-wrapper  {
     display: none;
 }
 
-.usercard-pic {
+.horizontal .card-image {
     height: 300px;
     width: 300px;
+}
+
+.horizontal .card-image img {
+    height: 100%;
+    width: 100%;
+}
+
+.horizontal .card-action {
+    width: 10%;
 }
 
 td a.row {
