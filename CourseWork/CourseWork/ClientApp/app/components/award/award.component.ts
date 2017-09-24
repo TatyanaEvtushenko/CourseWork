@@ -24,16 +24,16 @@ export class AwardComponent {
     getAwardImage() {
         switch (this.award.type) {
             case AwardType.ForComments:
-                return this.config.getConfig('awardImages')['blue'];
+                return this.config.getConfig('awardImages')['comments'];
             case AwardType.ForPayments:
-                return this.config.getConfig('awardImages')['green'];
+                return this.config.getConfig('awardImages')['payments'];
             case AwardType.ForProjects:
-                return this.config.getConfig('awardImages')['orange'];
+                return this.config.getConfig('awardImages')['projects'];
             case AwardType.ForReceivedPayments:
-                return this.config.getConfig('awardImages')['red'];
+                return this.config.getConfig('awardImages')['receivedPayments'];
             case AwardType.ForSubscriptions:
             default:
-                return this.config.getConfig('awardImages')['violet'];
+                return this.config.getConfig('awardImages')['subscriptions'];
         }
     }
 

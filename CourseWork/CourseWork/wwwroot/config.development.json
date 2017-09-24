@@ -1,9 +1,9 @@
 ﻿{
     "awardImages": {
-        "blue": "/images/award_blue.png",
-        "green": "/images/award_green.png",
-        "orange": "/images/award_orange.png",
-        "red": "/images/award_red.png",
-        "violet": "/images/award_violet.png"
+        "comments": "/images/award_blue.png",
+        "payments": "/images/award_green.png",
+        "projects": "/images/award_orange.png",
+        "receivedPayments": "/images/award_red.png",
+        "subscriptions": "/images/award_violet.png"
     }
 }
