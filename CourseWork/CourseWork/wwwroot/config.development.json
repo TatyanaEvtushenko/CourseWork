@@ -1,0 +1,9 @@
+﻿{
+    "awardImages": {
+        "blue": "/images/award_blue.png",
+        "green": "/images/award_green.png",
+        "orange": "/images/award_orange.png",
+        "red": "/images/award_red.png",
+        "violet": "/images/award_violet.png"
+    }
+}

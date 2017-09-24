@@ -10,6 +10,8 @@ import { MarkdownModule } from 'angular2-markdown';
 import { MaterializeModule } from "angular2-materialize";
 import { RatingModule } from "ngx-rating";
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { APP_INITIALIZER } from '@angular/core';
+import { AppConfig } from './app.config';
 
 import { AppComponent } from './components/app/app.component';
 import { HomePageComponent } from './components/homepage/homepage.component';
@@ -153,7 +155,9 @@ const appRoutes: Routes = [
         MessageSenderService,
         MessageSubscriberService,
         LocalizationService,
-        ColorService
+        ColorService,
+        AppConfig,
+        { provide: APP_INITIALIZER, useFactory: (config: AppConfig) => () => config.load(), deps: [AppConfig], multi: true }
     ],
     bootstrap: [
         AppComponent

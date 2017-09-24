@@ -174,6 +174,5 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
 
         private static string GetMessageToSendConfirmLink(string url, string messagePrototype) =>
             string.Format(messagePrototype, url);
-        //$"Please confirm your account by clicking this link: <a href=\"{url}\">link</a>";
     }
 }

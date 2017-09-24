@@ -1,6 +1,7 @@
 ﻿import { Component, Input } from '@angular/core';
 import { AwardType } from "../../enums/awardtype";
 import { LocalizationService } from '../../services/localization.service';
+import { AppConfig } from '../../app.config';
 
 @Component({
     selector: 'award',
@@ -14,7 +15,7 @@ export class AwardComponent {
         "PROJECTS_A", "WASPAID", "SUBSCRIBEDFOR"];
     translations = {}
 
-    constructor(private localizationService: LocalizationService) {
+    constructor(private localizationService: LocalizationService, private config: AppConfig) {
         this.localizationService.getTranslations(this.keys).subscribe((data) => {
             this.translations = data;
         });
@@ -23,16 +24,16 @@ export class AwardComponent {
     getAwardImage() {
         switch (this.award.type) {
             case AwardType.ForComments:
-                return "/images/award_blue.png";
+                return this.config.getConfig('awardImages')['blue'];
             case AwardType.ForPayments:
-                return "/images/award_green.png";
+                return this.config.getConfig('awardImages')['green'];
             case AwardType.ForProjects:
-                return "/images/award_orange.png";
+                return this.config.getConfig('awardImages')['orange'];
             case AwardType.ForReceivedPayments:
-                return "/images/award_red.png";
+                return this.config.getConfig('awardImages')['red'];
             case AwardType.ForSubscriptions:
             default:
-                return "/images/award_violet.png";
+                return this.config.getConfig('awardImages')['violet'];
         }
     }
 
