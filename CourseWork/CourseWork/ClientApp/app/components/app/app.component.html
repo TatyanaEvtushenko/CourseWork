@@ -36,7 +36,7 @@
                 <a href="/UserPage"><i class="material-icons left">home</i> My page</a>
             </li>
             <li *ngIf="storage.isReadyCurrentUser && storage.isConfirmedUser">
-                <a href="/UserPage"><i class="material-icons left">collections</i> My projects</a>
+                <a href="/UserProjectsPage"><i class="material-icons left">collections</i> My projects</a>
             </li>
             <li class="divider"></li>
             <li *ngIf="storage.isReadyCurrentUser && storage.isUser">
@@ -57,7 +57,7 @@
             </li>
             <li *ngIf="storage.isReadyCurrentUser && storage.isAdmin" class="divider"></li>
             <li *ngIf="storage.isReadyCurrentUser && storage.isUser">
-                <a href="/UserPage"><i class="material-icons left">home</i> My page</a>
+                <a href="/UserProjectsPage"><i class="material-icons left">home</i> My page</a>
             </li>
             <li *ngIf="storage.isReadyCurrentUser && storage.isConfirmedUser">
                 <a href="/UserPage"><i class="material-icons left">collections</i> My projects</a>

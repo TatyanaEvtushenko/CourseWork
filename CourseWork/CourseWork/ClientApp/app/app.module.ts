@@ -9,7 +9,6 @@ import { MarkdownModule } from 'angular2-markdown';
 import { MaterializeModule } from "angular2-materialize";
 import { RatingModule } from "ngx-rating";
 
-
 import { AppComponent } from './components/app/app.component';
 import { HomePageComponent } from './components/homepage/homepage.component';
 import { ErrorPageComponent } from './components/errorpage/errorpage.component';
@@ -65,9 +64,10 @@ const appRoutes: Routes = [
     { path: 'UserPage', component: UserPageComponent },
     { path: 'AdminPage', component: AdminPageComponent },
     { path: 'NewProjectPage', component: NewProjectPageComponent },
-    { path: 'ProjectEditorPage/:id', component: ProjectEditorPageComponent },
-    { path: 'ProjectPage/:id', component: ProjectPageComponent },
     { path: 'ProjectEditorPage', component: NewProjectPageComponent },
+    { path: 'ProjectEditorPage/:id', component: ProjectEditorPageComponent },
+    { path: 'UserProjectsPage', component: UserProjectsPageComponent },
+    { path: 'ProjectPage/:id', component: ProjectPageComponent },
     { path: 'SearchResult', component: SearchResultComponent },
     { path: '**', component: ErrorPageComponent }
 ];

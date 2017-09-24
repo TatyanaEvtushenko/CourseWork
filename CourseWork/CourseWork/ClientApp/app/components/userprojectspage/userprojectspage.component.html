@@ -1,5 +1,5 @@
-﻿<div *ngIf="storage.isReadyCurrentUser && storage.isConfirmedUser">
-    <h2>My projects</h2>
+﻿<div *ngIf="storage.isReadyCurrentUser && storage.isConfirmedUser" class="container body-content">
+    <h2 class="center-align">My projects</h2>
     <div class="row">
         <div class="col m4" *ngFor="let project of projects">
             <projectitem [project]="project" (onClickNews)="openNewsModal($event)" (onClickPay)="openPayment($event)"
@@ -9,3 +9,4 @@
     <newsformmodal [projectId]="selectedProjectId"></newsformmodal>
     <paymentmodal [projectId]="selectedProjectId"></paymentmodal>
 </div>
+<errorpage *ngIf="storage.isReadyCurrentUser && !storage.isConfirmedUser"></errorpage>
