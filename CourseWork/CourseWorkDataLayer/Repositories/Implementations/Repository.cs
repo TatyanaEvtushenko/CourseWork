@@ -31,6 +31,10 @@ namespace CourseWork.DataLayer.Repositories.Implementations
 
         public bool RemoveRange(params object[] identificators)
         {
+            foreach (var id in identificators)
+            {
+                System.Diagnostics.Debug.WriteLine("Hello: " + id.ToString());
+            }
             var items = Table.Where(item => identificators.Contains(GetIdentificator(item)));
             return SaveActionResult(() => Table.RemoveRange(items));
         }

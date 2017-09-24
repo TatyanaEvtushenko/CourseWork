@@ -21,7 +21,7 @@ export class UserProjectsPageComponent {
 
     ngOnInit() {
         this.projectService.getUserProjects().subscribe(
-            (data) => {
+            (data: any) => {
                 data.sort(this.sortingHelper.sortByProjectStatus);
                 this.projects = data;
             }

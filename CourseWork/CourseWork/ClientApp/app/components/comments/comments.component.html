@@ -2,7 +2,7 @@
     <div class="input-field" *ngIf="storage.isReadyCurrentUser && storage.isUser">
         <i class="material-icons prefix" (click)="add()">mode_edit</i>
         <input id="newComment" [(ngModel)]="commentText" (keyup.enter)="add()" class="materialize-textarea" type="text"/>
-        <label for="newComment">New comment</label>
+        <label for="newComment">{{translations['NEWCOMMENT']}}...</label>
     </div>
     <div *ngFor="let comment of comments">
         <blockquote class="row">

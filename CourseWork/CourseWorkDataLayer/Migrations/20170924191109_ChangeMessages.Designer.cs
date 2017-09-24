@@ -9,8 +9,8 @@ using CourseWork.DataLayer.Enums;
 namespace CourseWork.DataLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170919185620_TotalTotalRestructuring")]
-    partial class TotalTotalRestructuring
+    [Migration("20170924191109_ChangeMessages")]
+    partial class ChangeMessages
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,6 +54,7 @@ namespace CourseWork.DataLayer.Migrations
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
+                        .IsRequired()
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
@@ -66,6 +67,19 @@ namespace CourseWork.DataLayer.Migrations
                         .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.Award", b =>
+                {
+                    b.Property<string>("UserName");
+
+                    b.Property<int>("AwardType");
+
+                    b.Property<byte>("Level");
+
+                    b.HasKey("UserName", "AwardType");
+
+                    b.ToTable("Awards");
                 });
 
             modelBuilder.Entity("CourseWork.DataLayer.Models.Comment", b =>
@@ -116,6 +130,8 @@ namespace CourseWork.DataLayer.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool>("IsSeen");
+
+                    b.Property<string>("ParameterString");
 
                     b.Property<string>("RecipientUserName");
 
@@ -178,6 +194,8 @@ namespace CourseWork.DataLayer.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("AccountNumber");
+
+                    b.Property<string>("Color");
 
                     b.Property<DateTime>("CreatingTime");
 
@@ -252,8 +270,7 @@ namespace CourseWork.DataLayer.Migrations
 
             modelBuilder.Entity("CourseWork.DataLayer.Models.UserInfo", b =>
                 {
-                    b.Property<string>("UserName")
-                        .ValueGeneratedOnAdd();
+                    b.Property<string>("UserName");
 
                     b.Property<string>("About");
 
@@ -391,6 +408,14 @@ namespace CourseWork.DataLayer.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("CourseWork.DataLayer.Models.Award", b =>
+                {
+                    b.HasOne("CourseWork.DataLayer.Models.UserInfo", "UserInfo")
+                        .WithMany("Awards")
+                        .HasForeignKey("UserName")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("CourseWork.DataLayer.Models.Comment", b =>
                 {
                     b.HasOne("CourseWork.DataLayer.Models.Project", "Project")
@@ -445,8 +470,7 @@ namespace CourseWork.DataLayer.Migrations
                 {
                     b.HasOne("CourseWork.DataLayer.Models.UserInfo", "UserInfo")
                         .WithMany("Projects")
-                        .HasForeignKey("OwnerUserName")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("OwnerUserName");
                 });
 
             modelBuilder.Entity("CourseWork.DataLayer.Models.ProjectSubscriber", b =>
@@ -480,6 +504,15 @@ namespace CourseWork.DataLayer.Migrations
                     b.HasOne("CourseWork.DataLayer.Models.Project", "Project")
                         .WithMany("Tags")
                         .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CourseWork.DataLayer.Models.UserInfo", b =>
+                {
+                    b.HasOne("CourseWork.DataLayer.Models.ApplicationUser", "ApplicationUser")
+                        .WithOne("Info")
+                        .HasForeignKey("CourseWork.DataLayer.Models.UserInfo", "UserName")
+                        .HasPrincipalKey("CourseWork.DataLayer.Models.ApplicationUser", "UserName")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

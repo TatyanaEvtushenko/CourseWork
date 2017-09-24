@@ -23,10 +23,6 @@ namespace CourseWork.BusinessLogicLayer.Services.PhotoManagers.Implementations
 
         public string LoadImage(string imageEncoded)
         {
-            if (IsUrl(imageEncoded))
-            {
-                return imageEncoded;
-            }
             var savedImagePath = SaveFile(imageEncoded);
             var imageUrl = Upload(savedImagePath);
             return imageUrl;
@@ -37,11 +33,6 @@ namespace CourseWork.BusinessLogicLayer.Services.PhotoManagers.Implementations
             var optionsValue = options.Value;
             var cloudinaryAccount = new Account(optionsValue.CloudName, optionsValue.ApiKey, optionsValue.ApiSecret);
             return new Cloudinary(cloudinaryAccount);
-        }
-
-        private bool IsUrl(string image)
-        {
-            return Uri.IsWellFormedUriString(image, UriKind.Absolute);
         }
 
         private string SaveFile(string imageEncoded)

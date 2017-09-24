@@ -1,10 +1,12 @@
 ﻿using System;
 using CourseWork.BusinessLogicLayer.Services.FinancialPurposesManagers;
+using System.Linq;
 using CourseWork.BusinessLogicLayer.Services.PaymentManagers;
 using CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManagers;
 using CourseWork.BusinessLogicLayer.Services.RatingManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using CourseWork.DataLayer.Models;
+using CourseWork.DataLayer.Repositories;
 
 namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.ProjectMappers
 {

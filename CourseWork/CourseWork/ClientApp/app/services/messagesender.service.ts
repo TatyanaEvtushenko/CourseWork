@@ -8,7 +8,7 @@ export class MessageSenderService extends BaseService {
 		return this.requestPost("api/Message/Send", messages);
     }
 
-    sendMessagesAsAdmin(messages: string[]) {
-        return this.requestPost("api/Message/SendAsAdmin", messages);
+    sendMessagesAsAdmin(usernames: string[]) {
+        return this.requestPost("api/Message/SendAsAdmin", usernames);
     }
 }

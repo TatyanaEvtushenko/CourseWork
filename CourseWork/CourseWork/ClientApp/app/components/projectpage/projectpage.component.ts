@@ -4,6 +4,7 @@ import { ProjectService } from '../../services/project.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { MessageSubscriberService } from '../../services/messagesubscriber.service';
 import { TimeHelper } from '../../helpers/time.helper';
+import { LocalizationService } from "../../services/localization.service";
 declare var $: any;
 
 @Component({
@@ -12,12 +13,19 @@ declare var $: any;
 })
 export class ProjectPageComponent {
     project: any = null;
-    timeHelper = new TimeHelper();
+    keys = ["ONE", "TWO", "THREE", "FOUR", "FIVE", "DESCR", "FINANCIALPURPOSES", "COMMENTS", "NEWS",
+        "EDITPROJECT", "EDIT", "TOPROJECTPAGE", "SUBSCRIBE", "UNSUBSCRIBE", "PAYEDAMOUNT", "ENDDATE", "PROJECTSTATUS", "PAYMENTS"];
+    translations = {}
+    timeHelper = new TimeHelper(this.localizationService);
 
     constructor(public storage: MessageSubscriberService,
         private route: ActivatedRoute,
         private title: Title,
-        private projectService: ProjectService) {
+        private projectService: ProjectService,
+        private localizationService: LocalizationService) {
+        this.localizationService.getTranslations(this.keys).subscribe((data) => {
+            this.translations = data;
+        });
     }
 
     ngOnInit() {
@@ -42,18 +50,21 @@ export class ProjectPageComponent {
 
     subscribe() {
         this.projectService.subscribe(this.project.id).subscribe(
-            data => this.project.isSubscriber = data,
+            data => {
+                this.project.isSubscriber = true;
+            },
             error => this.project.isSubscriber = false
         );
-        this.project.isSubscriber = true;
+        
     }
 
     unsubscribe() {
         this.projectService.unsubscribe(this.project.id).subscribe(
-            data => this.project.isSubscriber = !data,
+            data => {
+                this.project.isSubscriber = false;
+            },
             error => this.project.isSubscriber = true
         );
-        this.project.isSubscriber = false;
     }
 
     private initializeProject(data: any) {

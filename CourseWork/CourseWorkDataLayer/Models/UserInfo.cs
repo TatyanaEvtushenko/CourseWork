@@ -35,7 +35,7 @@ namespace CourseWork.DataLayer.Models
 
         public string LastAccountNumber { get; set; }
 
-        public double Rating => Projects.Sum(p => p.Ratings.Average(r => r.RatingResult)) / Projects.Count();
+        public double Rating => Projects.Any() ? Projects.Sum(p => p.Ratings.Average(r => r.RatingResult)) / Projects.Count() : 0;
 
         public ApplicationUser ApplicationUser { get; set; }
 

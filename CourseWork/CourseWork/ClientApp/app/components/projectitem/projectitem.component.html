@@ -1,39 +1,55 @@
 ﻿<div class="card small">
     <div class="card-image">
         <a href="/ProjectPage/{{project.id}}">
-            <img src="{{project.imageUrl}}">
-            <div class="card-title">
+            <img src="{{project.imageUrl}}" >
+            <div class="card-title left-align">
                 {{project.name}}<br/>
-                <rating class="project-item-rating" [(ngModel)]="project.rating" [readonly]="true" [titles]="['one', 'two', 'three', 'four', 'five']"></rating>
+                <rating class="project-item-rating" [(ngModel)]="project.rating" [readonly]="true" [titles]="[translations['ONE'], translations['TWO'], translations['THREE'], translations['FOUR'], translations['FIVE']]"></rating>
             </div>
         </a>
     </div>
     <projectprogress [neccessaryAmount]="project.neccessaryAmount" [paidAmount]="project.paidAmount"></projectprogress>
     <div class="card-content row">
-        <div class="col m6">
+        <div class="col m4 left-align">
             <p>${{project.paidAmount}}</p>
         </div>
-        <div class="col m6 right-align">
+        <div class="col m8 right-align">
             <p><projectstatus [status]="project.status"></projectstatus></p>
         </div>
     </div>
-    <div class="card-reveal">
-        <span class="card-title grey-text text-darken-4">Description<i class="material-icons right">close</i></span>
+    <div class="card-reveal left-align">
+        <span class="card-title grey-text text-darken-4">{{translations['ABOUT']}}<i class="material-icons right">close</i></span>
         <markdown>{{project.description}}</markdown>
     </div>
-    <div class="card-action">
-        <ng-container *ngIf="storage.isReadyCurrentUser && storage.isUser && storage.currentUser.userName != project.ownerUserName">
-            <button *ngIf="!project.isSubscriber" (click)="subscribe()" class="btn left">Subscribe</button>
-            <button *ngIf="project.isSubscriber" (click)="unsubscribe()" class="btn left">Unsubscribe</button>
-        </ng-container>
-        <a><i class="material-icons right activator">more_vert</i></a>
-        <ng-container *ngIf="storage.isReadyCurrentUser && (storage.isUser && storage.currentUser.userName == project.ownerUserName || storage.isAdmin)">
-            <a href="/ProjectEditorPage/{{project.id}}" class="right"><i class="material-icons">edit</i></a>
-            <a (click)="openNews()" href="#newsModal" class="modal-trigger right"><i class="material-icons">library_books</i></a>
-        </ng-container>
-        <a *ngIf="storage.isReadyCurrentUser && storage.isUser && timeHelper.isNotPast(project.projectEndTime)" 
-           class="modal-trigger" (click)="openPayment()" href="#paymentModal">
-            <i class="material-icons right">payment</i>
-        </a>
+    <div class="card-action actions row">
+        <div class="col m4 left-align">
+            <a class="action"><i class="material-icons activator">more_vert</i></a>
+            <a *ngIf="storage.isReadyCurrentUser && storage.isUser && timeHelper.isNotPast(project.projectEndTime)"
+               class="modal-trigger action" (click)="openPayment()" href="#paymentModal"
+               >
+                <i class="material-icons">payment</i>
+            </a>
+        </div>
+        <div class="col m4 center-align">
+            <a class="action" *ngIf="storage.isReadyCurrentUser && storage.isUser && storage.currentUser.userName != project.ownerUserName
+           && !project.isSubscriber" (click)="subscribe()"
+               >
+                <i class="material-icons activator">notifications</i>
+            </a>
+            <a class="action" *ngIf="storage.isReadyCurrentUser && storage.isUser && storage.currentUser.userName != project.ownerUserName
+           && project.isSubscriber" (click)="unsubscribe()">
+                <i class="material-icons activator">notifications_off</i>
+            </a>
+        </div>
+        <div class="col m4 right-align">
+            <ng-container *ngIf="storage.isReadyCurrentUser &&
+                      (storage.isUser && storage.currentUser.userName == project.ownerUserName || storage.isAdmin)">
+                <a href="/ProjectEditorPage/{{project.id}}" class="action"
+                   >
+                    <i class="material-icons">edit</i></a>
+                <a (click)="openNews()" href="#newsModal" class="modal-trigger action"
+                   ><i class="material-icons">library_books</i></a>
+            </ng-container>
+        </div>
     </div>
 </div>

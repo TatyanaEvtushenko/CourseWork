@@ -1,0 +1,561 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ABOUT" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="ACCOUNTNUMBER" xml:space="preserve">
+    <value>Номер счёта</value>
+  </data>
+  <data name="ADDPAYMENT" xml:space="preserve">
+    <value>Внести платёж для проекта</value>
+  </data>
+  <data name="AdminPage" xml:space="preserve">
+    <value>Админка</value>
+  </data>
+  <data name="APPLY" xml:space="preserve">
+    <value>Подтвердить</value>
+  </data>
+  <data name="AWAITING" xml:space="preserve">
+    <value>Запросил подтверждение</value>
+  </data>
+  <data name="BLOCKSELECTED" xml:space="preserve">
+    <value>Заблокировать/Разблокировать выбранных</value>
+  </data>
+  <data name="BROWSE" xml:space="preserve">
+    <value>Обзор</value>
+  </data>
+  <data name="BUDGET" xml:space="preserve">
+    <value>Бюджет</value>
+  </data>
+  <data name="CHANGEAVATAR" xml:space="preserve">
+    <value>Изменение аватара</value>
+  </data>
+  <data name="CONFIRMED" xml:space="preserve">
+    <value>Подтверждён</value>
+  </data>
+  <data name="ConfirmYourAccount" xml:space="preserve">
+    <value>Подтвердите свой аккаунт</value>
+  </data>
+  <data name="CONTACTS" xml:space="preserve">
+    <value>Контакты</value>
+  </data>
+  <data name="CREATE" xml:space="preserve">
+    <value>Создать</value>
+  </data>
+  <data name="CREATENEWPROJECT" xml:space="preserve">
+    <value>Создать новый проект</value>
+  </data>
+  <data name="CREATENEWS" xml:space="preserve">
+    <value>Создать новость</value>
+  </data>
+  <data name="DELCOMMENTSRATINGS" xml:space="preserve">
+    <value>Удалить с комментариями и рейтингами</value>
+  </data>
+  <data name="DELETESELECTED" xml:space="preserve">
+    <value>Удалить выбранных</value>
+  </data>
+  <data name="DESCR" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="DESCRIPTION" xml:space="preserve">
+    <value>Дополнительный комментарий</value>
+  </data>
+  <data name="EDIT" xml:space="preserve">
+    <value>Редактировать</value>
+  </data>
+  <data name="EDITACCOUNT" xml:space="preserve">
+    <value>Изменить информацию пользователя</value>
+  </data>
+  <data name="EDITPROJECT" xml:space="preserve">
+    <value>Редактирование проекта</value>
+  </data>
+  <data name="EMAIL" xml:space="preserve">
+    <value>Эл. почта</value>
+  </data>
+  <data name="FILTER" xml:space="preserve">
+    <value>Отфильтровать</value>
+  </data>
+  <data name="FINANCIALPURPOSES" xml:space="preserve">
+    <value>Финансовые цели</value>
+  </data>
+  <data name="FIVE" xml:space="preserve">
+    <value>Пять</value>
+  </data>
+  <data name="FOUR" xml:space="preserve">
+    <value>Четыре</value>
+  </data>
+  <data name="FUNDRAISINGEND" xml:space="preserve">
+    <value>Окончание сбора средств</value>
+  </data>
+  <data name="Hello" xml:space="preserve">
+    <value>Привет</value>
+  </data>
+  <data name="IMAGE" xml:space="preserve">
+    <value>Картинка</value>
+  </data>
+  <data name="INVALIDDATA" xml:space="preserve">
+    <value>Некорректные данные</value>
+  </data>
+  <data name="JUSTNEWS" xml:space="preserve">
+    <value>Просто новость</value>
+  </data>
+  <data name="LASTLOGINTIME" xml:space="preserve">
+    <value>Время последнего входа</value>
+  </data>
+  <data name="LogIn" xml:space="preserve">
+    <value>Войти</value>
+  </data>
+  <data name="LOGINERROR" xml:space="preserve">
+    <value>Неверный логин или пароль</value>
+  </data>
+  <data name="LogOut" xml:space="preserve">
+    <value>Выйти</value>
+  </data>
+  <data name="MAILINGPAYERS" xml:space="preserve">
+    <value>Рассылка оплатившим</value>
+  </data>
+  <data name="MAILINGSUBSCRIBERS" xml:space="preserve">
+    <value>Рассылка подписчикам</value>
+  </data>
+  <data name="MAXPAYMENT" xml:space="preserve">
+    <value>Макс. взнос</value>
+  </data>
+  <data name="MINPAYMENT" xml:space="preserve">
+    <value>Мин. взнос</value>
+  </data>
+  <data name="MyPage" xml:space="preserve">
+    <value>Моя страница</value>
+  </data>
+  <data name="NAME" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="NEWCOMMENT" xml:space="preserve">
+    <value>Новый комменарий</value>
+  </data>
+  <data name="NEWSTEXT" xml:space="preserve">
+    <value>Текст новости</value>
+  </data>
+  <data name="ONE" xml:space="preserve">
+    <value>Один</value>
+  </data>
+  <data name="PAGENOTFOUND" xml:space="preserve">
+    <value>СТРАНИЦА НЕ НАЙДЕНА</value>
+  </data>
+  <data name="PASSPORTSCAN" xml:space="preserve">
+    <value>Скан паспорта</value>
+  </data>
+  <data name="PASSWORD" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="PAY" xml:space="preserve">
+    <value>Оплатить</value>
+  </data>
+  <data name="PAYMENTAMOUNT" xml:space="preserve">
+    <value>Размер взноса</value>
+  </data>
+  <data name="PAYMENTRANGE" xml:space="preserve">
+    <value>Диапазон суммы взноса</value>
+  </data>
+  <data name="PROJECTERROR" xml:space="preserve">
+    <value>Ошибка, проект не был создан</value>
+  </data>
+  <data name="PROJECTNUMBER" xml:space="preserve">
+    <value>Проектов</value>
+  </data>
+  <data name="RATING" xml:space="preserve">
+    <value>Рейтинг</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Зарегистрироваться</value>
+  </data>
+  <data name="REGISTERASNEW" xml:space="preserve">
+    <value>Зарегистрироваться</value>
+  </data>
+  <data name="REGISTRATIONTIME" xml:space="preserve">
+    <value>Время регистрации</value>
+  </data>
+  <data name="SELECTUSER" xml:space="preserve">
+    <value>Выбрать</value>
+  </data>
+  <data name="SEND" xml:space="preserve">
+    <value>Отправить</value>
+  </data>
+  <data name="SHOWCONFIRMED" xml:space="preserve">
+    <value>Показать подтверждённых</value>
+  </data>
+  <data name="SHOWREQUESTED" xml:space="preserve">
+    <value>Показать запросивших подтверждение</value>
+  </data>
+  <data name="SHOWUNCONFIRMED" xml:space="preserve">
+    <value>Показать неподтверждённых</value>
+  </data>
+  <data name="STATUS" xml:space="preserve">
+    <value>Статус</value>
+  </data>
+  <data name="SUBJECT" xml:space="preserve">
+    <value>Тема</value>
+  </data>
+  <data name="SURNAME" xml:space="preserve">
+    <value>Фамилия</value>
+  </data>
+  <data name="THREE" xml:space="preserve">
+    <value>Три</value>
+  </data>
+  <data name="TOPROJECTPAGE" xml:space="preserve">
+    <value>На страницу проекта</value>
+  </data>
+  <data name="TWO" xml:space="preserve">
+    <value>Два</value>
+  </data>
+  <data name="UNCONFIRMED" xml:space="preserve">
+    <value>Не подтверждён</value>
+  </data>
+  <data name="USERNAME" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="VIEWCONFIRMATIONREQUEST" xml:space="preserve">
+    <value>Посмотреть запрос на подтверждение</value>
+  </data>
+  <data name="ACTIVE" xml:space="preserve">
+    <value>Активен</value>
+  </data>
+  <data name="COMMENTS" xml:space="preserve">
+    <value>Комментарии</value>
+  </data>
+  <data name="CONFIRMACCOUNTNOW" xml:space="preserve">
+    <value>Подтвердите свой аккаунт сейчас, чтобы создавать проекты</value>
+  </data>
+  <data name="CONFIRMATIONREQUEST" xml:space="preserve">
+    <value>Заявка на подтверждение</value>
+  </data>
+  <data name="CREATEACCOUNT" xml:space="preserve">
+    <value>Создать новый аккаунт</value>
+  </data>
+  <data name="ERRORALREADYEXISTS" xml:space="preserve">
+    <value>Такое имя и/или адрес эл. почты уже существуют</value>
+  </data>
+  <data name="ERRORCONFIRMPASSWORD" xml:space="preserve">
+    <value>Введённые пароли не совпадают</value>
+  </data>
+  <data name="ERRORPASSWORDLENGTH" xml:space="preserve">
+    <value>Пароль должен содержать от 6 до 20 символов</value>
+  </data>
+  <data name="FAILED" xml:space="preserve">
+    <value>Провален</value>
+  </data>
+  <data name="FINANCED" xml:space="preserve">
+    <value>Профинансирован</value>
+  </data>
+  <data name="MYPROJECTS" xml:space="preserve">
+    <value>Мои проекты</value>
+  </data>
+  <data name="MYSUBSCRIPTIONS" xml:space="preserve">
+    <value>Мои подписки</value>
+  </data>
+  <data name="NEWS" xml:space="preserve">
+    <value>Новости</value>
+  </data>
+  <data name="PASSWORDCONFIRM" xml:space="preserve">
+    <value>Подтвердите пароль</value>
+  </data>
+  <data name="SEARCHPROJECTS" xml:space="preserve">
+    <value>Искать проекты</value>
+  </data>
+  <data name="SEARCHRESULTS" xml:space="preserve">
+    <value>Результаты поиска</value>
+  </data>
+  <data name="SUBSCRIBE" xml:space="preserve">
+    <value>Подписаться</value>
+  </data>
+  <data name="TAGS" xml:space="preserve">
+    <value>Теги</value>
+  </data>
+  <data name="UNSUBSCRIBE" xml:space="preserve">
+    <value>Отписаться</value>
+  </data>
+  <data name="USERPAGE" xml:space="preserve">
+    <value>Страница пользователя</value>
+  </data>
+  <data name="USERPROJECTS" xml:space="preserve">
+    <value>Проекты пользователя</value>
+  </data>
+  <data name="USERSUBSCRIPTIONS" xml:space="preserve">
+    <value>Подписки пользователя</value>
+  </data>
+  <data name="AND" xml:space="preserve">
+    <value>и ещё</value>
+  </data>
+  <data name="APPROVECONFIRMATION" xml:space="preserve">
+    <value>Ваша заявка на подтверждение аккаунта была одобрена.</value>
+  </data>
+  <data name="CHANGECOLOR" xml:space="preserve">
+    <value>Изменить цветовую гамму</value>
+  </data>
+  <data name="CONFIRMATIONREQUESTSENT" xml:space="preserve">
+    <value>Ваша заявка на подтверждение аккаунта была отправлена администратору</value>
+  </data>
+  <data name="DARK" xml:space="preserve">
+    <value>Тёмная</value>
+  </data>
+  <data name="DECLINECONFIRMATION" xml:space="preserve">
+    <value>Ваша заявка на подтверждение аккаунта была отклонена.</value>
+  </data>
+  <data name="EMAILCONFIRMATIONSENT" xml:space="preserve">
+    <value>Письмо с подтверждением было отправлено</value>
+  </data>
+  <data name="LIGHT" xml:space="preserve">
+    <value>Светлая</value>
+  </data>
+  <data name="NEWSSENT" xml:space="preserve">
+    <value>Новость отправлена</value>
+  </data>
+  <data name="OTHERUSERS" xml:space="preserve">
+    <value>пользователей</value>
+  </data>
+  <data name="REQUESTEDCONFIRMATION" xml:space="preserve">
+    <value>запросили подтверждение аккаунта</value>
+  </data>
+  <data name="UPDATE" xml:space="preserve">
+    <value>Обновление</value>
+  </data>
+  <data name="ADDANEWPROJECT" xml:space="preserve">
+    <value>Добавить новый проект</value>
+  </data>
+  <data name="CHOOSEACTION" xml:space="preserve">
+    <value>Выберите действие</value>
+  </data>
+  <data name="ENDDATE" xml:space="preserve">
+    <value>Дата окончания</value>
+  </data>
+  <data name="PAYEDAMOUNT" xml:space="preserve">
+    <value>Оплачено</value>
+  </data>
+  <data name="PAYMENTS" xml:space="preserve">
+    <value>Количество переводов денег</value>
+  </data>
+  <data name="PROJECTSTATUS" xml:space="preserve">
+    <value>Статус проекта</value>
+  </data>
+  <data name="ABOUTUS" xml:space="preserve">
+    <value>О нас</value>
+  </data>
+  <data name="BIGGESTPAYMENTS" xml:space="preserve">
+    <value>Крупнейшие переводы денег</value>
+  </data>
+  <data name="BUSINESSMAN" xml:space="preserve">
+    <value>Бизнесмен</value>
+  </data>
+  <data name="COMMENTS_A" xml:space="preserve">
+    <value>комментариев</value>
+  </data>
+  <data name="CREATED" xml:space="preserve">
+    <value>Создал</value>
+  </data>
+  <data name="CREATOR" xml:space="preserve">
+    <value>Создатель</value>
+  </data>
+  <data name="HOMEPAGE" xml:space="preserve">
+    <value>Главная страница</value>
+  </data>
+  <data name="INVESTOR" xml:space="preserve">
+    <value>Инвестор</value>
+  </data>
+  <data name="LASTPROJECTS" xml:space="preserve">
+    <value>Новые проекты</value>
+  </data>
+  <data name="LATESTNEWS" xml:space="preserve">
+    <value>Последние новости</value>
+  </data>
+  <data name="PAID" xml:space="preserve">
+    <value>Совершил оплату в $</value>
+  </data>
+  <data name="PEOPLEPERSON" xml:space="preserve">
+    <value>Душа компании</value>
+  </data>
+  <data name="PROJECTS_A" xml:space="preserve">
+    <value>проектов</value>
+  </data>
+  <data name="STARTPROJECT" xml:space="preserve">
+    <value>Начните свой новый проект</value>
+  </data>
+  <data name="SUBSCRIBEDFOR" xml:space="preserve">
+    <value>подписалось на проекты пользователя</value>
+  </data>
+  <data name="SUCCESSFULPROJECTS" xml:space="preserve">
+    <value>Успешно профинансированные проекты</value>
+  </data>
+  <data name="WASPAID" xml:space="preserve">
+    <value>было перечислено на проекты пользователя</value>
+  </data>
+  <data name="WRITER" xml:space="preserve">
+    <value>Писатель</value>
+  </data>
+  <data name="APR" xml:space="preserve">
+    <value>Апр</value>
+  </data>
+  <data name="AUG" xml:space="preserve">
+    <value>Авг</value>
+  </data>
+  <data name="DEC" xml:space="preserve">
+    <value>Дек</value>
+  </data>
+  <data name="FEB" xml:space="preserve">
+    <value>Фев</value>
+  </data>
+  <data name="JAN" xml:space="preserve">
+    <value>Янв</value>
+  </data>
+  <data name="JUL" xml:space="preserve">
+    <value>Июл</value>
+  </data>
+  <data name="JUN" xml:space="preserve">
+    <value>Июн</value>
+  </data>
+  <data name="MAR" xml:space="preserve">
+    <value>Мар</value>
+  </data>
+  <data name="MAY" xml:space="preserve">
+    <value>Май</value>
+  </data>
+  <data name="NOV" xml:space="preserve">
+    <value>Ноя</value>
+  </data>
+  <data name="OCT" xml:space="preserve">
+    <value>Окт</value>
+  </data>
+  <data name="SEP" xml:space="preserve">
+    <value>Сен</value>
+  </data>
+  <data name="NEWSUPDATE" xml:space="preserve">
+    <value>&lt;a href="/ProjectPage/{0}"&gt;Обновление: {1}&lt;/a&gt;</value>
+  </data>
+  <data name="ADMINPAGELINK" xml:space="preserve">
+    <value>&lt;a href="/AdminPage?confirmed=false&amp;unconfirmed=false&amp;requested=true"&gt;{0}&lt;br&gt; запросили подтверждение аккаунта.&lt;/a&gt;</value>
+  </data>
+  <data name="AWARDNOTE" xml:space="preserve">
+    <value>Вы заработали медаль "{0}" {1} уровня</value>
+  </data>
+  <data name="SUBSCRIBERMESSAGE" xml:space="preserve">
+    <value>&lt;a href="/ProjectPage/{0}"&gt; {1} &lt;/a&gt;</value>
+  </data>
+  <data name="CONFIRMATIONLINK" xml:space="preserve">
+    <value>Пожалуйста, подтвердите свой аккаунт, пройдя по этой ссылке: &lt;a href="{0}"&gt;ссылка&lt;/a&gt;</value>
+  </data>
+</root>

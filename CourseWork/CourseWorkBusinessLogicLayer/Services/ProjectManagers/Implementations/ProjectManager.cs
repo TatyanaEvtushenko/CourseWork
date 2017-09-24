@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CourseWork.BusinessLogicLayer.Options;
 using CourseWork.BusinessLogicLayer.Services.AwardManagers;
 using CourseWork.BusinessLogicLayer.Services.FinancialPurposesManagers;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
@@ -13,6 +14,7 @@ using CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
+using Microsoft.Extensions.Options;
 
 namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
 {
@@ -33,6 +35,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         private readonly IMapper<ProjectViewModel, Project> _projectMapper;
         private readonly IMapper<ProjectEditorFormViewModel, Project> _projectEditorFormMapper;
         private readonly IMapper<PaymentFormViewModel, Payment> _paymentMapper;
+        private readonly HomePageOptions _options;
 
         public ProjectManager(IRepository<Project> projectRepository,
             IMapper<ProjectItemViewModel, Project> projectItemMapper,
@@ -43,7 +46,8 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             IMapper<PaymentFormViewModel, Payment> paymentMapper,
             ISearchManager searchManager, IFinancialPurposeManager financialPurposeManager, ITagService tagService,
             IAwardManager awardManager, IRepository<Tag> tagRepository,
-            IRepository<FinancialPurpose> financialPurposeRepository)
+            IRepository<FinancialPurpose> financialPurposeRepository,
+            IOptions<HomePageOptions> options)
         {
             _projectRepository = projectRepository;
             _projectItemMapper = projectItemMapper;
@@ -59,6 +63,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             _awardManager = awardManager;
             _tagRepository = tagRepository;
             _financialPurposeRepository = financialPurposeRepository;
+            _options = options.Value;
             _paymentMapper = paymentMapper;
         }
 
@@ -79,7 +84,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             }
         }
 
-        public bool AddProject(ProjectFormViewModel projectForm)
+        public bool AddProject(ProjectFormViewModel projectForm, string awardName)
         {
             var project = _projectFormMapper.ConvertTo(projectForm);
             ChangeProjectStatus(project);
@@ -87,7 +92,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             {
                 return false;
             }
-            ProccessProjectAfterAdding(project);
+            ProccessProjectAfterAdding(project, awardName);
             return true;
         }
 
@@ -139,7 +144,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
 
         public IEnumerable<ProjectItemViewModel> GetLastCreatedProjects()
         {
-            return _projectRepository.GetOrdered(project => project.CreatingTime, 4, true,
+            return _projectRepository.GetOrdered(project => project.CreatingTime, _options.LastCreatedProjectsCount, true,
                     project => project.Subscribers, project => project.Payments, p => p.Ratings, p => p.FinancialPurposes)
                 .Select(project => _projectItemMapper.ConvertFrom(project));
         }
@@ -147,25 +152,25 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
         public IEnumerable<ProjectItemViewModel> GetFinancedProjects()
         {
             return _projectRepository.GetWhere(project => project.Status == ProjectStatus.Financed,
-                    project => project.Subscribers, project => project.Payments, p => p.Ratings, p => p.FinancialPurposes).Take(4)
+                    project => project.Subscribers, project => project.Payments, p => p.Ratings, p => p.FinancialPurposes).Take(_options.FinancedProjectsCount)
                 .Select(project => _projectItemMapper.ConvertFrom(project));
         }
 
-        public bool AddPayment(PaymentFormViewModel paymentForm)
+        public bool AddPayment(PaymentFormViewModel paymentForm, string awardNamePayment, string awardNameReceived)
         {
             var payment = _paymentMapper.ConvertTo(paymentForm);
             if (!_paymentRepository.AddRange(payment))
             {
                 return false;
             }
-            ProcessPaymentAfterAdding(payment, paymentForm.ProjectId, paymentForm.AccountNumber);
+            ProcessPaymentAfterAdding(payment, paymentForm.ProjectId, paymentForm.AccountNumber, awardNamePayment, awardNameReceived);
             return true;
         }
 
-        private void ProccessProjectAfterAdding(Project project)
+        private void ProccessProjectAfterAdding(Project project, string awardName)
         {
             _searchManager.AddProjectToIndex(project);
-            _awardManager.AddAwardForProjects();
+            _awardManager.AddAwardForProjects(awardName);
         }
 
         private IEnumerable<ProjectItemViewModel> GetProjectItems(Func<Project, bool> whereExpression)
@@ -175,11 +180,11 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             return projects.Select(p => _projectItemMapper.ConvertFrom(p));
         }
 
-        private void ProcessPaymentAfterAdding(Payment payment, string projectId, string accountNumber)
+        private void ProcessPaymentAfterAdding(Payment payment, string projectId, string accountNumber, string awardNamePayment, string awardNameReceived)
         {
-            _awardManager.AddAwardForPayments(payment);
+            _awardManager.AddAwardForPayments(payment, awardNamePayment);
             var project = UpdateProjectAfterPayment(projectId, accountNumber);
-            _awardManager.AddAwardForReceivedPayments(project);
+            _awardManager.AddAwardForReceivedPayments(project, awardNameReceived);
         }
 
         private Project UpdateProjectAfterPayment(string projectId, string accountNumber)

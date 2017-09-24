@@ -1,34 +1,28 @@
 ﻿<errorpage *ngIf="storage.isReadyCurrentUser && !storage.isUser"></errorpage>
-
-<div *ngIf="storage.isReadyCurrentUser && storage.isUser && isInitialized">
-    <h2 *ngIf="currentUserName === ownerUserName">My page</h2>
-    <h2 *ngIf="currentUserName !== ownerUserName">{{ownerUserName}}'s page</h2>
-    <div class="col s12 m7">
-        <usercard [displayableInfo]="displayableInfo" [isCardOfCurrentUser]="currentUserName === ownerUserName"
-                  (onAccountEdit)="updateAccout($event)"></usercard>
-    </div>
-    <accounteditmodal [about]="accountEditForm.about" [contacts]="accountEditForm.contacts"
-                      (onConfirm)="updateAccount($event)"></accounteditmodal>
-    <avatarchangemodal *ngIf="storage.isReadyCurrentUser && storage.isUser" (onConfirm)="updateAvatar($event)"></avatarchangemodal>
-    <div>
-        <h3 *ngIf="currentUserName === ownerUserName">My projects</h3>
-        <a href="#confirmationModal" class="modal-trigger" *ngIf="currentUserName === ownerUserName && storage.isJustUser">Confirm your account now to create projects.</a>
-        <h3 *ngIf="currentUserName !== ownerUserName">{{ownerUserName}}'s projects</h3>
-        <div class="row">
-            <div class="col m4" *ngFor="let project of userProjects">
-                <projectitem [project]="project" (onClickNews)="openNewsModal($event)" (onClickPay)="openPayment($event)"
-                             (onClickSubscribe)="subscribe($event)" (onClickUnsubscribe)="unsubscribe($event)"></projectitem>
+<div class="container body-content">
+    <div *ngIf="storage.isReadyCurrentUser && storage.isUser && isInitialized">
+        <h2 class="center-align" *ngIf="currentUserName === ownerUserName">{{translations['MyPage']}}</h2>
+        <h2 class="center-align" *ngIf="currentUserName !== ownerUserName">{{translations['USERPAGE']}} {{ownerUserName}}</h2>
+        <div class="row center-align">
+            <div class="col offset-m2">
+            <div class="col m6"></div>
+                <usercard [displayableInfo]="displayableInfo" [isCardOfCurrentUser]="currentUserName === ownerUserName"
+                              (onAccountEdit)="updateAccout($event)"></usercard>
             </div>
         </div>
-    </div>
-    <div>
-        <h3 *ngIf="currentUserName === ownerUserName">My subscriptions</h3>
-        <h3 *ngIf="currentUserName !== ownerUserName">{{ownerUserName}}'s subscriptions</h3>
-        <div class="row">
-            <div class="col m4" *ngFor="let project of userSubscribedProjects">
-                <projectitem [project]="project" (onClickNews)="openNewsModal($event)" (onClickPay)="openPayment($event)"
-                             (onClickSubscribe)="subscribe($event)" (onClickUnsubscribe)="unsubscribe($event)"></projectitem>
-            </div>
+        <accounteditmodal [about]="accountEditForm.about" [contacts]="accountEditForm.contacts"
+                          (onConfirm)="updateAccount($event)"></accounteditmodal>
+        <avatarchangemodal *ngIf="storage.isReadyCurrentUser && storage.isUser" (onConfirm)="updateAvatar($event)"></avatarchangemodal>
+        <div>
+            <h3 class="center-align" *ngIf="currentUserName === ownerUserName">{{translations['MYPROJECTS']}}</h3>
+            <a href="#confirmationModal" class="modal-trigger" *ngIf="currentUserName === ownerUserName && storage.isJustUser">{{translations['CONFIRMACCOUNTNOW']}}</a>
+            <h3 class="center-align" *ngIf="currentUserName !== ownerUserName">{{translations['USERPROJECTS']}} {{ownerUserName}}</h3>    
+            <projectitemcollection [projects]="userProjects" (selectedProjectIdNews)="this.selectedProjectId = $event" (selectedProjectIdPayment)="this.selectedProjectId = $event"></projectitemcollection>
+        </div>
+        <div>
+            <h3 class="center-align" *ngIf="currentUserName === ownerUserName">{{translations['MYSUBSCRIPTIONS']}}</h3>
+            <h3 class="center-align" *ngIf="currentUserName !== ownerUserName">{{translations['USERSUBSCRIPTIONS']}} {{ownerUserName}}</h3>
+            <projectitemcollection [projects]="userSubscribedProjects" (selectedProjectIdNews)="this.selectedProjectId = $event" (selectedProjectIdPayment)="this.selectedProjectId = $event"></projectitemcollection>
         </div>
     </div>
     <newsformmodal [projectId]="selectedProjectId"></newsformmodal>

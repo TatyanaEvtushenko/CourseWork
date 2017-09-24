@@ -6,19 +6,27 @@ import { MessageSenderService } from "../../services/messagesender.service";
 import { ProjectService } from '../../services/project.service';
 import { ActivatedRoute, Router } from "@angular/router";
 import { MessageSubscriberService } from '../../services/messagesubscriber.service';
+import { LocalizationService } from "../../services/localization.service";
 
 @Component({
     selector: 'searchresult',
     templateUrl: './searchresult.component.html'
 })
 export class SearchResultComponent {
+    selectedProjecId: string = null;
     projects: any[] = [];
+    keys = ["SEARCHRESULTS"];
+    translations = {}
     selectedProjectId: string = null;
     isReady = false;
 
     constructor(private title: Title, private route: ActivatedRoute, private router: Router,
-      protected accountService: AccountService, protected messageSenderService: MessageSenderService, private projectService: ProjectService, private storage: MessageSubscriberService) {
-        title.setTitle("Search results");
+        protected accountService: AccountService, protected messageSenderService: MessageSenderService, private projectService: ProjectService,
+        private storage: MessageSubscriberService, private localizationService: LocalizationService) {
+        this.localizationService.getTranslations(this.keys).subscribe((data) => {
+            this.translations = data;
+            title.setTitle(this.translations['SEARCHRESULTS']);
+        });
     }
 
     ngOnInit() {
@@ -28,21 +36,5 @@ export class SearchResultComponent {
                 this.isReady = true;
             });
         });
-    }
-
-    openPayment(event: any) {
-        this.selectedProjectId = event;
-    }
-
-    openNewsModal(event: any) {
-        this.selectedProjectId = event;
-    }
-
-    subscribe(projectId: string) {
-        this.projectService.subscribe(projectId).subscribe();
-    }
-
-    unsubscribe(projectId: string) {
-        this.projectService.unsubscribe(projectId).subscribe();
     }
 }

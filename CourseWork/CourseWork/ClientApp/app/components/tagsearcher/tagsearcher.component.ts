@@ -1,5 +1,6 @@
 ﻿import { Component, Output, Input } from '@angular/core';
 import { TagService } from '../../services/tag.service';
+import { LocalizationService } from "../../services/localization.service";
 declare var $: any;
 
 @Component({
@@ -10,8 +11,14 @@ declare var $: any;
 export class TagSearcherComponent {
     @Input() @Output() data: string[] = [];
     autocompleteInit: any;
-    
-    constructor(private tagService: TagService) { }
+    keys = ["TAGS"];
+    translations = {}
+
+    constructor(private tagService: TagService, private localizationService: LocalizationService) {
+        this.localizationService.getTranslations(this.keys).subscribe((data) => {
+            this.translations = data;
+        });
+    }
 
     ngOnInit() {
         this.tagService.getTags().subscribe((data) => {

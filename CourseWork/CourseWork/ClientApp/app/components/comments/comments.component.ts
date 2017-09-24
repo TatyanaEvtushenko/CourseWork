@@ -3,7 +3,7 @@ import { ProjectService } from '../../services/project.service';
 import { TimeHelper } from '../../helpers/time.helper';
 import { SortingHelper } from '../../helpers/sorting.helper';
 import { StorageService } from '../../services/storage.service';
-declare var $: any;
+import { LocalizationService } from '../../services/localization.service';
 
 @Component({
     selector: 'comments',
@@ -16,10 +16,17 @@ export class CommentsComponent implements AfterViewInit {
     @Input() projectId: string;
     @Input() projectOwnerUserName: string;
     commentText = "";
-    timeHelper = new TimeHelper();
+    timeHelper = new TimeHelper(this.localizationService);
     sortingHelper = new SortingHelper();
+    keys = ["NEWCOMMENT"];
+    translations = {}
 
-    constructor(private projectService: ProjectService, public storage: StorageService) { }
+    constructor(private projectService: ProjectService,
+        public storage: StorageService, private localizationService: LocalizationService) {
+        this.localizationService.getTranslations(this.keys).subscribe((data) => {
+            this.translations = data;
+        });
+    }
 
     ngAfterViewInit() {
         this.comments.sort(this.sortingHelper.sortByTimeDescending);

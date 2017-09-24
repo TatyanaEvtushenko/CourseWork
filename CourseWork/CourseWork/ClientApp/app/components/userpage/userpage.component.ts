@@ -9,21 +9,24 @@ import { DisplayableInfo } from "../../viewmodels/displayableinfo";
 import { AccountEditForm } from "../../viewmodels/accounteditform";
 import { MessageSubscriberService } from '../../services/messagesubscriber.service';
 import { SortingHelper } from '../../helpers/sorting.helper';
+import { LocalizationService } from "../../services/localization.service";
 
 @Component({
     selector: 'userpage',
     templateUrl: './userpage.component.html'
 })
 export class UserPageComponent {
+    selectedProjectId: string = null;
     ownerUserName: string = null;
     currentUserName: string = null;
     userProjects: any[] = [];
     userSubscribedProjects: any[] = [];
     displayableInfo: DisplayableInfo = null;
     accountEditForm: AccountEditForm = null;
-    selectedProjectId: string = null;
     isInitialized = false;
     sortingHelper = new SortingHelper();
+    keys = ["MyPage", "USERPAGE", "MYPROJECTS", "USERPROJECTS", "MYSUBSCRIPTIONS", "USERSUBSCRIPTIONS", "CONFIRMACCOUNTNOW"];
+    translations = {}
 
     constructor(private title: Title,
         protected currentUserService: CurrentUserService,
@@ -31,8 +34,12 @@ export class UserPageComponent {
         protected messageSenderService: MessageSenderService,
         private projectService: ProjectService,
         private storage: MessageSubscriberService,
-        private route: ActivatedRoute) {
-        title.setTitle("My page");
+        private route: ActivatedRoute,
+        private localizationService: LocalizationService) {
+        this.localizationService.getTranslations(this.keys).subscribe((data) => {
+            this.translations = data;
+            this.title.setTitle(this.translations['USERPAGE']);
+        });
     }
 
     ngOnInit() {
@@ -78,22 +85,6 @@ export class UserPageComponent {
         this.projectService.getSubscribedProjects(this.ownerUserName).subscribe((data) => {
             this.userSubscribedProjects = data;
         });
-    }
-
-    openPayment(event: any) {
-        this.selectedProjectId = event;
-    }
-
-    openNewsModal(event: any) {
-        this.selectedProjectId = event;
-    }
-
-    subscribe(projectId: string) {
-        this.projectService.subscribe(projectId).subscribe();
-    }
-
-    unsubscribe(projectId: string) {
-        this.projectService.unsubscribe(projectId).subscribe();
     }
 
     updateAccount(editForm: AccountEditForm) {

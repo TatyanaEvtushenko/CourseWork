@@ -14,5 +14,7 @@ namespace CourseWork.DataLayer.Models
         public bool IsSeen { get; set; }
 
         public UserInfo RecipientInfo { get; set; }
+
+        public string ParameterString { get; set; }
     }
 }

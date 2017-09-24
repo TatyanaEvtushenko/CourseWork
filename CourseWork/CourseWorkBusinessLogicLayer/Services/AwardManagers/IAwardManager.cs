@@ -5,15 +5,15 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers
 {
     public interface IAwardManager
     {
-        bool AddAwardForComments();
+        bool AddAwardForComments(string awardName);
 
-        bool AddAwardForReceivedSubscriptions(string projectId);
+        bool AddAwardForReceivedSubscriptions(string projectId, string awardName);
 
-        bool AddAwardForProjects();
+        bool AddAwardForProjects(string awardName);
 
-        bool AddAwardForPayments(Payment payment);
+        bool AddAwardForPayments(Payment payment, string awardName);
 
-        bool AddAwardForReceivedPayments(Project project);
+        bool AddAwardForReceivedPayments(Project project, string awardName);
 
         decimal GetNeccessaryCountForAward(AwardType type, int level);
 

@@ -36,7 +36,7 @@ namespace CourseWork.BusinessLogicLayer.Services.MessageManagers.Implementations
         public void NotifySubscribers(SubscriberNotificationViewModel model)
         {
             var subscribers = _projectSubscribeRepository.GetWhere(n => n.ProjectId.Equals(model.Id));
-            var notifications = subscribers.Select(n => GetMessageForSubscribers(n, model.Text));
+            var notifications = subscribers.Select(n => GetMessageForSubscribers(n, model.Text, model.Id, model.Subject));
             Send(notifications.ToArray());
         }
 
@@ -53,12 +53,13 @@ namespace CourseWork.BusinessLogicLayer.Services.MessageManagers.Implementations
 		    _messageRepository.UpdateRange(markedMessages);
 	    }
 
-        private MessageViewModel GetMessageForSubscribers(ProjectSubscriber subscriber, string text)
+        private MessageViewModel GetMessageForSubscribers(ProjectSubscriber subscriber, string text, string projectId, string subject)
         {
             return new MessageViewModel
             {
                 RecipientUserName = subscriber.UserName,
-                Text = text
+                Text = text,
+                ParameterString = projectId + "*" + subject
             };
         }
 

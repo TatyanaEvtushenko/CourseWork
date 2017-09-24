@@ -1,0 +1,10 @@
+﻿<div class="input-field col s6">
+    <div class="select-wrapper">
+        <input type="text" class="select-dropdown" readonly="true" data-activates="language-select" value="Choose color" />
+        <select materialize="material_select" name="selectedColor" data-select-id="color" [(ngModel)]="selectedColor" (ngModelChange)="colorSelected()">
+            <option disabled selected value>{{translations['CHANGECOLOR']}}</option>
+            <option *ngFor="let color of colors" value="{{color.name}}">{{translations[color.key]}}</option>
+        </select>
+    </div>
+</div>
+

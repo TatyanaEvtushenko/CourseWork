@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
-using CourseWork.BusinessLogicLayer.Services.LanguageManagers;
+using CourseWork.BusinessLogicLayer.Services.LocalizationManager;
+using CourseWork.BusinessLogicLayer.ViewModels.LocalizationViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CourseWork.Controllers
@@ -11,26 +13,42 @@ namespace CourseWork.Controllers
     [Produces("application/json")]
     public class LocalizationController : Controller
     {
-        private readonly ILanguageManager _languageManager;
+        private readonly ILocalizationManager _localizationManager;
+        private readonly IStringLocalizer<LocalizationController> _localizer;
 
-        public LocalizationController(ILanguageManager languageManager)
+        public LocalizationController(ILocalizationManager localizationManager, IStringLocalizer<LocalizationController> localizer)
         {
-            _languageManager = languageManager;
+            _localizationManager = localizationManager;
+            _localizer = localizer;
         }
 
         [HttpPost]
-        public IActionResult SetLanguage(string culture, string returnUrl)
+        [Route("api/Localization/SetLanguage")]
+        public void SetLanguage([FromBody] string cultureName)
         {
             Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
-                                    CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                                    CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(cultureName)),
                                     new CookieOptions { Expires = DateTimeOffset.Now.AddYears(1) });
-            return Redirect(returnUrl);
+            Response.Cookies.Append("lang", cultureName, new CookieOptions { Expires = DateTimeOffset.Now.AddYears(1) });
         }
 
         [HttpGet]
-        public List<SelectListItem> GetSupportedCultures()
+        [Route("api/Localization/GetSupportedCultures")]
+        public SupportedAndCurrentLanguageViewModel GetSupportedCultures()
         {
-            return _languageManager.GetSupportedCultures();
+            return _localizationManager.GetSuppotedCultures();
+        }
+
+        [HttpGet]
+        [Route("api/Localization/GetTranslations")]
+        public Dictionary<string, string> GetTranslations([FromQuery] string[] keys)
+        {
+            var result = new Dictionary<string, string>();
+            foreach (var key in keys)
+            {
+                result.Add(key, _localizer[key]);
+            }
+            return result;
         }
     }
 }

@@ -2,6 +2,7 @@
 import { ProjectService } from '../../services/project.service';
 import { TimeHelper } from '../../helpers/time.helper';
 import { SortingHelper } from '../../helpers/sorting.helper';
+import { LocalizationService } from "../../services/localization.service";
 
 @Component({
     selector: 'news',
@@ -12,10 +13,10 @@ export class NewsComponent implements DoCheck {
     @Input() viewProjectName = false;
     @Input() someNews: any;
     sortingHelper = new SortingHelper();
-    timeHelper = new TimeHelper();
+    timeHelper = new TimeHelper(this.localizationService);
     isSorted = false;
 
-    constructor(private projectService: ProjectService, private cdr: ChangeDetectorRef) {
+    constructor(private projectService: ProjectService, private cdr: ChangeDetectorRef, private localizationService: LocalizationService) {
     }
 
     ngDoCheck() {

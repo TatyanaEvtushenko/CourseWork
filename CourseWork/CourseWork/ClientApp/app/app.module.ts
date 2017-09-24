@@ -4,7 +4,7 @@ import "froala-editor/js/froala_editor.pkgd.min.js";
 import { NgModule } from '@angular/core';
 import { BrowserModule }  from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
-import { HttpModule }   from '@angular/http';
+import { HttpModule, Http }   from '@angular/http';
 import { TagCloudModule } from 'angular-tag-cloud-module';
 import { FormsModule } from '@angular/forms';
 import { MarkdownModule } from 'angular2-markdown';
@@ -12,6 +12,8 @@ import { MaterializeModule } from "angular2-materialize";
 import { RatingModule } from "ngx-rating";
 import { ColorPickerModule } from 'ngx-color-picker';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { APP_INITIALIZER } from '@angular/core';
+import { AppConfig } from './app.config';
 
 import { AppComponent } from './components/app/app.component';
 import { HomePageComponent } from './components/homepage/homepage.component';
@@ -52,7 +54,9 @@ import { UserSubscriptionsComponent } from "./components/usersubscriptions/users
 import { LanguageSelectorComponent } from "./components/languageselector/languageselector.component";
 import { PaymentComponent } from "./components/payment/payment.component";
 import { ProjectProgressComponent } from "./components/projectprogress/projectprogress.component";
+import { ColorSelectorComponent } from "./components/colorselector/colorselector.component";
 import { AwardComponent } from "./components/award/award.component";
+import { ProjectItemCollectionComponent } from "./components/projectitemcollection/projectitemcollection.component";
 
 import { BaseService} from './services/base.service';
 import { CurrentUserService } from "./services/currentuser.service"; 
@@ -62,6 +66,8 @@ import { ProjectService } from "./services/project.service";
 import { StorageService } from "./services/storage.service";
 import { MessageSenderService } from "./services/messagesender.service"
 import { MessageSubscriberService } from "./services/messagesubscriber.service";
+import { LocalizationService } from "./services/localization.service";
+import { ColorService } from "./services/color.service";
 
 const appRoutes: Routes = [
     { path: '', component: HomePageComponent },
@@ -134,7 +140,11 @@ const appRoutes: Routes = [
         UserSubscriptionsComponent,
         PaymentComponent,
         ProjectProgressComponent,
-        AwardComponent
+        LanguageSelectorComponent,
+        ColorSelectorComponent,
+        ProjectProgressComponent,
+        AwardComponent,
+        ProjectItemCollectionComponent
     ],
     providers: [
         BaseService,
@@ -145,7 +155,11 @@ const appRoutes: Routes = [
         StorageService,
 		ProjectService,
         MessageSenderService,
-        MessageSubscriberService
+        MessageSubscriberService,
+        LocalizationService,
+        ColorService,
+        AppConfig,
+        { provide: APP_INITIALIZER, useFactory: (config: AppConfig) => () => config.load(), deps: [AppConfig], multi: true }
     ],
     bootstrap: [
         AppComponent

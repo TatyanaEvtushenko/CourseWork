@@ -17,6 +17,8 @@
     "@angular/platform-browser": "~4.2.0",
     "@angular/platform-browser-dynamic": "~4.2.0",
     "@angular/router": "~4.2.0",
+    "@ngx-translate/core": "^8.0.0",
+    "@ngx-translate/http-loader": "^2.0.0",
     "@types/jquery": "^3.2.12",
     "angular-froala-wysiwyg": "^2.6.6",
     "angular-star-rating": "^3.0.8",

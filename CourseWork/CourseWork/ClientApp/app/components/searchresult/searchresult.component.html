@@ -1,6 +1,6 @@
 ﻿<div *ngIf="storage.isReadyCurrentUser" class="body-content container">
     <div class="center-align">
-        <h2>Search result </h2>
+        <h2>{{translations['SEARCHRESULTS']}}</h2>
         <h6 *ngIf="isReady && projects.length === 0">
             Поиск не дал результатов
         </h6>
@@ -9,11 +9,8 @@
         </h6>
     </div>
     <br/>
-    <div class="row" *ngIf="isReady && projects.length != 0">
-        <div class="col m4" *ngFor="let project of projects">
-            <projectitem [project]="project" (onClickNews)="openNewsModal($event)" (onClickPay)="openPayment($event)"
-                         (onClickSubscribe)="subscribe($event)" (onClickUnsubscribe)="unsubscribe($event)"></projectitem>
-        </div>
+    <div *ngIf="isReady && projects.length != 0">
+        <projectitemcollection [projects]="projects" (selectedProjectIdNews)="this.selectedProjectId = $event" (selectedProjectIdPayment)="this.selectedProjectId = $event"></projectitemcollection>
         <newsformmodal [projectId]="selectedProjectId"></newsformmodal>
         <paymentmodal [projectId]="selectedProjectId"></paymentmodal>
     </div>

@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
 using System;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using CourseWork.BusinessLogicLayer.Services.AccountManagers;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
+using CourseWork.BusinessLogicLayer.Services.MessageManagers;
 using CourseWork.BusinessLogicLayer.Services.SearchManagers;
+using CourseWork.BusinessLogicLayer.ViewModels.MessageViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
@@ -19,15 +22,17 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
         private readonly IRepository<Project> _projectRepository;
 	    private readonly IRepository<Rating> _raitingRepository;
 	    private readonly IRepository<Comment> _commentRepository;
+        private readonly IRepository<ApplicationUser> _applicationUserRepository;
         private readonly IMapper<UserListItemViewModel, UserInfo> _mapperList;
         private readonly IMapper<UserConfirmationViewModel, UserInfo> _mapperInfo;
         private readonly IAccountManager _accountManager;
         private readonly ISearchManager _searchManager;
+        private readonly IMessageManager _messageManager;
 
         public AdminManager(IMapper<UserListItemViewModel, UserInfo> mapperList,
             IRepository<UserInfo> userInfoRepository, IMapper<UserConfirmationViewModel, UserInfo> mapperInfo,
             IAccountManager accountManager, IRepository<Project> projectRepository,
-            IRepository<Comment> commentRepository, IRepository<Rating> raitingRepository, ISearchManager searchManager)
+            IRepository<Comment> commentRepository, IRepository<Rating> raitingRepository, ISearchManager searchManager, IRepository<ApplicationUser> applicationUserRepository, IMessageManager messageManager)
         {
             _mapperList = mapperList;
             _userInfoRepository = userInfoRepository;
@@ -37,6 +42,8 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
             _commentRepository = commentRepository;
             _raitingRepository = raitingRepository;
             _searchManager = searchManager;
+            _applicationUserRepository = applicationUserRepository;
+            _messageManager = messageManager;
         }
 
         public UserListItemViewModel[] GetAllUsers()
@@ -63,16 +70,19 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
             return _mapperInfo.ConvertFrom(userInfo);
         }
 
-        public async Task<bool> RespondToConfirmation(string userName, bool accept)
+        public async Task<bool> RespondToConfirmation(string userName, bool accept, string message)
         {
             var user = _userInfoRepository.FirstOrDefault(u => u.UserName == userName);
             user.Status = accept ? UserStatus.Confirmed : UserStatus.WithoutConfirmation;
             var result = _userInfoRepository.UpdateRange(user);
-            if (!result || !accept)
+            if (result)
             {
-                return result;
+                _messageManager.Send(new[] { new MessageViewModel { RecipientUserName = userName, Text = message, ParameterString = null } });
             }
-            await UpdateRole(userName, UserRole.User, UserRole.ConfirmedUser);
+            if (accept)
+            {
+                await UpdateRole(userName, UserRole.User, UserRole.ConfirmedUser);
+            }
             return true;
         }
 
@@ -108,7 +118,9 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
         private bool DeleteUsersWithoutCommentsndRatings(IEnumerable<string> usersToDelete)
         {
             var projectsToRemove = _projectRepository.GetWhere(n => usersToDelete.Contains(n.OwnerUserName)).ToArray();
-            var result = _userInfoRepository.RemoveRange(usersToDelete);
+            var result = _projectRepository.RemoveWhere(n => usersToDelete.Contains(n.OwnerUserName)) &&
+                _userInfoRepository.RemoveRange(usersToDelete.ToArray()) &&
+                 _applicationUserRepository.RemoveWhere(n => usersToDelete.Contains(n.UserName));
             if (result)
             {
                 RemoveIndexes(projectsToRemove, null);
@@ -118,23 +130,24 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
 
         private bool DeleteUsersWithCommentsndRatings(IEnumerable<string> usersToDelete)
         {
-            var projectsToRemove = _projectRepository.GetWhere(n => usersToDelete.Contains(n.OwnerUserName),
-                p => p.Comments, p => p.Ratings);
-            var commentsToRemove = projectsToRemove.SelectMany(p => p.Comments).ToArray();
-            var result = RemoveWithCommentsAndRatings(usersToDelete, commentsToRemove);
+            var commentsToRemove = _commentRepository.GetWhere(n => usersToDelete.Contains(n.UserName));
+            var projectsToRemove = _projectRepository.GetWhere(n => usersToDelete.Contains(n.OwnerUserName));
+            var result = _projectRepository.RemoveWhere(n => usersToDelete.Contains(n.OwnerUserName)) && RemoveWithCommentsAndRatings(usersToDelete);
             if (result)
             {
-                RemoveIndexes(projectsToRemove.ToArray(), commentsToRemove);
+                RemoveIndexes(projectsToRemove.ToArray(), commentsToRemove.ToArray());
             }
             return result;
         }
 
-        private bool RemoveWithCommentsAndRatings(IEnumerable<string> usersToDelete,
-            IEnumerable<Comment> commentsToRemove)
+        private bool RemoveWithCommentsAndRatings(IEnumerable<string> usersToDelete)
         {
-            return _userInfoRepository.RemoveRange(usersToDelete) &&
-                         _raitingRepository.RemoveWhere(n => usersToDelete.Contains(n.UserName)) &&
-                         _commentRepository.RemoveWhere(commentsToRemove.Contains);
+            var usersToDeleteArray = usersToDelete.ToArray();
+            return _raitingRepository.RemoveWhere(n => usersToDeleteArray.Contains(n.UserName)) &&
+                   _commentRepository.RemoveWhere(n => usersToDeleteArray.Contains(n.UserName)) &&
+                   _userInfoRepository.RemoveRange(usersToDeleteArray) &&
+                   _applicationUserRepository.RemoveWhere(n => usersToDeleteArray.Contains(n.UserName));
+
         }
 
         private void RemoveIndexes(Project[] projectsToRemove, Comment[] commentsToRemove)

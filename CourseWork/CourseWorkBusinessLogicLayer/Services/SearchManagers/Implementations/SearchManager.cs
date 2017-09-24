@@ -84,7 +84,7 @@ namespace CourseWork.BusinessLogicLayer.Services.SearchManagers.Implementations
 
         public bool RemoveCommentsFromIndex(Comment[] comments)
         {
-            return comments.All(comment => UpdateComment(comment, RemoveComment));
+            return comments == null || comments.All(comment => UpdateComment(comment, RemoveComment));
         }
 
         public void SetFinancialPurposes(string projectId, FinancialPurpose[] purposes)
@@ -117,7 +117,7 @@ namespace CourseWork.BusinessLogicLayer.Services.SearchManagers.Implementations
 
         private bool UpdateComment(Comment comment, UpdateCommentDelegate updateCommentAction)
         {
-            var updatedCommentTexts = GetSearchDoc(comment.ProjectId).Comment;
+            var updatedCommentTexts = GetSearchDoc(comment.ProjectId).Comment ?? new List<string>();
             updateCommentAction(comment, updatedCommentTexts);
             var updateResponse = RefreshUpdateResponse(comment.ProjectId, new {Comment = updatedCommentTexts});
             return updateResponse.Result == Result.Updated;
@@ -159,8 +159,8 @@ namespace CourseWork.BusinessLogicLayer.Services.SearchManagers.Implementations
             out List<string> updatedNewsTexts)
         {
             var doc = GetSearchDoc(projectId);
-            updatedNewsSubjects = doc.NewsSubject;
-            updatedNewsTexts = doc.NewsText;
+            updatedNewsSubjects = doc.NewsSubject ?? new List<string>();
+            updatedNewsTexts = doc.NewsText ?? new List<string>();
         }
 
         private ProjectSearchNote GetSearchDoc(object projectId)

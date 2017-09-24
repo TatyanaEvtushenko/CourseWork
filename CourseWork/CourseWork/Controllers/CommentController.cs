@@ -1,7 +1,9 @@
+using CourseWork.BusinessLogicLayer.Services.AwardManagers;
 using CourseWork.BusinessLogicLayer.Services.CommentManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.CommentViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 
 namespace CourseWork.Controllers
 {
@@ -10,17 +12,20 @@ namespace CourseWork.Controllers
     public class CommentController : Controller
     {
         private readonly ICommentManager _commentManager;
+        private readonly IStringLocalizer<LocalizationController> _localizer;
 
-        public CommentController(ICommentManager commentManager)
+        public CommentController(ICommentManager commentManager, IStringLocalizer<LocalizationController> localizer)
         {
             _commentManager = commentManager;
+            _localizer = localizer;
         }
 
         [HttpPost]
         [Route("api/Comment/AddComment")]
         public CommentViewModel AddComment([FromBody]CommentFormViewModel comment)
         {
-            return _commentManager.AddComment(comment);
+            var result = _commentManager.AddComment(comment, _localizer["WRITER"]);
+            return result;
         }
 
         [HttpPost]
