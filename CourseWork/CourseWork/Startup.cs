@@ -58,6 +58,7 @@ namespace CourseWork
                 Configuration.GetSection("ElasticSearchOptions").Bind(options));
             services.Configure<HomePageOptions>(options => Configuration.GetSection("HomePageOptions").Bind(options));
             services.Configure<ColorOptions>(options => Configuration.GetSection("ColorOptions").Bind(options));
+            services.Configure<AwardOptions>(options => Configuration.GetSection("AwardOptions").Bind(options));
             services.Configure<RequestLocalizationOptions>(options =>
             {
                 var supportedCultures = new[]

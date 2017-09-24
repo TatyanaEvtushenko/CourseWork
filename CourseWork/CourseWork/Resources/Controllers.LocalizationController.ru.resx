@@ -555,4 +555,7 @@
   <data name="SUBSCRIBERMESSAGE" xml:space="preserve">
     <value>&lt;a href="/ProjectPage/{0}"&gt; {1} &lt;/a&gt;</value>
   </data>
+  <data name="CONFIRMATIONLINK" xml:space="preserve">
+    <value>Пожалуйста, подтвердите свой аккаунт, пройдя по этой ссылке: &lt;a href="{0}"&gt;ссылка&lt;/a&gt;</value>
+  </data>
 </root>
