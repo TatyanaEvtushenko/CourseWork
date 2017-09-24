@@ -1,13 +1,8 @@
 ﻿<div class="container">
     <div *ngIf="storage.isReadyCurrentUser">
         <h2>{{translations['SEARCHRESULTS']}}</h2>
-        <div class="row">
-            <div class="col m4" *ngFor="let project of projects">
-                <projectitem [project]="project" (onClickNews)="openNewsModal($event)" (onClickPay)="openPayment($event)"
-                             (onClickSubscribe)="subscribe($event)" (onClickUnsubscribe)="unsubscribe($event)"></projectitem>
-            </div>
-        </div>
-        <newsformmodal [projectId]="selectedProjectId"></newsformmodal>
-        <paymentmodal [projectId]="selectedProjectId"></paymentmodal>
+        <projectitemcollection [projects]="projects" (selectedProjectIdNews)="this.selectedProjectId = $event" (selectedProjectIdPayment)="this.selectedProjectId = $event"></projectitemcollection>
     </div>
+    <newsformmodal [projectId]="selectedProjectId"></newsformmodal>
+    <paymentmodal [projectId]="selectedProjectId"></paymentmodal>
 </div>

@@ -129,6 +129,11 @@ img.project-item-image {
     overflow: hidden;
 }
 
+div.actions a.action {
+    margin-right: 2px;
+    margin-left: 2px;
+}
+
 div.actions {
     white-space: nowrap;
 }
@@ -139,11 +144,11 @@ div.actions {
 }
 
 .small .card-image {
-    height: 55%;
+    height: 45%;
 }
 
 .small .card-image img {
-    object-fit: contain;
+    height: 100%;
 }
 
 .project .card-image img{

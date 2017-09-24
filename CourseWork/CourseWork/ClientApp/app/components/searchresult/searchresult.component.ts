@@ -13,8 +13,8 @@ import { LocalizationService } from "../../services/localization.service";
     templateUrl: './searchresult.component.html'
 })
 export class SearchResultComponent {
+    selectedProjecId: string = null;
     projects: any[] = [];
-    selectedProjectId: string = null;
     keys = ["SEARCHRESULTS"];
     translations = {}
 
@@ -33,21 +33,5 @@ export class SearchResultComponent {
                 this.projects = result;
             });
         });
-    }
-
-    openPayment(event: any) {
-        this.selectedProjectId = event;
-    }
-
-    openNewsModal(event: any) {
-        this.selectedProjectId = event;
-    }
-
-    subscribe(projectId: string) {
-        this.projectService.subscribe(projectId).subscribe();
-    }
-
-    unsubscribe(projectId: string) {
-        this.projectService.unsubscribe(projectId).subscribe();
     }
 }

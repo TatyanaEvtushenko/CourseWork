@@ -12,12 +12,7 @@
     <div class="section display">
         <div class="icon-block center container">
             <h5><i class="material-icons">collections</i>{{translations['LASTPROJECTS']}}</h5>
-            <div class="row">
-                <div *ngFor="let project of lastCreatedProjects" class="col m3">
-                    <projectitem [project]="project" (onClickNews)="openNewsModal($event)" (onClickPay)="openPayment($event)"
-                                 (onClickSubscribe)="subscribe($event)" (onClickUnsubscribe)="unsubscribe($event)"></projectitem>
-                </div>
-            </div>
+            <projectitemcollection [projects]="lastCreatedProjects" (selectedProjectIdNews)="this.selectedProjectId = $event" (selectedProjectIdPayment)="this.selectedProjectId = $event"></projectitemcollection>
         </div>
     </div>
 
@@ -54,12 +49,7 @@
     <div class="section display">
         <div class="icon-block center container row">
             <h5><i class="material-icons">collections</i> {{translations['SUCCESSFULPROJECTS']}}</h5>
-            <div class="row">
-                <div *ngFor="let project of financedProjects" class="col m3">
-                    <projectitem [project]="project" (onClickNews)="openNewsModal($event)" (onClickPay)="openPayment($event)"
-                                 (onClickSubscribe)="subscribe($event)" (onClickUnsubscribe)="unsubscribe($event)"></projectitem>
-                </div>
-            </div>
+            <projectitemcollection [projects]="lastCreatedProjects" (selectedProjectIdNews)="this.selectedProjectId = $event" (selectedProjectIdPayment)="this.selectedProjectId = $event"></projectitemcollection>
         </div>
     </div>
 
@@ -91,7 +81,6 @@
             <h5 class="light">Авторы сайта - няшечки</h5>
         </div>
     </div>
-
     <newsformmodal [projectId]="selectedProjectId"></newsformmodal>
     <paymentmodal [projectId]="selectedProjectId"></paymentmodal>
 </div>

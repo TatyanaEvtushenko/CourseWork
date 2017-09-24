@@ -77,7 +77,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
         public bool AddAwardForReceivedPayments(Project project, string awardName)
         {
             return CheckAward(AwardType.ForReceivedPayments, project.OwnerUserName,
-                () => _paymentRepository.GetWhere(p => p.Project.OwnerUserName == project.OwnerUserName)?.Sum(p => p.PaidAmount) ?? 0, awardName);
+                () => _paymentRepository.GetWhere(p => p.Project.OwnerUserName == project.OwnerUserName, p => p.Project)?.Sum(p => p.PaidAmount) ?? 0, awardName);
         }
 
         public decimal GetNeccessaryCountForAward(AwardType type, int level)

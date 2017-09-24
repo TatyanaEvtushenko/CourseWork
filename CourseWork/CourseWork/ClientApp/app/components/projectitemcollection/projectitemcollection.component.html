@@ -1,0 +1,6 @@
+﻿<div class="row">
+    <div class="col m3" *ngFor="let project of projects">
+        <projectitem [project]="project" (onClickNews)="openNewsModal($event)" (onClickPay)="openPayment($event)"
+                     (onClickSubscribe)="subscribe($event)" (onClickUnsubscribe)="unsubscribe($event)"></projectitem>
+    </div>
+</div>
