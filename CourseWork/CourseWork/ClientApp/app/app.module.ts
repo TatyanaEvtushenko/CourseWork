@@ -57,6 +57,7 @@ import { ProjectProgressComponent } from "./components/projectprogress/projectpr
 import { ColorSelectorComponent } from "./components/colorselector/colorselector.component";
 import { AwardComponent } from "./components/award/award.component";
 import { ProjectItemCollectionComponent } from "./components/projectitemcollection/projectitemcollection.component";
+import { ProjectEditorComponent } from "./components/projecteditor/projecteditor.component";
 
 import { BaseService} from './services/base.service';
 import { CurrentUserService } from "./services/currentuser.service"; 
@@ -144,7 +145,8 @@ const appRoutes: Routes = [
         ColorSelectorComponent,
         ProjectProgressComponent,
         AwardComponent,
-        ProjectItemCollectionComponent
+        ProjectItemCollectionComponent,
+        ProjectEditorComponent
     ],
     providers: [
         BaseService,

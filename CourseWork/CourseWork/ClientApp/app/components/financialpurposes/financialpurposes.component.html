@@ -5,12 +5,12 @@
                 <h6 class="collapsible-title">{{financialPurpose.name}}</h6>
             </div>
             <div class="col m4 right-align">
-                <span class="secondary-content collapsible-title">${{financialPurpose.budget}}</span>
                 <i *ngIf="canChange" class="material-icons right" (click)="delete(financialPurpose)">close</i>
+                <span class="secondary-content collapsible-title">${{financialPurpose.budget}}</span>
             </div>
         </div>
         <div class="collapsible-body">
-            <p *ngIf="financialPurpose.description != null">${{financialPurpose.description}}</p>
+            <div *ngIf="financialPurpose.description != null" [froalaView]="financialPurpose.description"></div>
             <p *ngIf="financialPurpose.description == null">No description</p>
         </div>
     </li>

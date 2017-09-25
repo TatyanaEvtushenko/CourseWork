@@ -19,7 +19,11 @@ export class ImageLoaderComponent {
         });
     }
 
-    toBase64(file: any) {
+    onChange(event: any) {
+        this.toBase64(event.srcElement.files[0]);
+    }
+
+    private toBase64(file: any) {
         var reader = new FileReader();
         reader.onloadend = (e) => this.getResponse(e, reader);
         reader.readAsDataURL(file);
@@ -29,10 +33,5 @@ export class ImageLoaderComponent {
         $("#uploaded-image").attr("src", file);
         this.imageString = reader.result;
         this.emitter.emit(this.imageString);
-    }
-
-    onChange(event: any) {
-        this.toBase64(event.srcElement.files[0]);
-        
     }
 } 

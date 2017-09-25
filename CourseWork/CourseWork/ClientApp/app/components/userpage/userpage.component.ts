@@ -64,7 +64,7 @@ export class UserPageComponent {
 
     private getUserProjects() {
         this.projectService.getProjects(this.ownerUserName).subscribe(
-            (data) => {
+            (data: any) => {
                 data.sort(this.sortingHelper.sortByProjectStatus);
                 this.userProjects = data;
             }
@@ -82,7 +82,7 @@ export class UserPageComponent {
     }
 
     private getUserSubscribedProjects() {
-        this.projectService.getSubscribedProjects(this.ownerUserName).subscribe((data) => {
+        this.projectService.getSubscribedProjects(this.ownerUserName).subscribe((data: any) => {
             this.userSubscribedProjects = data;
         });
     }
