@@ -1,7 +1,8 @@
 ﻿<div class="row">
     <div class="col m12">
-        <div>
-            <img id="uploaded-image" src="/images/default-user.png" height="200">
+        <div *ngIf="isShowed">
+            <img *ngIf="imageString == ''" src="/images/default-user.png" height="200">
+            <img *ngIf="imageString != ''" src="{{imageString}}" height="200">
         </div>
         <div class="file-field input-field">
             <div class="btn">
@@ -11,7 +12,6 @@
             <div class="file-path-wrapper">
                 <input class="file-path validate" type="text" placeholder="{{fieldName}}"/>
             </div>
-
         </div>
     </div>
 </div>
