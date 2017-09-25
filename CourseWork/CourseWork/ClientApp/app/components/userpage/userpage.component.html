@@ -1,8 +1,6 @@
 ﻿<errorpage *ngIf="storage.isReadyCurrentUser && !storage.isUser"></errorpage>
-<div class="container body-content">
-    <div *ngIf="storage.isReadyCurrentUser && storage.isUser && isInitialized">
-        <!--<h2 class="center-align" *ngIf="currentUserName === ownerUserName">{{translations['MyPage']}}</h2>
-        <h2 class="center-align" *ngIf="currentUserName !== ownerUserName">{{translations['USERPAGE']}} {{ownerUserName}}</h2>-->
+<div class="container body-content" *ngIf="storage.isReadyCurrentUser && storage.isUser">
+    <div *ngIf="isInitialized">
         <div class="row center-align">
             <div class="col m12">
                 <usercard [displayableInfo]="displayableInfo" [isCardOfCurrentUser]="currentUserName === ownerUserName"
@@ -12,18 +10,19 @@
         <accounteditmodal [about]="accountEditForm.about" [contacts]="accountEditForm.contacts"
                           (onConfirm)="updateAccount($event)"></accounteditmodal>
         <avatarchangemodal *ngIf="storage.isReadyCurrentUser && storage.isUser" (onConfirm)="updateAvatar($event)"></avatarchangemodal>
-        <div>
-            <h3 class="center-align" *ngIf="currentUserName === ownerUserName">{{translations['MYPROJECTS']}}</h3>
+        <div class="center-align">
+            <h3 *ngIf="currentUserName === ownerUserName">{{translations['MYPROJECTS']}}</h3>
             <a href="#confirmationModal" class="modal-trigger" *ngIf="currentUserName === ownerUserName && storage.isJustUser">{{translations['CONFIRMACCOUNTNOW']}}</a>
-            <h3 class="center-align" *ngIf="currentUserName !== ownerUserName">{{translations['USERPROJECTS']}} {{ownerUserName}}</h3>    
+            <h3 *ngIf="currentUserName !== ownerUserName">{{translations['USERPROJECTS']}} {{ownerUserName}}</h3>
             <projectitemcollection [projects]="userProjects" (selectedProjectIdNews)="this.selectedProjectId = $event" (selectedProjectIdPayment)="this.selectedProjectId = $event"></projectitemcollection>
         </div>
-        <div>
-            <h3 class="center-align" *ngIf="currentUserName === ownerUserName">{{translations['MYSUBSCRIPTIONS']}}</h3>
-            <h3 class="center-align" *ngIf="currentUserName !== ownerUserName">{{translations['USERSUBSCRIPTIONS']}} {{ownerUserName}}</h3>
+        <div class="center-align">
+            <h3 *ngIf="currentUserName === ownerUserName">{{translations['MYSUBSCRIPTIONS']}}</h3>
+            <h3 *ngIf="currentUserName !== ownerUserName">{{translations['USERSUBSCRIPTIONS']}} {{ownerUserName}}</h3>
             <projectitemcollection [projects]="userSubscribedProjects" (selectedProjectIdNews)="this.selectedProjectId = $event" (selectedProjectIdPayment)="this.selectedProjectId = $event"></projectitemcollection>
         </div>
+        <newsformmodal [projectId]="selectedProjectId"></newsformmodal>
+        <paymentmodal [projectId]="selectedProjectId"></paymentmodal>
     </div>
-    <newsformmodal [projectId]="selectedProjectId"></newsformmodal>
-    <paymentmodal [projectId]="selectedProjectId"></paymentmodal>
+    <preloader *ngIf="!isInitialized"></preloader>
 </div>

@@ -48,7 +48,7 @@ export class UserPageComponent {
 
     private subscribeToPageOwner() {
         this.storage.isReady.subscribe((data: void) => {
-            this.currentUserName = this.storage.currentUser.userName;
+            this.currentUserName = this.storage.currentUser == null ? null : this.storage.currentUser.userName;
             this.route.queryParams.subscribe((params) => {
                 this.ownerUserName = params['username'] || this.currentUserName;
                 this.getInfo();
@@ -73,11 +73,11 @@ export class UserPageComponent {
 
     private getDisplayableInfo() {
         this.accountService.getUserDisplayableInfo(this.ownerUserName).subscribe((data: DisplayableInfo) => {
+            this.isInitialized = true;
             this.displayableInfo = data;
             this.displayableInfo.about = data.about || "";
             this.displayableInfo.contacts = data.contacts || "";
             this.accountEditForm = { about: this.displayableInfo.about, contacts: this.displayableInfo.contacts };
-            this.isInitialized = true;
         });
     }
 

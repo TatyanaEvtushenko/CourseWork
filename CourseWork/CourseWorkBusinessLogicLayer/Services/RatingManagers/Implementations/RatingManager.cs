@@ -45,6 +45,15 @@ namespace CourseWork.BusinessLogicLayer.Services.RatingManagers.Implementations
             return ratings.Average(r => r.RatingResult);
         }
 
+        public double GetUserRatings(UserInfo info)
+        {
+            if (!info.Projects.Any())
+            {
+                return 0;
+            }
+            return info.Projects.Sum(p => p.Ratings.Average(r => r.RatingResult)) / info.Projects.Count();
+        }
+
         private void AddRating(RatingViewModel ratingViewModel)
         {
             var ratingModel = _ratingMapper.ConvertTo(ratingViewModel);

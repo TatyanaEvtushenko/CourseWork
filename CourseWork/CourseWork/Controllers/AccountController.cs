@@ -51,7 +51,9 @@ namespace CourseWork.Controllers
         public async Task<IActionResult> ConfirmRegistration([FromQuery] ConfirmationRegistrationViewModel confirmation)
         {
             if (await _accountManager.ConfirmRegistration(confirmation.UserId, confirmation.Code))
+            {
                 return RedirectToAction("Index", "Home");
+            }
             return BadRequest();
         }
 

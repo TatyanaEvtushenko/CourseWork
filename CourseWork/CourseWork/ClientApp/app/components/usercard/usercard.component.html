@@ -1,6 +1,7 @@
 ﻿<div class="card horizontal user-card">
     <div class="card-image">
-        <img src="{{displayableInfo.avatar}}">  
+        <img *ngIf="displayableInfo.avatar != null" src="{{displayableInfo.avatar}}">  
+        <img *ngIf="displayableInfo.avatar == null" src="/images/default-user.png">  
     </div>
     <div class="card-content">   
         <div class="row">

@@ -41,11 +41,9 @@ namespace CourseWork.BusinessLogicLayer.Services.UserManagers.Implementations
 
         public async Task<CurrentUserViewModel> GetCurrentUserInfo()
         {
-            if (!CurrentUserIdentity.IsAuthenticated)
-            {
-                return null;
-            }
-            return await GetCurrentUser();
+            var userInfo = _userInfoRepository.FirstOrDefault(i => i.UserName == CurrentUserName,
+                i => i.ApplicationUser);
+            return userInfo == null ? null : await GetCurrentUser(userInfo);
         }
 
         public IEnumerable<string> GetEmails(IEnumerable<string> userNames)
@@ -70,12 +68,11 @@ namespace CourseWork.BusinessLogicLayer.Services.UserManagers.Implementations
             return newAvatar;
         }
 
-        private async Task<CurrentUserViewModel> GetCurrentUser()
+        private async Task<CurrentUserViewModel> GetCurrentUser(UserInfo userInfo)
         {
-            var userInfo = _userInfoRepository.FirstOrDefault(i => i.UserName == CurrentUserName, 
-                i => i.ApplicationUser);
             var viewModel = _userMapper.ConvertFrom(userInfo);
-            viewModel.Role = (await _userManager.GetRolesAsync(userInfo.ApplicationUser)).ElementAt(0);
+            var roles = await _userManager.GetRolesAsync(userInfo.ApplicationUser);
+            viewModel.Role = roles.ElementAt(0);
             return viewModel;
         }
     }

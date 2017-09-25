@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Enums.Configurations;
@@ -38,9 +39,19 @@ namespace CourseWork.Extensions.StartupExtensions
                 var user = await userManager.FindByNameAsync(admin);
                 if (user != null)
                 {
-                    await userManager.AddToRoleAsync(user, EnumConfiguration.RoleNames[UserRole.Admin]);
+                    await ChangeRole(userManager, user);
                 }
             }
+        }
+
+        private static async Task ChangeRole(UserManager<ApplicationUser> userManager, ApplicationUser user)
+        {
+            if (user.Roles.Count > 0)
+            {
+                var role = user.Roles.ElementAt(0);
+                await userManager.RemoveFromRoleAsync(user, role.RoleId);
+            }
+            await userManager.AddToRoleAsync(user, EnumConfiguration.RoleNames[UserRole.Admin]);
         }
     }
 }
