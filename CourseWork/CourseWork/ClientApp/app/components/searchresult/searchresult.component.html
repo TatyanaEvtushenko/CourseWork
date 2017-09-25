@@ -2,10 +2,10 @@
     <div class="center-align">
         <h2>{{translations['SEARCHRESULTS']}}</h2>
         <h6 *ngIf="isReady && projects.length === 0">
-            Поиск не дал результатов
+            {{translations['NORESULTSEARCH']}}
         </h6>
         <h6 *ngIf="isReady && projects.length != 0">
-            Найдено {{projects.length}} проектов
+            {{translations['FOUND']}} {{projects.length}} {{translations['PROJECTS_A']}}
         </h6>
     </div>
     <br/>

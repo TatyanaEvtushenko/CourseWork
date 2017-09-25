@@ -49,7 +49,7 @@
     <div class="section display">
         <div class="icon-block center container row">
             <h5><i class="material-icons">collections</i> {{translations['SUCCESSFULPROJECTS']}}</h5>
-            <projectitemcollection [projects]="lastCreatedProjects" (selectedProjectIdNews)="this.selectedProjectId = $event" (selectedProjectIdPayment)="this.selectedProjectId = $event"></projectitemcollection>
+            <projectitemcollection [projects]="financedProjects" (selectedProjectIdNews)="this.selectedProjectId = $event" (selectedProjectIdPayment)="this.selectedProjectId = $event"></projectitemcollection>
         </div>
     </div>
 

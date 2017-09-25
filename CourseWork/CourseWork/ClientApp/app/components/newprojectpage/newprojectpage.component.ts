@@ -1,6 +1,5 @@
 ﻿import { Component } from '@angular/core';
-import { MessageSubscriberService } from '../../services/messagesubscriber.service';
-declare var $: any;
+
 
 @Component({
     selector: 'newprojectpage',

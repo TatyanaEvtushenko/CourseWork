@@ -14,13 +14,11 @@ namespace CourseWork.Controllers
     {
         private readonly IPaymentManager _paymentManager;
         private readonly IProjectManager _projectManager;
-        private readonly IStringLocalizer<LocalizationController> _localizer;
 
-        public PaymentController(IPaymentManager paymentManager, IProjectManager projectManager, IStringLocalizer<LocalizationController> localizer)
+        public PaymentController(IPaymentManager paymentManager, IProjectManager projectManager)
         {
             _paymentManager = paymentManager;
             _projectManager = projectManager;
-            _localizer = localizer;
         }
 
         [HttpGet]
@@ -42,7 +40,7 @@ namespace CourseWork.Controllers
         [Route("api/Payment/AddPayment")]
         public bool AddPayment([FromBody]PaymentFormViewModel payment)
         {
-            return _projectManager.AddPayment(payment, _localizer["INVESTOR"], _localizer["BUSINESSMAN"]);
+            return _projectManager.AddPayment(payment);
         }
     }
 }

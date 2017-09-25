@@ -43,7 +43,7 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.Project
         {
             project.Name = projectForm.Name;
             project.Description = projectForm.Description;
-            project.FundRaisingEnd = Convert.ToDateTime(projectForm.FundRaisingEnd).ToUniversalTime();
+            project.FundRaisingEnd = DateTime.ParseExact(projectForm.FundRaisingEnd, "dd/MM/yyyy", null).ToUniversalTime();
             ConvertToDesignInformation(project, projectForm);
             ConvertToPaymentInformation(project, projectForm);
         }

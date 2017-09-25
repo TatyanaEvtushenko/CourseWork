@@ -16,13 +16,11 @@ namespace CourseWork.Controllers
     {
         private readonly IProjectManager _projectManager;
         private readonly IRatingManager _ratingManager;
-        private IStringLocalizer<LocalizationController> _localizer;
 
-        public ProjectController(IProjectManager projectManager, IRatingManager ratingManager, IStringLocalizer<LocalizationController> localizer)
+        public ProjectController(IProjectManager projectManager, IRatingManager ratingManager)
         {
             _projectManager = projectManager;
             _ratingManager = ratingManager;
-            _localizer = localizer;
         }
 
         [HttpGet]
@@ -46,7 +44,7 @@ namespace CourseWork.Controllers
         [Authorize(Roles = "Admin, ConfirmedUser")]
         public bool AddProject([FromBody]ProjectFormViewModel projectForm)
         {
-            return _projectManager.AddProject(projectForm, _localizer["CREATOR"]);
+            return _projectManager.AddProject(projectForm);
         }
 
         [HttpGet]

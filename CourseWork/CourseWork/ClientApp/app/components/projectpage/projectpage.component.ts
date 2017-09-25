@@ -2,7 +2,7 @@
 import { Title } from '@angular/platform-browser';
 import { ProjectService } from '../../services/project.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { MessageSubscriberService } from '../../services/messagesubscriber.service';
+import { StorageService } from '../../services/storage.service';
 import { TimeHelper } from '../../helpers/time.helper';
 import { LocalizationService } from "../../services/localization.service";
 declare var $: any;
@@ -14,11 +14,11 @@ declare var $: any;
 export class ProjectPageComponent {
     project: any = null;
     keys = ["ONE", "TWO", "THREE", "FOUR", "FIVE", "DESCR", "FINANCIALPURPOSES", "COMMENTS", "NEWS",
-        "EDITPROJECT", "EDIT", "TOPROJECTPAGE", "SUBSCRIBE", "UNSUBSCRIBE", "PAYEDAMOUNT", "ENDDATE", "PROJECTSTATUS", "PAYMENTS"];
+        "EDITPROJECT", "EDIT", "TOPROJECTPAGE", "SUBSCRIBE", "UNSUBSCRIBE", "PAYEDAMOUNT", "ENDDATE", "PROJECTSTATUS", "PAYMENTS", "PAY"];
     translations = {}
     timeHelper = new TimeHelper(this.localizationService);
 
-    constructor(public storage: MessageSubscriberService,
+    constructor(public storage: StorageService,
         private route: ActivatedRoute,
         private title: Title,
         private projectService: ProjectService,

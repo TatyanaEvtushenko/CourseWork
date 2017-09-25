@@ -1,4 +1,5 @@
 ﻿import "jquery";
+//import * as FroalaEditor from "froala-editor/js/froala_editor.pkgd.min";
 import "froala-editor/js/froala_editor.pkgd.min.js";
 
 import { NgModule } from '@angular/core';

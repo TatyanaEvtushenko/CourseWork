@@ -20,13 +20,13 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectSubscriberManagers.Imple
             _awardManager = awardManager;
         }
 
-        public bool Subscribe(string projectId, string awardName)
+        public bool Subscribe(string projectId)
         {
             var subscriber = new ProjectSubscriber {ProjectId = projectId, UserName = _userManager.CurrentUserName};
             var result = _projectSubscriberRepository.AddRange(subscriber);
             if (result)
             {
-                _awardManager.AddAwardForReceivedSubscriptions(projectId, awardName);
+                _awardManager.AddAwardForReceivedSubscriptions(projectId);
             }
             return result;
         }
