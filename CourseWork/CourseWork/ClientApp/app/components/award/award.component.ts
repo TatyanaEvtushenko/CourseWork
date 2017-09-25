@@ -60,7 +60,7 @@ export class AwardComponent {
             case AwardType.ForPayments:
                 return `${this.translations['PAID']} ${this.award.neccessaryCount}`;
             case AwardType.ForProjects:
-                return `${this.translations['CREATED']} ${this.award.neccessaryCount} ${this.translations['PROJECT_A']}`;
+                return `${this.translations['CREATED']} ${this.award.neccessaryCount} ${this.translations['PROJECTS_A']}`;
             case AwardType.ForReceivedPayments:
                 return `$${this.award.neccessaryCount} ${this.translations['WASPAID']}`;
             case AwardType.ForSubscriptions:

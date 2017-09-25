@@ -5,7 +5,7 @@
                 <div class="row">
                     <span class="collapsible-title">{{news.subject}}    </span>
                     <span *ngIf="viewProjectName" class="grey-text">
-                        from project <a href="/ProjectPage/{{news.projectInfo.id}}" class="collapsible-title grey-text">{{news.projectInfo.name}}</a>
+                        {{translations['FROMPROJECT']}} <a href="/ProjectPage/{{news.projectInfo.id}}" class="collapsible-title grey-text">{{news.projectInfo.name}}</a>
                     </span> 
                 </div>
             </div>

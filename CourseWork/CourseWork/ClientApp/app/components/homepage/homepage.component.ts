@@ -1,7 +1,7 @@
 ﻿import { Component } from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import { MessageSenderService } from "../../services/messagesender.service";
-import { MessageSubscriberService } from '../../services/messagesubscriber.service';
+import { StorageService } from '../../services/storage.service';
 import { ProjectService } from '../../services/project.service';
 import { LocalizationService } from '../../services/localization.service';
 declare var $: any;
@@ -21,7 +21,7 @@ export class HomePageComponent {
 
     constructor(private title: Title,
         protected messageSenderService: MessageSenderService,
-        private messageSubscriberService: MessageSubscriberService,
+        private storage: StorageService,
         private projectService: ProjectService,
         private localizationService: LocalizationService) {
         this.localizationService.getTranslations(this.keys).subscribe((data) => {

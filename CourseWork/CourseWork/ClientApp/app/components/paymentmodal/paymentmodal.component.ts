@@ -13,7 +13,7 @@ export class PaymentModalComponent implements AfterViewInit {
     paymentForm: any = {};
     paymentInfo: any = {};
     isWrongRequest = false;
-    keys = ["PAYMENTAMOUNT", "ACCOUNTNUMBER", "PAY", "ADDPAYMENT", "PAYMENTRANGE", "INVALIDDATA"];
+    keys = ["PAYMENTAMOUNT", "ACCOUNTNUMBER", "PAY", "ADDPAYMENT", "PAYMENTRANGE", "INVALIDDATA", "SUCCESSFULPAYMENT"];
     translations = {}
 
     constructor(private projectService: ProjectService, private localizationService: LocalizationService) {
@@ -58,7 +58,7 @@ export class PaymentModalComponent implements AfterViewInit {
     private getResponse(data: any) {
         this.isWrongRequest = !data;
         if (!this.isWrongRequest) {
-            Materialize.toast('Payment is carried out successfully.', 4000);
+            Materialize.toast(this.translations['SUCCESSFULPAYMENT'], 4000);
             location.reload();
         }
     }

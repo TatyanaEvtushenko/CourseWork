@@ -7,7 +7,7 @@ import { ProjectService } from '../../services/project.service';
 import { MessageSenderService } from '../../services/messagesender.service';
 import { DisplayableInfo } from "../../viewmodels/displayableinfo";
 import { AccountEditForm } from "../../viewmodels/accounteditform";
-import { MessageSubscriberService } from '../../services/messagesubscriber.service';
+import { StorageService } from '../../services/storage.service';
 import { SortingHelper } from '../../helpers/sorting.helper';
 import { LocalizationService } from "../../services/localization.service";
 
@@ -33,7 +33,7 @@ export class UserPageComponent {
         protected accountService: AccountService,
         protected messageSenderService: MessageSenderService,
         private projectService: ProjectService,
-        private storage: MessageSubscriberService,
+        private storage: StorageService,
         private route: ActivatedRoute,
         private localizationService: LocalizationService) {
         this.localizationService.getTranslations(this.keys).subscribe((data) => {

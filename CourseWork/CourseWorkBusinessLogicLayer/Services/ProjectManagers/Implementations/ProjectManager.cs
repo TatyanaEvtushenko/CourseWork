@@ -84,7 +84,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             }
         }
 
-        public bool AddProject(ProjectFormViewModel projectForm, string awardName)
+        public bool AddProject(ProjectFormViewModel projectForm)
         {
             var project = _projectFormMapper.ConvertTo(projectForm);
             ChangeProjectStatus(project);
@@ -92,7 +92,7 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             {
                 return false;
             }
-            ProccessProjectAfterAdding(project, awardName);
+            ProccessProjectAfterAdding(project);
             return true;
         }
 
@@ -156,21 +156,21 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
                 .Select(project => _projectItemMapper.ConvertFrom(project));
         }
 
-        public bool AddPayment(PaymentFormViewModel paymentForm, string awardNamePayment, string awardNameReceived)
+        public bool AddPayment(PaymentFormViewModel paymentForm)
         {
             var payment = _paymentMapper.ConvertTo(paymentForm);
             if (!_paymentRepository.AddRange(payment))
             {
                 return false;
             }
-            ProcessPaymentAfterAdding(payment, paymentForm.ProjectId, paymentForm.AccountNumber, awardNamePayment, awardNameReceived);
+            ProcessPaymentAfterAdding(payment, paymentForm.ProjectId, paymentForm.AccountNumber);
             return true;
         }
 
-        private void ProccessProjectAfterAdding(Project project, string awardName)
+        private void ProccessProjectAfterAdding(Project project)
         {
             _searchManager.AddProjectToIndex(project);
-            _awardManager.AddAwardForProjects(awardName);
+            _awardManager.AddAwardForProjects();
         }
 
         private IEnumerable<ProjectItemViewModel> GetProjectItems(Func<Project, bool> whereExpression)
@@ -180,11 +180,11 @@ namespace CourseWork.BusinessLogicLayer.Services.ProjectManagers.Implementations
             return projects.Select(p => _projectItemMapper.ConvertFrom(p));
         }
 
-        private void ProcessPaymentAfterAdding(Payment payment, string projectId, string accountNumber, string awardNamePayment, string awardNameReceived)
+        private void ProcessPaymentAfterAdding(Payment payment, string projectId, string accountNumber)
         {
-            _awardManager.AddAwardForPayments(payment, awardNamePayment);
+            _awardManager.AddAwardForPayments(payment);
             var project = UpdateProjectAfterPayment(projectId, accountNumber);
-            _awardManager.AddAwardForReceivedPayments(project, awardNameReceived);
+            _awardManager.AddAwardForReceivedPayments(project);
         }
 
         private Project UpdateProjectAfterPayment(string projectId, string accountNumber)

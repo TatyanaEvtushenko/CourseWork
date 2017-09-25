@@ -22,7 +22,6 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
         private readonly IEmailSender _emailSender;
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly IRepository<UserInfo> _userInfoRepository;
-        private readonly CloudinaryOptions _options;
         private readonly IMapper<DisplayableInfoViewModel, UserInfo> _mapper;
 
         public AccountManager(
@@ -30,7 +29,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             IHttpContextAccessor contextAccessor, IRepository<UserInfo> userInfoRepository,
-            IOptions<CloudinaryOptions> options, IMapper<DisplayableInfoViewModel, UserInfo> mapper)
+            IMapper<DisplayableInfoViewModel, UserInfo> mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -38,7 +37,6 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
             _contextAccessor = contextAccessor;
             _userInfoRepository = userInfoRepository;
             _mapper = mapper;
-            _options = options.Value;
         }
 
         public async Task<bool> Register(string userName, string email, string password, string messageSubject, string messagePrototype)
@@ -139,7 +137,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
                 Status = UserStatus.WithoutConfirmation,
                 LastLoginTime = DateTime.UtcNow,
                 RegistrationTime = DateTime.UtcNow,
-                Avatar = _options.DefaultUserAvatar
+                Avatar = null
             };
         }
 
