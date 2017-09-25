@@ -6,7 +6,7 @@ namespace CourseWork.Extensions.StartupExtensions
     {
         public static void LaunchElastic(this IServiceCollection services, string launcherPath)
         {
-            //System.Diagnostics.Process.Start(launcherPath);
+            System.Diagnostics.Process.Start(launcherPath);
         }
     }
 }

@@ -15,7 +15,7 @@
             <div class="input-field col m12">
                 <input id="payment-accountNumber" #accountNumber="ngModel" class="validate" required (keyup.enter)="onSubmit()"
                        [(ngModel)]="paymentForm.accountNumber" type="text" />
-                <label for="payment-accountNumber">{{translations['ACCOUNTNUMBER']}}</label>
+                <label [class.active]="paymentForm?.accountNumber" for="payment-accountNumber">{{translations['ACCOUNTNUMBER']}}</label>
             </div>
         </div>
 
