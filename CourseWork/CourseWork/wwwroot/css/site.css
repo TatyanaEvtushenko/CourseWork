@@ -49,6 +49,11 @@ main {
     font-size: 1.3rem;
 }
 
+div.account-edit-modal {
+    width: 100%;
+    padding: 20px !important;
+}
+
 .award-icon {
     display: inline-block;
     position: relative;
