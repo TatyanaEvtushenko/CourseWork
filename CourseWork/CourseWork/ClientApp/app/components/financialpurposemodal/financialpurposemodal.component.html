@@ -1,5 +1,5 @@
-﻿<div id="financialPurposeModal" class="modal register-modal">
-    <div class="modal-content center">
+﻿<div id="financialPurposeModal" class="modal">
+    <div class="modal-content center financial-purpose-modal">
         <h4>Add a new financial purpose</h4>
 
         <div class="input-field">
@@ -13,12 +13,11 @@
                    [(ngModel)]="financialPurpose.budget" type="number" data-length="12" (keyup.enter)="onSubmit()"/>
             <label for="financialPurpose-budget">{{translations['BUDGET']}} $</label>
         </div>
-
+        <br/>
         <div class="input-field">
-            <textarea id="financialPurpose-description" class="materialize-textarea" 
-                      [(ngModel)]="financialPurpose.description"></textarea>
-            <label for="financialPurpose-description">{{translations['DESCR']}}</label>
+            <markdowneditor [fieldName]="translations['DESCR']" [text]="financialPurpose.description" (onChanged)="financialPurpose.description = $event"></markdowneditor>
         </div>
+        <br/>
         
         <div class="input-field">
             <button [disabled]="budget.invalid || name.invalid" class="btn" (click)="onSubmit()">Add</button>

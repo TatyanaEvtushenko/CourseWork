@@ -1,8 +1,6 @@
-﻿import { Injectable } from '@angular/core';
-import { LocalizationService } from './localization.service';
+﻿import { LocalizationService } from "../services/localization.service";
 
-@Injectable()
-export class TimeService {
+export class TimeHelper {
     keys = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
     translations = {};
 

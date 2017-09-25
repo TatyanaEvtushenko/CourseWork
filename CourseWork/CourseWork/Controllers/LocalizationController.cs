@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CourseWork.Controllers
 {
@@ -28,6 +29,7 @@ namespace CourseWork.Controllers
             Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
                                     CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(cultureName)),
                                     new CookieOptions { Expires = DateTimeOffset.Now.AddYears(1) });
+            Response.Cookies.Append("lang", cultureName, new CookieOptions { Expires = DateTimeOffset.Now.AddYears(1) });
         }
 
         [HttpGet]

@@ -18,6 +18,10 @@ namespace CourseWork.BusinessLogicLayer.ViewModels.ProjectViewModels
 
         public string ImageUrl { get; set; }
 
+        public string AccountNumber { get; set; }
+
+        public string Color { get; set; }
+
         public decimal MinPaymentAmount { get; set; }
 
         public decimal MaxPaymentAmount { get; set; }

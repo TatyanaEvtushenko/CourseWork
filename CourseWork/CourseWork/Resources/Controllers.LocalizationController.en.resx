@@ -435,7 +435,7 @@
   <data name="UPDATE" xml:space="preserve">
     <value>Update</value>
   </data>
-  <data name="ADDNEWPROJECT" xml:space="preserve">
+  <data name="ADDANEWPROJECT" xml:space="preserve">
     <value>Add a new project</value>
   </data>
   <data name="CHOOSEACTION" xml:space="preserve">
@@ -542,5 +542,56 @@
   </data>
   <data name="SEP" xml:space="preserve">
     <value>Sep</value>
+  </data>
+  <data name="NEWSUPDATE" xml:space="preserve">
+    <value>&lt;a href="/ProjectPage/{0}"&gt;Update: {1}&lt;/a&gt;</value>
+  </data>
+  <data name="ADMINPAGELINK" xml:space="preserve">
+    <value>&lt;a href="/AdminPage?confirmed=false&amp;unconfirmed=false&amp;requested=true"&gt;{0}&lt;br&gt; have requested account confirmation.&lt;/a&gt;</value>
+  </data>
+  <data name="AWARDNOTE" xml:space="preserve">
+    <value>You have received award "{0}" of level {1}</value>
+  </data>
+  <data name="SUBSCRIBERMESSAGE" xml:space="preserve">
+    <value>&lt;a href="/ProjectPage/{0}"&gt;  {1} &lt;/a&gt;</value>
+  </data>
+  <data name="CONFIRMATIONLINK" xml:space="preserve">
+    <value>Please confirm your account by clicking this link: &lt;a href="{0}"&gt;link&lt;/a&gt;</value>
+  </data>
+  <data name="ACCEPT" xml:space="preserve">
+    <value>Accept</value>
+  </data>
+  <data name="ADMINPAGELINKMANY" xml:space="preserve">
+    <value>&lt;a href="/AdminPage?confirmed=false&amp;unconfirmed=false&amp;requested=true"&gt;{0}&lt;br&gt; and {1} other users&lt;br&gt; have requested account confirmation.&lt;/a&gt;</value>
+  </data>
+  <data name="DECLINE" xml:space="preserve">
+    <value>Decline</value>
+  </data>
+  <data name="DONATEDTOPROJECT" xml:space="preserve">
+    <value>donated to project</value>
+  </data>
+  <data name="FOUND" xml:space="preserve">
+    <value>Found</value>
+  </data>
+  <data name="FROMPROJECT" xml:space="preserve">
+    <value>from project</value>
+  </data>
+  <data name="MAINCOLOR" xml:space="preserve">
+    <value>Main color of project page</value>
+  </data>
+  <data name="NORESULTSEARCH" xml:space="preserve">
+    <value>No projects found</value>
+  </data>
+  <data name="PATH" xml:space="preserve">
+    <value>Path</value>
+  </data>
+  <data name="SUCCESSFULPAYMENT" xml:space="preserve">
+    <value>Payment is carried out successfully</value>
+  </data>
+  <data name="DONATES" xml:space="preserve">
+    <value>Donates</value>
+  </data>
+  <data name="PROJECTCARD" xml:space="preserve">
+    <value>Project card</value>
   </data>
 </root>

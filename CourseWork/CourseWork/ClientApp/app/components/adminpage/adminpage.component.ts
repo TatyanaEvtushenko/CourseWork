@@ -2,7 +2,7 @@
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from "../../services/account.service";
-import { MessageSubscriberService } from '../../services/messagesubscriber.service';
+import { StorageService } from '../../services/storage.service';
 import { UserInfo } from '../../viewmodels/userinfo';
 import { UserStatus } from "../../enums/userstatus";
 import { MessageSenderService } from "../../services/messagesender.service";
@@ -29,7 +29,7 @@ export class AdminPageComponent {
         "DELETESELECTED", "BLOCKSELECTED", "DELCOMMENTSRATINGS", "APPROVECONFIRMATION", "DECLINECONFIRMATION", "APPLY", "CHOOSEACTION"];
     translations = {};
 
-    constructor(private title: Title, public storage: MessageSubscriberService, private accountService: AccountService,
+    constructor(private title: Title, public storage: StorageService, private accountService: AccountService,
         private route: ActivatedRoute, private router: Router, protected messageSenderService: MessageSenderService,
         private localizationService: LocalizationService) {
         this.localizationService.getTranslations(this.keys).subscribe((data) => {
@@ -69,7 +69,7 @@ export class AdminPageComponent {
             this.userInfos[this.selectedIndex].statusCode = UserStatus.WithoutConfirmation;
             this.userInfos[this.selectedIndex].status = "UNCONFIRMED";
 		}
-	    this.sendConfirmationMessage(this.userInfos[this.selectedIndex].userName, this.generateResponseMessage(accept));
+	    //this.sendConfirmationMessage(this.userInfos[this.selectedIndex].userName, this.generateResponseMessage(accept));
     }
 
     sortByField(fieldName: string) {
@@ -115,14 +115,14 @@ export class AdminPageComponent {
         return result;
 	}
 
-	private sendConfirmationMessage(username: string, message: string) {
-		this.messageSenderService.sendMessage([{ recipientUserName: username, text: message }]).
-			subscribe((data: void) => { });
-	}
+	//private sendConfirmationMessage(username: string, message: string) {
+	//	this.messageSenderService.sendMessage([{ recipientUserName: username, text: message }]).
+	//		subscribe((data: void) => { });
+	//}
 
-	private generateResponseMessage(accept: boolean) {
-        return accept ? this.translations["APPROVECONFIRMATION"] : this.translations['DECLINECONFIRMATION'];
-    }
+	//private generateResponseMessage(accept: boolean) {
+ //       return accept ? this.translations["APPROVECONFIRMATION"] : this.translations['DECLINECONFIRMATION'];
+ //   }
 
     apply() {
         if (this.selectedAction != null)

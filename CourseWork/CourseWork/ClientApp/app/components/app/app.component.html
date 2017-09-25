@@ -9,9 +9,12 @@
                 <searcher></searcher>
             </li>
             <li class="col m4 right-align" *ngIf="storage.isReadyCurrentUser && storage.isUser">
-                <a id="dropdown-nav-button" materialize="dropdown" class='dropdown-button right-align' href='#' data-activates='dropdown-nav'>
-                    <span class="user-min-info">
-                        <img class="circle responsive-img" src="{{storage.currentUser.avatar}}">
+                <a id="dropdown-nav-button" materialize="dropdown" class='dropdown-button right-align nav-user-info' href='#' data-activates='dropdown-nav'>
+                    <span class="user-min-info user right">
+                        <img *ngIf="storage.currentUser != null && storage.currentUser.avatar ! null" class="circle responsive-img" 
+                             src="{{storage.currentUser.avatar}}">
+                        <img *ngIf="storage.currentUser == null || storage.currentUser != null && storage.currentUser.avatar == null" 
+                             class="circle responsive-img" src="/images/default-user.png">
                         <span>{{storage.currentUser.userName}}<i class="material-icons right">arrow_drop_down</i></span>
                     </span>
                 </a>
@@ -32,6 +35,9 @@
             <li *ngIf="storage.isReadyCurrentUser && storage.isUser">
                 <a href="/UserPage"><i class="material-icons left">home</i> {{translations['MyPage']}}</a>
             </li>
+            <li *ngIf="storage.isReadyCurrentUser && storage.isConfirmedUser">
+                <a href="/UserProjectsPage"><i class="material-icons left">collections</i>{{translations['MYPROJECTS']}} </a>
+            </li>
             <li class="divider"></li>
             <li *ngIf="storage.isReadyCurrentUser && storage.isUser">
                 <a (click)="logout()"><i class="material-icons left">directions_run</i> {{translations['LogOut']}}</a>
@@ -51,7 +57,10 @@
             </li>
             <li *ngIf="storage.isReadyCurrentUser && storage.isAdmin" class="divider"></li>
             <li *ngIf="storage.isReadyCurrentUser && storage.isUser">
-                <a href="/UserPage"><i class="material-icons left">home</i>{{translations['MyPage']}}</a>
+                <a href="/UserPage"><i class="material-icons left">home</i> {{translations['MyPage']}}</a>
+            </li>
+            <li *ngIf="storage.isReadyCurrentUser && storage.isConfirmedUser">
+                <a href="/UserProjectsPage"><i class="material-icons left">collections</i> {{translations['MYPROJECTS']}}</a>
             </li>
             <li class="divider"></li>
             <li *ngIf="storage.isReadyCurrentUser && storage.isUser">
@@ -61,34 +70,23 @@
     </div>
 </nav>
 
-<!--<div class="container body-content">
-</div>-->
-<router-outlet></router-outlet>
-<floatingbutton></floatingbutton>
+<main>
+    <router-outlet></router-outlet>
+    <floatingbutton></floatingbutton>
+</main>
 
 <footer class="page-footer">
     <div class="container">
         <div class="row">
             <div class="col l6 s12">
-                <h5 class="white-text">Footer Content</h5>
                 <languageselector></languageselector>
                 <colorselector></colorselector>
-            </div>
-            <div class="col l4 offset-l2 s12">
-                <h5 class="white-text">Links</h5>
-                <ul>
-                    <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
-                    <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
-                    <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
-                    <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
-                </ul>
             </div>
         </div>
     </div>
     <div class="footer-copyright">
         <div class="container">
             &copy; 2017 - CourseWork
-            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
         </div>
     </div>
 </footer>

@@ -2,17 +2,15 @@
     <li *ngFor="let financialPurpose of financialPurposes">
         <div class="collapsible-header" [class.grey]="financialPurpose.isReached" [class.lighten-1]="financialPurpose.isReached">
             <div class="col m8">
-                <h6>{{financialPurpose.name}}</h6>
+                <h6 class="collapsible-title">{{financialPurpose.name}}</h6>
             </div>
-            <div class="col m3 right-align secondary-content">
-                <h6>${{financialPurpose.budget}}</h6>
-            </div>
-            <div class="col m1 right-align">
+            <div class="col m4 right-align">
                 <i *ngIf="canChange" class="material-icons right" (click)="delete(financialPurpose)">close</i>
+                <span class="secondary-content collapsible-title">${{financialPurpose.budget}}</span>
             </div>
         </div>
         <div class="collapsible-body">
-            <p *ngIf="financialPurpose.description != null">${{financialPurpose.description}}</p>
+            <div *ngIf="financialPurpose.description != null" [froalaView]="financialPurpose.description"></div>
             <p *ngIf="financialPurpose.description == null">No description</p>
         </div>
     </li>

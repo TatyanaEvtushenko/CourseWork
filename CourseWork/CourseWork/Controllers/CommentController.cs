@@ -12,13 +12,11 @@ namespace CourseWork.Controllers
     public class CommentController : Controller
     {
         private readonly ICommentManager _commentManager;
-        private IStringLocalizer<LocalizationController> _localizer;
-        private readonly IAwardManager _awardManager;
+        private readonly IStringLocalizer<LocalizationController> _localizer;
 
-        public CommentController(ICommentManager commentManager, IAwardManager awardManager, IStringLocalizer<LocalizationController> localizer)
+        public CommentController(ICommentManager commentManager, IStringLocalizer<LocalizationController> localizer)
         {
             _commentManager = commentManager;
-            _awardManager = awardManager;
             _localizer = localizer;
         }
 
@@ -27,10 +25,6 @@ namespace CourseWork.Controllers
         public CommentViewModel AddComment([FromBody]CommentFormViewModel comment)
         {
             var result = _commentManager.AddComment(comment);
-            if (result != null)
-            {
-                System.Diagnostics.Debug.WriteLine("Hello: " + _localizer["COMMENTS_A"]);
-            }
             return result;
         }
 

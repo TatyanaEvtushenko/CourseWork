@@ -1,7 +1,7 @@
 ﻿import { Component, Input, AfterViewInit } from '@angular/core';
 import { ProjectService } from '../../services/project.service';
-import { TimeService } from '../../services/time.service';
-import { SortingService } from '../../services/sorting.service';
+import { TimeHelper } from '../../helpers/time.helper';
+import { SortingHelper } from '../../helpers/sorting.helper';
 import { StorageService } from '../../services/storage.service';
 import { LocalizationService } from '../../services/localization.service';
 
@@ -16,12 +16,12 @@ export class CommentsComponent implements AfterViewInit {
     @Input() projectId: string;
     @Input() projectOwnerUserName: string;
     commentText = "";
+    timeHelper = new TimeHelper(this.localizationService);
+    sortingHelper = new SortingHelper();
     keys = ["NEWCOMMENT"];
     translations = {}
 
     constructor(private projectService: ProjectService,
-        public timeService: TimeService,
-        private sortingService: SortingService,
         public storage: StorageService, private localizationService: LocalizationService) {
         this.localizationService.getTranslations(this.keys).subscribe((data) => {
             this.translations = data;
@@ -29,7 +29,8 @@ export class CommentsComponent implements AfterViewInit {
     }
 
     ngAfterViewInit() {
-        this.comments.sort(this.sortingService.sortByTime);
+        this.comments.sort(this.sortingHelper.sortByTimeDescending);
+        this.comments.reverse();
     }
 
     add() {
@@ -49,8 +50,7 @@ export class CommentsComponent implements AfterViewInit {
     }
 
     private addComments(data: any) {
-        data.user = { userName: this.storage.currentUser.userName }
-        this.comments.push(data);
         this.commentText = "";
+        this.comments.push(data);
     }
 }

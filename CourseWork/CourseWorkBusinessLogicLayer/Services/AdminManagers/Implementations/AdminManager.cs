@@ -5,7 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using CourseWork.BusinessLogicLayer.Services.AccountManagers;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
+using CourseWork.BusinessLogicLayer.Services.MessageManagers;
 using CourseWork.BusinessLogicLayer.Services.SearchManagers;
+using CourseWork.BusinessLogicLayer.ViewModels.MessageViewModels;
 using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
 using CourseWork.DataLayer.Enums;
 using CourseWork.DataLayer.Models;
@@ -18,18 +20,20 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
     {
         private readonly IRepository<UserInfo> _userInfoRepository;
         private readonly IRepository<Project> _projectRepository;
-	    private readonly IRepository<Rating> _raitingRepository;
+	    private readonly IRepository<Rating> _ratingRepository;
 	    private readonly IRepository<Comment> _commentRepository;
         private readonly IRepository<ApplicationUser> _applicationUserRepository;
         private readonly IMapper<UserListItemViewModel, UserInfo> _mapperList;
         private readonly IMapper<UserConfirmationViewModel, UserInfo> _mapperInfo;
         private readonly IAccountManager _accountManager;
         private readonly ISearchManager _searchManager;
+        private readonly IMessageManager _messageManager;
 
         public AdminManager(IMapper<UserListItemViewModel, UserInfo> mapperList,
             IRepository<UserInfo> userInfoRepository, IMapper<UserConfirmationViewModel, UserInfo> mapperInfo,
             IAccountManager accountManager, IRepository<Project> projectRepository,
-            IRepository<Comment> commentRepository, IRepository<Rating> raitingRepository, ISearchManager searchManager, IRepository<ApplicationUser> applicationUserRepository)
+            IRepository<Comment> commentRepository, IRepository<Rating> ratingRepository, ISearchManager searchManager,
+            IRepository<ApplicationUser> applicationUserRepository, IMessageManager messageManager)
         {
             _mapperList = mapperList;
             _userInfoRepository = userInfoRepository;
@@ -37,20 +41,26 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
             _accountManager = accountManager;
             _projectRepository = projectRepository;
             _commentRepository = commentRepository;
-            _raitingRepository = raitingRepository;
+            _ratingRepository = ratingRepository;
             _searchManager = searchManager;
             _applicationUserRepository = applicationUserRepository;
+            _messageManager = messageManager;
         }
 
         public UserListItemViewModel[] GetAllUsers()
         {
-            return _userInfoRepository.GetWhere(item => true, item => item.Projects).Select(item => _mapperList.ConvertFrom(item)).ToArray();
+            var users = _userInfoRepository.GetWhere(item => true, item => item.Projects);
+            var ratings = _ratingRepository.GetWhere(r => true, r => r.Project);
+            return users.Select(item => PrepareUserListItemViewModel(item, ratings)).ToArray();
         }
 
         public UserListItemViewModel[] GetFilteredUsers(FilterRequestViewModel model)
         {
-            return _userInfoRepository.GetWhere(GetFilterRequest(model), item => item.Projects)
-                       .Select(item => _mapperList.ConvertFrom(item)).ToArray();
+            var users = _userInfoRepository.GetWhere(GetFilterRequest(model), item => item.Projects);
+            var userNames = users.Select(u => u.UserName);
+            var ratings = _ratingRepository.GetWhere(r => userNames.Contains(r.Project.OwnerUserName), 
+                r => r.Project);
+            return users.Select(item => PrepareUserListItemViewModel(item, ratings)).ToArray();
         }
 
         private Func<UserInfo, bool> GetFilterRequest(FilterRequestViewModel model)
@@ -66,23 +76,30 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
             return _mapperInfo.ConvertFrom(userInfo);
         }
 
-        public async Task<bool> RespondToConfirmation(string userName, bool accept)
+        public async Task<bool> RespondToConfirmation(string userName, bool accept, string message)
         {
             var user = _userInfoRepository.FirstOrDefault(u => u.UserName == userName);
             user.Status = accept ? UserStatus.Confirmed : UserStatus.WithoutConfirmation;
             var result = _userInfoRepository.UpdateRange(user);
-            if (!result || !accept)
+            if (result)
             {
-                return result;
+                _messageManager.Send(new[] { new MessageViewModel { RecipientUserName = userName, Text = message, ParameterString = null } });
             }
-            await UpdateRole(userName, UserRole.User, UserRole.ConfirmedUser);
+            if (accept)
+            {
+                await UpdateRole(userName, UserRole.User, UserRole.ConfirmedUser);
+            }
             return true;
         }
 
         public UserListItemViewModel[] SortByField(string fieldName, bool ascending, FilterRequestViewModel filters)
         {
             var filterRequest = GetFilterRequest(filters);
-            return ((UserInfoRepository)_userInfoRepository).SortByField(fieldName, ascending, filterRequest).Select(n => _mapperList.ConvertFrom(n)).ToArray();
+            var infos = ((UserInfoRepository) _userInfoRepository).SortByField(fieldName, ascending, filterRequest);
+            var userNames = infos.Select(i => i.UserName);
+            var ratings = _ratingRepository.GetWhere(r => userNames.Contains(r.Project.OwnerUserName),
+                r => r.Project);
+            return infos.Select(n => PrepareUserListItemViewModel(n, ratings)).ToArray();
         }
 
         public bool BlockUnblock(IEnumerable<string> usersToBlock)
@@ -100,6 +117,14 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
             return withCommentsAndRaitings
                 ? DeleteUsersWithCommentsndRatings(usersToDelete)
                 : DeleteUsersWithoutCommentsndRatings(usersToDelete);
+        }
+
+        private UserListItemViewModel PrepareUserListItemViewModel(UserInfo info, IEnumerable<Rating> ratings)
+        {
+            var viewModel = _mapperList.ConvertFrom(info);
+            var ratingModels = ratings.Where(r => r.Project.OwnerUserName == info.UserName);
+            viewModel.Raiting = !ratingModels.Any() ? "0" : ratingModels.Average(r => r.RatingResult).ToString();
+            return viewModel;
         }
 
         private async Task UpdateRole(string userName, UserRole oldRole, UserRole newRole)
@@ -136,7 +161,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AdminManagers.Implementations
         private bool RemoveWithCommentsAndRatings(IEnumerable<string> usersToDelete)
         {
             var usersToDeleteArray = usersToDelete.ToArray();
-            return _raitingRepository.RemoveWhere(n => usersToDeleteArray.Contains(n.UserName)) &&
+            return _ratingRepository.RemoveWhere(n => usersToDeleteArray.Contains(n.UserName)) &&
                    _commentRepository.RemoveWhere(n => usersToDeleteArray.Contains(n.UserName)) &&
                    _userInfoRepository.RemoveRange(usersToDeleteArray) &&
                    _applicationUserRepository.RemoveWhere(n => usersToDeleteArray.Contains(n.UserName));

@@ -8,5 +8,7 @@ namespace CourseWork.BusinessLogicLayer.Services.RatingManagers
         void ChangeRating(RatingViewModel ratingForm);
 
         double GetProjectRatings(Project project);
+
+        double GetUserRatings(UserInfo info);
     }
 }

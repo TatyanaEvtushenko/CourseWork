@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using CourseWork.DataLayer.Data;
-using CourseWork.DataLayer.Enums;
 
 namespace CourseWork.DataLayer.Migrations
 {
@@ -191,6 +190,8 @@ namespace CourseWork.DataLayer.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("AccountNumber");
+
+                    b.Property<string>("Color");
 
                     b.Property<DateTime>("CreatingTime");
 

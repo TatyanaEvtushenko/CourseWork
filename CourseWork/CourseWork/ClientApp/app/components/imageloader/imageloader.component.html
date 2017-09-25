@@ -1,17 +1,17 @@
 ﻿<div class="row">
     <div class="col m12">
+        <div *ngIf="isShowed">
+            <img *ngIf="imageString == ''" src="/images/default-user.png" height="200">
+            <img *ngIf="imageString != ''" src="{{imageString}}" height="200">
+        </div>
         <div class="file-field input-field">
             <div class="btn">
                 <span>{{translations['BROWSE']}}</span>
                 <input id="confirmation-passportScan" class="validate" required type="file" (change)="onChange($event)" accept="image/*"/>
             </div>
-            <div>
-                <img id="uploaded-image" src="" height="200">
-            </div>
             <div class="file-path-wrapper">
                 <input class="file-path validate" type="text" placeholder="{{fieldName}}"/>
             </div>
-            
         </div>
     </div>
 </div>

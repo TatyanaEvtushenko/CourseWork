@@ -53,11 +53,21 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.Project
 
         public ProjectViewModel ConvertFrom(Project item)
         {
+            if (item == null)
+            {
+                return null;
+            }
             var project = new ProjectViewModel();
-            ConvertFromBaseInformation(project, item);
-            ConvertFromCurrentUser(project, item);
-            ConvertFromCompleteObjects(project, item);
+            ConvertFromInformation(project, item);
             return project;
+        }
+
+        private void ConvertFromInformation(ProjectViewModel viewModel, Project model)
+        {
+            ConvertFromBaseInformation(viewModel, model);
+            ConvertFromDesignInformation(viewModel, model);
+            ConvertFromCurrentUser(viewModel, model);
+            ConvertFromCompleteObjects(viewModel, model);
         }
 
         private void ConvertFromBaseInformation(ProjectViewModel viewModel, Project model)
@@ -65,9 +75,14 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.Project
             viewModel.Id = model.Id;
             viewModel.Name = model.Name;
             viewModel.Description = model.Description;
-            viewModel.ImageUrl = model.ImageUrl;
             viewModel.Status = model.Status;
             viewModel.FundRaisingEnd = model.FundRaisingEnd;
+        }
+
+        private void ConvertFromDesignInformation(ProjectViewModel viewModel, Project model)
+        {
+            viewModel.Color = model.Color;
+            viewModel.ImageUrl = model.ImageUrl;
         }
 
         private void ConvertFromCurrentUser(ProjectViewModel viewModel, Project model)

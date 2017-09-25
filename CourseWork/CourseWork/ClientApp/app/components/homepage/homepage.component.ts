@@ -1,10 +1,8 @@
 ﻿import { Component } from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import { MessageSenderService } from "../../services/messagesender.service";
-import { MessageSubscriberService } from '../../services/messagesubscriber.service';
+import { StorageService } from '../../services/storage.service';
 import { ProjectService } from '../../services/project.service';
-import { SortingService } from '../../services/sorting.service';
-import { TimeService } from '../../services/time.service';
 import { LocalizationService } from '../../services/localization.service';
 declare var $: any;
 
@@ -13,20 +11,18 @@ declare var $: any;
     templateUrl: './homepage.component.html'
 })
 export class HomePageComponent {
+    selectedProjectId: string = null;
     lastNews: any = null;
     bigPayments: any = null;
     financedProjects: any = null;
     lastCreatedProjects: any = null;
-    selectedProjectId: any = null;
     keys = ["HOMEPAGE", "ABOUTUS", "STARTPROJECT", "LASTPROJECTS", "BIGGESTPAYMENTS", "SUCCESSFULPROJECTS", "LATESTNEWS"];
     translations = {}
 
     constructor(private title: Title,
         protected messageSenderService: MessageSenderService,
-        private messageSubscriberService: MessageSubscriberService,
+        private storage: StorageService,
         private projectService: ProjectService,
-        private sortingService: SortingService,
-        public timeService: TimeService,
         private localizationService: LocalizationService) {
         this.localizationService.getTranslations(this.keys).subscribe((data) => {
             this.translations = data;
@@ -39,22 +35,6 @@ export class HomePageComponent {
         this.getBigPayments();
         this.getFinancedProjects();
         this.getLastCreatedProjects();
-    }
-
-    openPayment(event: any) {
-        this.selectedProjectId = event;
-    }
-
-    openNewsModal(event: any) {
-        this.selectedProjectId = event;
-    }
-
-    subscribe(projectId: string) {
-        this.projectService.subscribe(projectId).subscribe();
-    }
-
-    unsubscribe(projectId: string) {
-        this.projectService.unsubscribe(projectId).subscribe();
     }
 
     private getLastCreatedProjects() {

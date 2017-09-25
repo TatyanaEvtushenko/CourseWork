@@ -4,6 +4,7 @@ using CourseWork.BusinessLogicLayer.Services.NewsManagers;
 using CourseWork.BusinessLogicLayer.ViewModels.NewsViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 
 namespace CourseWork.Controllers
 {
@@ -12,10 +13,12 @@ namespace CourseWork.Controllers
     public class NewsController : Controller
     {
         private readonly INewsManager _newsManager;
+        private readonly IStringLocalizer<LocalizationController> _localizer;
 
-        public NewsController(INewsManager newsManager)
+        public NewsController(INewsManager newsManager, IStringLocalizer<LocalizationController> localizer)
         {
             _newsManager = newsManager;
+            _localizer = localizer;
         }
 
         [HttpGet]
@@ -30,7 +33,7 @@ namespace CourseWork.Controllers
         [Route("api/News/AddNews")]
         public bool AddNews([FromBody]NewsFormViewModel newsForm)
         {
-            return _newsManager.AddNews(newsForm);
+            return _newsManager.AddNews(newsForm, _localizer["SUBSCRIBERMESSAGE"]);
         }
 
         [HttpPost]

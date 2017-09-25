@@ -1,36 +1,96 @@
-﻿.award-icon {
-    display:inline-block;   
-    position:relative;
+﻿html,body, app {
+    height: 100%;
 }
 
-.award-icon span {
+app {
+    display: flex;
+    flex-direction: column;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+.nav-wrapper .row,
+.nav-wrapper .row .right-align {
+    height: 100%;
+}
+
+    .nav-wrapper .row li.right-align {
+        max-width: 320px;
+        float: right;
+    }
+
+.nav-wrapper .nav-user-info a,
+.nav-wrapper .nav-user-info span {
+    display: flex;
+    flex-direction: row;
+}
+
+.nav-wrapper .nav-user-info .user img {
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-left: -10px;
+}
+
+.nav-wrapper .nav-user-info .user span {
+    display: flex;
+    line-height: 65px;
+    margin-left: 20px;
+}
+
+.collapsible-title {
+    font-size: 1.3rem;
+}
+
+span.username {
+    margin-left: 10px;
+}
+
+div.account-edit-modal {
+    width: 100%;
+    padding: 20px !important;
+}
+
+.award-icon {
     display: inline-block;
-    position: absolute;
+    position: relative;
 }
 
-.award-icon.big-award {
-    width: 100px;
-    height: 100px;
-}
+    .award-icon span {
+        display: inline-block;
+        position: absolute;
+    }
 
-.award-icon.big-award span {
-    font-size: 50px;
-    top: 14px;
-    left: 36px;
-}
+    .award-icon.big-award {
+        width: 100px;
+        height: 100px;
+    }
 
-.award-icon.small-award img{
-    width: 25px;
-    height: 25px;
-    margin-right: 3px;
-    margin-top: 2px;
-}
+        .award-icon.big-award span {
+            font-size: 50px;
+            top: 14px;
+            left: 36px;
+        }
 
-.award-icon.small-award span {
-    font-size: 18px;
-    top: 2px;
-    left: 7px;
-}
+    .award-icon.small-award img {
+        width: 20px;
+        height: 20px;
+        margin-right: 1px;
+        margin-top: 2px;
+    }
+
+    .award-icon.small-award span {
+        font-size: 14px;
+        top: 2px;
+        left: 6px;
+    }
 
 angular-tag-cloud {
     margin-left: 35%;
@@ -77,9 +137,20 @@ div.min-info {
 #logo-container {
     padding: 0 20px;
 }
+
 #dropdown-nav {
     margin-top: 65px;
- }
+}
+
+.comments {
+    width: 80%;
+    margin: auto;
+}
+
+.comments hr{
+    margin-top: -22px;
+    margin-bottom: 12px;
+}
 
 
 div.select-wrapper  {
@@ -90,31 +161,56 @@ div.select-wrapper  {
     display: none;
 }
 
-.usercard-pic {
-    height: 300px;
-    width: 300px;
+.user-card
+.user-card .card-image img {
+    height: 250%;
+    width: 100%;
+    min-width: 400px;
+}
+
+.user-card.card {
+    margin-top: 45px;
+}
+
+.user-card .card-content {
+    width: 80%;
 }
 
 td a.row {
     margin-top: 35px;
 }
 
+img.project-item-image {
+    height: 140px;
+}
+
 .comments input {
     max-width: 50%;
 }
+
 .comments .text {
     word-break: break-all;
- }
+}
+
+.comments .date-comment {
+    padding-right: 20px;
+}
 
 .user-min-info {
-    width: 245px;
+    margin-left: 13px !important;
+    max-width: 300px;
     height: 60px;
+    font-size: 1.05rem;
 }
 
-.user-min-info img {
-    width: 40px;
-    height: 40px;
-}
+    .user-min-info .col.m3 {
+        padding: 0;
+    }
+
+    .user-min-info img {
+        width: 50px;
+        height: 50px;
+    }
 
 .btn-icon.btn {
     width: 40px;
@@ -125,13 +221,34 @@ td a.row {
     overflow: hidden;
 }
 
+.action {
+    margin-right: 2px !important;
+}
+
+div.actions {
+    white-space: nowrap;
+}
+
 .project .card {
     margin-top: 0;
     overflow: hidden;
 }
 
+.small .card-image {
+    height: 55%;
+}
+
+div.financial-purpose-modal {
+    width: 100%;
+    padding: 20px !important;
+}
+
+div.news-modal {
+    width: 100%;
+    padding: 20px !important;
+}
+
 .project .card-image img{
-    height: 700px;
     margin:-13% 0 -13% 0;
 }
 
@@ -147,7 +264,7 @@ td a.row {
     font-size: 12px;
 }
 
-.btn-floating.btn-large{
+.btn-floating.btn-large {
     position: fixed;
     right: 4%;
     bottom: 5%;
@@ -156,7 +273,7 @@ td a.row {
 .markdown-editor {
     max-height: 250px;
     overflow-y: auto;
- }
+}
 
 .edit-modal {
     width: 45%;
@@ -166,30 +283,31 @@ td a.row {
     width: 38%;
 }
 
-.news-modal button {
-    top: 20%
-}
+    .news-modal button {
+        top: 20%
+    }
 
 .register-modal {
     width: 30%;
 }
 
-.register-modal .input-field {
-    width: 90%;
-    margin: auto;
-}
+    .register-modal .input-field {
+        width: 90%;
+        margin: auto;
+    }
 
-.register-modal .row {
-    margin-bottom: 0;
-    margin-top: 15px;
-}
+    .register-modal .row {
+        margin-bottom: 0;
+        margin-top: 15px;
+    }
 
 .icon-block {
     padding: 0 15px;
 }
-.icon-block .material-icons {
-    font-size: inherit;
-}
+
+    .icon-block .material-icons {
+        font-size: inherit;
+    }
 
 .search form {
     height: 32px;
@@ -241,14 +359,6 @@ td a.row {
 }
 
 .preloader {
-    height: 100%;
-    position: fixed;
-    width: 100%;
-}
-
-.preloader .valign-wrapper {
-    position: relative;
-    top: 47%;
-    left: 47%;
-    width: 100%;
+    margin-left: 47% !important;
+    margin-top: 22%;
 }

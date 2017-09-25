@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CourseWork.BusinessLogicLayer.Options;
 using CourseWork.BusinessLogicLayer.Services.Mappers;
 using CourseWork.BusinessLogicLayer.Services.MessageSenders;
 using CourseWork.BusinessLogicLayer.ViewModels.UserInfoViewModels;
@@ -11,7 +11,6 @@ using CourseWork.DataLayer.Models;
 using CourseWork.DataLayer.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
 
 namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
 {
@@ -22,7 +21,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
         private readonly IEmailSender _emailSender;
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly IRepository<UserInfo> _userInfoRepository;
-        private readonly CloudinaryOptions _options;
+        private readonly IRepository<Rating> _ratingRepository;
         private readonly IMapper<DisplayableInfoViewModel, UserInfo> _mapper;
 
         public AccountManager(
@@ -30,7 +29,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             IHttpContextAccessor contextAccessor, IRepository<UserInfo> userInfoRepository,
-            IOptions<CloudinaryOptions> options, IMapper<DisplayableInfoViewModel, UserInfo> mapper)
+            IMapper<DisplayableInfoViewModel, UserInfo> mapper, IRepository<Rating> ratingRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -38,13 +37,13 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
             _contextAccessor = contextAccessor;
             _userInfoRepository = userInfoRepository;
             _mapper = mapper;
-            _options = options.Value;
+            _ratingRepository = ratingRepository;
         }
 
-        public async Task<bool> Register(string userName, string email, string password)
+        public async Task<bool> Register(string userName, string email, string password, string messageSubject, string messagePrototype)
         {
             var user = new ApplicationUser {UserName = userName ?? email, Email = email};
-            return await TryRegister(user, password);
+            return await TryRegister(user, password, messageSubject, messagePrototype);
         }
 
         public async Task<bool> ConfirmRegistration(string userId, string code)
@@ -86,14 +85,24 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
 
         public DisplayableInfoViewModel[] GetDisplayableInfo(string[] userNames)
         {
-            return _userInfoRepository.GetWhere(item => userNames.Contains(item.UserName), 
-                item => item.Projects, item => item.Awards)
-                .Select(item => _mapper.ConvertFrom(item)).ToArray();
+            var ratings = _ratingRepository.GetWhere(r => userNames.Contains(r.Project.OwnerUserName), 
+                r => r.Project);
+            var infos = _userInfoRepository.GetWhere(item => userNames.Contains(item.UserName),
+                item => item.Projects, item => item.Awards);
+            return infos.Select(item => PrepareDisplayableInfo(item, ratings)).ToArray();
         }
 
         public DisplayableInfoViewModel GetUserDisplayableInfo(string username)
         {
             return GetDisplayableInfo(new[] {username}).SingleOrDefault();
+        }
+
+        private DisplayableInfoViewModel PrepareDisplayableInfo(UserInfo info, IEnumerable<Rating> ratings)
+        {
+            var viewModel = _mapper.ConvertFrom(info);
+            var userRatings = ratings.Where(r => r.Project.OwnerUserName == info.UserName);
+            viewModel.Rating = !userRatings.Any() ? 0 : userRatings.Average(r => r.RatingResult);
+            return viewModel;
         }
 
         private async Task<bool> TryLogin(UserInfo user, string password)
@@ -106,14 +115,14 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
             return result.Succeeded;
         }
 
-        private async Task<bool> TryRegister(ApplicationUser user, string password)
+        private async Task<bool> TryRegister(ApplicationUser user, string password, string messageSubject, string messagePrototype)
         {
             var result = await _userManager.CreateAsync(user, password);
             if (!result.Succeeded)
             {
                 return false;
             }
-            await SendConfirmation(user);
+            await SendConfirmation(user, messageSubject, messagePrototype);
             return true;
         }
 
@@ -139,7 +148,6 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
                 Status = UserStatus.WithoutConfirmation,
                 LastLoginTime = DateTime.UtcNow,
                 RegistrationTime = DateTime.UtcNow,
-                Avatar = _options.DefaultUserAvatar
             };
         }
 
@@ -149,11 +157,11 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
             _userInfoRepository.UpdateRange(user);
         }
 
-        private async Task SendConfirmation(ApplicationUser user)
+        private async Task SendConfirmation(ApplicationUser user, string messageSubject, string messagePrototype)
         {
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var callbackUrl = GetCallBackConfirmUrl(user.Id, code);
-            await _emailSender.SendEmailAsync(user.Email, "Confirm your account", GetMessageToSendConfirmLink(callbackUrl));
+            await _emailSender.SendEmailAsync(user.Email, messageSubject, GetMessageToSendConfirmLink(callbackUrl, messagePrototype));
         }
 
         private string GetCallBackConfirmUrl(string userId, string code) =>
@@ -172,7 +180,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AccountManagers.Implementations
             await _userManager.RemoveFromRoleAsync(user, EnumConfiguration.RoleNames[role]);
         }
 
-        private static string GetMessageToSendConfirmLink(string url) =>
-            $"Please confirm your account by clicking this link: <a href=\"{url}\">link</a>";
+        private static string GetMessageToSendConfirmLink(string url, string messagePrototype) =>
+            string.Format(messagePrototype, url);
     }
 }

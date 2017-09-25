@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using CourseWork.DataLayer.Enums;
 
 namespace CourseWork.DataLayer.Models
@@ -28,6 +27,8 @@ namespace CourseWork.DataLayer.Models
         public decimal MinPayment { get; set; }
 
         public decimal MaxPayment { get; set; }
+
+        public string Color { get; set; }
 
         public string AccountNumber { get; set; }
 

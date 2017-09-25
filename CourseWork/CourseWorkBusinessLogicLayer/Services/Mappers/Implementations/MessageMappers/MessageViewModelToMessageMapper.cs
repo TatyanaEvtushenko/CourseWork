@@ -13,7 +13,8 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.Message
 				Id = Guid.NewGuid().ToString(),
 			    IsSeen = false,
 			    RecipientUserName = item.RecipientUserName,
-			    Text = item.Text
+			    Text = item.Text,
+                ParameterString = item.ParameterString
 		    };
 	    }
 
@@ -22,7 +23,8 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.Message
 			return new MessageViewModel
 			{
 				RecipientUserName = item.RecipientUserName,
-				Text = item.Text
+				Text = item.Text,
+                ParameterString = item.ParameterString
 			};
 		}
     }

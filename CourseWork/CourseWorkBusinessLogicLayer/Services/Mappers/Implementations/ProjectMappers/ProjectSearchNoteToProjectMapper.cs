@@ -39,24 +39,24 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.Project
 
         private void AddFinancialPurposes(ProjectSearchNote note, IEnumerable<FinancialPurpose> purposes)
         {
-            note.FinancialPurposeName = purposes.Select(n => n.Name).ToList();
-            note.FinancialPurposeDescription = purposes.Select(n => n.Description).ToList();
+            note.FinancialPurposeName = purposes?.Select(n => n.Name).ToList();
+            note.FinancialPurposeDescription = purposes?.Select(n => n.Description).ToList();
         }
 
         private void AddTags(ProjectSearchNote item, IEnumerable<Tag> tags)
         {
-            item.Tag = tags.Select(n => n.Name).ToList();
+            item.Tag = tags?.Select(n => n.Name).ToList();
         }
 
         private void AddNews(ProjectSearchNote item, IEnumerable<News> news)
         {
-            item.NewsSubject = news.Select(n => n.Subject).ToList();
-            item.NewsText = news.Select(n => n.Text).ToList();
+            item.NewsSubject = news?.Select(n => n.Subject).ToList();
+            item.NewsText = news?.Select(n => n.Text).ToList();
         }
 
         private void AddComments(ProjectSearchNote item, IEnumerable<Comment> comments)
         {
-            item.Comment = comments.Select(n => n.Text).ToList();
+            item.Comment = comments?.Select(n => n.Text).ToList();
         }
     }
 }

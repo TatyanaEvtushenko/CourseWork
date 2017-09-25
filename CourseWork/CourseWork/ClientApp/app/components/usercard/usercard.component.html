@@ -1,43 +1,58 @@
-﻿
-<div class="card horizontal">
+﻿<div class="card horizontal user-card">
     <div class="card-image">
-        <img src="{{displayableInfo.avatar}}" class="usercard-pic">
+        <img *ngIf="displayableInfo.avatar != null" src="{{displayableInfo.avatar}}">  
+        <img *ngIf="displayableInfo.avatar == null" src="/images/default-user.png">  
     </div>
-    <div class="card-content row">
-        <div class="card-title">
-            {{displayableInfo.userName}}<br/>            
-            <rating class="project-item-rating" [(ngModel)]="displayableInfo.rating" [readonly]="true" [titles]="[translations['ONE'], translations['TWO'], translations['THREE'], translations['FOUR'], translations['FIVE']]"></rating>
+    <div class="card-content">   
+        <div class="row">
+            <div class="col m10 left-align">
+                <h3>{{displayableInfo.userName}}</h3>
+                <rating class="project-item-rating" [(ngModel)]="displayableInfo.rating" [readonly]="true" 
+                        [titles]="[translations['ONE'], translations['TWO'], translations['THREE'], translations['FOUR'], translations['FIVE']]"></rating>
+            </div>
+            <div class="col m2 right-align">
+                <a><i class="material-icons activator">more_horiz</i><br /></a>
+                <a *ngIf="isCardOfCurrentUser" href="#accountEditModal" (click)="openAccountEdit()" class="modal-trigger">
+                    <i class="material-icons">edit</i><br/>
+                </a>
+                <a *ngIf="isCardOfCurrentUser" href="#avatarChangeModal" (click)="openAvatarChange()" class="modal-trigger">
+                    <i class="material-icons">photo_camera</i><br/>
+                </a>
+            </div>
         </div>
         <div class="row">
-            <div class="col m9 center-align">
-                <h5>{{timeService.getFormatDate(displayableInfo.registrationTime)}}</h5>
+            <div class="col m6">
+                <h5>{{timeHelper.getFormatDate(displayableInfo.registrationTime)}}</h5>
                 <div class="grey-text">{{translations['REGISTRATIONTIME']}}</div>
             </div>
-            <div class="col m3 center-align">
+            <div class="col m6">
                 <h5>{{displayableInfo.projectNumber}}</h5>
                 <div class="grey-text">{{translations['PROJECTNUMBER']}}</div>
             </div>
         </div>
-        <ul>
-            <li>{{translations['CONTACTS']}}: {{displayableInfo.contacts}}</li>
-        </ul>
-        
+        <br/>
+        <div class="row left-align">
+            <div class="col m10">
+                <h5>{{translations['CONTACTS']}}:</h5>
+            </div>
+        </div>
+        <div class="row left-align">
+            <div class="col m12">
+                <h6 class="grey-text">{{displayableInfo.contacts}}</h6>
+            </div>
+        </div>
     </div>
     <div class="card-reveal">
-        <span class="card-title grey-text text-darken-4">{{translations['ABOUT']}}<i class="material-icons right">close</i></span>
-        <markdown>{{displayableInfo.about}}</markdown>
-    </div>
-    <div class="card-action">
-        <a><i class="material-icons right activator">more_vert</i></a>
-        <a *ngIf="isCardOfCurrentUser" href="#accountEditModal" (click)="openAccountEdit()" class="modal-trigger"><i class="material-icons">edit</i></a>
-        <a *ngIf="isCardOfCurrentUser" href="#avatarChangeModal" (click)="openAvatarChange()" class="modal-trigger"><i class="material-icons">photo_camera</i></a>
+        <h4><span class="card-title center-align">{{translations['ABOUT']}}<i class="material-icons right">close</i></span></h4>
+        <div class="center-align" [froalaView]="displayableInfo.about"></div>
     </div>
 </div>
 
-<div class="card horizontal">
-    <div class="card-content row">
-        <div *ngFor="let award of displayableInfo.awards" class="col m4 center-align">
-            <award [award]="award" [isSmall]="false"></award>
-        </div>
+<div class="row">
+    <div class="col" [class.offset-m1]="displayableInfo.awards.length == 5" [class.offset-m2]="displayableInfo.awards.length == 4"
+         [class.offset-m3]="displayableInfo.awards.length == 3"  [class.offset-m4]="displayableInfo.awards.length == 2"  
+         [class.offset-m5]="displayableInfo.awards.length == 1"></div>
+    <div *ngFor="let award of displayableInfo.awards" class="col m2 center">
+        <award [award]="award" [isSmall]="false"></award>
     </div>
-</div>    
+</div>  

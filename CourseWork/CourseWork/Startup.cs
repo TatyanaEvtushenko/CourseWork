@@ -1,4 +1,7 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using CourseWork.BusinessLogicLayer.ElasticSearch;
 using CourseWork.BusinessLogicLayer.Options;
 using Microsoft.AspNetCore.Builder;
@@ -41,6 +44,7 @@ namespace CourseWork
         {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+            services.LaunchElastic(Configuration["ElasticSearchLauncherOptions:LauncherPath"]);
             //services.AddHangfire(x => x.UseSqlServerStorage(connectionString));
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
@@ -57,6 +61,8 @@ namespace CourseWork
             services.Configure<ElasticSearchOptions>(options =>
                 Configuration.GetSection("ElasticSearchOptions").Bind(options));
             services.Configure<HomePageOptions>(options => Configuration.GetSection("HomePageOptions").Bind(options));
+            services.Configure<ColorOptions>(options => Configuration.GetSection("ColorOptions").Bind(options));
+            services.Configure<AwardOptions>(options => Configuration.GetSection("AwardOptions").Bind(options));
             services.Configure<RequestLocalizationOptions>(options =>
             {
                 var supportedCultures = new[]
@@ -70,10 +76,14 @@ namespace CourseWork
             });
             services.AddSingleton<SearchClient>();
 
+            var adminCount = Int32.Parse(Configuration["AdminUserNamesOptions:AdminCount"]);
+            var adminUserNames = new List<string>();
+            for (var i = 0; i < adminCount; i++)
+                adminUserNames.Add(Configuration[$"AdminUserNamesOptions:AdminUserNames:{i}"]);
             services.AddRepositories();
             services.AddServices();
             services.AddMappers();
-            services.CreateDatabaseRoles().Wait();
+            services.CreateDatabaseRoles(adminUserNames).Wait();
             services.RunScheduler();
         }
         

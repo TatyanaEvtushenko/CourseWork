@@ -6,7 +6,7 @@ namespace CourseWork.BusinessLogicLayer.Services.NewsManagers
 {
     public interface INewsManager
     {
-        bool AddNews(NewsFormViewModel newsForm);
+        bool AddNews(NewsFormViewModel newsForm, string message);
 
         Task<bool> AddMailingToSubscribers(NewsFormViewModel newsForm);
 

@@ -117,7 +117,7 @@ namespace CourseWork.BusinessLogicLayer.Services.SearchManagers.Implementations
 
         private bool UpdateComment(Comment comment, UpdateCommentDelegate updateCommentAction)
         {
-            var updatedCommentTexts = GetSearchDoc(comment.ProjectId).Comment;
+            var updatedCommentTexts = GetSearchDoc(comment.ProjectId).Comment ?? new List<string>();
             updateCommentAction(comment, updatedCommentTexts);
             var updateResponse = RefreshUpdateResponse(comment.ProjectId, new {Comment = updatedCommentTexts});
             return updateResponse.Result == Result.Updated;
@@ -135,32 +135,32 @@ namespace CourseWork.BusinessLogicLayer.Services.SearchManagers.Implementations
 
         private void AddComment(Comment comment, List<string> updatedCommentTexts)
         {
-            updatedCommentTexts.Add(comment.Text);
+            updatedCommentTexts?.Add(comment.Text);
         }
 
         private void RemoveComment(Comment comment, List<string> updatedCommentTexts)
         {
-            updatedCommentTexts.RemoveAt(updatedCommentTexts.IndexOf(comment.Text));
+            updatedCommentTexts?.RemoveAt(updatedCommentTexts.IndexOf(comment.Text));
         }
 
         private void AddNews(News news, List<string> updatedNewsSubjects, List<string> updatedNewsTexts)
         {
-            updatedNewsSubjects.Add(news.Subject);
-            updatedNewsTexts.Add(news.Text);
+            updatedNewsSubjects?.Add(news.Subject);
+            updatedNewsTexts?.Add(news.Text);
         }
 
         private void RemoveNews(News news, List<string> updatedNewsSubjects, List<string> updatedNewsTexts)
         {
-            updatedNewsSubjects.RemoveAt(updatedNewsSubjects.IndexOf(news.Subject));
-            updatedNewsTexts.RemoveAt(updatedNewsTexts.IndexOf(news.Text));
+            updatedNewsSubjects?.RemoveAt(updatedNewsSubjects.IndexOf(news.Subject));
+            updatedNewsTexts?.RemoveAt(updatedNewsTexts.IndexOf(news.Text));
         }
 
         private void GetNewsOptions(object projectId, out List<string> updatedNewsSubjects,
             out List<string> updatedNewsTexts)
         {
             var doc = GetSearchDoc(projectId);
-            updatedNewsSubjects = doc.NewsSubject;
-            updatedNewsTexts = doc.NewsText;
+            updatedNewsSubjects = doc.NewsSubject ?? new List<string>();
+            updatedNewsTexts = doc.NewsText ?? new List<string>();
         }
 
         private ProjectSearchNote GetSearchDoc(object projectId)

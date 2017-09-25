@@ -3,19 +3,19 @@
         <div class="collapsible-header display" [class.active]="i == 0">
             <div class="col m8 left-align">
                 <div class="row">
-                    <span class="flow-text">{{news.subject}}    </span>
-                    <span *ngIf="news.projectInfo != null" class="grey-text">
-                        from project <a href="/ProjectPage/{{news.projectInfo.id}}" class="flow-text grey-text">{{news.projectInfo.name}}</a>
+                    <span class="collapsible-title">{{news.subject}}    </span>
+                    <span *ngIf="viewProjectName" class="grey-text">
+                        {{translations['FROMPROJECT']}} <a href="/ProjectPage/{{news.projectInfo.id}}" class="collapsible-title grey-text">{{news.projectInfo.name}}</a>
                     </span> 
                 </div>
             </div>
             <div class="col m4 right-align">
-                {{timeService.getFormatDate(news.time)}}
+                {{timeHelper.getFormatDate(news.time)}}
                 <i *ngIf="canChange" class="material-icons right" (click)="delete(news)">close</i>
             </div>
         </div>
         <div class="collapsible-body">
-            <markdown>{{news.text}}</markdown>
+            <div [froalaView]="news.text"></div>
         </div>
     </li>
 </ul>

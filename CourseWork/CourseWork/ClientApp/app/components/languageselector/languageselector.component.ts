@@ -19,6 +19,7 @@ export class LanguageSelectorComponent {
     }
 
     languageSelected() {
-        this.localizationService.setLanguage(this.selectedLanguage).subscribe((data: void) => {});
+        this.localizationService.setLanguage(this.selectedLanguage).subscribe(
+            (data: void) => location.reload());
     }
 }

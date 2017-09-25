@@ -8,7 +8,8 @@ declare var $: any;
 })
 export class ImageLoaderComponent {
     @Input() fieldName: string;
-    @Output() emitter = new EventEmitter<string>(); 
+    @Input() isShowed = true;
+    @Output() emitter = new EventEmitter<string>();
     imageString = "";
     keys = ["BROWSE"];
     translations = {}
@@ -19,23 +20,18 @@ export class ImageLoaderComponent {
         });
     }
 
-    toBase64(file: any) {
+    onChange(event: any) {
+        this.toBase64(event.srcElement.files[0]);
+    }
+
+    private toBase64(file: any) {
         var reader = new FileReader();
-        reader.onloadend = (e) => {
-            this.previewImage(reader.result);
-            this.imageString = reader.result;
-            this.emitter.emit(this.imageString);
-        }
+        reader.onloadend = (e) => this.getResponse(e, reader);
         reader.readAsDataURL(file);
     }
 
-    previewImage(file: any) {
-        var preview = document.querySelector('#uploaded-image');
-        preview.src = file;
-    }
-
-    onChange(event: any) {
-        this.toBase64(event.srcElement.files[0]);
-        
+    private getResponse(file: any, reader: any) {
+        this.imageString = reader.result;
+        this.emitter.emit(this.imageString);
     }
 } 

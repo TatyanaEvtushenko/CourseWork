@@ -543,4 +543,55 @@
   <data name="SEP" xml:space="preserve">
     <value>Сен</value>
   </data>
+  <data name="NEWSUPDATE" xml:space="preserve">
+    <value>&lt;a href="/ProjectPage/{0}"&gt;Обновление: {1}&lt;/a&gt;</value>
+  </data>
+  <data name="ADMINPAGELINK" xml:space="preserve">
+    <value>&lt;a href="/AdminPage?confirmed=false&amp;unconfirmed=false&amp;requested=true"&gt;{0}&lt;br&gt; запросили подтверждение аккаунта.&lt;/a&gt;</value>
+  </data>
+  <data name="AWARDNOTE" xml:space="preserve">
+    <value>Вы заработали медаль "{0}" {1} уровня</value>
+  </data>
+  <data name="SUBSCRIBERMESSAGE" xml:space="preserve">
+    <value>&lt;a href="/ProjectPage/{0}"&gt; {1} &lt;/a&gt;</value>
+  </data>
+  <data name="CONFIRMATIONLINK" xml:space="preserve">
+    <value>Пожалуйста, подтвердите свой аккаунт, пройдя по этой ссылке: &lt;a href="{0}"&gt;ссылка&lt;/a&gt;</value>
+  </data>
+  <data name="ACCEPT" xml:space="preserve">
+    <value>Одобрить</value>
+  </data>
+  <data name="ADMINPAGELINKMANY" xml:space="preserve">
+    <value>&lt;a href="/AdminPage?confirmed=false&amp;unconfirmed=false&amp;requested=true"&gt;{0}&lt;br&gt; и ещё {1} пользователей&lt;br&gt; запросили подтверждение аккаунта.&lt;/a&gt;</value>
+  </data>
+  <data name="DECLINE" xml:space="preserve">
+    <value>Отклонить</value>
+  </data>
+  <data name="DONATEDTOPROJECT" xml:space="preserve">
+    <value>перечислено на проект</value>
+  </data>
+  <data name="FOUND" xml:space="preserve">
+    <value>Найдено</value>
+  </data>
+  <data name="FROMPROJECT" xml:space="preserve">
+    <value>от проекта</value>
+  </data>
+  <data name="MAINCOLOR" xml:space="preserve">
+    <value>Основной цвет страницы проекта</value>
+  </data>
+  <data name="NORESULTSEARCH" xml:space="preserve">
+    <value>Результатов не найдено</value>
+  </data>
+  <data name="PATH" xml:space="preserve">
+    <value>Путь</value>
+  </data>
+  <data name="SUCCESSFULPAYMENT" xml:space="preserve">
+    <value>Платёж успешно произведён.</value>
+  </data>
+  <data name="DONATES" xml:space="preserve">
+    <value>Платежи</value>
+  </data>
+  <data name="PROJECTCARD" xml:space="preserve">
+    <value>Карточка проекта</value>
+  </data>
 </root>

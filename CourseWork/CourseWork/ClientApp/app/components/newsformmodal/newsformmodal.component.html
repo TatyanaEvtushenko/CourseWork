@@ -1,10 +1,10 @@
-﻿<div id="newsModal" class="modal news-modal">
-    <div class="modal-content center container">
+﻿<div id="newsModal" class="modal">
+    <div class="modal-content center news-modal">
         <h4>{{translations['CREATENEWS']}}</h4>
 
         <div class="row">
             <div class="input-field col m11">
-                <input id="news-subject" #subject="ngModel" class="validate" required [(ngModel)]="newsForm.subject" type="text" />
+                <input id="news-subject" #subject="ngModel" class="validate" required [(ngModel)]="newsForm.subject" type="text"/>
                 <label for="news-subject">{{translations['SUBJECT']}}</label>
             </div>
         </div>

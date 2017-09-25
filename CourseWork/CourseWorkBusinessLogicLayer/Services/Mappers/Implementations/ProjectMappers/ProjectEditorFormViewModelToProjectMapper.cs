@@ -35,7 +35,9 @@ namespace CourseWork.BusinessLogicLayer.Services.Mappers.Implementations.Project
                 MinPaymentAmount = item.MinPayment,
                 Name = item.Name,
                 OwnerUserName = item.OwnerUserName,
-                Tags = _tagService.GetProjectTags(item)
+                Tags = _tagService.GetProjectTags(item),
+                AccountNumber = item.AccountNumber,
+                Color = item.Color
             };
         }
     }

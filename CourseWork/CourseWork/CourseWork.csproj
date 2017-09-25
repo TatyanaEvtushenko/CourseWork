@@ -18,10 +18,14 @@
   </PropertyGroup>
   
   <!--<ItemGroup>
+    <Content Include="wwwroot\css\font-awesome.min.css" />
+    <Content Include="wwwroot\css\froala_editor.min.css" />
+    <Content Include="wwwroot\css\froala_editor.pkgd.min.css" />
     <Content Include="wwwroot\images\7bWlDCwt0Ks.jpg" />
     <Content Include="wwwroot\images\cnFAJzUkjKM.jpg" />
     <Content Include="wwwroot\images\fMGtf5ROn0c.jpg" />
     <Content Include="wwwroot\images\_XjvXqN2Go4.jpg" />
+    <Content Include="wwwroot\js\froala_editor.min.js" />
   </ItemGroup>-->
   
   <!--<ItemGroup>
