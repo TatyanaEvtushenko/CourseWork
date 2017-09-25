@@ -63,6 +63,7 @@ namespace CourseWork.Controllers
 
 	    [HttpPost]
 	    [Route("api/Message/Send")]
+        [Authorize]
 	    public void Send([FromBody] MessageViewModel[] messages)
 	    {
 		    _messageManager.Send(messages);
@@ -70,7 +71,8 @@ namespace CourseWork.Controllers
 
 	    [HttpGet]
 	    [Route("api/Message/MarkAsRead")]
-	    public void MarkAsRead([FromQuery] string[] id)
+	    [Authorize]
+        public void MarkAsRead([FromQuery] string[] id)
 	    {
 		    _messageManager.MarkAsRead(id);
 	    }
