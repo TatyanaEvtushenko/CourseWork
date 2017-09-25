@@ -21,7 +21,7 @@
         <span class="card-title grey-text text-darken-4">{{translations['ABOUT']}}<i class="material-icons right">close</i></span>
         <markdown>{{project.description}}</markdown>
     </div>
-    <div class="card-action actions row">
+    <div class="card-action actions">
         <div class="col m4 left-align">
             <a class="action"><i class="material-icons activator">more_vert</i></a>
             <a *ngIf="storage.isReadyCurrentUser && storage.isUser && timeHelper.isNotPast(project.projectEndTime)"

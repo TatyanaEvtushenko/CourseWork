@@ -20,7 +20,7 @@ export class NewProjectPageComponent{
     sortingHelper = new SortingHelper();
     timeHelper = new TimeHelper(this.localizationService);
     keys = ["NAME", "FUNDRAISINGEND", "DESCR", "IMAGE", "MINPAYMENT", "MAXPAYMENT", "FINANCIALPURPOSES", "CREATE", "PROJECTERROR",
-        "CREATENEWPROJECT"];
+        "CREATENEWPROJECT", "ACCOUNTNUMBER", "MAINCOLOR", "PATH"];
     translations = {}
 
     constructor(public storage: StorageService,

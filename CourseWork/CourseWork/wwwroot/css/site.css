@@ -224,12 +224,10 @@ div.actions {
 }
 
 .small .card-image {
-    height: 45%;
+    min-height: 60%;
 }
 
-.small .card-image img {
-    height: 100%;
-}
+
 
 .project .card-image img{
     margin:-13% 0 -13% 0;

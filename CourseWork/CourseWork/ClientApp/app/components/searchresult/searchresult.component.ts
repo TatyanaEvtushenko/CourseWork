@@ -13,7 +13,7 @@ import { LocalizationService } from "../../services/localization.service";
 export class SearchResultComponent {
     selectedProjecId: string = null;
     projects: any[] = [];
-    keys = ["SEARCHRESULTS"];
+    keys = ["SEARCHRESULTS", "NORESULTSEARCH", "FOUND", "PROJECTS_A"];
     translations = {}
     selectedProjectId: string = null;
     isReady = false;

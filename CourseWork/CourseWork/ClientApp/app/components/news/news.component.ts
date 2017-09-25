@@ -15,8 +15,13 @@ export class NewsComponent implements DoCheck {
     sortingHelper = new SortingHelper();
     timeHelper = new TimeHelper(this.localizationService);
     isSorted = false;
+    keys = ["FROMPROJECT"];
+    translations = {};
 
     constructor(private projectService: ProjectService, private cdr: ChangeDetectorRef, private localizationService: LocalizationService) {
+        this.localizationService.getTranslations(this.keys).subscribe(data => {
+            this.translations = data;
+        });
     }
 
     ngDoCheck() {

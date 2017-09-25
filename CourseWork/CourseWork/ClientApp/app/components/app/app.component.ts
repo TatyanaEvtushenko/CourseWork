@@ -8,7 +8,7 @@ import { LocalizationService } from "../../services/localization.service";
     templateUrl: './app.component.html',
 })
 export class AppComponent {
-    keys = ["Register", "LogIn", "LogOut", "AdminPage", "MyPage"];
+    keys = ["Register", "LogIn", "LogOut", "AdminPage", "MyPage", "MYPROJECTS"];
     translations = {};
 
     constructor(public storage: MessageSubscriberService,

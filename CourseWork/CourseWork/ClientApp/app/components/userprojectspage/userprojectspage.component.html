@@ -1,5 +1,5 @@
 ﻿<div *ngIf="storage.isReadyCurrentUser && storage.isConfirmedUser" class="container body-content">
-    <h2 class="center-align">My projects</h2>
+    <h2 class="center-align">{{translations['MYPROJECTS']}}</h2>
     <projectitemcollection [projects]="projects" (selectedProjectIdNews)="this.selectedProjectId = $event" 
                            (selectedProjectIdPayment)="this.selectedProjectId = $event"></projectitemcollection>
     <newsformmodal [projectId]="selectedProjectId"></newsformmodal>
