@@ -49,6 +49,10 @@ main {
     font-size: 1.3rem;
 }
 
+span.username {
+    margin-left: 10px;
+}
+
 div.account-edit-modal {
     width: 100%;
     padding: 20px !important;
@@ -234,7 +238,15 @@ div.actions {
     height: 55%;
 }
 
+div.financial-purpose-modal {
+    width: 100%;
+    padding: 20px !important;
+}
 
+div.news-modal {
+    width: 100%;
+    padding: 20px !important;
+}
 
 .project .card-image img{
     margin:-13% 0 -13% 0;

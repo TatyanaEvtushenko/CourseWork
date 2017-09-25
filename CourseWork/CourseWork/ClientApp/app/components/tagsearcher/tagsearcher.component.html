@@ -1,6 +1,6 @@
 ﻿<div class="row">
     <div class="input-field col s12">
-        <label for="tagAutoComplete">{{translations['TAGS']}}</label>
+        <label [class.active]="data != null && data.length > 0" for="tagAutoComplete">{{translations['TAGS']}}</label>
         <div class="chips" type="text" id="tagAutoComplete" name="tagAutoComplete" 
              materialize="material_chip" [materializeParams]="[autocompleteInit]"
              (chip.add)="add($event.detail)" (chip.delete)="delete($event.detail)"></div>
