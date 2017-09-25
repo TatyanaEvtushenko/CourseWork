@@ -13,7 +13,7 @@ export class UserProjectsPageComponent {
     @Input() projects: any[] = [];
     selectedProjectId: string = null;
     sortingHelper = new SortingHelper();
-    keys = ['MYPROJECTS', ''];
+    keys = ['MYPROJECTS'];
     translations = {};
 
     constructor(public storage: StorageService,
