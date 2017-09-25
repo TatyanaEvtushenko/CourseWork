@@ -7,7 +7,7 @@
             <span *ngIf="!isNewProject">{{translations['EDITPROJECT']}}</span>
         </h2>
     </div>
-    
+
     <div class="row">
         <div class="col m9">
             <h5 class="center-align">{{translations['DESCR']}}</h5>
@@ -15,24 +15,24 @@
                 <div class="row">
                     <div class="col m6">
                         <div class="input-field">
-                            <input id="project-name" #projectname="ngModel" class="validate" required [(ngModel)]="projectForm.name" type="text"/>
+                            <input id="project-name" #projectname="ngModel" class="validate" required [(ngModel)]="projectForm.name" type="text" />
                             <label for="project-name">{{translations['NAME']}}</label>
                         </div>
                     </div>
                     <div class="col m6" *ngIf="isNewProject">
                         <div class="input-field">
-                            <input id="project-id" #projectId="ngModel" class="validate" [(ngModel)]="projectForm.id" type="text"/>
+                            <input id="project-id" #projectId="ngModel" class="validate" [(ngModel)]="projectForm.id" type="text" />
                             <label for="project-id">{{translations['PATH']}}</label>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col m6">
-                        <imageloader id="project-image" (emitter)="projectForm.imageBase64 = $event" [fieldName]="translations['IMAGE']"></imageloader>
+                        <imageloader id="project-image" [isShowed]="false" (emitter)="projectForm.imageBase64 = $event" [fieldName]="translations['IMAGE']"></imageloader>
                     </div>
                     <div class="col m6">
                         <div class="input-field">
-                            <input [(colorPicker)]="projectForm.color" [style.background]="projectForm.color" id="project-color"/>
+                            <input [(colorPicker)]="projectForm.color" [style.background]="projectForm.color" id="project-color" />
                             <label for="project-color">Main color of your project page</label>
                         </div>
                     </div>
@@ -43,21 +43,21 @@
                     </div>
                 </div>
             </div>
-            <br/>
+            <br />
             <h5 class="center-align">Платежи</h5>
             <div class="card-panel">
                 <div class="row">
                     <div class="col m6">
                         <div class="input-field">
                             <input id="project-datepicker" #projectdate="ngModel" name="datepicker" [(ngModel)]="projectForm.fundRaisingEnd" required materialize="pickadate"
-                                   type="text" [materializeParams]="[{format: 'dd/mm/yyyy'}]"/>
+                                   type="text" [materializeParams]="[{format: 'dd/mm/yyyy'}]" />
                             <label for="project-datepicker">{{translations['FUNDRAISINGEND']}}</label>
                         </div>
                     </div>
                     <div class="col m6">
                         <div class="input-field">
                             <input id="project-accountnumber" #projectAccountNumber="ngModel" class="validate" required
-                                   [(ngModel)]="projectForm.accountNumber" type="text"/>
+                                   [(ngModel)]="projectForm.accountNumber" type="text" />
                             <label for="project-accountnumber">Account number</label>
                         </div>
                     </div>
@@ -65,24 +65,28 @@
                 <div class="row">
                     <div class="col m6">
                         <div class="input-field">
-                            <input id="project-minpayment" #projectMinPayment="ngModel" class="validate" required [(ngModel)]="projectForm.minPaymentAmount" type="number"/>
+                            <input id="project-minpayment" #projectMinPayment="ngModel" class="validate" required [(ngModel)]="projectForm.minPaymentAmount" type="number" />
                             <label for="project-minpayment">{{translations['MINPAYMENT']}}, $</label>
                         </div>
                     </div>
                     <div class="col m6">
                         <div class="input-field">
-                            <input id="project-maxpayment" #projectMaxPayment="ngModel" class="validate" required [(ngModel)]="projectForm.maxPaymentAmount" type="number"/>
+                            <input id="project-maxpayment" #projectMaxPayment="ngModel" class="validate" required [(ngModel)]="projectForm.maxPaymentAmount" type="number" />
                             <label for="project-maxpayment">{{translations['MAXPAYMENT']}}, $</label>
                         </div>
                     </div>
                 </div>
             </div>
-            <br/>
-            <div class="center-align row">
-                <h5 class="col offset-m5 m3 right-align">{{translations['FINANCIALPURPOSES']}}</h5>
-                <a href="#financialPurposeModal" class="btn modal-trigger btn-icon left-align m4"><i class="material-icons">add</i></a>
+            <br />
+            <div class="row">
+                <div class="center-align col m4 offset-m4">
+                    <h5 class="left">{{translations['FINANCIALPURPOSES']}}    </h5>
+                    <a href="#financialPurposeModal" class="btn modal-trigger btn-icon right-align"><i class="material-icons">add</i></a>
+                </div>
             </div>
-            <financialpurposes *ngIf="projectForm.financialPurposes.length >= 1" [(financialPurposes)]="projectForm.financialPurposes" [canChange]="true"></financialpurposes>
+            <div class="row">
+                <financialpurposes *ngIf="projectForm.financialPurposes.length >= 1" [(financialPurposes)]="projectForm.financialPurposes" [canChange]="true"></financialpurposes>
+            </div>
             <financialpurposemodal (onCreated)="addFinancialPurpose($event)"></financialpurposemodal>
         </div>
         <div class="col m3">
@@ -91,7 +95,7 @@
                 <div class="card-image">
                     <img src="{{projectForm.imageBase64}}">
                     <div class="card-title left-align">
-                        {{projectForm.name}}<br/>
+                        {{projectForm.name}}<br />
                         <rating class="project-item-rating" [ngModel]="0" [readonly]="true"
                                 [titles]="[translations['ONE'], translations['TWO'], translations['THREE'], translations['FOUR'], translations['FIVE']]"></rating>
                     </div>
@@ -123,7 +127,7 @@
             <div class="row">
                 <div class="col m12 center-align">
                     <div class="input-field">
-                        <button *ngIf="!isWorking" class="btn btn-large" (click)="onSubmit()" 
+                        <button *ngIf="!isWorking" class="btn btn-large" (click)="onSubmit()"
                                 [disabled]="projectname.invalid || projectdate.invalid || projectAccountNumber.invalid || projectMinPayment.invalid || projectMaxPayment.invalid || projectForm.financialPurposes.length < 1 || projectForm.imageBase64 == null || projectForm.minPaymentAmount > projectForm.maxPaymentAmount">
                             <span *ngIf="isNewProject">{{translations['CREATE']}}</span>
                             <span *ngIf="!isNewProject">{{translations['EDIT']}}</span>

@@ -8,7 +8,8 @@ declare var $: any;
 })
 export class ImageLoaderComponent {
     @Input() fieldName: string;
-    @Output() emitter = new EventEmitter<string>(); 
+    @Input() isShowed = true;
+    @Output() emitter = new EventEmitter<string>();
     imageString = "";
     keys = ["BROWSE"];
     translations = {}
@@ -31,11 +32,6 @@ export class ImageLoaderComponent {
 
     private getResponse(file: any, reader: any) {
         this.imageString = reader.result;
-        $("#uploaded-image").attr("src", this.imageString);
         this.emitter.emit(this.imageString);
-    }
-
-    onChange(event: any) {
-        this.toBase64(event.srcElement.files[0]);
     }
 } 
