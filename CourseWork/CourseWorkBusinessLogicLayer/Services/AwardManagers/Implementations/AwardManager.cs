@@ -25,6 +25,15 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
         private readonly IRepository<Project> _projectRepository;
         private readonly Dictionary<AwardType, int[]> _levels;
 
+        private static readonly Dictionary<AwardType, string> _awardNames = new Dictionary<AwardType, string>
+        {
+            [AwardType.ForComments] = "WRITER",
+            [AwardType.ForPayments] = "INVESTOR",
+            [AwardType.ForReceivedPayments] = "BUSINESSMAN",
+            [AwardType.ForSubscriptions] = "PEOPLEPERSON",
+            [AwardType.ForProjects] = "CREATOR"
+        };
+
         public AwardManager(IUserManager userManager, IRepository<Award> awardRepository,
             IRepository<Comment> commentRepository,
             IRepository<Payment> paymentRepository, IRepository<ProjectSubscriber> subscriberRepository,
@@ -47,38 +56,38 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
             };
         }
 
-        public bool AddAwardForComments(string awardName)
+        public bool AddAwardForComments()
         {
             var ownerUserName = _userManager.CurrentUserName;
             return CheckAward(AwardType.ForComments, ownerUserName,
-                () => _commentRepository.Count(c => c.UserName == ownerUserName), awardName);
+                () => _commentRepository.Count(c => c.UserName == ownerUserName));
         }
 
-        public bool AddAwardForProjects(string awardName)
+        public bool AddAwardForProjects()
         {
             var ownerUserName = _userManager.CurrentUserName;
             return CheckAward(AwardType.ForProjects, ownerUserName, 
-                () => _projectRepository.Count(p => p.OwnerUserName == ownerUserName), awardName);
+                () => _projectRepository.Count(p => p.OwnerUserName == ownerUserName));
         }
 
-        public bool AddAwardForPayments(Payment payment, string awardName)
+        public bool AddAwardForPayments(Payment payment)
         {
             return CheckAward(AwardType.ForPayments, payment.UserName,
-                () => payment.PaidAmount, awardName);
+                () => payment.PaidAmount);
         }
 
-        public bool AddAwardForReceivedSubscriptions(string projectId, string awardName)
+        public bool AddAwardForReceivedSubscriptions(string projectId)
         {
             var ownerUserName = _projectRepository.FirstOrDefault(p => p.Id == projectId).OwnerUserName;
             return CheckAward(AwardType.ForSubscriptions, ownerUserName, 
-                () => _subscriberRepository.Count(s => s.Project.OwnerUserName == ownerUserName, s => s.Project), awardName);
+                () => _subscriberRepository.Count(s => s.Project.OwnerUserName == ownerUserName, s => s.Project));
         }
 
-        public bool AddAwardForReceivedPayments(Project project, string awardName)
+        public bool AddAwardForReceivedPayments(Project project)
         {
             return CheckAward(AwardType.ForReceivedPayments, project.OwnerUserName,
                 () => _paymentRepository.GetWhere(p => p.Project.OwnerUserName == project.OwnerUserName, p => p.Project)?
-                .Sum(p => p.PaidAmount) ?? 0, awardName);
+                .Sum(p => p.PaidAmount) ?? 0);
         }
 
         public decimal GetNeccessaryCountForAward(AwardType type, int level)
@@ -88,7 +97,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
 
         public int GetTrueLevelNumber(int level) => level + 1;
 
-        private bool CheckAward(AwardType awardType, string ownerUserName, Func<decimal> countExistedValue, string awardName)
+        private bool CheckAward(AwardType awardType, string ownerUserName, Func<decimal> countExistedValue)
         {
             var existedLevel = GetExistedLevel(awardType, countExistedValue);
             var award = GetAward(awardType, ownerUserName);
@@ -104,7 +113,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
                 isUpdated = UpdateAward(award, existedLevel);
             }
             //isUpdated = award == null ? AddAward(awardType, existedLevel) : UpdateAward(award, existedLevel);
-            SendMessageAboutNewAward(award, isUpdated, ownerUserName, awardName);
+            SendMessageAboutNewAward(award, isUpdated, ownerUserName);
             return isUpdated;
         }
 
@@ -125,7 +134,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
             return _awardRepository.UpdateRange(award);
         }
 
-        private void SendMessageAboutNewAward(Award award, bool isUpdated, string recipientUserName, string awardName)
+        private void SendMessageAboutNewAward(Award award, bool isUpdated, string recipientUserName)
         {
             if (!isUpdated)
             {
@@ -135,7 +144,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
             {
                 RecipientUserName = recipientUserName,
                 Text = "AWARDNOTE",
-                ParameterString = GetParameterString(award, awardName)
+                ParameterString = GetParameterString(award)
             };
             _messageManager.Send(new []{message});
         }
@@ -161,7 +170,7 @@ namespace CourseWork.BusinessLogicLayer.Services.AwardManagers.Implementations
             return _awardRepository.FirstOrDefault(a => a.UserName == ownerUserName && a.AwardType == type);
         }
 
-        private string GetParameterString(Award award, string awardName) =>
-            awardName + "*" + GetTrueLevelNumber(award.Level);
+        private string GetParameterString(Award award) =>
+            _awardNames[award.AwardType] + "*" + GetTrueLevelNumber(award.Level);
     }
 }

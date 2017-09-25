@@ -8,6 +8,7 @@ import { ProjectService } from '../../services/project.service';
 })
 export class ProjectItemCollectionComponent {
     @Input() projects: any;
+    @Input() displayM4: boolean = false;
     @Output() selectedProjectIdNews = new EventEmitter<string>();
     @Output() selectedProjectIdPayment = new EventEmitter<string>();
 

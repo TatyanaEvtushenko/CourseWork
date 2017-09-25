@@ -24,7 +24,7 @@ namespace CourseWork.Controllers
         [Route("api/Comment/AddComment")]
         public CommentViewModel AddComment([FromBody]CommentFormViewModel comment)
         {
-            var result = _commentManager.AddComment(comment, _localizer["WRITER"]);
+            var result = _commentManager.AddComment(comment);
             return result;
         }
 

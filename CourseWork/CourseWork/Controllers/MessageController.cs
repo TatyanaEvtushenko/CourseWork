@@ -41,14 +41,14 @@ namespace CourseWork.Controllers
             _messageManager.Send(new[] { 
                 new MessageViewModel
                 {
-                    Text = "ADMINPAGELINK",
+                    Text = usernames.Length <= 3 ? "ADMINPAGELINK": "ADMINPAGELINKMANY",
                     RecipientUserName = username,
-                    ParameterString = GenerateNotification(usernames, _localizer["AND"], _localizer["OTHERUSERS"])
+                    ParameterString = GenerateNotification(usernames)
                 } 
             });
         }
 
-        private string GenerateNotification(string[] usernames, string andString, string otherUsersString)
+        private string GenerateNotification(string[] usernames)
         {
             var text = usernames[0];
             if (usernames.Length == 1) return text;
@@ -58,7 +58,7 @@ namespace CourseWork.Controllers
                 text += ",<br>" + usernames[i];
             }
             if (usernames.Length <= 3) return text;
-            return text + andString + "<br>" + (usernames.Length - 3) + " " + otherUsersString;
+            return text + "*" + (usernames.Length - 3);
         }
 
 	    [HttpPost]
@@ -84,7 +84,8 @@ namespace CourseWork.Controllers
 	        return message.Select(item => new ClientMessageViewModel
 	        {
 	            Id = item.Id,
-	            Text = item.ParameterString == null ? _localizer[item.Text] : string.Format(_localizer[item.Text], item.ParameterString.Split(new char[] {'*'}))
+	            Text = item.ParameterString == null ? _localizer[item.Text] : string.Format(_localizer[item.Text],
+                    item.ParameterString.Split(new char[] {'*'}).Select(s => _localizer[s] ?? s).ToArray())
 	        }).ToArray();
 	    }
 	}

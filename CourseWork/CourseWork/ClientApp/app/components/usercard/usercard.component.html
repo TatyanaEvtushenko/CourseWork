@@ -1,6 +1,7 @@
 ﻿<div class="card horizontal">
     <div class="card-image">
-        <img src="{{displayableInfo.avatar}}">
+        <img *ngIf="displayableInfo.avatar != null" src="{{displayableInfo.avatar}}">
+        <img *ngIf="displayableInfo.avatar == null" src="/images/default-user.png">
         <div class="card-title left-align">
             {{displayableInfo.userName}}<br/>            
             <rating class="project-item-rating" [(ngModel)]="displayableInfo.rating" [readonly]="true" [titles]="[translations['ONE'], translations['TWO'], translations['THREE'], translations['FOUR'], translations['FIVE']]"></rating>

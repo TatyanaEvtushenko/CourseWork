@@ -1,5 +1,5 @@
 ﻿import { Component } from '@angular/core';
-import { StorageService } from '../../services/storage.service';
+import { MessageSubscriberService } from '../../services/messagesubscriber.service';
 import { AccountService } from "../../services/account.service";
 import { LocalizationService } from "../../services/localization.service";
 
@@ -8,10 +8,10 @@ import { LocalizationService } from "../../services/localization.service";
     templateUrl: './app.component.html',
 })
 export class AppComponent {
-    keys = ["Register", "LogIn", "LogOut", "AdminPage", "MyPage"];
+    keys = ["Register", "LogIn", "LogOut", "AdminPage", "MyPage", "MYPROJECTS"];
     translations = {};
 
-    constructor(public storage: StorageService,
+    constructor(public storage: MessageSubscriberService,
         private accountService: AccountService,
         private localizationService: LocalizationService) {
         this.localizationService.getTranslations(this.keys).subscribe(data => {

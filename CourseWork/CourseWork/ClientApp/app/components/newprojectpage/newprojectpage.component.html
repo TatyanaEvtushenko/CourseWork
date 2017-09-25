@@ -43,20 +43,20 @@
         <div class="col m3">
             <div class="input-field">
                 <input id="project-id" #projectId="ngModel" class="validate" required [(ngModel)]="projectForm.id" type="text" />
-                <label for="project-id">Path</label>
+                <label for="project-id">{{translations['PATH']}}</label>
             </div>
         </div>
         <div class="col m3">
             <div class="input-field">
                 <input id="project-accountnumber" #projectAccountNumber="ngModel" class="validate" required
                        [(ngModel)]="projectForm.accountNumber" type="text" />
-                <label for="project-accountnumber">Account number</label>
+                <label for="project-accountnumber">{{translations['ACCOUNTNUMBER']}}</label>
             </div>
         </div>
         <div class="col m3">
             <div class="input-field">
                 <input [(colorPicker)]="projectForm.color" [style.background]="projectForm.color" [value]="projectForm.color" id="project-color"/>
-                <label for="project-color">Main color of your project page</label>
+                <label for="project-color">{{translations['MAINCOLOR']}}</label>
             </div>
         </div>
     </div>

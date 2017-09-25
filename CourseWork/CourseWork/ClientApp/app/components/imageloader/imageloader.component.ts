@@ -26,13 +26,12 @@ export class ImageLoaderComponent {
     }
 
     private getResponse(file: any, reader: any) {
-        $("#uploaded-image").attr("src", file);
         this.imageString = reader.result;
+        $("#uploaded-image").attr("src", this.imageString);
         this.emitter.emit(this.imageString);
     }
 
     onChange(event: any) {
         this.toBase64(event.srcElement.files[0]);
-        
     }
 } 
