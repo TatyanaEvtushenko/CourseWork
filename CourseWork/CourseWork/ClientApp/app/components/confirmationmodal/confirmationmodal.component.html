@@ -17,7 +17,8 @@
         </div>
 
         <div class="input-field">
-            <button [disabled]="confirmationForm.passportScan == null || confirmationForm.name == null || confirmationForm.surname == null"
+            <button [disabled]="confirmationForm.passportScan == null || confirmationForm.name == null || confirmationForm.surname == null ||
+                    confirmationForm.passportScan === '' || confirmationForm.name === '' || confirmationForm.surname === ''"
                     class="btn" (click)="onSubmit()">{{translations['SEND']}}</button>
         </div>
         
