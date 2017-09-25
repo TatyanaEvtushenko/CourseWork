@@ -588,4 +588,10 @@
   <data name="SUCCESSFULPAYMENT" xml:space="preserve">
     <value>Payment is carried out successfully</value>
   </data>
+  <data name="DONATES" xml:space="preserve">
+    <value>Donates</value>
+  </data>
+  <data name="PROJECTCARD" xml:space="preserve">
+    <value>Project card</value>
+  </data>
 </root>

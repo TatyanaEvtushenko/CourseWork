@@ -23,7 +23,8 @@ export class ProjectEditorComponent {
     timeHelper = new TimeHelper(this.localizationService);
     isWrongRequest = false;
     keys = ["NAME", "FUNDRAISINGEND", "DESCR", "IMAGE", "MINPAYMENT", "MAXPAYMENT", "FINANCIALPURPOSES", "CREATE", "INVALIDDATA",
-        "EDITPROJECT", "EDIT", "TOPROJECTPAGE", 'ONE', 'TWO', 'THREE', 'FOUR', 'FIVE', "PATH", "CREATENEWPROJECT"];
+        "EDITPROJECT", "EDIT", "TOPROJECTPAGE", 'ONE', 'TWO', 'THREE', 'FOUR', 'FIVE', "PATH", "CREATENEWPROJECT", "PROJECTCARD",
+        "MAINCOLOR", "DONATES", "ACCOUNTNUMBER"];
     translations = {}
 
     constructor(public storage: StorageService,
