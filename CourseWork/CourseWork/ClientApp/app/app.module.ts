@@ -1,6 +1,6 @@
 ﻿import "jquery";
 //import * as FroalaEditor from "froala-editor/js/froala_editor.pkgd.min";
-import "froala-editor/js/froala_editor.pkgd.min.js";
+//
 
 import { NgModule } from '@angular/core';
 import { BrowserModule }  from '@angular/platform-browser';
@@ -12,6 +12,7 @@ import { MarkdownModule } from 'angular2-markdown';
 import { MaterializeModule } from "angular2-materialize";
 import { RatingModule } from "ngx-rating";
 import { ColorPickerModule } from 'ngx-color-picker';
+import "froala-editor/js/froala_editor.pkgd.min.js";
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { APP_INITIALIZER } from '@angular/core';
 import { AppConfig } from './app.config';

@@ -588,4 +588,10 @@
   <data name="SUCCESSFULPAYMENT" xml:space="preserve">
     <value>Платёж успешно произведён.</value>
   </data>
+  <data name="DONATES" xml:space="preserve">
+    <value>Платежи</value>
+  </data>
+  <data name="PROJECTCARD" xml:space="preserve">
+    <value>Карточка проекта</value>
+  </data>
 </root>

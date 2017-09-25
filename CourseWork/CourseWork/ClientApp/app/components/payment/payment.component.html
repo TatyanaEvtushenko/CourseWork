@@ -2,6 +2,6 @@
     <usermininfo [user]="payment.payer"></usermininfo>
     <h3>${{payment.paidAmount}}</h3>
     {{translations['DONATEDTOPROJECT']}} <br/>
-    <a class="black-text flow-text" href="/ProjectPage/{{payment.projectInfo.id}}">{{payment.projectInfo.name}}</a><br />    
+    <a class="black-text flow-text fg-text" href="/ProjectPage/{{payment.projectInfo.id}}">{{payment.projectInfo.name}}</a><br />    
     {{timeHelper.getFormatDate(payment.time)}}
 </div>

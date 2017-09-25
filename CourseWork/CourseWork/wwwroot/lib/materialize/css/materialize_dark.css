@@ -6874,4 +6874,10 @@ ul.tabs {
 div.payment {
   background: #424242; }
 
+div.card-panel {
+  background: #424242; }
+
+a.fg-text {
+  color: #e0e0e0 !important; }
+
 /*# sourceMappingURL=materialize_dark.css.map */

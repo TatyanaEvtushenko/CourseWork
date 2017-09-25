@@ -34,8 +34,4 @@ export class ImageLoaderComponent {
         $("#uploaded-image").attr("src", this.imageString);
         this.emitter.emit(this.imageString);
     }
-
-    onChange(event: any) {
-        this.toBase64(event.srcElement.files[0]);
-    }
 } 
