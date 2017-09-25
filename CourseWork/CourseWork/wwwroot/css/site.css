@@ -152,18 +152,19 @@ div.select-wrapper  {
     display: none;
 }
 
-.horizontal .card-image {
-    height: 300px;
-    width: 300px;
-}
-
-.horizontal .card-image img {
-    height: 100%;
+.user-card
+.user-card .card-image img {
+    height: 250%;
     width: 100%;
+    min-width: 400px;
 }
 
-.horizontal .card-action {
-    width: 10%;
+.user-card.card {
+    margin-top: 45px;
+}
+
+.user-card .card-content {
+    width: 80%;
 }
 
 td a.row {

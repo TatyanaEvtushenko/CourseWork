@@ -13,12 +13,11 @@
                    [(ngModel)]="financialPurpose.budget" type="number" data-length="12" (keyup.enter)="onSubmit()"/>
             <label for="financialPurpose-budget">{{translations['BUDGET']}} $</label>
         </div>
-
+        <br/>
         <div class="input-field">
-            <textarea id="financialPurpose-description" class="materialize-textarea" 
-                      [(ngModel)]="financialPurpose.description"></textarea>
-            <label for="financialPurpose-description">{{translations['DESCR']}}</label>
+            <markdowneditor [fieldName]="translations['DESCR']" [text]="financialPurpose.description" (onChanged)="financialPurpose.description = $event"></markdowneditor>
         </div>
+        <br/>
         
         <div class="input-field">
             <button [disabled]="budget.invalid || name.invalid" class="btn" (click)="onSubmit()">Add</button>
