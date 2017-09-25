@@ -1,0 +1,27 @@
+﻿<div id="adminConfirmationModal" class="modal register-modal">
+    <div class="modal-content center">
+        <h4>{{translations['CONFIRMATIONREQUEST']}}</h4>
+
+        <a href="{{userData.passportScan}}" target="_blank">{{translations['PASSPORTSCAN']}}</a> <br/>
+        <div class="input-field">
+            <label class="active">{{translations['NAME']}}</label>
+            <input type="text" value="{{userData.name}}" readonly="readonly" />
+        </div>
+        <div class="input-field">
+            <label class="active">{{translations['SURNAME']}}</label>
+            <input type="text" value="{{userData.surname}}" readonly="readonly" />
+        </div>
+        <div class="input-field">
+            <label class="active">{{translations['DESCRIPTION']}}</label>
+            <input type="text" value="{{userData.description}}" readonly="readonly" />
+        </div>
+        <div class="input-field">
+            <button class="btn" (click)="accept()">
+                {{translations['ACCEPT']}}
+            </button>
+            <button class="btn" (click)="decline()">
+                {{translations['DECLINE']}}
+            </button>
+        </div>
+    </div>
+</div>

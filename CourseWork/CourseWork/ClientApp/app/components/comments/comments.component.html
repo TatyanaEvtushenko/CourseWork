@@ -1,0 +1,22 @@
+﻿<div class="comments">
+    <div class="input-field" *ngIf="storage.isReadyCurrentUser && storage.isUser">
+        <i class="material-icons prefix" (click)="add()">mode_edit</i>
+        <input id="newComment" [(ngModel)]="commentText" (keyup.enter)="add()" class="materialize-textarea" type="text"/>
+        <label for="newComment">{{translations['NEWCOMMENT']}}...</label>
+    </div>
+    <div *ngFor="let comment of comments">
+        <blockquote class="row">
+            <div class="col m6">
+                <usermininfo [user]="comment.user"></usermininfo>
+            </div>
+            <div class="col m6 right-align" *ngIf="storage.isReadyCurrentUser">
+                <span class="grey-text date-comment">{{timeHelper.getFormatDate(comment.time)}}</span>
+                <i *ngIf="storage.isUser && (comment.user != null && comment.user.userName == storage.currentUser.userName || projectOwnerUserName == storage.currentUser.userName || storage.isAdmin)" class="material-icons" (click)="delete(comment)">close</i>
+            </div>
+            <div class="col m12 text">
+                <hr class="grey-text text-lighten-4"/>
+                <markdown>{{comment.text}}</markdown>
+            </div>
+        </blockquote>
+    </div>
+</div>

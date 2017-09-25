@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using System.Threading.Tasks;
-using CourseWork.BusinessLogicLayer.Services;
+using CourseWork.BusinessLogicLayer.ElasticSearch;
+using CourseWork.BusinessLogicLayer.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -12,7 +13,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using CourseWork.DataLayer.Data;
 using CourseWork.DataLayer.Models;
-using CourseWork.Models;
+using CourseWork.Extensions.StartupExtensions;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Options;
+using Nest;
 
 namespace CourseWork
 {
@@ -35,27 +39,54 @@ namespace CourseWork
         }
 
         public IConfigurationRoot Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
+        
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+            services.LaunchElastic(Configuration["ElasticSearchLauncherOptions:LauncherPath"]);
+            //services.AddHangfire(x => x.UseSqlServerStorage(connectionString));
+
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
             services.AddMvc();
-            services.AddSingleton<IConfiguration>(Configuration);
 
-            // Add application services.
-            services.AddTransient<IEmailSender, AuthMessageSender>();
-            services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.Configure<MailOptions>(options => Configuration.GetSection("MailOptions").Bind(options));
+            services.Configure<CloudinaryOptions>(options => 
+                Configuration.GetSection("CloudinaryOptions").Bind(options));
+            services.Configure<ElasticSearchOptions>(options =>
+                Configuration.GetSection("ElasticSearchOptions").Bind(options));
+            services.Configure<HomePageOptions>(options => Configuration.GetSection("HomePageOptions").Bind(options));
+            services.Configure<ColorOptions>(options => Configuration.GetSection("ColorOptions").Bind(options));
+            services.Configure<AwardOptions>(options => Configuration.GetSection("AwardOptions").Bind(options));
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new[]
+                {
+                    new CultureInfo("ru"),
+                    new CultureInfo("en")
+                };
+                options.DefaultRequestCulture = new RequestCulture("en");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
+            services.AddSingleton<SearchClient>();
+
+            var adminCount = Int32.Parse(Configuration["AdminUserNamesOptions:AdminCount"]);
+            var adminUserNames = new List<string>();
+            for (var i = 0; i < adminCount; i++)
+                adminUserNames.Add(Configuration[$"AdminUserNamesOptions:AdminUserNames:{i}"]);
+            services.AddRepositories();
+            services.AddServices();
+            services.AddMappers();
+            services.CreateDatabaseRoles(adminUserNames).Wait();
+            services.RunScheduler();
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
@@ -72,17 +103,23 @@ namespace CourseWork
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(locOptions.Value);
+
             app.UseStaticFiles();
-
             app.UseIdentity();
-
-            // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
+            //app.UseHangfireServer();
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+
+                routes.MapRoute(
+                    name: "spa-fallback",
+                    template: "{*url}",
+                    defaults: new { controller = "Home", action = "Index" });
             });
         }
     }

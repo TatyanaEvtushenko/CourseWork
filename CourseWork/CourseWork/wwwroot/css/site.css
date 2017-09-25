@@ -1,29 +1,341 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+﻿html,body, app {
+    height: 100%;
 }
 
-/* Wrapping element */
-/* Set some basic padding to keep content from hitting the edges */
+app {
+    display: flex;
+    flex-direction: column;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+.nav-wrapper .row,
+.nav-wrapper .row .right-align {
+    height: 100%;
+}
+
+    .nav-wrapper .row li.right-align {
+        max-width: 320px;
+        float: right;
+    }
+
+.nav-wrapper .nav-user-info a,
+.nav-wrapper .nav-user-info span {
+    display: flex;
+    flex-direction: row;
+}
+
+.nav-wrapper .nav-user-info .user img {
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-left: -10px;
+}
+
+.nav-wrapper .nav-user-info .user span {
+    display: flex;
+    line-height: 65px;
+    margin-left: 20px;
+}
+
+.collapsible-title {
+    font-size: 1.3rem;
+}
+
+span.username {
+    margin-left: 10px;
+}
+
+div.account-edit-modal {
+    width: 100%;
+    padding: 20px !important;
+}
+
+.award-icon {
+    display: inline-block;
+    position: relative;
+}
+
+    .award-icon span {
+        display: inline-block;
+        position: absolute;
+    }
+
+    .award-icon.big-award {
+        width: 100px;
+        height: 100px;
+    }
+
+        .award-icon.big-award span {
+            font-size: 50px;
+            top: 14px;
+            left: 36px;
+        }
+
+    .award-icon.small-award img {
+        width: 20px;
+        height: 20px;
+        margin-right: 1px;
+        margin-top: 2px;
+    }
+
+    .award-icon.small-award span {
+        font-size: 14px;
+        top: 2px;
+        left: 6px;
+    }
+
+angular-tag-cloud {
+    margin-left: 35%;
+}
+
+.btn {
+    margin-top: 10px;
+}
+
+label {
+    margin-right: 10px;
+}
+
+.progress {
+    margin: 0;
+}
+
+.payment {
+    max-width: 280px;
+}
+
+.homepage .row-news {
+    height: 500px;
+    overflow-y: auto;
+    overflow: hidden;
+}
+
+div.min-info {
+    margin-top: 10px;
+}
+
+#dropdown-nav-button {
+    line-height: 0;
+}
+
+.parallax-header {
+    margin-top: 100px;
+}
+
+.parallax-container {
+    max-height: 350px;
+}
+
+#logo-container {
+    padding: 0 20px;
+}
+
+#dropdown-nav {
+    margin-top: 65px;
+}
+
+.comments {
+    width: 80%;
+    margin: auto;
+}
+
+.comments hr{
+    margin-top: -22px;
+    margin-bottom: 12px;
+}
+
+
+div.select-wrapper  {
+    max-width: 325px;
+}
+
+.invisible-checkbox {
+    display: none;
+}
+
+.user-card
+.user-card .card-image img {
+    height: 250%;
+    width: 100%;
+    min-width: 400px;
+}
+
+.user-card.card {
+    margin-top: 45px;
+}
+
+.user-card .card-content {
+    width: 80%;
+}
+
+td a.row {
+    margin-top: 35px;
+}
+
+img.project-item-image {
+    height: 140px;
+}
+
+.comments input {
+    max-width: 50%;
+}
+
+.comments .text {
+    word-break: break-all;
+}
+
+.comments .date-comment {
+    padding-right: 20px;
+}
+
+.user-min-info {
+    margin-left: 13px !important;
+    max-width: 300px;
+    height: 60px;
+    font-size: 1.05rem;
+}
+
+    .user-min-info .col.m3 {
+        padding: 0;
+    }
+
+    .user-min-info img {
+        width: 50px;
+        height: 50px;
+    }
+
+.btn-icon.btn {
+    width: 40px;
+    padding: inherit;
+}
+
+.project .tabs {
+    overflow: hidden;
+}
+
+.action {
+    margin-right: 2px !important;
+}
+
+div.actions {
+    white-space: nowrap;
+}
+
+.project .card {
+    margin-top: 0;
+    overflow: hidden;
+}
+
+.small .card-image {
+    height: 55%;
+}
+
+div.financial-purpose-modal {
+    width: 100%;
+    padding: 20px !important;
+}
+
+div.news-modal {
+    width: 100%;
+    padding: 20px !important;
+}
+
+.project .card-image img{
+    margin:-13% 0 -13% 0;
+}
+
+.project .card-title {
+    margin-bottom: 13%;
+}
+
+.news-open {
+    margin-right: 0 !important;
+}
+
+.project-item-rating {
+    font-size: 12px;
+}
+
+.btn-floating.btn-large {
+    position: fixed;
+    right: 4%;
+    bottom: 5%;
+}
+
+.markdown-editor {
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.edit-modal {
+    width: 45%;
+}
+
+.news-modal {
+    width: 38%;
+}
+
+    .news-modal button {
+        top: 20%
+    }
+
+.register-modal {
+    width: 30%;
+}
+
+    .register-modal .input-field {
+        width: 90%;
+        margin: auto;
+    }
+
+    .register-modal .row {
+        margin-bottom: 0;
+        margin-top: 15px;
+    }
+
+.icon-block {
+    padding: 0 15px;
+}
+
+    .icon-block .material-icons {
+        font-size: inherit;
+    }
+
+.search form {
+    height: 32px;
+    margin-top: 16px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+#search {
+    border-radius: 10px;
+    opacity: 0.3;
+}
+
+.search label {
+    margin-top: -26px;
+    width: 100%;
+}
+
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
 }
 
-/* Set widths on the form inputs since otherwise they're 100% wide */
-input,
-select,
-textarea {
-    max-width: 280px;
-}
-
-/* Carousel */
 .carousel-caption p {
     font-size: 20px;
     line-height: 1.4;
 }
 
-/* buttons and links extension to use brackets: [ click me ] */
 .btn-bracketed::before {
     display: inline-block;
     content: "[";
@@ -36,15 +348,17 @@ textarea {
     padding-left: 0.5em;
 }
 
-/* Make .svg files in the carousel display properly in older browsers */
 .carousel-inner .item img[src$=".svg"] {
     width: 100%;
 }
 
-/* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
-    /* Hide captions */
     .carousel-caption {
         display: none;
     }
+}
+
+.preloader {
+    margin-left: 47% !important;
+    margin-top: 22%;
 }

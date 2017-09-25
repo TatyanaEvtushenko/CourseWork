@@ -1,0 +1,30 @@
+﻿<div id="loginModal" class="modal register-modal">
+    <div class="modal-content center">
+        <h4>{{translations['LogIn']}}</h4>
+
+        <div class="input-field">
+            <input id="login-email"  #email="ngModel" class="validate" required email [(ngModel)]="loginForm.email" type="email" (keyup.enter)="onSubmit()"/>
+            <label for="login-email">{{translations['EMAIL']}}</label>
+        </div>
+        <div class="input-field">
+            <input id="login-password" #password="ngModel" class="validate" required data-length="20" type="password" 
+                   [(ngModel)]="loginForm.password" (keyup.enter)="onSubmit()"/>
+            <label for="login-password">{{translations['PASSWORD']}}</label>
+        </div>
+
+        <div class="input-field">
+            <button [disabled]="email.invalid || loginForm.password == null" class="btn" (click)="onSubmit()">{{translations['LogIn']}}</button>
+        </div>
+
+        <div class="row">
+            <div class="col m6">
+                <a href="#registrationModal" class="modal-close modal-trigger">{{translations['REGISTERASNEW']}}</a>
+            </div>
+            <div class="col m6">
+                <a>Forgot your password?</a>
+            </div>
+        </div>
+        
+        <errortext *ngIf="isWrongRequest" [text]="translations['LOGINERROR']"></errortext>
+    </div>
+</div>
