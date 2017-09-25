@@ -8,5 +8,5 @@
 
 export class NewProjectPageComponent{
 
-    constructor(public storage: MessageSubscriberService) { }
+    constructor() { }
 }

@@ -33,7 +33,7 @@
                     <div class="col m6">
                         <div class="input-field">
                             <input [(colorPicker)]="projectForm.color" [style.background]="projectForm.color" id="project-color"/>
-                            <label for="project-color">Main color of your project page</label>
+                            <label for="project-color">{{translations['MAINCOLOR']}}</label>
                         </div>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                 </div>
             </div>
             <br/>
-            <h5 class="center-align">Платежи</h5>
+            <h5 class="center-align">{{translations['DONATES']}}</h5>
             <div class="card-panel">
                 <div class="row">
                     <div class="col m6">
@@ -58,7 +58,7 @@
                         <div class="input-field">
                             <input id="project-accountnumber" #projectAccountNumber="ngModel" class="validate" required
                                    [(ngModel)]="projectForm.accountNumber" type="text"/>
-                            <label for="project-accountnumber">Account number</label>
+                            <label for="project-accountnumber">{{translations['ACCOUNTNUMBER']}}</label>
                         </div>
                     </div>
                 </div>
@@ -86,7 +86,7 @@
             <financialpurposemodal (onCreated)="addFinancialPurpose($event)"></financialpurposemodal>
         </div>
         <div class="col m3">
-            <h5 class="center-align">Карточка проекта</h5>
+            <h5 class="center-align">{{translations['PROJECTCARD']}}</h5>
             <div class="card small">
                 <div class="card-image">
                     <img src="{{projectForm.imageBase64}}">
@@ -105,7 +105,7 @@
                     <span class="card-title grey-text text-darken-4">{{translations['ABOUT']}}<i class="material-icons right">close</i></span>
                     <div [froalaView]="projectForm.description"></div>
                 </div>
-                <div class="card-action actions row">
+                <div class="card-action actions">
                     <div class="col m4 left-align">
                         <a class="action"><i class="material-icons activator">more_vert</i></a>
                         <a class="action"><i class="material-icons">payment</i></a>
