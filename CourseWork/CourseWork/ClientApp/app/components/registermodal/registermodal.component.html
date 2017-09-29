@@ -1,0 +1,35 @@
+﻿<div id="registrationModal" class="modal register-modal">
+    <div class="modal-content center">
+        <h4>{{translations['CREATEACCOUNT']}}</h4>
+                
+        <div class="input-field">
+            <input id="register-userName" [(ngModel)]="registerForm.userName" maxlength="20" class="validate" type="text" />
+            <label for="register-userName">{{translations['USERNAME']}}</label>
+        </div>
+        <div class="input-field">
+            <input id="register-email" #email="ngModel" class="validate" required email [(ngModel)]="registerForm.email" type="email"/>
+            <label for="register-email">{{translations['EMAIL']}}</label>
+        </div>
+        <div class="input-field">
+            <input id="register-password" #password="ngModel" class="validate" required data-length="20" type="password" 
+                   [(ngModel)]="registerForm.password" (ngModelChange)="onPasswordChange()"/>
+            <label for="register-password">{{translations['PASSWORD']}}</label>
+        </div>
+        <div class="input-field">
+            <input id="register-confirmPassword" #passwordConfirmation="ngModel" class="validate" required data-length="20" type="password"
+                   [(ngModel)]="registerForm.passwordConfirmation" (ngModelChange)="onPasswordConfirmationChange()"/>
+            <label for="register-confirmPassword">{{translations['PASSWORDCONFIRM']}}</label>
+        </div>
+        <div class="input-field">
+            <button [disabled]="email.invalid || !isValidPassword || !isValidPasswordConfirmation" class="btn"  (click)="onSubmit()">{{translations['Register']}}</button>
+        </div>
+        
+        <errortext *ngIf="isWrongRequest" [text]="translations['ERRORALREADYEXISTS']"></errortext>
+        <errortext [hidden]="password.untouched && password.pristine|| isValidPassword" 
+                   [text]="'● ' + translations['ERRORPASSWORDLENGTH']"></errortext>
+        <errortext [hidden]="passwordConfirmation.untouched && passwordConfirmation.pristine || isValidPasswordConfirmation"
+                   [text]="'● ' + translations['ERRORCONFIRMPASSWORD']"></errortext>
+
+    </div>
+</div>
+          

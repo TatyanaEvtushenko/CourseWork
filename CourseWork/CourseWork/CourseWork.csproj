@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
+    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -11,7 +12,30 @@
   <PropertyGroup>
     <UserSecretsId>aspnet-CourseWork-8ac774f6-553c-4349-b2cb-a26546520f56</UserSecretsId>
   </PropertyGroup>
+  
+  <PropertyGroup>
+     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+  </PropertyGroup>
+  
+  <!--<ItemGroup>
+    <Content Include="wwwroot\css\font-awesome.min.css" />
+    <Content Include="wwwroot\css\froala_editor.min.css" />
+    <Content Include="wwwroot\css\froala_editor.pkgd.min.css" />
+    <Content Include="wwwroot\images\7bWlDCwt0Ks.jpg" />
+    <Content Include="wwwroot\images\cnFAJzUkjKM.jpg" />
+    <Content Include="wwwroot\images\fMGtf5ROn0c.jpg" />
+    <Content Include="wwwroot\images\_XjvXqN2Go4.jpg" />
+    <Content Include="wwwroot\js\froala_editor.min.js" />
+  </ItemGroup>-->
+  
+  <!--<ItemGroup>
+    <Content Include="wwwroot\images\default-user.png" />
+  </ItemGroup>-->
   <ItemGroup>
+    <PackageReference Include="Elasticsearch.Net" Version="5.5.0" />
+    <PackageReference Include="FluentScheduler" Version="5.3.0" />
+    <PackageReference Include="Hangfire.Core" Version="1.6.16" />
+    <PackageReference Include="Hangfire.SqlServer" Version="1.6.16" />
     <PackageReference Include="MailKit" Version="1.18.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
@@ -28,6 +52,8 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="1.1.1" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.2" />
+    <PackageReference Include="NEST" Version="5.5.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.1" />
@@ -35,8 +61,20 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CourseWork.Extensions\CourseWork.Extensions.csproj" />
     <ProjectReference Include="..\CourseWorkBusinessLogicLayer\CourseWork.BusinessLogicLayer.csproj" />
     <ProjectReference Include="..\CourseWorkDataLayer\CourseWork.DataLayer.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\dist\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Controllers.LocalizationController.en.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Controllers.LocalizationController.ru.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
